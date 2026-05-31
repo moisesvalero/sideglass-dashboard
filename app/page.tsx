@@ -33,7 +33,7 @@ export default function Dashboard() {
       </div>
 
       {/* Vertical bento grid layout */}
-      <div className="flex flex-col h-screen p-4 gap-4 max-w-md mx-auto pb-28">
+      <div className="flex flex-col min-h-screen p-4 gap-4 max-w-md mx-auto pb-28">
         {/* Time & Weather Widget */}
         <TimeWeatherWidget />
 
@@ -44,9 +44,7 @@ export default function Dashboard() {
         <MotivationWidget />
 
         {/* Hardware Monitor */}
-        <div className="flex-1">
-          <HardwareMonitor />
-        </div>
+        <HardwareMonitor />
       </div>
 
       {/* Floating AI Dock */}
