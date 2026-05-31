@@ -1,0 +1,168 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* iOS Dark Theme - Deep blues, purples, blacks */
+  --background: oklch(0.08 0.02 280);
+  --foreground: oklch(0.98 0 0);
+  --card: oklch(0.12 0.015 280 / 0.6);
+  --card-foreground: oklch(0.98 0 0);
+  --popover: oklch(0.1 0.02 280 / 0.8);
+  --popover-foreground: oklch(0.98 0 0);
+  --primary: oklch(0.7 0.15 200);
+  --primary-foreground: oklch(0.98 0 0);
+  --secondary: oklch(0.15 0.02 280);
+  --secondary-foreground: oklch(0.98 0 0);
+  --muted: oklch(0.2 0.015 280);
+  --muted-foreground: oklch(0.65 0 0);
+  --accent: oklch(0.75 0.18 180);
+  --accent-foreground: oklch(0.1 0 0);
+  --destructive: oklch(0.65 0.25 25);
+  --destructive-foreground: oklch(0.98 0 0);
+  --border: oklch(1 0 0 / 0.1);
+  --input: oklch(0.15 0.015 280);
+  --ring: oklch(0.7 0.15 200);
+  --chart-1: oklch(0.75 0.2 165);
+  --chart-2: oklch(0.7 0.18 200);
+  --chart-3: oklch(0.65 0.15 280);
+  --chart-4: oklch(0.8 0.15 150);
+  --chart-5: oklch(0.75 0.12 220);
+  --radius: 1.5rem;
+  
+  /* iOS accent colors */
+  --ios-blue: oklch(0.65 0.2 250);
+  --ios-red: oklch(0.65 0.25 25);
+  --ios-green: oklch(0.75 0.2 150);
+  --ios-cyan: oklch(0.8 0.15 195);
+  --ios-purple: oklch(0.6 0.2 300);
+  
+  /* Glassmorphism */
+  --glass-bg: oklch(0.08 0.015 280 / 0.6);
+  --glass-border: oklch(1 0 0 / 0.1);
+  --glass-glow: oklch(0.7 0.15 200 / 0.3);
+}
+
+.dark {
+  --background: oklch(0.08 0.02 280);
+  --foreground: oklch(0.98 0 0);
+  --card: oklch(0.12 0.015 280 / 0.6);
+  --card-foreground: oklch(0.98 0 0);
+  --popover: oklch(0.1 0.02 280 / 0.8);
+  --popover-foreground: oklch(0.98 0 0);
+  --primary: oklch(0.7 0.15 200);
+  --primary-foreground: oklch(0.98 0 0);
+  --secondary: oklch(0.15 0.02 280);
+  --secondary-foreground: oklch(0.98 0 0);
+  --muted: oklch(0.2 0.015 280);
+  --muted-foreground: oklch(0.65 0 0);
+  --accent: oklch(0.75 0.18 180);
+  --accent-foreground: oklch(0.1 0 0);
+  --destructive: oklch(0.65 0.25 25);
+  --destructive-foreground: oklch(0.98 0 0);
+  --border: oklch(1 0 0 / 0.1);
+  --input: oklch(0.15 0.015 280);
+  --ring: oklch(0.7 0.15 200);
+}
+
+@theme inline {
+  --font-sans: 'Geist', 'Geist Fallback', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-mono: 'Geist Mono', 'Geist Mono Fallback', monospace;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 8px);
+  --radius-md: calc(var(--radius) - 4px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-ios-blue: var(--ios-blue);
+  --color-ios-red: var(--ios-red);
+  --color-ios-green: var(--ios-green);
+  --color-ios-cyan: var(--ios-cyan);
+  --color-ios-purple: var(--ios-purple);
+  --color-glass-bg: var(--glass-bg);
+  --color-glass-border: var(--glass-border);
+  --color-glass-glow: var(--glass-glow);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Glassmorphism card base */
+.glass-card {
+  background: rgba(15, 15, 25, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+}
+
+/* Weather icon glow effect */
+.weather-glow {
+  filter: drop-shadow(0 0 20px rgba(255, 200, 80, 0.4));
+}
+
+/* Progress bar gradient */
+.progress-gradient {
+  background: linear-gradient(90deg, 
+    oklch(0.75 0.2 150) 0%, 
+    oklch(0.8 0.18 180) 50%, 
+    oklch(0.75 0.15 200) 100%
+  );
+}
+
+/* Dock glass effect */
+.dock-glass {
+  background: rgba(30, 30, 40, 0.7);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Subtle animation for weather icon */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
+}
+
+.float-animation {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* Pulse animation for live indicators */
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.pulse-soft {
+  animation: pulse-soft 2s ease-in-out infinite;
+}
