@@ -1,8 +1,9 @@
 "use client"
 
 import { useEffect, useState, useCallback } from "react"
-import { Calendar, Loader2 } from "lucide-react"
+import { Calendar, Loader2, Link } from "lucide-react"
 import { useI18n } from "@/lib/i18n"
+import { useSettings } from "@/lib/settings"
 
 interface CalendarEvent {
   id: string
@@ -22,13 +23,14 @@ const eventColors = [
   "bg-[#FF2D55]",
 ]
 
-const CALENDAR_ENDPOINT = "https://script.google.com/macros/s/AKfycbyJaCXIbV5WpzI9wFC57mKZfxFDaeKB2jNF8JpNrnbB7AquaPXRwsInUfzu_exC_PhA5Q/exec"
-
 export function CalendarWidget() {
   const [events, setEvents] = useState<CalendarEvent[]>([])
   const [loading, setLoading] = useState(true)
   const [isLive, setIsLive] = useState(false)
   const { t } = useI18n()
+  const { settings, updateSettings } = useSettings()
+
+  const calendarUrl = settings.calendarScriptUrl || ""
 
   const formatDate = (d: Date) => {
     const now = new Date()
@@ -39,14 +41,18 @@ export function CalendarWidget() {
 
     if (isToday) return "Hoy"
     if (isTomorrow) return "Manana"
-
     return d.toLocaleDateString("es-ES", { weekday: "short", day: "numeric", month: "short" })
   }
 
   const fetchCalendarEvents = useCallback(async () => {
+    if (!calendarUrl) {
+      setLoading(false)
+      return
+    }
+
     try {
-      const res = await fetch(CALENDAR_ENDPOINT, {
-        signal: AbortSignal.timeout(5000),
+      const res = await fetch(calendarUrl, {
+        signal: AbortSignal.timeout(8000),
       })
 
       if (!res.ok) {
@@ -55,12 +61,14 @@ export function CalendarWidget() {
       }
 
       const contentType = res.headers.get("content-type") || ""
-      if (!contentType.includes("json")) {
+      const text = await res.text()
+
+      if (!contentType.includes("json") && !text.startsWith("[")) {
         setLoading(false)
         return
       }
 
-      const data = await res.json()
+      const data = JSON.parse(text)
       if (!Array.isArray(data) || !data.length) {
         setEvents([])
         setIsLive(true)
@@ -99,16 +107,38 @@ export function CalendarWidget() {
       setEvents(parsed)
       setIsLive(true)
     } catch {
-      // API unreachable, show empty state
+      // endpoint unreachable
     }
     setLoading(false)
-  }, [])
+  }, [calendarUrl])
 
   useEffect(() => {
     fetchCalendarEvents()
     const interval = setInterval(fetchCalendarEvents, 300000)
     return () => clearInterval(interval)
   }, [fetchCalendarEvents])
+
+  if (!calendarUrl) {
+    return (
+      <div className="glass-card p-5">
+        <div className="flex items-center gap-2 mb-3">
+          <Calendar className="w-4 h-4 text-white/60" />
+          <h2 className="text-sm font-medium text-white/70 uppercase tracking-wider">
+            Agenda
+          </h2>
+        </div>
+        <div className="text-center py-4 space-y-3">
+          <p className="text-white/50 text-xs">Vincula tu calendario de Google</p>
+          <button
+            onClick={() => updateSettings({ showCalendar: false })}
+            className="text-blue-400 text-xs hover:text-blue-300 transition-colors"
+          >
+            Abrir ajustes para configurar
+          </button>
+        </div>
+      </div>
+    )
+  }
 
   const count = events.length
   const eventLabel = count === 1 ? t("calendar.events") : t("calendar.events_plural")

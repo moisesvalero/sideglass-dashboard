@@ -1,6 +1,6 @@
 "use client"
 
-import { X, MapPin, Thermometer, Eye, EyeOff, Sun, Moon, Monitor } from "lucide-react"
+import { X, MapPin, Thermometer, Eye, EyeOff, Sun, Moon, Monitor, Calendar } from "lucide-react"
 import { useSettings } from "@/lib/settings"
 import { useI18n } from "@/lib/i18n"
 import type { Settings } from "@/lib/settings"
@@ -118,6 +118,42 @@ export function SettingsDrawer({ open, onClose }: Props) {
                   </button>
                 ))}
               </div>
+            </div>
+
+            {/* Calendar Script URL */}
+            <div>
+              <label className="flex items-center gap-2 text-muted-foreground text-xs font-medium uppercase tracking-wider mb-2">
+                <Calendar className="w-3.5 h-3.5" />
+                Google Calendar
+              </label>
+              <p className="text-muted-foreground/60 text-xs leading-relaxed mb-2">
+                1. Abre script.google.com &gt; Nuevo proyecto &gt; pega el codigo &gt; Deploy &gt; Web app &gt; Anyone &gt; copia el .exec URL
+              </p>
+              <details className="mb-2">
+                <summary className="text-blue-400/70 text-xs cursor-pointer hover:text-blue-300">
+                  Ver codigo a pegar
+                </summary>
+                <pre className="mt-1 p-2 rounded-lg bg-muted text-muted-foreground text-[10px] leading-relaxed overflow-x-auto">
+{`function doGet() {
+  var cal = CalendarApp.getDefaultCalendar();
+  var now = new Date();
+  var end = new Date(now.getTime() + 90*24*60*60*1000);
+  var events = cal.getEvents(now, end);
+  var result = events.map(function(e) {
+    return { title: e.getTitle(), start: e.getStartTime().toISOString(), end: e.getEndTime().toISOString() };
+  });
+  return ContentService.createTextOutput(JSON.stringify(result))
+    .setMimeType(ContentService.MimeType.JSON);
+}`}
+                </pre>
+              </details>
+              <input
+                type="text"
+                value={settings.calendarScriptUrl || ""}
+                onChange={(e) => updateSettings({ calendarScriptUrl: e.target.value })}
+                placeholder="pega aqui el .exec URL..."
+                className="w-full bg-muted rounded-xl px-3 py-2 text-sm text-foreground outline-none placeholder:text-muted-foreground/50 border border-border"
+              />
             </div>
 
             {/* Widget Toggles */}

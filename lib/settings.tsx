@@ -6,6 +6,7 @@ export interface Settings {
   weatherCity: string
   tempUnit: "celsius" | "fahrenheit"
   theme: "dark" | "light" | "system"
+  calendarScriptUrl: string
   showCalendar: boolean
   showMotivation: boolean
   showHardware: boolean
@@ -17,6 +18,7 @@ const defaultSettings: Settings = {
   weatherCity: "Madrid",
   tempUnit: "celsius",
   theme: "dark",
+  calendarScriptUrl: "",
   showCalendar: true,
   showMotivation: true,
   showHardware: true,
