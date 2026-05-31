@@ -2,25 +2,7 @@
 
 import { useState } from "react"
 
-// Custom SVG icons for each AI
-function GeminiIcon({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" className={className}>
-      <path
-        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"
-        fill="url(#gemini-gradient)"
-      />
-      <defs>
-        <linearGradient id="gemini-gradient" x1="2" y1="2" x2="22" y2="22">
-          <stop offset="0%" stopColor="#4285F4" />
-          <stop offset="50%" stopColor="#9B72CB" />
-          <stop offset="100%" stopColor="#D96570" />
-        </linearGradient>
-      </defs>
-    </svg>
-  )
-}
-
+// Official-style SVG icons for each AI
 function ChatGPTIcon({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
@@ -29,20 +11,76 @@ function ChatGPTIcon({ className }: { className?: string }) {
   )
 }
 
+function GeminiIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className}>
+      <path
+        d="M12 24C12 24 12 12 24 12C12 12 12 0 12 0C12 0 12 12 0 12C12 12 12 24 12 24Z"
+        fill="url(#gemini-grad)"
+      />
+      <defs>
+        <linearGradient id="gemini-grad" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
+          <stop stopColor="#1A73E8" />
+          <stop offset="0.5" stopColor="#6C5CE7" />
+          <stop offset="1" stopColor="#E91E63" />
+        </linearGradient>
+      </defs>
+    </svg>
+  )
+}
+
+function ClaudeIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
+      <path d="M4.709 15.955l4.72-2.647.08-.08 2.726-1.529-2.646-1.449-4.8-2.567c-.639-.32-.639-1.289 0-1.609l6.329-3.538c.559-.32 1.279-.32 1.838 0l6.329 3.538c.639.32.639 1.289 0 1.609l-1.769.959 1.769.959c.639.32.639 1.289 0 1.609l-1.849 1.039 1.849 1.039c.639.32.639 1.289 0 1.609l-6.329 3.538c-.559.32-1.279.32-1.838 0l-6.329-3.538c-.639-.4-.639-1.289-.08-1.609v.239z" />
+    </svg>
+  )
+}
+
+function PerplexityIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className}>
+      <path
+        d="M12 2L4 6v6l8 4 8-4V6l-8-4z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        fill="none"
+      />
+      <path
+        d="M12 22v-10M4 6l8 4M20 6l-8 4"
+        stroke="currentColor"
+        strokeWidth="1.5"
+      />
+      <circle cx="12" cy="12" r="2" fill="currentColor" />
+      <path
+        d="M12 2v6M4 12h4M16 12h4"
+        stroke="currentColor"
+        strokeWidth="1.5"
+      />
+    </svg>
+  )
+}
+
 function CopilotIcon({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" className={className}>
       <path
-        d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
-        stroke="url(#copilot-gradient)"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
+        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"
+        fill="url(#copilot-grad)"
       />
+      <path
+        d="M8 14s1.5 2 4 2 4-2 4-2"
+        stroke="white"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+      <circle cx="9" cy="10" r="1.5" fill="white" />
+      <circle cx="15" cy="10" r="1.5" fill="white" />
       <defs>
-        <linearGradient id="copilot-gradient" x1="2" y1="2" x2="22" y2="22">
-          <stop offset="0%" stopColor="#0EA5E9" />
-          <stop offset="100%" stopColor="#6366F1" />
+        <linearGradient id="copilot-grad" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+          <stop stopColor="#0EA5E9" />
+          <stop offset="0.5" stopColor="#6366F1" />
+          <stop offset="1" stopColor="#8B5CF6" />
         </linearGradient>
       </defs>
     </svg>
@@ -51,52 +89,124 @@ function CopilotIcon({ className }: { className?: string }) {
 
 const aiApps = [
   {
-    id: "gemini",
-    name: "Gemini",
-    icon: <GeminiIcon className="w-6 h-6" />,
-    activeColor: "from-blue-500 via-purple-500 to-pink-500",
-  },
-  {
     id: "chatgpt",
     name: "ChatGPT",
-    icon: <ChatGPTIcon className="w-6 h-6" />,
-    activeColor: "from-emerald-400 to-teal-500",
+    icon: <ChatGPTIcon className="w-7 h-7" />,
+    color: "#10A37F",
+    hoverGlow: "hover:shadow-[0_0_20px_rgba(16,163,127,0.5)]",
+    url: "https://chat.openai.com",
+  },
+  {
+    id: "gemini",
+    name: "Gemini",
+    icon: <GeminiIcon className="w-7 h-7" />,
+    color: "#4285F4",
+    hoverGlow: "hover:shadow-[0_0_20px_rgba(66,133,244,0.5)]",
+    url: "https://gemini.google.com",
+  },
+  {
+    id: "claude",
+    name: "Claude",
+    icon: <ClaudeIcon className="w-7 h-7" />,
+    color: "#D97757",
+    hoverGlow: "hover:shadow-[0_0_20px_rgba(217,119,87,0.5)]",
+    url: "https://claude.ai",
+  },
+  {
+    id: "perplexity",
+    name: "Perplexity",
+    icon: <PerplexityIcon className="w-7 h-7" />,
+    color: "#20B2AA",
+    hoverGlow: "hover:shadow-[0_0_20px_rgba(32,178,170,0.5)]",
+    url: "https://perplexity.ai",
   },
   {
     id: "copilot",
     name: "Copilot",
-    icon: <CopilotIcon className="w-6 h-6" />,
-    activeColor: "from-sky-400 to-indigo-500",
+    icon: <CopilotIcon className="w-7 h-7" />,
+    color: "#6366F1",
+    hoverGlow: "hover:shadow-[0_0_20px_rgba(99,102,241,0.5)]",
+    url: "https://copilot.microsoft.com",
   },
 ]
 
 export function AIDock() {
-  const [activeApp, setActiveApp] = useState<string | null>(null)
+  const [hoveredApp, setHoveredApp] = useState<string | null>(null)
+
+  const handleClick = (url: string) => {
+    window.open(url, "_blank", "noopener,noreferrer")
+  }
 
   return (
     <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
-      <div className="dock-glass rounded-[28px] px-5 py-3.5 flex items-center gap-4 shadow-2xl shadow-black/50">
+      <div className="dock-glass rounded-[32px] px-4 py-3 flex items-center gap-2 shadow-2xl shadow-black/50">
         {aiApps.map((app) => (
           <button
             key={app.id}
-            onClick={() => setActiveApp(activeApp === app.id ? null : app.id)}
+            onClick={() => handleClick(app.url)}
+            onMouseEnter={() => setHoveredApp(app.id)}
+            onMouseLeave={() => setHoveredApp(null)}
             className={`
               relative w-14 h-14 rounded-2xl flex items-center justify-center
               transition-all duration-300 ease-out
-              ${
-                activeApp === app.id
-                  ? `bg-gradient-to-br ${app.activeColor} scale-110 shadow-lg shadow-white/20`
-                  : "bg-white/10 hover:bg-white/20 hover:scale-105 active:scale-95"
+              bg-white/10 backdrop-blur-sm
+              border border-white/10
+              ${app.hoverGlow}
+              ${hoveredApp === app.id 
+                ? "scale-125 -translate-y-3 bg-white/20 border-white/30" 
+                : "hover:scale-110 hover:-translate-y-1"
               }
+              active:scale-95
             `}
+            style={{
+              boxShadow: hoveredApp === app.id 
+                ? `0 8px 32px ${app.color}40, inset 0 1px 0 rgba(255,255,255,0.2)` 
+                : undefined
+            }}
             title={app.name}
           >
-            <span className={`transition-all duration-200 ${activeApp === app.id ? "text-white scale-110" : "text-white/80"}`}>
+            <span 
+              className={`
+                transition-all duration-300 
+                ${hoveredApp === app.id ? "scale-110" : ""}
+              `}
+              style={{ 
+                color: hoveredApp === app.id ? app.color : "rgba(255,255,255,0.85)",
+                filter: hoveredApp === app.id ? `drop-shadow(0 0 8px ${app.color})` : undefined
+              }}
+            >
               {app.icon}
             </span>
-            {activeApp === app.id && (
-              <span className="absolute -bottom-1.5 w-1.5 h-1.5 rounded-full bg-white shadow-glow" />
-            )}
+            
+            {/* Tooltip */}
+            <span 
+              className={`
+                absolute -top-10 left-1/2 -translate-x-1/2
+                px-3 py-1.5 rounded-lg
+                bg-black/80 backdrop-blur-md
+                text-xs font-medium text-white
+                whitespace-nowrap
+                border border-white/10
+                transition-all duration-200
+                ${hoveredApp === app.id 
+                  ? "opacity-100 translate-y-0" 
+                  : "opacity-0 translate-y-2 pointer-events-none"
+                }
+              `}
+            >
+              {app.name}
+            </span>
+
+            {/* Active dot indicator on hover */}
+            <span 
+              className={`
+                absolute -bottom-1 left-1/2 -translate-x-1/2
+                w-1.5 h-1.5 rounded-full
+                transition-all duration-300
+                ${hoveredApp === app.id ? "opacity-100 scale-100" : "opacity-0 scale-0"}
+              `}
+              style={{ backgroundColor: app.color, boxShadow: `0 0 8px ${app.color}` }}
+            />
           </button>
         ))}
       </div>
