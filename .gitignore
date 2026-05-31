@@ -4,7 +4,6 @@ __v0_devtools.tsx
 __v0_jsx-dev-runtime.ts
 .snowflake/
 .v0-trash/
-.vercel/
 
 # Environment variables
 .env*.local
@@ -12,4 +11,17 @@ __v0_jsx-dev-runtime.ts
 # Common ignores
 node_modules
 .next/
+out/
 .DS_Store
+.vercel
+
+# Tauri
+src-tauri/target/
+src-tauri/gen/
+
+# Build output
+package-lock.json
+
+# Agent skills
+.agents/
+skills-lock.json

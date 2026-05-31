@@ -2,29 +2,18 @@
 
 import { useState } from "react"
 
-// Official-style SVG icons for each AI
 function ChatGPTIcon({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
-      <path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.8956zm16.5963 3.8558L13.1038 8.364l2.0201-1.1685a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.4091-.6813zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6099-1.4997Z" />
+    <svg viewBox="0 0 256 256" fill="currentColor" className={className}>
+      <path d="M239.184 106.203a64.716 64.716 0 0 0-5.576-53.103C219.452 28.459 191 15.784 163.213 21.74A65.586 65.586 0 0 0 52.096 45.22a64.716 64.716 0 0 0-43.23 31.36c-14.31 24.602-11.061 55.634 8.033 76.74a64.665 64.665 0 0 0 5.525 53.102c14.174 24.65 42.644 37.324 70.446 31.36a64.72 64.72 0 0 0 48.754 21.744c28.481.025 53.714-18.361 62.414-45.481a64.767 64.767 0 0 0 43.229-31.36c14.137-24.558 10.875-55.423-8.083-76.483Zm-97.56 136.338a48.397 48.397 0 0 1-31.105-11.255l1.535-.87 51.67-29.825a8.595 8.595 0 0 0 4.247-7.367v-72.85l21.845 12.636c.218.111.37.32.409.563v60.367c-.056 26.818-21.783 48.545-48.601 48.601Zm-104.466-44.61a48.345 48.345 0 0 1-5.781-32.589l1.534.921 51.722 29.826a8.339 8.339 0 0 0 8.441 0l63.181-36.425v25.221a.87.87 0 0 1-.358.665l-52.335 30.184c-23.257 13.398-52.97 5.431-66.404-17.803ZM23.549 85.38a48.499 48.499 0 0 1 25.58-21.333v61.39a8.288 8.288 0 0 0 4.195 7.316l62.874 36.272-21.845 12.636a.819.819 0 0 1-.767 0L41.353 151.53c-23.211-13.454-31.171-43.144-17.804-66.405v.256Zm179.466 41.695-63.08-36.63L161.73 77.86a.819.819 0 0 1 .768 0l52.233 30.184a48.6 48.6 0 0 1-7.316 87.635v-61.391a8.544 8.544 0 0 0-4.4-7.213Zm21.742-32.69-1.535-.922-51.619-30.081a8.39 8.39 0 0 0-8.492 0L99.98 99.808V74.587a.716.716 0 0 1 .307-.665l52.233-30.133a48.652 48.652 0 0 1 72.236 50.391v.205ZM88.061 139.097l-21.845-12.585a.87.87 0 0 1-.41-.614V65.685a48.652 48.652 0 0 1 79.757-37.346l-1.535.87-51.67 29.825a8.595 8.595 0 0 0-4.246 7.367l-.051 72.697Zm11.868-25.58 28.138-16.217 28.188 16.218v32.434l-28.086 16.218-28.188-16.218-.052-32.434Z" />
     </svg>
   )
 }
 
 function GeminiIcon({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 24 24" fill="none" className={className}>
-      <path
-        d="M12 24C12 24 12 12 24 12C12 12 12 0 12 0C12 0 12 12 0 12C12 12 12 24 12 24Z"
-        fill="url(#gemini-grad)"
-      />
-      <defs>
-        <linearGradient id="gemini-grad" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#1A73E8" />
-          <stop offset="0.5" stopColor="#6C5CE7" />
-          <stop offset="1" stopColor="#E91E63" />
-        </linearGradient>
-      </defs>
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
+      <path d="M12 24C12 24 12 12 24 12C12 12 12 0 12 0C12 0 12 12 0 12C12 12 12 24 12 24Z" />
     </svg>
   )
 }
@@ -32,30 +21,37 @@ function GeminiIcon({ className }: { className?: string }) {
 function ClaudeIcon({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
-      <path d="M4.709 15.955l4.72-2.647.08-.08 2.726-1.529-2.646-1.449-4.8-2.567c-.639-.32-.639-1.289 0-1.609l6.329-3.538c.559-.32 1.279-.32 1.838 0l6.329 3.538c.639.32.639 1.289 0 1.609l-1.769.959 1.769.959c.639.32.639 1.289 0 1.609l-1.849 1.039 1.849 1.039c.639.32.639 1.289 0 1.609l-6.329 3.538c-.559.32-1.279.32-1.838 0l-6.329-3.538c-.639-.4-.639-1.289-.08-1.609v.239z" />
+      <path fillRule="evenodd" clipRule="evenodd" d="M13.827 3.52h3.603L24 20h-3.603l-6.57-16.48zm-7.258 0h3.767L16.906 20h-3.674l-1.343-3.461H5.017l-1.344 3.46H0L6.57 3.522zm4.132 9.959L8.453 7.687 6.205 13.48H10.7z" />
     </svg>
   )
 }
 
 function PerplexityIcon({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 24 24" fill="none" className={className}>
+    <svg viewBox="0 0 48 48" fill="none" className={className}>
       <path
-        d="M12 2L4 6v6l8 4 8-4V6l-8-4z"
-        stroke="currentColor"
-        strokeWidth="1.5"
         fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.5"
+        d="M24 4.5v39M13.73 16.573v-9.99L24 16.573m0 14.5L13.73 41.417V27.01L24 16.573m0 0l10.27-9.99v9.99"
       />
       <path
-        d="M12 22v-10M4 6l8 4M20 6l-8 4"
+        fill="none"
         stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         strokeWidth="1.5"
+        d="M13.73 31.396H9.44V16.573h29.12v14.823h-4.29"
       />
-      <circle cx="12" cy="12" r="2" fill="currentColor" />
       <path
-        d="M12 2v6M4 12h4M16 12h4"
+        fill="none"
         stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         strokeWidth="1.5"
+        d="M24 16.573L34.27 27.01v14.407L24 31.073"
       />
     </svg>
   )
@@ -63,26 +59,11 @@ function PerplexityIcon({ className }: { className?: string }) {
 
 function CopilotIcon({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 24 24" fill="none" className={className}>
+    <svg viewBox="0 0 256 256" fill="none" className={className}>
       <path
-        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"
-        fill="url(#copilot-grad)"
+        d="M205.3 31.4c14 14.8 20 35.2 22.5 63.6 6.6 0 12.8 1.5 17 7.2l7.8 10.6c2.2 3 3.4 6.6 3.4 10.4v28.7a12 12 0 0 1-4.8 9.5C215.9 187.2 172.3 208 128 208c-49 0-98.2-28.3-123.2-46.6a12 12 0 0 1-4.8-9.5v-28.7c0-3.8 1.2-7.4 3.4-10.5l7.8-10.5c4.2-5.7 10.4-7.2 17-7.2 2.5-28.4 8.4-48.8 22.5-63.6C77.3 3.2 112.6 0 127.6 0h.4c14.7 0 50.4 2.9 77.3 31.4ZM128 78.7c-3 0-6.5.2-10.3.6a27.1 27.1 0 0 1-6 12.1 45 45 0 0 1-32 13c-6.8 0-13.9-1.5-19.7-5.2-5.5 1.9-10.8 4.5-11.2 11-.5 12.2-.6 24.5-.6 36.8 0 6.1 0 12.3-.2 18.5 0 3.6 2.2 6.9 5.5 8.4C79.9 185.9 105 192 128 192s48-6 74.5-18.1a9.4 9.4 0 0 0 5.5-8.4c.3-18.4 0-37-.8-55.3-.4-6.6-5.7-9.1-11.2-11-5.8 3.7-13 5.1-19.7 5.1a45 45 0 0 1-32-12.9 27.1 27.1 0 0 1-6-12.1c-3.4-.4-6.9-.5-10.3-.6Zm-27 44c5.8 0 10.5 4.6 10.5 10.4v19.2a10.4 10.4 0 0 1-20.8 0V133c0-5.8 4.6-10.4 10.4-10.4Zm53.4 0c5.8 0 10.4 4.6 10.4 10.4v19.2a10.4 10.4 0 0 1-20.8 0V133c0-5.8 4.7-10.4 10.4-10.4Zm-73-94.4c-11.2 1.1-20.6 4.8-25.4 10-10.4 11.3-8.2 40.1-2.2 46.2A31.2 31.2 0 0 0 75 91.7c6.8 0 19.6-1.5 30.1-12.2 4.7-4.5 7.5-15.7 7.2-27-.3-9.1-2.9-16.7-6.7-19.9-4.2-3.6-13.6-5.2-24.2-4.3Zm69 4.3c-3.8 3.2-6.4 10.8-6.7 19.9-.3 11.3 2.5 22.5 7.2 27a41.7 41.7 0 0 0 30 12.2c8.9 0 17-2.9 21.3-7.2 6-6.1 8.2-34.9-2.2-46.3-4.8-5-14.2-8.8-25.4-9.9-10.6-1-20 .7-24.2 4.3ZM128 56c-2.6 0-5.6.2-9 .5.4 1.7.5 3.7.7 5.7 0 1.5 0 3-.2 4.5 3.2-.3 6-.3 8.5-.3 2.6 0 5.3 0 8.5.3-.2-1.6-.2-3-.2-4.5.2-2 .3-4 .7-5.7-3.4-.3-6.4-.5-9-.5Z"
+        fill="currentColor"
       />
-      <path
-        d="M8 14s1.5 2 4 2 4-2 4-2"
-        stroke="white"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
-      <circle cx="9" cy="10" r="1.5" fill="white" />
-      <circle cx="15" cy="10" r="1.5" fill="white" />
-      <defs>
-        <linearGradient id="copilot-grad" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#0EA5E9" />
-          <stop offset="0.5" stopColor="#6366F1" />
-          <stop offset="1" stopColor="#8B5CF6" />
-        </linearGradient>
-      </defs>
     </svg>
   )
 }
@@ -152,34 +133,33 @@ export function AIDock() {
               bg-white/10 backdrop-blur-sm
               border border-white/10
               ${app.hoverGlow}
-              ${hoveredApp === app.id 
-                ? "scale-125 -translate-y-3 bg-white/20 border-white/30" 
+              ${hoveredApp === app.id
+                ? "scale-125 -translate-y-3 bg-white/20 border-white/30"
                 : "hover:scale-110 hover:-translate-y-1"
               }
               active:scale-95
             `}
             style={{
-              boxShadow: hoveredApp === app.id 
-                ? `0 8px 32px ${app.color}40, inset 0 1px 0 rgba(255,255,255,0.2)` 
+              boxShadow: hoveredApp === app.id
+                ? `0 8px 32px ${app.color}40, inset 0 1px 0 rgba(255,255,255,0.2)`
                 : undefined
             }}
             title={app.name}
           >
-            <span 
+            <span
               className={`
-                transition-all duration-300 
+                transition-all duration-300
                 ${hoveredApp === app.id ? "scale-110" : ""}
               `}
-              style={{ 
+              style={{
                 color: hoveredApp === app.id ? app.color : "rgba(255,255,255,0.85)",
                 filter: hoveredApp === app.id ? `drop-shadow(0 0 8px ${app.color})` : undefined
               }}
             >
               {app.icon}
             </span>
-            
-            {/* Tooltip */}
-            <span 
+
+            <span
               className={`
                 absolute -top-10 left-1/2 -translate-x-1/2
                 px-3 py-1.5 rounded-lg
@@ -188,8 +168,8 @@ export function AIDock() {
                 whitespace-nowrap
                 border border-white/10
                 transition-all duration-200
-                ${hoveredApp === app.id 
-                  ? "opacity-100 translate-y-0" 
+                ${hoveredApp === app.id
+                  ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-2 pointer-events-none"
                 }
               `}
@@ -197,8 +177,7 @@ export function AIDock() {
               {app.name}
             </span>
 
-            {/* Active dot indicator on hover */}
-            <span 
+            <span
               className={`
                 absolute -bottom-1 left-1/2 -translate-x-1/2
                 w-1.5 h-1.5 rounded-full
