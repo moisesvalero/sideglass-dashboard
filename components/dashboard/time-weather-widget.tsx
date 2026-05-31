@@ -1,12 +1,15 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Sun, Cloud, CloudSun } from "lucide-react"
+import { Sun } from "lucide-react"
 
 export function TimeWeatherWidget() {
-  const [time, setTime] = useState(new Date())
+  const [mounted, setMounted] = useState(false)
+  const [time, setTime] = useState<Date | null>(null)
 
   useEffect(() => {
+    setMounted(true)
+    setTime(new Date())
     const timer = setInterval(() => setTime(new Date()), 1000)
     return () => clearInterval(timer)
   }, [])
@@ -31,9 +34,11 @@ export function TimeWeatherWidget() {
     <div className="glass-card p-6 flex items-center justify-between">
       <div className="flex flex-col">
         <span className="text-6xl font-light tracking-tight text-white tabular-nums">
-          {formatTime(time)}
+          {mounted && time ? formatTime(time) : "--:--"}
         </span>
-        <span className="text-lg text-white/60 mt-1">{formatDate(time)}</span>
+        <span className="text-lg text-white/60 mt-1">
+          {mounted && time ? formatDate(time) : "Loading..."}
+        </span>
       </div>
 
       <div className="flex flex-col items-center gap-2">

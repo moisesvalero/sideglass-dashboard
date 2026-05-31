@@ -6,7 +6,7 @@ import { AIDock } from "@/components/dashboard/ai-dock"
 
 export default function Dashboard() {
   return (
-    <main className="relative min-h-screen w-full overflow-hidden">
+    <main className="relative min-h-screen w-full overflow-x-hidden">
       {/* Deep dark gradient background */}
       <div 
         className="fixed inset-0 -z-10"
