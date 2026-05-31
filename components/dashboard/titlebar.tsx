@@ -1,6 +1,6 @@
 "use client"
 
-import { Settings } from "lucide-react"
+import { Settings, Minus, Square, X } from "lucide-react"
 import { isTauri } from "@/lib/tauri"
 
 export function Titlebar({ onSettingsClick, title }: { onSettingsClick: () => void; title: string }) {
@@ -22,55 +22,50 @@ export function Titlebar({ onSettingsClick, title }: { onSettingsClick: () => vo
   return (
     <div
       data-tauri-drag-region
-      className="fixed top-0 left-0 right-0 z-50 h-10 flex items-center justify-between px-3 select-none"
+      className="fixed top-0 left-0 right-0 z-50 h-9 flex items-center justify-between select-none"
     >
-      <div className="flex items-center gap-2">
-        {tauriMode && (
-          <>
-            <button
-              onClick={handleMinimize}
-              className="w-3 h-3 rounded-full bg-amber-400 hover:bg-amber-300 transition-colors group/wc flex items-center justify-center"
-              data-tauri-drag-region="false"
-              aria-label="Minimizar"
-            >
-              <span className="opacity-0 group-hover/wc:opacity-100 text-[8px] text-black/70 font-bold leading-none">
-                &#8722;
-              </span>
-            </button>
-            <button
-              onClick={handleMaximize}
-              className="w-3 h-3 rounded-full bg-emerald-400 hover:bg-emerald-300 transition-colors group/wc flex items-center justify-center"
-              data-tauri-drag-region="false"
-              aria-label="Maximizar"
-            >
-              <span className="opacity-0 group-hover/wc:opacity-100 text-[8px] text-black/70 font-bold leading-none">
-                &#9744;
-              </span>
-            </button>
-            <button
-              onClick={handleClose}
-              className="w-3 h-3 rounded-full bg-red-400 hover:bg-red-300 transition-colors group/wc flex items-center justify-center"
-              data-tauri-drag-region="false"
-              aria-label="Cerrar"
-            >
-              <span className="opacity-0 group-hover/wc:opacity-100 text-[8px] text-black/70 font-bold leading-none">
-                &#10005;
-              </span>
-            </button>
-          </>
-        )}
+      <div className="flex items-center gap-2 pl-3">
+        <button
+          onClick={onSettingsClick}
+          className="w-7 h-7 rounded-md hover:bg-white/10 flex items-center justify-center transition-colors"
+          data-tauri-drag-region="false"
+          aria-label="Ajustes"
+        >
+          <Settings className="w-3.5 h-3.5 text-white/50" />
+        </button>
       </div>
-      <span className="text-white/30 text-xs font-medium pointer-events-none">
+
+      <span className="text-white/25 text-[11px] font-medium pointer-events-none">
         {title}
       </span>
-      <button
-        onClick={onSettingsClick}
-        className="w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
-        data-tauri-drag-region="false"
-        aria-label="Ajustes"
-      >
-        <Settings className="w-3.5 h-3.5 text-white/60" />
-      </button>
+
+      {tauriMode ? (
+        <div className="flex items-center h-full" data-tauri-drag-region="false">
+          <button
+            onClick={handleMinimize}
+            className="w-11 h-9 hover:bg-white/10 flex items-center justify-center transition-colors"
+            aria-label="Minimizar"
+          >
+            <Minus className="w-3.5 h-3.5 text-white/60" />
+          </button>
+          <button
+            onClick={handleMaximize}
+            className="w-11 h-9 hover:bg-white/10 flex items-center justify-center transition-colors"
+            aria-label="Maximizar"
+          >
+            <Square className="w-3 h-3 text-white/60" />
+          </button>
+          <button
+            onClick={handleClose}
+            className="w-11 h-9 hover:bg-red-500/80 flex items-center justify-center transition-colors"
+            aria-label="Cerrar"
+          >
+            <X className="w-3.5 h-3.5 text-white/60 group-hover:text-white" />
+          </button>
+        </div>
+      ) : (
+        <div className="w-[132px]" />
+      )}
     </div>
   )
 }
