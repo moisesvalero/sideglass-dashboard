@@ -1,0 +1,66 @@
+# Cursor Rules for iOS Dashboard Project
+
+## Project Context
+This is a premium iOS/visionOS-style vertical dashboard built with Next.js + Tauri for Windows desktop.
+It features glassmorphism UI, real-time hardware monitoring via Rust backend, and an AI assistant dock.
+
+## Tech Stack
+- Frontend: Next.js 15, React 19, TypeScript, Tailwind CSS v4
+- Desktop: Tauri v2 with Rust backend
+- UI: shadcn/ui components + custom glassmorphism design system
+
+## Code Style
+
+### TypeScript/React
+- Use "use client" directive for components with hooks or browser APIs
+- Prefer functional components with hooks
+- Use `cn()` from `lib/utils` for conditional class merging
+- Always handle hydration: use `mounted` state for time/date displays
+
+### Tailwind CSS v4
+- NO tailwind.config.ts - all config in `app/globals.css` under `@theme inline`
+- Use semantic tokens: `bg-background`, `text-foreground`, `bg-card`
+- Custom classes: `.glass-card`, `.dock-glass`, `.neon-progress`
+- Prefer gap over margin for spacing in flex/grid
+
+### Tauri Integration
+- All system commands defined in `src-tauri/src/main.rs`
+- Frontend uses `lib/tauri.ts` for type-safe invoke wrapper
+- Always check `isTauri()` before calling Tauri APIs
+- Provide fallback/demo data for web preview
+
+### Rust Backend
+- Use sysinfo crate for CPU/RAM monitoring
+- Use nvml-wrapper for NVIDIA GPU (with error handling fallback)
+- Return serializable structs with serde
+
+## File Locations
+- Dashboard widgets: `components/dashboard/`
+- Tauri types/helpers: `lib/tauri.ts`
+- Global styles: `app/globals.css`
+- Rust backend: `src-tauri/src/main.rs`
+
+## Design Guidelines
+- Glassmorphism: backdrop-blur + translucent bg + thin white border
+- Colors: Deep dark blues/purples, white text, neon accents
+- Animations: Subtle hover effects, smooth transitions (300ms)
+- Border radius: 24px for cards, 16px for buttons
+- Mobile-first: 420px width, vertical scroll layout
+
+## Common Patterns
+
+### Adding a new widget
+1. Create component in `components/dashboard/`
+2. Use `.glass-card` class for container
+3. Add to `app/page.tsx` in the flex column
+
+### Adding Tauri command
+1. Add command function in `src-tauri/src/main.rs`
+2. Register in `.invoke_handler(tauri::generate_handler![...])`
+3. Add TypeScript types in `lib/tauri.ts`
+4. Use `invokeTauri<T>()` wrapper in component
+
+### Styling new elements
+1. Check existing design tokens in `globals.css`
+2. Use semantic classes when possible
+3. Add new custom classes in globals.css if reusable
