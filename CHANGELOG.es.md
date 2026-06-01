@@ -6,6 +6,26 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es/1.1.0/) y el p
 
 **Versión en inglés:** [CHANGELOG.md](./CHANGELOG.md) — mantén ambos archivos sincronizados al publicar una release.
 
+## [0.2.4] - 2026-06-01
+
+### Añadido
+
+- Buscador de YouTube integrado en el panel (ya no hace falta pegar enlaces)
+- Botón de ayuda en la barra de título que abre el FAQ de la web
+- Sección «Acerca de» en Ajustes con la versión y enlace al código
+- Entrada manual de ciudad para el clima (escribe cualquier ubicación)
+- Guía paso a paso de la dirección secreta iCal de Google Calendar en la web
+
+### Cambiado
+
+- Las frases del día usan una lista local curada (corrige erratas, sin API externa)
+- Correcciones de ortografía en la interfaz en español (tildes y ñ)
+
+### Corregido
+
+- La temperatura de la CPU se lee correctamente (el servicio de sensores arranca con permisos de administrador)
+- «Buscar actualizaciones» ya no se queda colgado para siempre (timeout de red)
+
 ## [0.2.3] - 2026-06-01
 
 ### Añadido

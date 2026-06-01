@@ -52,7 +52,7 @@ export function useDashboardBootstrap() {
           if (diff > 0 && diff <= in15 && !notifiedIds.has(e.id)) {
             notifiedIds.add(e.id)
             await invokeCommand("send_notification", {
-              title: "Proximo evento",
+              title: "Próximo evento",
               body: `${e.title} · ${e.start.toLocaleTimeString()}`,
             })
           }

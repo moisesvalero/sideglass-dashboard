@@ -66,6 +66,12 @@ fn try_start_lhm(app: &tauri::AppHandle) {
         return;
     }
 
+    // If sensors are already exposed (e.g. LHM left running), skip launching.
+    if read_lhm_temperatures().2 {
+        *guard = true;
+        return;
+    }
+
     if let Ok(resource_dir) = app.path().resource_dir() {
         let candidates = [
             resource_dir.join("bin").join("LibreHardwareMonitor.exe"),
@@ -73,14 +79,34 @@ fn try_start_lhm(app: &tauri::AppHandle) {
         ];
         for path in candidates {
             if path.exists() {
-                let work_dir = path.parent().unwrap_or_else(|| path.as_path());
-                let _ = std::process::Command::new(&path)
-                    .current_dir(work_dir)
-                    .arg("--minimize")
+                // LibreHardwareMonitor needs administrator rights to expose the
+                // CPU package temperature over WMI. Launch it elevated (one UAC
+                // prompt); fall back to a normal launch if elevation is refused.
+                let path_str = path.to_string_lossy().replace('\'', "''");
+                let elevated = std::process::Command::new("powershell")
+                    .args([
+                        "-NoProfile",
+                        "-WindowStyle",
+                        "Hidden",
+                        "-Command",
+                        &format!(
+                            "Start-Process -FilePath '{path_str}' -ArgumentList '--minimize' -Verb RunAs -WindowStyle Hidden"
+                        ),
+                    ])
                     .creation_flags(0x08000000) // CREATE_NO_WINDOW
                     .spawn();
+
+                if elevated.is_err() {
+                    let work_dir = path.parent().unwrap_or_else(|| path.as_path());
+                    let _ = std::process::Command::new(&path)
+                        .current_dir(work_dir)
+                        .arg("--minimize")
+                        .creation_flags(0x08000000)
+                        .spawn();
+                }
+
                 *guard = true;
-                for _ in 0..8 {
+                for _ in 0..15 {
                     std::thread::sleep(std::time::Duration::from_secs(1));
                     let (_, _, ok) = read_lhm_temperatures();
                     if ok {
@@ -401,6 +427,174 @@ async fn open_url(url: String) -> Result<(), String> {
     tauri_plugin_opener::open_url(&url, None::<&str>).map_err(|e| e.to_string())
 }
 
+#[derive(Serialize, Clone)]
+pub struct YoutubeResult {
+    pub id: String,
+    pub title: String,
+    pub channel: String,
+    pub thumbnail: String,
+}
+
+/// Extracts the first balanced JSON object starting at the beginning of `s`.
+fn extract_balanced_json(s: &str) -> Option<String> {
+    let bytes = s.as_bytes();
+    if bytes.first() != Some(&b'{') {
+        return None;
+    }
+    let mut depth = 0i32;
+    let mut in_string = false;
+    let mut escaped = false;
+    for (i, &b) in bytes.iter().enumerate() {
+        if in_string {
+            if escaped {
+                escaped = false;
+            } else if b == b'\\' {
+                escaped = true;
+            } else if b == b'"' {
+                in_string = false;
+            }
+            continue;
+        }
+        match b {
+            b'"' => in_string = true,
+            b'{' => depth += 1,
+            b'}' => {
+                depth -= 1;
+                if depth == 0 {
+                    return Some(s[..=i].to_string());
+                }
+            }
+            _ => {}
+        }
+    }
+    None
+}
+
+fn extract_yt_initial_data(html: &str) -> Option<String> {
+    for marker in ["var ytInitialData = ", "ytInitialData = "] {
+        if let Some(start) = html.find(marker) {
+            let rest = &html[start + marker.len()..];
+            if let Some(obj) = extract_balanced_json(rest) {
+                return Some(obj);
+            }
+        }
+    }
+    None
+}
+
+fn parse_video_renderer(vr: &serde_json::Value) -> Option<YoutubeResult> {
+    let id = vr.get("videoId")?.as_str()?.to_string();
+    if id.is_empty() {
+        return None;
+    }
+
+    let title = vr
+        .get("title")
+        .and_then(|t| t.get("runs"))
+        .and_then(|r| r.get(0))
+        .and_then(|r| r.get("text"))
+        .and_then(|t| t.as_str())
+        .or_else(|| {
+            vr.get("title")
+                .and_then(|t| t.get("simpleText"))
+                .and_then(|t| t.as_str())
+        })
+        .unwrap_or("")
+        .to_string();
+    if title.is_empty() {
+        return None;
+    }
+
+    let channel = vr
+        .get("ownerText")
+        .and_then(|o| o.get("runs"))
+        .and_then(|r| r.get(0))
+        .and_then(|r| r.get("text"))
+        .and_then(|t| t.as_str())
+        .or_else(|| {
+            vr.get("longBylineText")
+                .and_then(|o| o.get("runs"))
+                .and_then(|r| r.get(0))
+                .and_then(|r| r.get("text"))
+                .and_then(|t| t.as_str())
+        })
+        .unwrap_or("")
+        .to_string();
+
+    Some(YoutubeResult {
+        thumbnail: format!("https://i.ytimg.com/vi/{id}/mqdefault.jpg"),
+        id,
+        title,
+        channel,
+    })
+}
+
+fn collect_video_renderers(value: &serde_json::Value, out: &mut Vec<YoutubeResult>) {
+    if out.len() >= 12 {
+        return;
+    }
+    match value {
+        serde_json::Value::Object(map) => {
+            if let Some(vr) = map.get("videoRenderer") {
+                if let Some(result) = parse_video_renderer(vr) {
+                    if !out.iter().any(|r| r.id == result.id) {
+                        out.push(result);
+                    }
+                }
+            }
+            for v in map.values() {
+                collect_video_renderers(v, out);
+            }
+        }
+        serde_json::Value::Array(arr) => {
+            for v in arr {
+                collect_video_renderers(v, out);
+            }
+        }
+        _ => {}
+    }
+}
+
+#[tauri::command]
+async fn youtube_search(query: String) -> Result<Vec<YoutubeResult>, String> {
+    let q = query.trim();
+    if q.is_empty() {
+        return Ok(vec![]);
+    }
+
+    let url =
+        reqwest::Url::parse_with_params("https://www.youtube.com/results", &[("search_query", q)])
+            .map_err(|e| e.to_string())?;
+
+    let client = reqwest::Client::builder()
+        .timeout(std::time::Duration::from_secs(15))
+        .user_agent(
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 \
+             (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        )
+        .build()
+        .map_err(|e| e.to_string())?;
+
+    let html = client
+        .get(url)
+        .header("Accept-Language", "es-ES,es;q=0.9,en;q=0.8")
+        .header("Cookie", "CONSENT=YES+cb")
+        .send()
+        .await
+        .map_err(|e| e.to_string())?
+        .text()
+        .await
+        .map_err(|e| e.to_string())?;
+
+    let json = extract_yt_initial_data(&html).ok_or("No se pudo leer la respuesta de YouTube")?;
+    let data: serde_json::Value = serde_json::from_str(&json).map_err(|e| e.to_string())?;
+
+    let mut results = Vec::new();
+    collect_video_renderers(&data, &mut results);
+    results.truncate(12);
+    Ok(results)
+}
+
 #[tauri::command]
 async fn toggle_main_window(app: tauri::AppHandle) -> Result<(), String> {
     if let Some(window) = app.get_webview_window("main") {
@@ -451,7 +645,11 @@ async fn register_global_hotkey(app: tauri::AppHandle, accelerator: String) -> R
 async fn check_for_updates(app: tauri::AppHandle) -> Result<String, String> {
     use tauri_plugin_updater::UpdaterExt;
 
-    let updater = app.updater().map_err(|e| e.to_string())?;
+    let updater = app
+        .updater_builder()
+        .timeout(std::time::Duration::from_secs(20))
+        .build()
+        .map_err(|e| e.to_string())?;
     match updater.check().await.map_err(|e| e.to_string())? {
         Some(update) => {
             update
@@ -525,6 +723,7 @@ fn main() {
             get_system_info,
             fetch_ical,
             open_url,
+            youtube_search,
             toggle_main_window,
             set_autostart,
             register_global_hotkey,
@@ -532,8 +731,15 @@ fn main() {
             check_for_updates,
         ])
         .setup(|app| {
+            // Start the sensor service in the background so the window shows
+            // immediately and the elevation prompt does not block startup.
             #[cfg(windows)]
-            try_start_lhm(app.handle());
+            {
+                let handle = app.handle().clone();
+                std::thread::spawn(move || {
+                    try_start_lhm(&handle);
+                });
+            }
 
             if let Some(window) = app.get_webview_window("main") {
                 let _ = window.maximize();

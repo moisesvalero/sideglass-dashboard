@@ -41,7 +41,7 @@ export function CalendarWidget() {
       const tomorrow = new Date(now)
       tomorrow.setDate(tomorrow.getDate() + 1)
       if (d.toDateString() === now.toDateString()) return lang === "es" ? "Hoy" : "Today"
-      if (d.toDateString() === tomorrow.toDateString()) return lang === "es" ? "Manana" : "Tomorrow"
+      if (d.toDateString() === tomorrow.toDateString()) return lang === "es" ? "Mañana" : "Tomorrow"
       return d.toLocaleDateString(locale, { weekday: "short", day: "numeric", month: "short" })
     },
     [lang, locale]

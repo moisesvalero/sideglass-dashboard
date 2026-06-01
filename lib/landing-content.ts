@@ -1,7 +1,7 @@
 export type LandingLang = "es" | "en"
 
 type Feature = { label: string; desc: string }
-type Faq = { q: string; a: string }
+type Faq = { q: string; a: string; steps?: string[]; note?: string }
 
 export type LandingCopy = {
   htmlLang: string
@@ -75,7 +75,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
       },
       {
         label: "YouTube en el panel",
-        desc: "Pega un enlace y reproduce el video dentro del dashboard.",
+        desc: "Busca y reproduce videos dentro del dashboard, sin pegar enlaces.",
       },
       {
         label: "Dock de IAs",
@@ -104,16 +104,24 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
         a: "Descarga el instalador desde el botón de arriba, ejecútalo y sigue los pasos del asistente. La primera vez puedes elegir la carpeta de instalación.",
       },
       {
-        q: "¿Cómo vinculo Google Calendar?",
-        a: "En Google Calendar: Configuración del calendario → Integrar calendario → Dirección secreta en formato iCal. Copia la URL y pégala en Ajustes de Sideglass.",
+        q: "¿Cómo consigo la dirección secreta iCal de mi Google Calendar?",
+        a: "Para sincronizar tu calendario necesitamos su dirección secreta en formato iCal. Sigue estos pasos desde tu ordenador (no está disponible en la app del móvil):",
+        steps: [
+          "Entra en Google Calendar: ve a calendar.google.com desde tu navegador.",
+          "Abre la configuración de tu calendario: en el menú lateral izquierdo, baja hasta «Configuración de mis calendarios» y haz clic sobre el nombre del calendario que quieres sincronizar.",
+          "Ve a la sección de integración: en el menú que se despliega a la izquierda, haz clic en «Integrar el calendario».",
+          "Copia la dirección secreta: busca el recuadro «Dirección secreta en formato iCal» y pulsa el icono de copiar (los dos folios) a la derecha del enlace.",
+          "Pega esa URL en Ajustes de Sideglass, en el campo Google Calendar (iCal).",
+        ],
+        note: "Nota de seguridad: no compartas este enlace con nadie. Permite ver tus eventos sin contraseña. Si se te filtra, usa el botón «Restablecer» en Google Calendar para generar una URL nueva.",
       },
       {
         q: "¿Cómo veo temperaturas reales de CPU y GPU?",
-        a: "El instalador ya incluye el servicio de sensores. Sideglass lo arranca en segundo plano y lee las temperaturas por WMI. No tienes que instalar nada más.",
+        a: "El instalador ya incluye el servicio de sensores. Sideglass lo arranca en segundo plano y lee las temperaturas por WMI. Para la temperatura de la CPU, Windows pedirá permiso de administrador al abrir (el servicio lo necesita para leer ese sensor); acéptalo y, en unos segundos, verás los °C.",
       },
       {
         q: "¿Cómo veo YouTube?",
-        a: "En el widget de YouTube pega la URL del video y pulsa Reproducir. Se muestra embebido en el panel.",
+        a: "En el widget de YouTube escribe lo que quieras buscar y pulsa Buscar: se muestran los resultados dentro del panel. Haz clic en un video y se reproduce embebido, sin salir de Sideglass.",
       },
       {
         q: "¿Es open source?",
@@ -172,13 +180,16 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
       { label: "Weather without API key", desc: "Open-Meteo with automatic location detection." },
       {
         label: "YouTube in the panel",
-        desc: "Paste a link and play the video inside the dashboard.",
+        desc: "Search and play videos inside the dashboard, no links to paste.",
       },
       {
         label: "AI dock",
         desc: "ChatGPT, Gemini, Claude, Perplexity and Microsoft Copilot with official brand icons.",
       },
-      { label: "Local notes", desc: "Quick notepad with a polished layout. Data stays on your PC." },
+      {
+        label: "Local notes",
+        desc: "Quick notepad with a polished layout. Data stays on your PC.",
+      },
     ],
     installTitle: "Install in 4 steps",
     install: [
@@ -198,16 +209,24 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
         a: "Download the installer from the button above, run it and follow the setup steps. On first install you can choose where to install it.",
       },
       {
-        q: "How do I connect Google Calendar?",
-        a: "In Google Calendar: Calendar settings > Integrate calendar > Secret address in iCal format. Copy the URL and paste it into the app Settings.",
+        q: "How do I get the secret iCal address of my Google Calendar?",
+        a: "To sync your calendar we need its secret address in iCal format. Follow these steps from your computer (not available in the mobile app):",
+        steps: [
+          "Open Google Calendar: go to calendar.google.com in your browser.",
+          "Open your calendar settings: in the left sidebar, scroll to «Settings for my calendars» and click the name of the calendar you want to sync.",
+          "Go to the integration section: in the menu that opens on the left, click «Integrate calendar».",
+          "Copy the secret address: find the «Secret address in iCal format» box and click the copy icon (the two sheets) to the right of the link.",
+          "Paste that URL into Sideglass Settings, in the Google Calendar (iCal) field.",
+        ],
+        note: "Security note: do not share this link with anyone. It lets anyone see your events without a password. If it leaks, use the «Reset» button in Google Calendar to generate a new URL.",
       },
       {
         q: "How do I see real CPU and GPU temperatures?",
-        a: "Sideglass ships with an integrated sensor service. The app starts it in the background and reads temperatures via WMI. No extra software to install.",
+        a: "Sideglass ships with an integrated sensor service that runs in the background and reads temperatures via WMI. For the CPU temperature, Windows will ask for administrator permission on launch (the service needs it to read that sensor); accept it and the °C will appear within a few seconds.",
       },
       {
         q: "How do I watch YouTube?",
-        a: "Paste the video URL in the YouTube widget and press Play. It embeds in the panel.",
+        a: "In the YouTube widget, type what you want to find and press Search: results show inside the panel. Click a video and it plays embedded, without leaving Sideglass.",
       },
       {
         q: "Is it open source?",

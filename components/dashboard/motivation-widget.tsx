@@ -10,12 +10,30 @@ interface QuoteData {
 }
 
 const localQuotes: QuoteData[] = [
-  { text: "El unico modo de hacer un gran trabajo es amar lo que haces.", author: "Steve Jobs" },
+  { text: "El único modo de hacer un gran trabajo es amar lo que haces.", author: "Steve Jobs" },
   { text: "La mejor manera de predecir el futuro es crearlo.", author: "Peter Drucker" },
-  { text: "En medio de la dificultad yace la oportunidad.", author: "Albert Einstein" },
+  { text: "En medio de la dificultad reside la oportunidad.", author: "Albert Einstein" },
   { text: "La disciplina es el puente entre las metas y los logros.", author: "Jim Rohn" },
-  { text: "Si puedes sonarlo, puedes hacerlo.", author: "Walt Disney" },
+  { text: "Si puedes soñarlo, puedes hacerlo.", author: "Walt Disney" },
+  {
+    text: "El éxito es la suma de pequeños esfuerzos repetidos cada día.",
+    author: "Robert Collier",
+  },
+  { text: "No cuentes los días, haz que los días cuenten.", author: "Muhammad Ali" },
+  { text: "La mente lo es todo. En lo que piensas, te conviertes.", author: "Buda" },
+  { text: "Cae siete veces y levántate ocho.", author: "Proverbio japonés" },
+  { text: "Lo que no te desafía, no te cambia.", author: "Fred DeVito" },
+  { text: "Empieza donde estás, usa lo que tienes, haz lo que puedas.", author: "Arthur Ashe" },
+  { text: "La calidad no es un acto, es un hábito.", author: "Aristóteles" },
 ]
+
+function pickDailyQuote(key: string): QuoteData {
+  let hash = 0
+  for (let i = 0; i < key.length; i++) {
+    hash = (hash * 31 + key.charCodeAt(i)) >>> 0
+  }
+  return localQuotes[hash % localQuotes.length]
+}
 
 export function MotivationWidget() {
   const [mounted, setMounted] = useState(false)
@@ -29,50 +47,9 @@ export function MotivationWidget() {
   }
 
   useEffect(() => {
-    const load = async () => {
-      setLoading(true)
-      const todayKey = getTodayKey()
-      const stored = localStorage.getItem("daily-quote")
-
-      if (stored) {
-        try {
-          const parsed = JSON.parse(stored)
-          if (parsed.date === todayKey && parsed.quote) {
-            setQuote(parsed.quote)
-            setLoading(false)
-            setMounted(true)
-            return
-          }
-        } catch {
-          /* ignore */
-        }
-      }
-
-      let dailyQuote: QuoteData | null = null
-
-      try {
-        const res = await fetch("https://frasesapi.vercel.app/v1/frases/random", {
-          signal: AbortSignal.timeout(4000),
-        })
-        if (res.ok) {
-          const data = await res.json()
-          dailyQuote = { text: data.frase, author: data.autor || "Anonimo" }
-        }
-      } catch {
-        /* fallback */
-      }
-
-      if (!dailyQuote) {
-        dailyQuote = localQuotes[Math.floor(Math.random() * localQuotes.length)]
-      }
-
-      localStorage.setItem("daily-quote", JSON.stringify({ date: todayKey, quote: dailyQuote }))
-      setQuote(dailyQuote)
-      setLoading(false)
-      setMounted(true)
-    }
-
-    load()
+    setQuote(pickDailyQuote(getTodayKey()))
+    setLoading(false)
+    setMounted(true)
   }, [])
 
   if (!mounted || loading) {

@@ -6,6 +6,26 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 **Spanish version:** [CHANGELOG.es.md](./CHANGELOG.es.md) — keep both files in sync when you add a release.
 
+## [0.2.4] - 2026-06-01
+
+### Added
+
+- Integrated YouTube search in the panel (no more pasting links)
+- Help button in the title bar that opens the web FAQ
+- About section in Settings with app version and source link
+- Manual city entry for weather (type any location)
+- Detailed step-by-step guide for the Google Calendar secret iCal address on the website
+
+### Changed
+
+- Daily quotes now use a curated local list (fixes spelling, no external API)
+- Spanish UI spelling fixes (accents and ñ)
+
+### Fixed
+
+- CPU temperature now reads correctly (sensor service launches elevated)
+- "Check for updates" no longer hangs forever (request timeout)
+
 ## [0.2.3] - 2026-06-01
 
 ### Added

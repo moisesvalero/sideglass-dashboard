@@ -1,7 +1,9 @@
 "use client"
 
-import { Minus, Settings, Square, X } from "lucide-react"
-import { isTauri } from "@/lib/tauri"
+import { HelpCircle, Minus, Settings, Square, X } from "lucide-react"
+import { isTauri, openExternalUrl } from "@/lib/tauri"
+import { useI18n } from "@/lib/i18n"
+import { SITE_URL } from "@/lib/site"
 
 export function Titlebar({
   onSettingsClick,
@@ -11,6 +13,12 @@ export function Titlebar({
   title: string
 }) {
   const tauriMode = isTauri()
+  const { t, lang } = useI18n()
+
+  const handleHelp = () => {
+    const faqUrl = `${SITE_URL}${lang === "es" ? "/#faq" : "/en#faq"}`
+    void openExternalUrl(faqUrl)
+  }
 
   const handleMinimize = async () => {
     const win = await getTauriWindow()
@@ -37,9 +45,19 @@ export function Titlebar({
       <div className="flex shrink-0 items-stretch" data-tauri-drag-region="false">
         <button
           type="button"
+          onClick={handleHelp}
+          className="win-caption-btn px-3"
+          aria-label={t("titlebar.help")}
+          title={t("titlebar.help")}
+        >
+          <HelpCircle className="h-4 w-4 text-muted-foreground" />
+        </button>
+        <button
+          type="button"
           onClick={onSettingsClick}
           className="win-caption-btn px-3"
-          aria-label="Ajustes"
+          aria-label={t("titlebar.settings")}
+          title={t("titlebar.settings")}
         >
           <Settings className="h-4 w-4 text-muted-foreground" />
         </button>

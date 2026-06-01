@@ -17,27 +17,20 @@ import {
   Keyboard,
   Bell,
   Download,
+  HelpCircle,
+  Info,
+  Github,
+  ExternalLink,
 } from "lucide-react"
 import { useSettings, type Settings } from "@/lib/settings"
 import { useI18n } from "@/lib/i18n"
-import { APP_VERSION } from "@/lib/site"
-import { checkForUpdates, isTauri } from "@/lib/tauri"
+import { APP_NAME, APP_VERSION, GITHUB_REPO, SITE_URL } from "@/lib/site"
+import { checkForUpdates, isTauri, openExternalUrl } from "@/lib/tauri"
 
 interface Props {
   open: boolean
   onClose: () => void
 }
-
-const citySuggestions = [
-  "Madrid",
-  "Barcelona",
-  "New York",
-  "London",
-  "Tokyo",
-  "Paris",
-  "Berlin",
-  "Mexico City",
-]
 
 const themes = [
   { key: "dark" as const, icon: Moon, label: "Oscuro" },
@@ -75,6 +68,8 @@ export function SettingsDrawer({ open, onClose }: Props) {
       updateSettings({ [key]: !settings[key] })
     }
   }
+
+  const faqUrl = `${SITE_URL}${lang === "es" ? "/#faq" : "/en#faq"}`
 
   return (
     <>
@@ -135,7 +130,7 @@ export function SettingsDrawer({ open, onClose }: Props) {
                         : "bg-muted text-muted-foreground"
                     }`}
                   >
-                    {l === "es" ? "Espanol" : "English"}
+                    {l === "es" ? "Español" : "English"}
                   </button>
                 ))}
               </div>
@@ -178,22 +173,19 @@ export function SettingsDrawer({ open, onClose }: Props) {
                 />
                 {t("settings.autoLocation")}
               </label>
-              <div className="flex flex-wrap gap-1.5">
-                {citySuggestions.map((city) => (
-                  <button
-                    key={city}
-                    type="button"
-                    onClick={() => updateSettings({ weatherCity: city })}
-                    className={`px-3 py-1.5 rounded-full text-xs ${
-                      settings.weatherCity === city
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-muted text-muted-foreground"
-                    }`}
-                  >
-                    {city}
-                  </button>
-                ))}
-              </div>
+              <input
+                type="text"
+                value={settings.weatherCity}
+                onChange={(e) => updateSettings({ weatherCity: e.target.value })}
+                disabled={settings.useAutoLocation}
+                placeholder={t("settings.manualLocation")}
+                className="w-full bg-muted rounded-xl px-3 py-2 text-sm text-foreground outline-none border border-border placeholder:text-muted-foreground/50 disabled:opacity-50"
+              />
+              {settings.useAutoLocation && (
+                <p className="mt-1.5 text-xs text-muted-foreground">
+                  {t("settings.manualLocationHint")}
+                </p>
+              )}
             </section>
 
             <section>
@@ -333,6 +325,45 @@ export function SettingsDrawer({ open, onClose }: Props) {
             </section>
 
             <p className="text-xs text-muted-foreground">{t("settings.reorder")}</p>
+
+            <section>
+              <label className="flex items-center gap-2 text-muted-foreground text-xs font-medium uppercase tracking-wider mb-2">
+                <HelpCircle className="w-3.5 h-3.5" />
+                {t("settings.help")}
+              </label>
+              <button
+                type="button"
+                onClick={() => void openExternalUrl(faqUrl)}
+                className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl bg-muted hover:bg-muted/80 transition-colors"
+              >
+                <span className="text-foreground/90 text-sm">{t("settings.helpFaq")}</span>
+                <ExternalLink className="w-3.5 h-3.5 text-muted-foreground" />
+              </button>
+            </section>
+
+            <section>
+              <label className="flex items-center gap-2 text-muted-foreground text-xs font-medium uppercase tracking-wider mb-2">
+                <Info className="w-3.5 h-3.5" />
+                {t("settings.about")}
+              </label>
+              <div className="rounded-xl bg-muted/50 border border-border/50 px-3 py-3 space-y-2">
+                <div className="flex items-baseline justify-between gap-2">
+                  <span className="text-sm font-medium text-foreground">{APP_NAME}</span>
+                  <span className="text-xs text-muted-foreground tabular-nums">
+                    {t("settings.version")} {APP_VERSION}
+                  </span>
+                </div>
+                <p className="text-xs text-muted-foreground">{t("settings.aboutTagline")}</p>
+                <button
+                  type="button"
+                  onClick={() => void openExternalUrl(GITHUB_REPO)}
+                  className="flex items-center gap-1.5 text-xs text-primary hover:underline"
+                >
+                  <Github className="w-3.5 h-3.5" />
+                  {t("settings.viewSource")}
+                </button>
+              </div>
+            </section>
           </div>
         </div>
       </div>

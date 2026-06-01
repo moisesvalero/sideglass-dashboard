@@ -83,5 +83,20 @@ export async function registerGlobalHotkey(accelerator: string): Promise<void> {
 
 export async function checkForUpdates(): Promise<string> {
   if (!isTauri()) return "no_tauri"
-  return invokeCommand<string>("check_for_updates")
+  const timeout = new Promise<string>((_, reject) =>
+    setTimeout(() => reject(new Error("timeout")), 30_000)
+  )
+  return Promise.race([invokeCommand<string>("check_for_updates"), timeout])
+}
+
+export interface YoutubeResult {
+  id: string
+  title: string
+  channel: string
+  thumbnail: string
+}
+
+export async function youtubeSearch(query: string): Promise<YoutubeResult[]> {
+  if (!isTauri()) return []
+  return invokeCommand<YoutubeResult[]>("youtube_search", { query })
 }

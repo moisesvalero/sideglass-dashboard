@@ -186,7 +186,7 @@ export function LandingView({ lang }: { lang: LandingLang }) {
         </ol>
       </section>
 
-      <section className="relative z-10 max-w-2xl mx-auto px-6 py-12">
+      <section id="faq" className="relative z-10 max-w-2xl mx-auto px-6 py-12 scroll-mt-20">
         <h2 className="text-sm font-medium text-white/40 uppercase tracking-widest mb-8 text-center">
           {copy.faqTitle}
         </h2>
@@ -200,6 +200,18 @@ export function LandingView({ lang }: { lang: LandingLang }) {
                 {item.q}
               </summary>
               <p className="mt-2 text-sm text-white/50 leading-relaxed">{item.a}</p>
+              {item.steps && (
+                <ol className="mt-3 list-decimal space-y-2 pl-5 text-sm leading-relaxed text-white/55 marker:text-white/40">
+                  {item.steps.map((step) => (
+                    <li key={step}>{step}</li>
+                  ))}
+                </ol>
+              )}
+              {item.note && (
+                <p className="mt-3 rounded-lg border border-amber-500/20 bg-amber-500/10 px-3 py-2 text-xs leading-relaxed text-amber-200/80">
+                  {item.note}
+                </p>
+              )}
             </details>
           ))}
         </div>
