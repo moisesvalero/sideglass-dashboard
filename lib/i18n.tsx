@@ -80,7 +80,10 @@ const translations: Record<Lang, Record<string, string>> = {
     "update.errorDesc": "No se pudo instalar la actualización. Inténtalo más tarde.",
     "update.close": "Cerrar",
     "hardware.enableSensors": "Activar temperaturas",
-    "hardware.enablingSensors": "Activando sensores…",
+    "hardware.enableCpuTemp": "Activar °C",
+    "hardware.enablingSensors": "Activando…",
+    "hardware.cpuTempHint":
+      "La temperatura de la CPU requiere permisos de administrador. Pulsa «Activar °C» junto a CPU y acepta el aviso de Windows.",
     "hardware.sensorsHint":
       "Las temperaturas necesitan permisos de administrador. Pulsa para activarlas (acepta el aviso de Windows).",
     "hardware.sensorsFailed": "No se pudieron activar los sensores. Acepta el aviso de Windows e inténtalo de nuevo.",
@@ -171,7 +174,10 @@ const translations: Record<Lang, Record<string, string>> = {
     "update.errorDesc": "The update could not be installed. Please try again later.",
     "update.close": "Close",
     "hardware.enableSensors": "Enable temperatures",
-    "hardware.enablingSensors": "Enabling sensors…",
+    "hardware.enableCpuTemp": "Enable °C",
+    "hardware.enablingSensors": "Enabling…",
+    "hardware.cpuTempHint":
+      "CPU temperature needs administrator rights. Tap «Enable °C» next to CPU and accept the Windows prompt.",
     "hardware.sensorsHint":
       "Temperatures require administrator rights. Click to enable them (accept the Windows prompt).",
     "hardware.sensorsFailed": "Could not enable sensors. Accept the Windows prompt and try again.",

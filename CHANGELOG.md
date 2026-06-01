@@ -6,6 +6,13 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 **Spanish version:** [CHANGELOG.es.md](./CHANGELOG.es.md) — keep both files in sync when you add a release.
 
+## [0.2.8] - 2026-06-01
+
+### Fixed
+
+- **CPU temperature**: the "Enable °C" button is no longer hidden when the GPU already shows degrees (NVIDIA). It appears on the CPU row, next to the usage percentage
+- Broader CPU sensor parsing (LHM Parent/Identifier, AMD CCD/Tdie, ACPI thermal zone fallback)
+
 ## [0.2.7] - 2026-06-01
 
 ### Fixed

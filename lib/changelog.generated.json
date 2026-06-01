@@ -1,6 +1,19 @@
 {
   "es": [
     {
+      "version": "0.2.8",
+      "date": "2026-06-01",
+      "groups": [
+        {
+          "category": "Corregido",
+          "items": [
+            "**Temperatura de CPU**: el botón «Activar °C» ya no se oculta cuando la GPU sí muestra grados (NVIDIA). Aparece en la fila de la CPU, junto al porcentaje",
+            "Lectura de sensores CPU ampliada (Parent/Identifier de LHM, AMD CCD/Tdie, zona térmica ACPI de respaldo)"
+          ]
+        }
+      ]
+    },
+    {
       "version": "0.2.7",
       "date": "2026-06-01",
       "groups": [
@@ -182,6 +195,19 @@
     }
   ],
   "en": [
+    {
+      "version": "0.2.8",
+      "date": "2026-06-01",
+      "groups": [
+        {
+          "category": "Fixed",
+          "items": [
+            "**CPU temperature**: the \"Enable °C\" button is no longer hidden when the GPU already shows degrees (NVIDIA). It appears on the CPU row, next to the usage percentage",
+            "Broader CPU sensor parsing (LHM Parent/Identifier, AMD CCD/Tdie, ACPI thermal zone fallback)"
+          ]
+        }
+      ]
+    },
     {
       "version": "0.2.7",
       "date": "2026-06-01",

@@ -6,6 +6,13 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es/1.1.0/) y el p
 
 **Versión en inglés:** [CHANGELOG.md](./CHANGELOG.md) — mantén ambos archivos sincronizados al publicar una release.
 
+## [0.2.8] - 2026-06-01
+
+### Corregido
+
+- **Temperatura de CPU**: el botón «Activar °C» ya no se oculta cuando la GPU sí muestra grados (NVIDIA). Aparece en la fila de la CPU, junto al porcentaje
+- Lectura de sensores CPU ampliada (Parent/Identifier de LHM, AMD CCD/Tdie, zona térmica ACPI de respaldo)
+
 ## [0.2.7] - 2026-06-01
 
 ### Corregido

@@ -55,11 +55,11 @@ function systemInfoToSensors(info: SystemInfo): SensorData[] {
   return sensors
 }
 
-const SENSOR_WARMUP_MS = 25_000
+const SENSOR_WARMUP_MS = 8_000
 
 export function HardwareMonitor() {
   const [isRunningInTauri] = useState(() => (typeof window !== "undefined" ? isTauri() : false))
-  const [sensorsAvailable, setSensorsAvailable] = useState(false)
+  const [cpuTempReady, setCpuTempReady] = useState(false)
   const [sensorWarmup, setSensorWarmup] = useState(true)
   const [activating, setActivating] = useState(false)
   const [activationFailed, setActivationFailed] = useState(false)
@@ -91,9 +91,12 @@ export function HardwareMonitor() {
     if (!isRunningInTauri) return
     try {
       const info = await getSystemInfo()
-      setSensors(systemInfoToSensors(info))
-      setSensorsAvailable(info.sensors_available)
-      if (info.sensors_available) setSensorWarmup(false)
+      const next = systemInfoToSensors(info)
+      setSensors(next)
+      const cpuOk =
+        info.cpu.temperature != null && info.cpu.temperature > 0
+      setCpuTempReady(cpuOk)
+      if (cpuOk) setSensorWarmup(false)
     } catch (error) {
       console.error("Error fetching system info:", error)
     }
@@ -112,25 +115,59 @@ export function HardwareMonitor() {
     return () => clearInterval(interval)
   }, [fetchSystemInfo, isRunningInTauri])
 
-  const showSensorWarning = isRunningInTauri && !sensorsAvailable && !sensorWarmup
+  const cpuMissingTemp = isRunningInTauri && !cpuTempReady && !sensorWarmup
 
   const handleEnableSensors = useCallback(async () => {
     setActivating(true)
     setActivationFailed(false)
     try {
-      const ok = await startSensorService()
-      if (ok) {
-        setSensorsAvailable(true)
-        await fetchSystemInfo()
-      } else {
-        setActivationFailed(true)
-      }
+      await startSensorService()
+      const info = await getSystemInfo()
+      const next = systemInfoToSensors(info)
+      setSensors(next)
+      const cpuOk =
+        info.cpu.temperature != null && info.cpu.temperature > 0
+      setCpuTempReady(cpuOk)
+      if (!cpuOk) setActivationFailed(true)
     } catch {
       setActivationFailed(true)
     } finally {
       setActivating(false)
     }
-  }, [fetchSystemInfo])
+  }, [])
+
+  const renderTemp = (sensor: SensorData) => {
+    if (sensor.temp !== null && sensor.temp > 0) {
+      return (
+        <span
+          className={`rounded-md bg-muted px-2 py-0.5 font-mono text-xs tabular-nums ${
+            sensor.temp > 80
+              ? "text-red-500"
+              : sensor.temp > 65
+                ? "text-amber-500"
+                : "text-emerald-500"
+          }`}
+        >
+          {Math.round(sensor.temp)}°C
+        </span>
+      )
+    }
+
+    if (sensor.label === "CPU" && cpuMissingTemp) {
+      return (
+        <button
+          type="button"
+          onClick={() => void handleEnableSensors()}
+          disabled={activating}
+          className="rounded-md border border-primary/40 bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary transition-opacity hover:bg-primary/20 disabled:opacity-60"
+        >
+          {activating ? t("hardware.enablingSensors") : t("hardware.enableCpuTemp")}
+        </button>
+      )
+    }
+
+    return null
+  }
 
   return (
     <div className="glass-card p-5">
@@ -159,19 +196,7 @@ export function HardwareMonitor() {
                 <span className="font-mono text-sm tabular-nums text-foreground">
                   {Math.round(sensor.value)}%
                 </span>
-                {sensor.temp !== null && sensor.temp > 0 ? (
-                  <span
-                    className={`rounded-md bg-muted px-2 py-0.5 font-mono text-xs tabular-nums ${
-                      sensor.temp > 80
-                        ? "text-red-500"
-                        : sensor.temp > 65
-                          ? "text-amber-500"
-                          : "text-emerald-500"
-                    }`}
-                  >
-                    {Math.round(sensor.temp)}°C
-                  </span>
-                ) : null}
+                {renderTemp(sensor)}
               </div>
             </div>
             <div className="h-1.5 overflow-hidden rounded-full bg-muted">
@@ -190,23 +215,15 @@ export function HardwareMonitor() {
         ))}
       </div>
 
-      {isRunningInTauri && sensorWarmup && !sensorsAvailable && (
-        <p className="mt-4 text-center text-xs text-muted-foreground">{t("hardware.sensorsLoading")}</p>
+      {isRunningInTauri && sensorWarmup && !cpuTempReady && (
+        <p className="mt-4 text-center text-xs text-muted-foreground">
+          {t("hardware.sensorsLoading")}
+        </p>
       )}
-      {showSensorWarning && (
-        <div className="mt-4 space-y-2">
-          <button
-            type="button"
-            onClick={() => void handleEnableSensors()}
-            disabled={activating}
-            className="w-full rounded-xl bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-60"
-          >
-            {activating ? t("hardware.enablingSensors") : t("hardware.enableSensors")}
-          </button>
-          <p className="text-center text-xs leading-relaxed text-muted-foreground">
-            {activationFailed ? t("hardware.sensorsFailed") : t("hardware.sensorsHint")}
-          </p>
-        </div>
+      {cpuMissingTemp && (
+        <p className="mt-3 text-center text-xs leading-relaxed text-muted-foreground">
+          {activationFailed ? t("hardware.sensorsFailed") : t("hardware.cpuTempHint")}
+        </p>
       )}
       {!isRunningInTauri && (
         <p className="mt-4 text-center text-xs text-muted-foreground">{t("hardware.tauriHint")}</p>

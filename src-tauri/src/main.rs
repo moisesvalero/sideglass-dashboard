@@ -209,9 +209,9 @@ fn read_lhm_temperatures() -> (Option<f32>, Option<f32>, bool) {
         Err(_) => return (None, None, false),
     };
 
-    let results: Vec<HashMap<String, wmi::Variant>> = match wmi_con
-        .raw_query("SELECT Name, Value, SensorType FROM Sensor WHERE SensorType = 'Temperature'")
-    {
+    let results: Vec<HashMap<String, wmi::Variant>> = match wmi_con.raw_query(
+        "SELECT Name, Value, Parent, Identifier FROM Sensor WHERE SensorType = 'Temperature'",
+    ) {
         Ok(r) => r,
         Err(_) => return (None, None, false),
     };
@@ -223,19 +223,42 @@ fn read_lhm_temperatures() -> (Option<f32>, Option<f32>, bool) {
     let mut cpu_temp: Option<f32> = None;
     let mut gpu_temp: Option<f32> = None;
 
-    for row in &results {
-        let name = row
-            .get("Name")
+    let row_name = |row: &HashMap<String, wmi::Variant>| {
+        row.get("Name")
             .map(variant_to_string)
             .unwrap_or_default()
-            .to_lowercase();
+            .to_lowercase()
+    };
+    let row_parent = |row: &HashMap<String, wmi::Variant>| {
+        row.get("Parent")
+            .map(variant_to_string)
+            .unwrap_or_default()
+            .to_lowercase()
+    };
+
+    for row in &results {
+        let name = row_name(row);
+        let parent = row_parent(row);
         let value: f32 = row.get("Value").and_then(variant_to_f32).unwrap_or(0.0);
 
         if value <= 0.0 || value > 150.0 {
             continue;
         }
 
+        let is_cpuish = name.contains("cpu")
+            || parent.contains("cpu")
+            || parent.contains("/amdcpu/")
+            || parent.contains("/intelcpu/")
+            || name.contains("package")
+            || name.contains("ccd")
+            || name.contains("tdie")
+            || name.contains("tctl")
+            || name.contains("socket");
+
         if cpu_temp.is_none()
+            && is_cpuish
+            && !name.contains("gpu")
+            && !parent.contains("gpu")
             && (name.contains("cpu package")
                 || name.contains("cpu core")
                 || name.contains("core (tctl")
@@ -243,6 +266,7 @@ fn read_lhm_temperatures() -> (Option<f32>, Option<f32>, bool) {
                 || name.contains("tdie")
                 || name.contains("core max")
                 || name.contains("core average")
+                || name.contains("ccd")
                 || (name.contains("cpu") && name.contains("temperature")))
         {
             cpu_temp = Some(value);
@@ -260,25 +284,77 @@ fn read_lhm_temperatures() -> (Option<f32>, Option<f32>, bool) {
     }
 
     for row in &results {
-        let name = row
-            .get("Name")
-            .map(variant_to_string)
-            .unwrap_or_default()
-            .to_lowercase();
+        let name = row_name(row);
+        let parent = row_parent(row);
         let value: f32 = row.get("Value").and_then(variant_to_f32).unwrap_or(0.0);
         if value <= 0.0 || value > 150.0 {
             continue;
         }
-        if cpu_temp.is_none() && name.contains("cpu") && !name.contains("gpu") {
+        if cpu_temp.is_none()
+            && (name.contains("cpu") || parent.contains("cpu"))
+            && !name.contains("gpu")
+            && !parent.contains("gpu")
+        {
             cpu_temp = Some(value);
         }
-        if gpu_temp.is_none() && name.contains("gpu") {
+        if gpu_temp.is_none() && (name.contains("gpu") || parent.contains("gpu")) {
             gpu_temp = Some(value);
         }
     }
 
-    let available = cpu_temp.is_some() || gpu_temp.is_some();
+    // Last resort: highest plausible CPU-zone reading (excludes GPU by parent/name).
+    if cpu_temp.is_none() {
+        for row in &results {
+            let name = row_name(row);
+            let parent = row_parent(row);
+            let value: f32 = row.get("Value").and_then(variant_to_f32).unwrap_or(0.0);
+            if value < 20.0 || value > 150.0 {
+                continue;
+            }
+            if name.contains("gpu") || parent.contains("gpu") {
+                continue;
+            }
+            if name.contains("cpu")
+                || parent.contains("cpu")
+                || parent.contains("amdcpu")
+                || parent.contains("intelcpu")
+            {
+                cpu_temp = Some(cpu_temp.map(|t| t.max(value)).unwrap_or(value));
+            }
+        }
+    }
+
+    let available = cpu_temp.is_some();
     (cpu_temp, gpu_temp, available)
+}
+
+/// Fallback when LHM WMI has no CPU sensor (some boards expose ACPI thermal zones).
+#[cfg(windows)]
+fn read_wmi_thermal_zone_cpu_temp() -> Option<f32> {
+    use std::collections::HashMap;
+    use wmi::{COMLibrary, WMIConnection};
+
+    let com = COMLibrary::new().ok()?;
+    let wmi_con = WMIConnection::new(com).ok()?;
+    let results: Vec<HashMap<String, wmi::Variant>> = wmi_con
+        .raw_query("SELECT CurrentTemperature FROM MSAcpi_ThermalZoneTemperature")
+        .ok()?;
+
+    let mut best: Option<f32> = None;
+    for row in &results {
+        let raw = row.get("CurrentTemperature").and_then(variant_to_f32)?;
+        // ACPI: tenths of a Kelvin → °C
+        let celsius = (raw / 10.0) - 273.15;
+        if (20.0..=120.0).contains(&celsius) {
+            best = Some(best.map(|b| b.max(celsius)).unwrap_or(celsius));
+        }
+    }
+    best
+}
+
+#[cfg(not(windows))]
+fn read_wmi_thermal_zone_cpu_temp() -> Option<f32> {
+    None
 }
 
 fn cpu_temp_from_components() -> Option<f32> {
@@ -317,8 +393,12 @@ fn get_system_info(state: State<AppState>) -> SystemInfo {
 
     let cpu_freq = sys.cpus().first().map(|cpu| cpu.frequency()).unwrap_or(0);
 
-    let (lhm_cpu_temp, lhm_gpu_temp, mut sensors_available) = read_lhm_temperatures();
-    let cpu_temp = lhm_cpu_temp.or_else(cpu_temp_from_components);
+    let (lhm_cpu_temp, lhm_gpu_temp, _) = read_lhm_temperatures();
+    let cpu_temp = lhm_cpu_temp
+        .or_else(cpu_temp_from_components)
+        .or_else(read_wmi_thermal_zone_cpu_temp);
+    // Only CPU temperature counts — GPU via NVML must not hide the CPU activation UI.
+    let sensors_available = cpu_temp.is_some();
 
     let cpu_info = CpuInfo {
         name: cpu_name,
@@ -340,17 +420,6 @@ fn get_system_info(state: State<AppState>) -> SystemInfo {
     };
 
     let gpu_info = get_gpu_info(&state, lhm_gpu_temp);
-    if cpu_temp.is_some() || lhm_gpu_temp.is_some() {
-        sensors_available = true;
-    }
-    if gpu_info
-        .as_ref()
-        .and_then(|g| g.temperature)
-        .filter(|t| *t > 0.0)
-        .is_some()
-    {
-        sensors_available = true;
-    }
 
     SystemInfo {
         cpu: cpu_info,
