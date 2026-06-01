@@ -40,12 +40,22 @@ jobs:
           Copy-Item -Path "$($exe.Directory.FullName)\*" -Destination $dest -Recurse -Force
           Write-Host "Bundled LHM from $($asset.name) into $dest"
 
+      - name: Prepare signing key
+        shell: bash
+        env:
+          SIGNING_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+        run: |
+          if [ -n "$SIGNING_KEY" ]; then
+            printf '%s' "$SIGNING_KEY" > "$RUNNER_TEMP/tauri-signing.key"
+            echo "TAURI_SIGNING_PRIVATE_KEY_PATH=$RUNNER_TEMP/tauri-signing.key" >> "$GITHUB_ENV"
+          fi
+
       - name: Build Tauri app
         uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+          TAURI_SIGNING_PRIVATE_KEY_PATH: ${{ env.TAURI_SIGNING_PRIVATE_KEY_PATH }}
         with:
           tauriScript: npm run tauri
           tagName: ${{ github.ref_name }}

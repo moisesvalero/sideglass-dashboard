@@ -16,6 +16,13 @@ export const metadata: Metadata = {
   applicationName: APP_NAME,
   authors: [{ name: "Moises Valero" }],
   creator: "Moises Valero",
+  icons: {
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
+    ],
+    apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
+  },
 }
 
 export default function RootLayout({
