@@ -6,6 +6,14 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es/1.1.0/) y el p
 
 **Versión en inglés:** [CHANGELOG.md](./CHANGELOG.md) — mantén ambos archivos sincronizados al publicar una release.
 
+## [0.2.19] - 2026-06-01
+
+### Corregido
+
+- **Versión visible sincronizada**: Ajustes y landing ya muestran `0.2.19` en vez de quedarse en `0.2.15`
+- **Release instalable completa**: el instalador/updater incluye los cambios publicados tras `0.2.18` en `main`, incluyendo vídeo de landing y frase del día manuscrita
+- **Entrega del updater**: nueva versión para forzar actualización limpia y evitar que una instalación previa se quede con artefactos viejos
+
 ## [0.2.18] - 2026-06-01
 
 ### Añadido

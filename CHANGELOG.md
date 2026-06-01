@@ -6,6 +6,14 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 **Spanish version:** [CHANGELOG.es.md](./CHANGELOG.es.md) — keep both files in sync when you add a release.
 
+## [0.2.19] - 2026-06-01
+
+### Fixed
+
+- **Displayed version synchronized**: Settings and landing now show `0.2.19` instead of being stuck at `0.2.15`
+- **Complete installable release**: installer/updater now includes the changes that landed on `main` after `0.2.18`, including the landing video and handwritten daily quote
+- **Updater delivery**: new version number forces a clean update path so older installs do not keep stale artifacts
+
 ## [0.2.18] - 2026-06-01
 
 ### Added
