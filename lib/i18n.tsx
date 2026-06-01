@@ -73,6 +73,9 @@ const translations: Record<Lang, Record<string, string>> = {
     "update.later": "Ahora no",
     "update.downloadingTitle": "Descargando actualización…",
     "update.downloadingDesc": "No cierres la aplicación durante la instalación.",
+    "update.downloadedMb": "{mb} MB descargados",
+    "update.installerHint":
+      "Si Windows pide confirmación, acepta el instalador. La app puede cerrarse sola al terminar.",
     "update.installedTitle": "Actualización lista",
     "update.installedDesc": "Reinicia Sideglass para aplicar la nueva versión.",
     "update.restart": "Reiniciar ahora",
@@ -167,6 +170,9 @@ const translations: Record<Lang, Record<string, string>> = {
     "update.later": "Not now",
     "update.downloadingTitle": "Downloading update…",
     "update.downloadingDesc": "Please don't close the app during installation.",
+    "update.downloadedMb": "{mb} MB downloaded",
+    "update.installerHint":
+      "If Windows asks for confirmation, accept the installer. The app may close when done.",
     "update.installedTitle": "Update ready",
     "update.installedDesc": "Restart Sideglass to apply the new version.",
     "update.restart": "Restart now",

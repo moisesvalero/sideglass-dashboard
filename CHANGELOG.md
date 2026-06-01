@@ -6,6 +6,16 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 **Spanish version:** [CHANGELOG.es.md](./CHANGELOG.es.md) — keep both files in sync when you add a release.
 
+## [0.2.9] - 2026-06-01
+
+### Fixed
+
+- **Updates**: prompt no longer hides behind Settings (portal + top z-index); progress works without Content-Length (animation + downloaded MB); install reuses the update already found (no second check); error screen shows technical detail
+
+### Changed
+
+- **Landing**: shortened changelog (latest version only), feature lists instead of card grid, distinct brand styling, improved text contrast
+
 ## [0.2.8] - 2026-06-01
 
 ### Fixed

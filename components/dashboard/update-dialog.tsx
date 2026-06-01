@@ -1,12 +1,28 @@
 "use client"
 
+import { useEffect, useState } from "react"
+import { createPortal } from "react-dom"
 import { Download, RotateCw, X, CheckCircle2, AlertTriangle } from "lucide-react"
 import { useI18n } from "@/lib/i18n"
 import { useUpdater } from "@/lib/updater"
 
 export function UpdateDialog() {
   const { t } = useI18n()
-  const { status, version, notes, percent, install, restart, dismiss } = useUpdater()
+  const {
+    status,
+    version,
+    notes,
+    percent,
+    indeterminate,
+    downloadedMb,
+    errorDetail,
+    install,
+    restart,
+    dismiss,
+  } = useUpdater()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => setMounted(true), [])
 
   const visible =
     status === "available" ||
@@ -14,23 +30,23 @@ export function UpdateDialog() {
     status === "installed" ||
     status === "error"
 
-  if (!visible) return null
+  if (!mounted || !visible) return null
 
   const dismissable = status === "available" || status === "error"
 
-  return (
+  const dialog = (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+      className="fixed inset-0 z-[99999] flex items-center justify-center p-4"
       role="dialog"
       aria-modal="true"
       aria-labelledby="update-dialog-title"
     >
       <div
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
         onClick={dismissable ? dismiss : undefined}
         aria-hidden
       />
-      <div className="glass-panel relative w-full max-w-md rounded-2xl border border-border bg-card/90 p-6 shadow-2xl">
+      <div className="glass-panel relative z-[100000] w-full max-w-md rounded-2xl border border-border bg-card p-6 shadow-2xl">
         {dismissable && (
           <button
             type="button"
@@ -49,10 +65,7 @@ export function UpdateDialog() {
                 <Download className="h-5 w-5" />
               </span>
               <div>
-                <h2
-                  id="update-dialog-title"
-                  className="text-base font-semibold text-foreground"
-                >
+                <h2 id="update-dialog-title" className="text-base font-semibold text-foreground">
                   {t("update.foundTitle")}
                 </h2>
                 <p className="text-xs text-muted-foreground">
@@ -97,12 +110,25 @@ export function UpdateDialog() {
             </h2>
             <p className="mb-4 text-sm text-muted-foreground">{t("update.downloadingDesc")}</p>
             <div className="mb-2 h-2.5 w-full overflow-hidden rounded-full bg-muted">
-              <div
-                className="h-full rounded-full bg-primary transition-[width] duration-300 ease-out"
-                style={{ width: `${percent}%` }}
-              />
+              {indeterminate ? (
+                <div className="relative h-full w-full overflow-hidden">
+                  <div className="absolute inset-y-0 left-0 w-1/3 animate-[update-slide_1.2s_ease-in-out_infinite] rounded-full bg-primary" />
+                </div>
+              ) : (
+                <div
+                  className="h-full rounded-full bg-primary transition-[width] duration-300 ease-out"
+                  style={{ width: `${percent}%` }}
+                />
+              )}
             </div>
-            <p className="text-right text-xs tabular-nums text-muted-foreground">{percent}%</p>
+            <p className="text-right text-xs tabular-nums text-muted-foreground">
+              {indeterminate
+                ? t("update.downloadedMb").replace("{mb}", downloadedMb.toFixed(1))
+                : `${percent}%`}
+            </p>
+            <p className="mt-3 text-center text-xs text-muted-foreground">
+              {t("update.installerHint")}
+            </p>
           </>
         )}
 
@@ -138,7 +164,12 @@ export function UpdateDialog() {
                 {t("update.errorTitle")}
               </h2>
             </div>
-            <p className="mb-4 text-sm text-muted-foreground">{t("update.errorDesc")}</p>
+            <p className="mb-2 text-sm text-muted-foreground">{t("update.errorDesc")}</p>
+            {errorDetail && (
+              <p className="mb-4 rounded-lg border border-border bg-muted/50 px-3 py-2 font-mono text-[11px] leading-relaxed text-muted-foreground break-all">
+                {errorDetail}
+              </p>
+            )}
             <button
               type="button"
               onClick={dismiss}
@@ -151,4 +182,6 @@ export function UpdateDialog() {
       </div>
     </div>
   )
+
+  return createPortal(dialog, document.body)
 }

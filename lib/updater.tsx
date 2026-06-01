@@ -11,6 +11,7 @@ import {
 } from "react"
 import {
   checkForUpdates,
+  dismissPendingUpdate,
   installUpdate,
   isTauri,
   onUpdateFinished,
@@ -32,7 +33,9 @@ interface UpdaterContextValue {
   version: string
   notes: string
   percent: number
-  message: string
+  indeterminate: boolean
+  downloadedMb: number
+  errorDetail: string
   manual: boolean
   check: (manual: boolean) => Promise<void>
   install: () => Promise<void>
@@ -47,16 +50,41 @@ export function UpdaterProvider({ children }: { children: ReactNode }) {
   const [version, setVersion] = useState("")
   const [notes, setNotes] = useState("")
   const [percent, setPercent] = useState(0)
-  const [message, setMessage] = useState("")
+  const [indeterminate, setIndeterminate] = useState(false)
+  const [downloadedMb, setDownloadedMb] = useState(0)
+  const [errorDetail, setErrorDetail] = useState("")
   const [manual, setManual] = useState(false)
   const checkingRef = useRef(false)
+  const installingRef = useRef(false)
+
+  // Listen for progress before install starts (avoid missing early events).
+  useEffect(() => {
+    if (!isTauri()) return
+    let unlistenProgress = () => {}
+    let unlistenFinished = () => {}
+    void (async () => {
+      unlistenProgress = await onUpdateProgress((p) => {
+        setPercent(Math.min(100, Math.round(p.percent)))
+        setIndeterminate(p.indeterminate)
+        setDownloadedMb(p.downloaded / (1024 * 1024))
+      })
+      unlistenFinished = await onUpdateFinished(() => {
+        setPercent(100)
+        setIndeterminate(false)
+      })
+    })()
+    return () => {
+      unlistenProgress()
+      unlistenFinished()
+    }
+  }, [])
 
   const check = useCallback(async (isManual: boolean) => {
-    if (!isTauri() || checkingRef.current) return
+    if (!isTauri() || checkingRef.current || installingRef.current) return
     checkingRef.current = true
     setManual(isManual)
     setStatus("checking")
-    setMessage("")
+    setErrorDetail("")
     try {
       const info = await checkForUpdates()
       if (info.available) {
@@ -66,33 +94,31 @@ export function UpdaterProvider({ children }: { children: ReactNode }) {
       } else {
         setStatus(isManual ? "up-to-date" : "idle")
       }
-    } catch {
+    } catch (e) {
       setStatus(isManual ? "error" : "idle")
-      setMessage("error")
+      setErrorDetail(e instanceof Error ? e.message : "check_failed")
     } finally {
       checkingRef.current = false
     }
   }, [])
 
   const install = useCallback(async () => {
-    if (!isTauri()) return
+    if (!isTauri() || installingRef.current) return
+    installingRef.current = true
     setStatus("downloading")
     setPercent(0)
-    let unlistenProgress = () => {}
-    let unlistenFinished = () => {}
+    setIndeterminate(true)
+    setDownloadedMb(0)
+    setErrorDetail("")
     try {
-      unlistenProgress = await onUpdateProgress((p) => {
-        setPercent(Math.min(100, Math.round(p.percent)))
-      })
-      unlistenFinished = await onUpdateFinished(() => setPercent(100))
       await installUpdate()
       setStatus("installed")
-    } catch {
+      setPercent(100)
+    } catch (e) {
       setStatus("error")
-      setMessage("install")
+      setErrorDetail(e instanceof Error ? e.message : "install_failed")
     } finally {
-      unlistenProgress()
-      unlistenFinished()
+      installingRef.current = false
     }
   }, [])
 
@@ -101,11 +127,11 @@ export function UpdaterProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const dismiss = useCallback(() => {
+    if (isTauri()) void dismissPendingUpdate()
     setStatus("idle")
-    setMessage("")
+    setErrorDetail("")
   }, [])
 
-  // Auto check once on startup (non-blocking, silent if up to date).
   useEffect(() => {
     if (!isTauri()) return
     const timer = setTimeout(() => {
@@ -121,7 +147,9 @@ export function UpdaterProvider({ children }: { children: ReactNode }) {
         version,
         notes,
         percent,
-        message,
+        indeterminate,
+        downloadedMb,
+        errorDetail,
         manual,
         check,
         install,
@@ -140,4 +168,24 @@ export function useUpdater(): UpdaterContextValue {
     throw new Error("useUpdater must be used within UpdaterProvider")
   }
   return ctx
+}
+
+/** Cierra el drawer de ajustes cuando el modal de actualización necesita foco. */
+export function UpdaterSettingsBridge({
+  settingsOpen,
+  onCloseSettings,
+}: {
+  settingsOpen: boolean
+  onCloseSettings: () => void
+}) {
+  const { status } = useUpdater()
+  useEffect(() => {
+    if (
+      settingsOpen &&
+      (status === "available" || status === "downloading" || status === "installed")
+    ) {
+      onCloseSettings()
+    }
+  }, [status, settingsOpen, onCloseSettings])
+  return null
 }

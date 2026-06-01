@@ -24,7 +24,7 @@ import { AIDock } from "@/components/dashboard/ai-dock"
 import { Titlebar } from "@/components/dashboard/titlebar"
 import { SettingsDrawer } from "@/components/dashboard/settings-drawer"
 import { UpdateDialog } from "@/components/dashboard/update-dialog"
-import { UpdaterProvider } from "@/lib/updater"
+import { UpdaterProvider, UpdaterSettingsBridge } from "@/lib/updater"
 import { NotesWidget } from "@/components/dashboard/notes-widget"
 import { MusicWidget } from "@/components/dashboard/music-widget"
 import { SortableWidget } from "@/components/dashboard/widget-sortable"
@@ -84,7 +84,11 @@ export default function Dashboard() {
 
   return (
     <UpdaterProvider>
-    <main className="dashboard-shell relative w-full bg-background">
+      <UpdaterSettingsBridge
+        settingsOpen={settingsOpen}
+        onCloseSettings={() => setSettingsOpen(false)}
+      />
+      <main className="dashboard-shell relative w-full bg-background">
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
         <div className="absolute inset-0 bg-background" />
         <div
@@ -121,8 +125,8 @@ export default function Dashboard() {
       <AIDock />
 
       <SettingsDrawer open={settingsOpen} onClose={() => setSettingsOpen(false)} />
+      </main>
       <UpdateDialog />
-    </main>
     </UpdaterProvider>
   )
 }

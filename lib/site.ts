@@ -14,7 +14,7 @@ export const WINDOWS_INSTALLER_URL = `${GITHUB_REPO}/releases/latest/download/${
 
 export const GITHUB_RELEASES = `${GITHUB_REPO}/releases/latest`
 export const LICENSE_URL = `${GITHUB_REPO}/blob/main/LICENSE`
-export const APP_VERSION = "0.2.8"
+export const APP_VERSION = "0.2.9"
 
 export const AUTHOR_NAME = "Moises Valero"
 export const AUTHOR_SITE = "https://moisesvalero.es"

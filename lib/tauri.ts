@@ -117,6 +117,7 @@ export interface UpdateProgress {
   downloaded: number
   total: number
   percent: number
+  indeterminate: boolean
 }
 
 export async function checkForUpdates(): Promise<UpdateInfo> {
@@ -129,7 +130,15 @@ export async function checkForUpdates(): Promise<UpdateInfo> {
 
 export async function installUpdate(): Promise<string> {
   if (!isTauri()) return "no_tauri"
-  return invokeCommand<string>("install_update")
+  const timeout = new Promise<string>((_, reject) =>
+    setTimeout(() => reject(new Error("timeout (5 min)")), 300_000)
+  )
+  return Promise.race([invokeCommand<string>("install_update"), timeout])
+}
+
+export async function dismissPendingUpdate(): Promise<void> {
+  if (!isTauri()) return
+  await invokeCommand("dismiss_pending_update")
 }
 
 export async function restartApp(): Promise<void> {

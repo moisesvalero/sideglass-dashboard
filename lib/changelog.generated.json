@@ -1,6 +1,24 @@
 {
   "es": [
     {
+      "version": "0.2.9",
+      "date": "2026-06-01",
+      "groups": [
+        {
+          "category": "Corregido",
+          "items": [
+            "**Actualizaciones**: el aviso ya no queda detrás del panel de Ajustes (portal + z-index alto); la barra de progreso funciona sin Content-Length (animación + MB descargados); la instalación reutiliza la actualización ya detectada (sin volver a comprobar); mensaje de error con detalle técnico"
+          ]
+        },
+        {
+          "category": "Cambiado",
+          "items": [
+            "**Landing**: changelog resumido (solo última versión), features en listas, marca visual propia, mejor contraste de texto"
+          ]
+        }
+      ]
+    },
+    {
       "version": "0.2.8",
       "date": "2026-06-01",
       "groups": [
@@ -195,6 +213,24 @@
     }
   ],
   "en": [
+    {
+      "version": "0.2.9",
+      "date": "2026-06-01",
+      "groups": [
+        {
+          "category": "Fixed",
+          "items": [
+            "**Updates**: prompt no longer hides behind Settings (portal + top z-index); progress works without Content-Length (animation + downloaded MB); install reuses the update already found (no second check); error screen shows technical detail"
+          ]
+        },
+        {
+          "category": "Changed",
+          "items": [
+            "**Landing**: shortened changelog (latest version only), feature lists instead of card grid, distinct brand styling, improved text contrast"
+          ]
+        }
+      ]
+    },
     {
       "version": "0.2.8",
       "date": "2026-06-01",

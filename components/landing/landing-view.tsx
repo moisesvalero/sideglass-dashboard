@@ -1,6 +1,7 @@
 import Image from "next/image"
 import { getChangelog, getLatestVersion } from "@/lib/changelog"
 import { LandingChangelog } from "@/components/landing/landing-changelog"
+import { LandingFeatures } from "@/components/landing/landing-features"
 import { LandingFooter } from "@/components/landing/landing-footer"
 import { LandingHeader } from "@/components/landing/landing-header"
 import { landingContent, type LandingLang } from "@/lib/landing-content"
@@ -8,7 +9,6 @@ import {
   APP_NAME,
   SITE_URL,
   AUTHOR_SITE,
-  GITHUB_REPO,
   GITHUB_RELEASES,
   WINDOWS_INSTALLER_NAME,
   WINDOWS_INSTALLER_URL,
@@ -30,9 +30,22 @@ const galleryShots = (copy: (typeof landingContent)[LandingLang]) => [
   },
 ]
 
+function SectionTitle({ children }: { children: React.ReactNode }) {
+  return (
+    <h2 className="mb-2 text-center text-xl font-semibold tracking-tight text-white/90 sm:text-2xl">
+      {children}
+    </h2>
+  )
+}
+
+function SectionLead({ children }: { children: React.ReactNode }) {
+  return <p className="mb-8 text-center text-sm leading-relaxed text-white/65">{children}</p>
+}
+
 export function LandingView({ lang }: { lang: LandingLang }) {
   const copy = landingContent[lang]
   const changelog = getChangelog(lang)
+  const latestChangelog = changelog[0]
   const version = getLatestVersion(APP_VERSION, lang)
   const shots = galleryShots(copy)
 
@@ -64,10 +77,7 @@ export function LandingView({ lang }: { lang: LandingLang }) {
   }
 
   return (
-    <div
-      lang={copy.htmlLang}
-      className="min-h-screen bg-[#0c0c10] text-[#f5f5f7] font-sans antialiased"
-    >
+    <div lang={copy.htmlLang} className="landing-page min-h-screen text-[#f5f5f7] antialiased">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareJsonLd) }}
@@ -77,117 +87,93 @@ export function LandingView({ lang }: { lang: LandingLang }) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
 
-      <div className="fixed top-0 left-1/2 -translate-x-1/2 w-[900px] h-[480px] bg-blue-600/12 rounded-full blur-[140px] pointer-events-none" />
+      <div
+        className="pointer-events-none fixed left-1/2 top-0 h-[420px] w-[min(100%,720px)] -translate-x-1/2 rounded-full opacity-80"
+        style={{ background: "var(--landing-glow)" }}
+        aria-hidden
+      />
 
-      <LandingHeader lang={lang} />
+      <LandingHeader lang={lang} faqLabel={copy.navFaq} />
 
-      <header className="relative z-10 max-w-4xl mx-auto px-6 pt-12 pb-8 text-center">
-        <p className="text-xs font-medium tracking-[0.2em] text-blue-400/80 uppercase mb-6">
-          {copy.eyebrow}
-        </p>
+      <header className="relative z-10 mx-auto max-w-4xl px-6 pb-8 pt-12 text-center">
+        <p className="mb-5 text-sm font-medium text-[var(--landing-accent)]">{copy.eyebrow}</p>
         <h1
-          className="text-4xl sm:text-5xl font-semibold tracking-tight leading-tight mb-5"
+          className="landing-display mb-5 text-4xl font-semibold leading-[1.1] tracking-tight sm:text-5xl"
           style={{ letterSpacing: "-0.03em" }}
         >
           {copy.heroTitle[0]}
           <br />
-          {copy.heroTitle[1]}
+          <span className="text-white/95">{copy.heroTitle[1]}</span>
         </h1>
-        <p className="text-lg text-white/55 max-w-xl mx-auto mb-10 leading-relaxed">
+        <p className="mx-auto mb-10 max-w-xl text-lg leading-relaxed text-white/70">
           {copy.heroSubtitle}
         </p>
         <div className="flex flex-col items-center gap-3">
           <a
             href={WINDOWS_INSTALLER_URL}
             download={WINDOWS_INSTALLER_NAME}
-            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-white text-black font-medium text-sm hover:bg-white/90 transition-transform hover:scale-[1.02]"
+            className="inline-flex items-center gap-2 rounded-xl bg-[var(--landing-accent)] px-8 py-3.5 text-sm font-semibold text-[var(--landing-accent-fg)] transition-opacity hover:opacity-90"
           >
             {copy.ctaDownload}
           </a>
-          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
-            <a
-              href="#changelog"
-              className="text-xs text-white/45 underline-offset-2 hover:text-white/70 hover:underline"
-            >
-              {copy.navChangelog}
-            </a>
-            <a
-              href={GITHUB_RELEASES}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs text-white/45 underline-offset-2 hover:text-white/70 hover:underline"
-            >
-              {copy.ctaReleaseNotes}
-            </a>
-          </div>
+          <a
+            href={GITHUB_RELEASES}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm text-white/60 underline-offset-2 transition-colors hover:text-white/85 hover:underline"
+          >
+            {copy.ctaGithub}
+          </a>
         </div>
-        <p className="text-white/30 text-xs mt-4">
+        <p className="mt-4 text-xs text-white/50">
           v{version} · {copy.heroNote}
         </p>
 
-        <div className="mt-14 mx-auto max-w-5xl w-full">
-          <div className="rounded-2xl overflow-hidden border border-white/10 shadow-[0_32px_80px_rgba(0,0,0,0.55)] ring-1 ring-white/5">
+        <div className="mx-auto mt-14 w-full max-w-5xl">
+          <div className="overflow-hidden rounded-2xl border border-white/12 ring-1 ring-white/5">
             <Image
               src="/screenshots/landscape-dark.png"
               alt={copy.screenshotAlts.landscapeDark}
               width={1120}
               height={780}
-              className="w-full h-auto"
+              className="h-auto w-full"
               priority
             />
           </div>
         </div>
       </header>
 
-      <section className="relative z-10 max-w-5xl mx-auto px-6 py-12">
-        <h2 className="text-sm font-medium text-white/40 uppercase tracking-widest mb-6 text-center">
-          {copy.screenshotsTitle}
-        </h2>
-        <p className="text-center text-white/40 text-sm mb-10 max-w-lg mx-auto">
-          {copy.screenshotsSubtitle}
-        </p>
-        <div className="grid sm:grid-cols-2 gap-6">
+      <section className="relative z-10 mx-auto max-w-5xl px-6 py-12">
+        <SectionTitle>{copy.screenshotsTitle}</SectionTitle>
+        <SectionLead>{copy.screenshotsSubtitle}</SectionLead>
+        <div className="grid gap-6 sm:grid-cols-2">
           {shots.map((shot) => (
             <figure key={shot.src} className={shot.className}>
-              <div className="rounded-2xl overflow-hidden border border-white/10 bg-black/40 shadow-xl">
+              <div className="overflow-hidden rounded-2xl border border-white/10 bg-black/30">
                 <Image
                   src={shot.src}
                   alt={shot.alt}
-                  width={shot.src.includes("landscape") ? 1120 : 480}
-                  height={shot.src.includes("landscape") ? 780 : 980}
-                  className="w-full h-auto"
+                  width={480}
+                  height={980}
+                  className="h-auto w-full"
                 />
               </div>
-              <figcaption className="text-center text-xs text-white/40 mt-3">
-                {shot.label}
-              </figcaption>
+              <figcaption className="mt-3 text-center text-xs text-white/55">{shot.label}</figcaption>
             </figure>
           ))}
         </div>
       </section>
 
-      <section className="relative z-10 max-w-4xl mx-auto px-6 py-12">
-        <h2 className="text-sm font-medium text-white/40 uppercase tracking-widest mb-8 text-center">
-          {copy.featuresTitle}
-        </h2>
-        <div className="grid sm:grid-cols-2 gap-3">
-          {copy.features.map((f) => (
-            <div
-              key={f.label}
-              className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-5"
-            >
-              <h3 className="font-medium text-white/95 mb-1">{f.label}</h3>
-              <p className="text-sm text-white/45 leading-relaxed">{f.desc}</p>
-            </div>
-          ))}
+      <section className="relative z-10 mx-auto max-w-3xl px-6 py-12">
+        <SectionTitle>{copy.featuresTitle}</SectionTitle>
+        <div className="mt-6">
+          <LandingFeatures groups={copy.featureGroups} />
         </div>
       </section>
 
-      <section className="relative z-10 max-w-2xl mx-auto px-6 py-12">
-        <h2 className="text-sm font-medium text-white/40 uppercase tracking-widest mb-8 text-center">
-          {copy.installTitle}
-        </h2>
-        <ol className="space-y-4 text-sm text-white/70 list-decimal list-inside">
+      <section className="relative z-10 mx-auto max-w-2xl px-6 py-12">
+        <SectionTitle>{copy.installTitle}</SectionTitle>
+        <ol className="mt-6 list-inside list-decimal space-y-4 text-sm leading-relaxed text-white/70">
           {copy.install.map((step) => (
             <li key={step}>{step}</li>
           ))}
@@ -195,37 +181,36 @@ export function LandingView({ lang }: { lang: LandingLang }) {
       </section>
 
       <LandingChangelog
-        entries={changelog}
+        latest={latestChangelog}
         copy={{
           changelogTitle: copy.changelogTitle,
+          changelogSubtitle: copy.changelogSubtitle,
           changelogLink: copy.changelogLink,
           changelogEmpty: copy.changelogEmpty,
         }}
       />
 
-      <section id="faq" className="relative z-10 max-w-2xl mx-auto px-6 py-12 scroll-mt-20">
-        <h2 className="text-sm font-medium text-white/40 uppercase tracking-widest mb-8 text-center">
-          {copy.faqTitle}
-        </h2>
-        <div className="space-y-4">
+      <section id="faq" className="relative z-10 mx-auto max-w-2xl scroll-mt-20 px-6 py-12">
+        <SectionTitle>{copy.faqTitle}</SectionTitle>
+        <div className="mt-8 space-y-4">
           {copy.faq.map((item) => (
             <details
               key={item.q}
-              className="rounded-xl border border-white/[0.08] bg-white/[0.02] px-4 py-3 group"
+              className="group rounded-xl border border-white/[0.1] bg-white/[0.03] px-4 py-3"
             >
-              <summary className="cursor-pointer font-medium text-white/90 list-none">
+              <summary className="cursor-pointer list-none font-medium text-white/92 [&::-webkit-details-marker]:hidden">
                 {item.q}
               </summary>
-              <p className="mt-2 text-sm text-white/50 leading-relaxed">{item.a}</p>
+              <p className="mt-2 text-sm leading-relaxed text-white/70">{item.a}</p>
               {item.steps && (
-                <ol className="mt-3 list-decimal space-y-2 pl-5 text-sm leading-relaxed text-white/55 marker:text-white/40">
+                <ol className="mt-3 list-decimal space-y-2 pl-5 text-sm leading-relaxed text-white/65 marker:text-white/45">
                   {item.steps.map((step) => (
                     <li key={step}>{step}</li>
                   ))}
                 </ol>
               )}
               {item.note && (
-                <p className="mt-3 rounded-lg border border-amber-500/20 bg-amber-500/10 px-3 py-2 text-xs leading-relaxed text-amber-200/80">
+                <p className="mt-3 rounded-lg border border-amber-500/25 bg-amber-500/10 px-3 py-2 text-xs leading-relaxed text-amber-100/90">
                   {item.note}
                 </p>
               )}

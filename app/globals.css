@@ -248,3 +248,30 @@
     grid-column: span 3;
   }
 }
+
+/* Landing (marketing) — distinct from dashboard tokens */
+.landing-page {
+  --landing-bg: oklch(0.11 0.025 265);
+  --landing-accent: oklch(0.72 0.16 215);
+  --landing-accent-fg: oklch(0.12 0.02 265);
+  --landing-glow: radial-gradient(
+    ellipse 80% 60% at 50% 0%,
+    oklch(0.55 0.2 215 / 0.22),
+    transparent 70%
+  );
+  background-color: var(--landing-bg);
+  color: oklch(0.96 0 0);
+}
+
+.landing-page .landing-display {
+  font-feature-settings: "ss01", "cv01";
+}
+
+@keyframes update-slide {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(400%);
+  }
+}

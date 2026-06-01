@@ -53,6 +53,9 @@ struct AppState {
     #[cfg(target_os = "windows")]
     nvml: Option<Nvml>,
     lhm_started: Mutex<bool>,
+    /// Cached result of the last successful `check()` so install does not re-fetch.
+    #[cfg(not(any(target_os = "android", target_os = "ios")))]
+    pending_update: Mutex<Option<tauri_plugin_updater::Update>>,
 }
 
 #[cfg(windows)]
@@ -780,12 +783,17 @@ struct UpdateProgress {
     downloaded: u64,
     total: u64,
     percent: f64,
+    /// True when the server did not send Content-Length (common on GitHub).
+    indeterminate: bool,
 }
 
 /// Phase 1: only checks whether a new version exists (no download/install), so
 /// the UI can show a "new version found" prompt and let the user decide.
 #[tauri::command]
-async fn check_for_updates(app: tauri::AppHandle) -> Result<UpdateInfo, String> {
+async fn check_for_updates(
+    app: tauri::AppHandle,
+    state: State<'_, AppState>,
+) -> Result<UpdateInfo, String> {
     use tauri_plugin_updater::UpdaterExt;
 
     let updater = app
@@ -794,75 +802,118 @@ async fn check_for_updates(app: tauri::AppHandle) -> Result<UpdateInfo, String> 
         .build()
         .map_err(|e| e.to_string())?;
     match updater.check().await.map_err(|e| e.to_string())? {
-        Some(update) => Ok(UpdateInfo {
-            available: true,
-            version: update.version.clone(),
-            notes: update.body.clone().unwrap_or_default(),
-        }),
-        None => Ok(UpdateInfo {
-            available: false,
-            version: String::new(),
-            notes: String::new(),
-        }),
+        Some(update) => {
+            let info = UpdateInfo {
+                available: true,
+                version: update.version.clone(),
+                notes: update.body.clone().unwrap_or_default(),
+            };
+            #[cfg(not(any(target_os = "android", target_os = "ios")))]
+            {
+                *state.pending_update.lock().unwrap() = Some(update);
+            }
+            Ok(info)
+        }
+        None => {
+            #[cfg(not(any(target_os = "android", target_os = "ios")))]
+            {
+                *state.pending_update.lock().unwrap() = None;
+            }
+            Ok(UpdateInfo {
+                available: false,
+                version: String::new(),
+                notes: String::new(),
+            })
+        }
     }
+}
+
+#[tauri::command]
+fn dismiss_pending_update(state: State<'_, AppState>) {
+    #[cfg(not(any(target_os = "android", target_os = "ios")))]
+    {
+        *state.pending_update.lock().unwrap() = None;
+    }
+    let _ = state;
 }
 
 /// Phase 2: downloads and installs the update, emitting `update://progress`
 /// events so the UI can render a real progress bar.
-#[tauri::command]
-async fn install_update(app: tauri::AppHandle) -> Result<String, String> {
+fn emit_update_progress(app: &tauri::AppHandle, downloaded: u64, total: u64) {
     use tauri::Emitter;
-    use tauri_plugin_updater::UpdaterExt;
-
-    let updater = app
-        .updater_builder()
-        .timeout(std::time::Duration::from_secs(120))
-        .build()
-        .map_err(|e| e.to_string())?;
-
-    let update = match updater.check().await.map_err(|e| e.to_string())? {
-        Some(u) => u,
-        None => return Ok("no_update".to_string()),
+    let indeterminate = total == 0;
+    let percent = if total > 0 {
+        ((downloaded as f64 / total as f64) * 100.0).min(99.0)
+    } else {
+        0.0
     };
+    let _ = app.emit(
+        "update://progress",
+        UpdateProgress {
+            downloaded,
+            total,
+            percent,
+            indeterminate,
+        },
+    );
+}
 
-    // Free the locked sensor executable before the installer overwrites files.
+#[tauri::command]
+async fn install_update(app: tauri::AppHandle, state: State<'_, AppState>) -> Result<String, String> {
+    use tauri::Emitter;
+
+    let update = {
+        #[cfg(not(any(target_os = "android", target_os = "ios")))]
+        {
+            state.pending_update.lock().unwrap().take()
+        }
+        #[cfg(any(target_os = "android", target_os = "ios"))]
+        {
+            None
+        }
+    }
+    .ok_or_else(|| {
+        "No hay actualización pendiente. Pulsa «Buscar actualizaciones» de nuevo.".to_string()
+    })?;
+
+    emit_update_progress(&app, 0, 0);
+
+    // Stop LHM so the installer can overwrite files (max 8s, non-fatal if it fails).
     #[cfg(windows)]
     {
-        let state = app.state::<AppState>();
         *state.lhm_started.lock().unwrap() = false;
-        tauri::async_runtime::spawn_blocking(stop_lhm)
-            .await
-            .map_err(|e| e.to_string())?;
+        let _ = tauri::async_runtime::spawn_blocking(stop_lhm).await;
     }
 
     let progress_app = app.clone();
+    let progress_done = app.clone();
     let mut downloaded: u64 = 0;
+    let version = update.version.clone();
+
     update
         .download_and_install(
             move |chunk_len, content_length| {
                 downloaded += chunk_len as u64;
                 let total = content_length.unwrap_or(0);
-                let percent = if total > 0 {
-                    (downloaded as f64 / total as f64) * 100.0
-                } else {
-                    0.0
-                };
-                let _ = progress_app.emit(
+                emit_update_progress(&progress_app, downloaded, total);
+            },
+            move || {
+                let _ = progress_done.emit(
                     "update://progress",
                     UpdateProgress {
-                        downloaded,
-                        total,
-                        percent,
+                        downloaded: 0,
+                        total: 0,
+                        percent: 99.0,
+                        indeterminate: false,
                     },
                 );
             },
-            || {},
         )
         .await
-        .map_err(|e| e.to_string())?;
+        .map_err(|e| format!("{e}"))?;
 
     let _ = app.emit("update://finished", ());
-    Ok(format!("updated_to_{}", update.version))
+    Ok(format!("updated_to_{version}"))
 }
 
 /// Relaunches the app after an update has been installed.
@@ -901,12 +952,16 @@ fn main() {
         sys: Mutex::new(sys),
         nvml,
         lhm_started: Mutex::new(false),
+        #[cfg(not(any(target_os = "android", target_os = "ios")))]
+        pending_update: Mutex::new(None),
     };
 
     #[cfg(not(target_os = "windows"))]
     let app_state = AppState {
         sys: Mutex::new(sys),
         lhm_started: Mutex::new(false),
+        #[cfg(not(any(target_os = "android", target_os = "ios")))]
+        pending_update: Mutex::new(None),
     };
 
     tauri::Builder::default()
@@ -939,6 +994,7 @@ fn main() {
             send_notification,
             check_for_updates,
             install_update,
+            dismiss_pending_update,
             restart_app,
             start_sensor_service,
         ])

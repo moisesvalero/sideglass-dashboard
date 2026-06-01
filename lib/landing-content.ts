@@ -1,6 +1,7 @@
 export type LandingLang = "es" | "en"
 
 type Feature = { label: string; desc: string }
+type FeatureGroup = { title: string; items: Feature[] }
 type Faq = { q: string; a: string; steps?: string[]; note?: string }
 
 export type LandingCopy = {
@@ -12,20 +13,21 @@ export type LandingCopy = {
   heroTitle: string[]
   heroSubtitle: string
   ctaDownload: string
-  ctaReleaseNotes: string
+  ctaGithub: string
   heroNote: string
+  navFaq: string
   screenshotsTitle: string
   screenshotsSubtitle: string
   screenshotLabels: { portraitDark: string; portraitLight: string; landscapeDark: string }
   screenshotAlts: { portraitDark: string; portraitLight: string; landscapeDark: string }
   featuresTitle: string
-  features: Feature[]
+  featureGroups: FeatureGroup[]
   installTitle: string
   install: string[]
   faqTitle: string
   faq: Faq[]
-  navChangelog: string
   changelogTitle: string
+  changelogSubtitle: string
   changelogLink: string
   changelogEmpty: string
   footerDeveloped: string
@@ -41,12 +43,13 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
       "Sideglass: aplicación de escritorio gratuita y de código abierto, con estética macOS, para tu monitor secundario: clima, calendario, hardware con temperaturas reales, YouTube y acceso rápido a tus IAs. Sin API keys obligatorias.",
     ogDescription: "Sideglass: panel para monitor secundario en Windows. Licencia MIT.",
     eyebrow: "Escritorio · Windows · Open source",
-    heroTitle: ["Sideglass", "tu panel de monitor secundario"],
+    heroTitle: ["Tu monitor secundario,", "siempre a la vista"],
     heroSubtitle:
       "Clima, agenda, hardware, notas, YouTube y acceso a tus IAs favoritas. Se adapta a monitor vertical u horizontal.",
     ctaDownload: "Descargar para Windows",
-    ctaReleaseNotes: "Notas de versión y otros archivos en GitHub",
+    ctaGithub: "Ver en GitHub",
     heroNote: "Open source (MIT)",
+    navFaq: "Ayuda",
     screenshotsTitle: "Capturas reales",
     screenshotsSubtitle:
       "Diseño adaptable para monitor secundario en vertical u horizontal. Modo claro y oscuro con materiales tipo macOS.",
@@ -61,30 +64,40 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
       landscapeDark: "Sideglass en monitor horizontal, modo oscuro",
     },
     featuresTitle: "Qué incluye",
-    features: [
+    featureGroups: [
       {
-        label: "Hardware nativo",
-        desc: "CPU, RAM y GPU en tiempo real. Temperaturas reales incluidas en el instalador.",
+        title: "Información del día",
+        items: [
+          {
+            label: "Hardware nativo",
+            desc: "CPU, RAM y GPU en tiempo real, con temperaturas reales en el instalador.",
+          },
+          {
+            label: "Calendario Google",
+            desc: "Conéctalo con tu URL iCal secreta. Sin scripts ni configuraciones raras.",
+          },
+          {
+            label: "Clima sin API key",
+            desc: "Open-Meteo con detección automática de ubicación.",
+          },
+        ],
       },
       {
-        label: "Calendario Google",
-        desc: "Conéctalo con tu URL iCal secreta. Sin scripts ni configuraciones raras.",
-      },
-      {
-        label: "Clima sin API key",
-        desc: "Open-Meteo con detección automática de ubicación.",
-      },
-      {
-        label: "YouTube en el panel",
-        desc: "Busca y reproduce videos dentro del dashboard, sin pegar enlaces.",
-      },
-      {
-        label: "Dock de IAs",
-        desc: "ChatGPT, Gemini, Claude, Perplexity y Microsoft Copilot con iconos oficiales de marca.",
-      },
-      {
-        label: "Notas locales",
-        desc: "Bloc de notas rápido con diseño cuidado. Tus datos solo en tu PC.",
+        title: "Panel completo",
+        items: [
+          {
+            label: "YouTube integrado",
+            desc: "Busca y reproduce vídeos dentro del dashboard, sin pegar enlaces.",
+          },
+          {
+            label: "Dock de IAs",
+            desc: "ChatGPT, Gemini, Claude, Perplexity y Copilot con iconos oficiales.",
+          },
+          {
+            label: "Notas locales",
+            desc: "Bloc rápido con diseño cuidado. Tus datos solo en tu PC.",
+          },
+        ],
       },
     ],
     installTitle: "Instalación en 4 pasos",
@@ -129,9 +142,9 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
         a: "Sí. Código en GitHub con licencia MIT: puedes usarlo, estudiarlo, modificarlo y compartirlo. Si te sirve, una estrella o un PR ayuda mucho a dar visibilidad al proyecto.",
       },
     ],
-    navChangelog: "Novedades",
-    changelogTitle: "Novedades",
-    changelogLink: "Ver en GitHub",
+    changelogTitle: "Última versión",
+    changelogSubtitle: "Lo más reciente. El historial completo está en GitHub.",
+    changelogLink: "Ver todas las versiones en GitHub",
     changelogEmpty:
       "No hay entradas de changelog en este despliegue. Edita CHANGELOG.es.md y vuelve a desplegar la web.",
     footerDeveloped: "Desarrollado por",
@@ -151,12 +164,13 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
       "Sideglass: free, open-source macOS-style desktop app for your secondary monitor: weather, calendar, hardware with real temperatures, YouTube and AI dock. No required API keys.",
     ogDescription: "Sideglass: open-source second-monitor panel for Windows (MIT).",
     eyebrow: "Desktop · Windows · Open source",
-    heroTitle: ["Sideglass", "your second-monitor panel"],
+    heroTitle: ["Your second monitor,", "always in view"],
     heroSubtitle:
       "Weather, agenda, hardware, notes, YouTube and access to your favorite AIs. Responsive in portrait and landscape.",
     ctaDownload: "Download for Windows",
-    ctaReleaseNotes: "Release notes and other files on GitHub",
+    ctaGithub: "View on GitHub",
     heroNote: "Open source (MIT)",
+    navFaq: "Help",
     screenshotsTitle: "Real screenshots",
     screenshotsSubtitle:
       "Responsive design for a secondary monitor in portrait or landscape. Light and dark mode with macOS-style materials.",
@@ -171,27 +185,40 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
       landscapeDark: "Sideglass on a landscape monitor, dark mode",
     },
     featuresTitle: "What's inside",
-    features: [
+    featureGroups: [
       {
-        label: "Native hardware",
-        desc: "Real-time CPU, RAM and GPU. Real temperatures bundled with the installer.",
+        title: "Daily information",
+        items: [
+          {
+            label: "Native hardware",
+            desc: "Real-time CPU, RAM and GPU, with real temperatures in the installer.",
+          },
+          {
+            label: "Google Calendar",
+            desc: "Link it with your secret iCal URL. No scripts, no weird code.",
+          },
+          {
+            label: "Weather without API key",
+            desc: "Open-Meteo with automatic location detection.",
+          },
+        ],
       },
       {
-        label: "Google Calendar",
-        desc: "Link it with your secret iCal URL. No scripts, no weird code.",
-      },
-      { label: "Weather without API key", desc: "Open-Meteo with automatic location detection." },
-      {
-        label: "YouTube in the panel",
-        desc: "Search and play videos inside the dashboard, no links to paste.",
-      },
-      {
-        label: "AI dock",
-        desc: "ChatGPT, Gemini, Claude, Perplexity and Microsoft Copilot with official brand icons.",
-      },
-      {
-        label: "Local notes",
-        desc: "Quick notepad with a polished layout. Data stays on your PC.",
+        title: "Full panel",
+        items: [
+          {
+            label: "Built-in YouTube",
+            desc: "Search and play videos inside the dashboard, no links to paste.",
+          },
+          {
+            label: "AI dock",
+            desc: "ChatGPT, Gemini, Claude, Perplexity and Copilot with official icons.",
+          },
+          {
+            label: "Local notes",
+            desc: "Quick notepad with a polished layout. Data stays on your PC.",
+          },
+        ],
       },
     ],
     installTitle: "Install in 4 steps",
@@ -236,9 +263,9 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
         a: "Yes. Source on GitHub under the MIT license: use, study, modify and share freely. A star or pull request helps the project get seen.",
       },
     ],
-    navChangelog: "What's new",
-    changelogTitle: "What's new",
-    changelogLink: "View on GitHub",
+    changelogTitle: "Latest version",
+    changelogSubtitle: "Recent highlights. Full history is on GitHub.",
+    changelogLink: "View all releases on GitHub",
     changelogEmpty:
       "No changelog entries in this deployment. Edit CHANGELOG.md and redeploy the site.",
     footerDeveloped: "Developed by",

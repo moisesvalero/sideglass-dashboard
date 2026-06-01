@@ -6,6 +6,16 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es/1.1.0/) y el p
 
 **Versión en inglés:** [CHANGELOG.md](./CHANGELOG.md) — mantén ambos archivos sincronizados al publicar una release.
 
+## [0.2.9] - 2026-06-01
+
+### Corregido
+
+- **Actualizaciones**: el aviso ya no queda detrás del panel de Ajustes (portal + z-index alto); la barra de progreso funciona sin Content-Length (animación + MB descargados); la instalación reutiliza la actualización ya detectada (sin volver a comprobar); mensaje de error con detalle técnico
+
+### Cambiado
+
+- **Landing**: changelog resumido (solo última versión), features en listas, marca visual propia, mejor contraste de texto
+
 ## [0.2.8] - 2026-06-01
 
 ### Corregido

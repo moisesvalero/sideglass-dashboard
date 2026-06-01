@@ -7,7 +7,7 @@ export function LandingFooter({ lang }: { lang: LandingLang }) {
 
   return (
     <footer className="relative z-10 border-t border-white/[0.06] py-10 px-6">
-      <div className="max-w-2xl mx-auto text-center space-y-3 text-sm text-white/45">
+      <div className="mx-auto max-w-2xl space-y-3 text-center text-sm text-white/60">
         <p>
           {copy.footerDeveloped}{" "}
           <a
@@ -20,7 +20,10 @@ export function LandingFooter({ lang }: { lang: LandingLang }) {
           </a>
         </p>
         <p className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
-          <a href={GITHUB_REPO} className="text-blue-400/90 hover:text-blue-300 hover:underline">
+          <a
+            href={GITHUB_REPO}
+            className="text-[var(--landing-accent)] hover:underline underline-offset-2"
+          >
             {copy.footerSource}
           </a>
           <span className="text-white/20" aria-hidden>
