@@ -49,17 +49,23 @@ jobs:
         env:
           SIGNING_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
         run: |
+          BUILD_ARGS="--target x86_64-pc-windows-msvc"
           if [ -n "$SIGNING_KEY" ]; then
-            printf '%s' "$SIGNING_KEY" > "$RUNNER_TEMP/tauri-signing.key"
-            echo "TAURI_SIGNING_PRIVATE_KEY_PATH=$RUNNER_TEMP/tauri-signing.key" >> "$GITHUB_ENV"
+            KEY_FILE="$RUNNER_TEMP/tauri-signing.key"
+            printf '%s' "$SIGNING_KEY" > "$KEY_FILE"
+            echo "TAURI_SIGNING_PRIVATE_KEY=$KEY_FILE" >> "$GITHUB_ENV"
+          else
+            echo "::warning::TAURI_SIGNING_PRIVATE_KEY no configurado; instalador sin firmas de updater"
+            BUILD_ARGS="$BUILD_ARGS --config bundle.createUpdaterArtifacts=false"
           fi
+          echo "BUILD_ARGS=$BUILD_ARGS" >> "$GITHUB_ENV"
 
       - name: Build Tauri app
         uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAURI_SIGNING_PRIVATE_KEY: ${{ env.TAURI_SIGNING_PRIVATE_KEY }}
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
-          TAURI_SIGNING_PRIVATE_KEY_PATH: ${{ env.TAURI_SIGNING_PRIVATE_KEY_PATH }}
         with:
           tauriScript: npm run tauri
           tagName: ${{ github.ref_name }}
@@ -67,4 +73,4 @@ jobs:
           releaseBody: See CHANGELOG.md for details.
           releaseDraft: false
           prerelease: false
-          args: --target x86_64-pc-windows-msvc
+          args: ${{ env.BUILD_ARGS }}

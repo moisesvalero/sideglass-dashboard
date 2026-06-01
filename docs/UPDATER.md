@@ -16,7 +16,7 @@ Errores tipicos:
 - `Invalid symbol 10` → pegaste la clave en una sola linea o con caracteres raros. Vuelve a copiar el archivo completo desde el Bloc de notas.
 - No pegues `signing.key.pub` (esa es la publica).
 
-El workflow escribe la clave en un archivo temporal y usa `TAURI_SIGNING_PRIVATE_KEY_PATH` para evitar problemas de saltos de linea.
+El workflow escribe la clave en un archivo temporal y exporta `TAURI_SIGNING_PRIVATE_KEY` con la ruta a ese archivo (lo que espera el CLI de Tauri al generar `latest.json`).
 
 ## Publicar una version
 
