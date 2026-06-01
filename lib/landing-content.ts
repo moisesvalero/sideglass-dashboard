@@ -25,6 +25,7 @@ export type LandingCopy = {
   faqTitle: string
   faq: Faq[]
   changelogTitle: string
+  changelogHint: string
   changelogLink: string
   footerDeveloped: string
   footerSource: string
@@ -120,7 +121,8 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
       },
     ],
     changelogTitle: "Novedades",
-    changelogLink: "Ver CHANGELOG completo",
+    changelogHint: "Se actualiza solo al editar CHANGELOG.es.md y desplegar.",
+    changelogLink: "Ver CHANGELOG.es.md en GitHub",
     footerDeveloped: "Desarrollado por",
     footerSource: "Código en GitHub (open source)",
     keywords: [
@@ -213,7 +215,8 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
       },
     ],
     changelogTitle: "What's new",
-    changelogLink: "View full CHANGELOG",
+    changelogHint: "Updates automatically when you edit CHANGELOG.md and deploy.",
+    changelogLink: "View CHANGELOG.md on GitHub",
     footerDeveloped: "Developed by",
     footerSource: "Source on GitHub (open source)",
     keywords: [

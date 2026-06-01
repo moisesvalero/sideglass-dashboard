@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Github, Globe, Linkedin } from "lucide-react"
+import { Briefcase, Github, Linkedin } from "lucide-react"
 import { BrandMark } from "@/components/landing/brand-mark"
 import type { LandingLang } from "@/lib/landing-content"
 import { APP_NAME, AUTHOR_GITHUB, AUTHOR_LINKEDIN, AUTHOR_SITE } from "@/lib/site"
@@ -18,7 +18,7 @@ const social = [
   {
     href: AUTHOR_SITE,
     label: "Portfolio",
-    icon: Globe,
+    icon: Briefcase,
   },
 ] as const
 
@@ -42,9 +42,7 @@ export function LandingHeader({ lang }: { lang: LandingLang }) {
             <Link
               href="/"
               className={`px-2.5 py-1 text-xs font-medium rounded-md transition-colors ${
-                lang === "es"
-                  ? "bg-white/15 text-white"
-                  : "text-white/50 hover:text-white/80"
+                lang === "es" ? "bg-white/15 text-white" : "text-white/50 hover:text-white/80"
               }`}
               aria-current={lang === "es" ? "page" : undefined}
             >
@@ -53,9 +51,7 @@ export function LandingHeader({ lang }: { lang: LandingLang }) {
             <Link
               href="/en"
               className={`px-2.5 py-1 text-xs font-medium rounded-md transition-colors ${
-                lang === "en"
-                  ? "bg-white/15 text-white"
-                  : "text-white/50 hover:text-white/80"
+                lang === "en" ? "bg-white/15 text-white" : "text-white/50 hover:text-white/80"
               }`}
               aria-current={lang === "en" ? "page" : undefined}
             >

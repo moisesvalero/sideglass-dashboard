@@ -1,5 +1,6 @@
 import Image from "next/image"
-import { getChangelog, getLatestVersion } from "@/lib/changelog"
+import { getChangelog, getChangelogSourcePath, getLatestVersion } from "@/lib/changelog"
+import { LandingChangelog } from "@/components/landing/landing-changelog"
 import { LandingFooter } from "@/components/landing/landing-footer"
 import { LandingHeader } from "@/components/landing/landing-header"
 import { landingContent, type LandingLang } from "@/lib/landing-content"
@@ -31,8 +32,8 @@ const galleryShots = (copy: (typeof landingContent)[LandingLang]) => [
 
 export function LandingView({ lang }: { lang: LandingLang }) {
   const copy = landingContent[lang]
-  const changelog = getChangelog()
-  const version = getLatestVersion(APP_VERSION)
+  const changelog = getChangelog(lang)
+  const version = getLatestVersion(APP_VERSION, lang)
   const shots = galleryShots(copy)
 
   const softwareJsonLd = {
@@ -204,43 +205,15 @@ export function LandingView({ lang }: { lang: LandingLang }) {
         </div>
       </section>
 
-      <section className="relative z-10 max-w-2xl mx-auto px-6 py-12 pb-20">
-        <h2 className="text-sm font-medium text-white/40 uppercase tracking-widest mb-8 text-center">
-          {copy.changelogTitle}
-        </h2>
-        <div className="space-y-6">
-          {changelog.map((entry) => (
-            <div key={entry.version} className="border-l-2 border-blue-500/50 pl-4">
-              <div className="flex items-baseline gap-2 mb-2">
-                <span className="font-semibold text-white">v{entry.version}</span>
-                <span className="text-xs text-white/35">{entry.date}</span>
-              </div>
-              {entry.groups.map((group, gi) => (
-                <div key={`${entry.version}-${gi}`} className="mb-2">
-                  {group.category && (
-                    <p className="text-[11px] font-medium uppercase tracking-wider text-blue-400/70 mb-1">
-                      {group.category}
-                    </p>
-                  )}
-                  <ul className="text-sm text-white/55 space-y-1 list-disc list-inside">
-                    {group.items.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-          ))}
-        </div>
-        <p className="text-center mt-8 text-sm">
-          <a
-            href={`${GITHUB_REPO}/blob/main/CHANGELOG.md`}
-            className="text-blue-400 hover:text-blue-300"
-          >
-            {copy.changelogLink}
-          </a>
-        </p>
-      </section>
+      <LandingChangelog
+        entries={changelog}
+        copy={{
+          changelogTitle: copy.changelogTitle,
+          changelogHint: copy.changelogHint,
+          changelogLink: copy.changelogLink,
+        }}
+        sourceFile={getChangelogSourcePath(lang)}
+      />
 
       <LandingFooter lang={lang} />
     </div>

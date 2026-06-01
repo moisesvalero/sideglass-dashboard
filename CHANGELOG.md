@@ -1,68 +1,68 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+All notable changes to this project are documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+**Spanish version:** [CHANGELOG.es.md](./CHANGELOG.es.md) — keep both files in sync when you add a release.
 
 ## [0.2.3] - 2026-06-01
 
-### Changed
-
-- Barra de título estilo Windows (controles a la derecha)
-- YouTube solo dentro del widget (sin ventana aparte)
-- La app abre maximizada por defecto
-
 ### Added
 
-- Botón **Buscar actualizaciones** en Ajustes
+- **Check for updates** button in Settings
+
+### Changed
+
+- Windows-style title bar (controls on the right)
+- YouTube plays inside the widget only (no separate window)
+- App opens maximized by default
 
 ### Fixed
 
-- Mensajes confusos de «sin sensor» en CPU/GPU; arranque LHM más fiable
-- README actualizado con capturas reales (sin sección para reclutadores)
+- Confusing “no sensor” CPU/GPU messages; more reliable LHM startup
+- README updated with real screenshots
 
 ## [0.2.2] - 2026-06-01
 
 ### Added
 
-- Iconos OpenAI claros/oscuro según tema en el dock de IAs
-- Landing Sideglass con capturas verticales/horizontales actualizadas
+- Light/dark OpenAI icons in the AI dock
+- Updated landing screenshots (portrait and landscape)
 
 ### Changed
 
-- Marca unificada como **Sideglass** (ventana, landing, metadatos)
-- Dock de IAs en fila inferior del layout (ya no flota encima de los widgets)
-- Script de capturas: solo viewport y demo compacto en vertical
+- Unified branding as **Sideglass**
+- AI dock in a bottom layout row (no longer overlapping widgets)
+- Screenshot script: viewport-only, compact demo on portrait
 
 ### Fixed
 
-- Solapamiento del dock con Notas y demás widgets al hacer scroll
-- CI/release: glob de recursos Tauri `bin/*` para empaquetar LibreHardwareMonitor
-- Icono ChatGPT invisible en modo oscuro
-- Texto FAQ sin rayas largas estilo IA
+- Dock overlapping Notes and other widgets when scrolling
+- CI/release: Tauri resource glob `bin/*` for bundled LibreHardwareMonitor
+- ChatGPT icon invisible in dark mode
+- FAQ copy without long em-dash phrasing
 
 ## [0.2.0] - 2026-06-01
 
 ### Added
 
-- Premium macOS-style visual design (glass materials, semantic light/dark themes)
+- Premium macOS-style UI (glass materials, semantic light/dark themes)
 - Responsive layout for vertical and horizontal monitors
 - Google Calendar via iCal URL (no Apps Script)
-- YouTube in dedicated Tauri window with your Google account
+- YouTube embedded in the dashboard (paste a link)
 - AI dock with official brand icons (ChatGPT, Gemini, Claude, Perplexity, Copilot)
 - Open-Meteo weather (no API key) with optional auto-location
 - Real hardware temperatures via LibreHardwareMonitor (WMI)
 - Widget reordering by drag and drop
 - Autostart with Windows, global hotkey, calendar notifications
 - Spanish/English UI and 12/24h time format
-- Professional landing page with FAQ, install guide, and changelog section
+- Landing page with FAQ, install guide, and changelog
 
 ### Changed
 
-- Renamed app to **Desk Dashboard**
 - Window opens larger, maximizable, remembers size/position
-- Notes remain local with premium styling
+- Notes stay local with premium styling
 
 ### Fixed
 
@@ -74,4 +74,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Initial Tauri + Next.js dashboard
-- Hardware monitor (CPU/RAM/GPU), weather, calendar script, AI dock, notes, YouTube embed
+- Hardware monitor (CPU/RAM/GPU), weather, calendar, AI dock, notes, YouTube embed

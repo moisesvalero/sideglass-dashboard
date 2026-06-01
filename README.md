@@ -1,15 +1,19 @@
 # Sideglass
 
 <p align="center">
-  <img src="public/screenshots/landscape-dark.png" alt="Sideglass — panel para monitor secundario en Windows" width="720" />
+  <a href="./README.md">English</a> · <a href="./README.es.md">Español</a>
 </p>
 
 <p align="center">
-  <strong>App de escritorio open source para Windows</strong> (Tauri + Next.js) — monitor secundario: clima, agenda, hardware, notas, YouTube embebido y dock de IAs.
+  <img src="public/screenshots/landscape-dark.png" alt="Sideglass — second-monitor dashboard for Windows" width="720" />
 </p>
 
 <p align="center">
-  <a href="https://github.com/moisesvalero/sideglass-dashboard/releases/latest/download/Sideglass_x64-setup.exe">Descargar .exe</a>
+  <strong>Open-source desktop app for Windows</strong> (Tauri + Next.js) — secondary monitor dashboard: weather, calendar, hardware, notes, embedded YouTube, and AI dock.
+</p>
+
+<p align="center">
+  <a href="https://github.com/moisesvalero/sideglass-dashboard/releases/latest/download/Sideglass_x64-setup.exe">Download .exe</a>
   ·
   <a href="https://personal-dashboard.vercel.app">Landing</a>
   ·
@@ -19,89 +23,95 @@
 </p>
 
 <p align="center">
-  Si te gusta el proyecto, <a href="https://github.com/moisesvalero/sideglass-dashboard">una estrella en GitHub</a> o un issue/PR ayuda a darlo a conocer.
+  If this project helps you, a <a href="https://github.com/moisesvalero/sideglass-dashboard">GitHub star</a> or issue/PR makes a real difference.
 </p>
 
 ---
 
-## Capturas
+## Screenshots
 
-| Vertical (oscuro) | Vertical (claro) |
-| --- | --- |
-| ![Vertical oscuro](./public/screenshots/portrait-dark.png) | ![Vertical claro](./public/screenshots/portrait-light.png) |
+| Portrait (dark)                                          | Portrait (light)                                           |
+| -------------------------------------------------------- | ---------------------------------------------------------- |
+| ![Portrait dark](./public/screenshots/portrait-dark.png) | ![Portrait light](./public/screenshots/portrait-light.png) |
 
-| Horizontal (oscuro) |
-| --- |
-| ![Horizontal](./public/screenshots/landscape-dark.png) |
+| Landscape (dark)                                           |
+| ---------------------------------------------------------- |
+| ![Landscape dark](./public/screenshots/landscape-dark.png) |
 
 ---
 
-## Funcionalidades
+## Features
 
-- Reloj y clima (Open-Meteo, sin API key)
-- Google Calendar vía URL iCal
-- CPU, RAM y GPU en vivo; temperaturas con LibreHardwareMonitor / NVML
-- YouTube **dentro del panel** (pega un enlace, sin ventana aparte)
-- Dock de IAs (ChatGPT, Gemini, Claude, Perplexity, Microsoft Copilot)
-- Notas locales, frase del día, widgets reordenables
-- Barra de título estilo **Windows** (minimizar / maximizar / cerrar a la derecha)
-- Auto-actualización: **Ajustes → Buscar actualizaciones**
-- Arranque con Windows, atajo global, bandeja del sistema
+- Clock and weather (Open-Meteo, no API key)
+- Google Calendar via iCal URL
+- Live CPU, RAM, and GPU; temperatures via bundled LibreHardwareMonitor / NVML
+- **YouTube inside the panel** (paste a link)
+- AI dock (ChatGPT, Gemini, Claude, Perplexity, Microsoft Copilot)
+- Local notes, daily quote, reorderable widgets
+- **Windows-style** title bar (minimize / maximize / close on the right)
+- Auto-update: **Settings → Check for updates**
+- Start with Windows, global hotkey, system tray
 
 ## Stack
 
-| Capa | Tecnología |
-| --- | --- |
-| UI | Next.js 16, React 19, TypeScript, Tailwind v4 |
-| Escritorio | Tauri v2 (ventana sin marco, tray, updater firmado) |
-| Nativo | Rust — sysinfo, WMI/LibreHardwareMonitor, NVML |
+| Layer   | Tech                                              |
+| ------- | ------------------------------------------------- |
+| UI      | Next.js 16, React 19, TypeScript, Tailwind v4     |
+| Desktop | Tauri v2 (frameless window, tray, signed updater) |
+| Native  | Rust — sysinfo, WMI/LibreHardwareMonitor, NVML    |
 
-## Desarrollo
+## Development
 
 ```bash
 npm install
-npm run dev          # Vista web en http://localhost:3000
-npm run tauri:dev    # App de escritorio
-npm run tauri:build  # Instalador Windows
+npm run dev          # Web preview http://localhost:3000
+npm run tauri:dev    # Desktop app
+npm run tauri:build  # Windows installer
 ```
 
 ```bash
 npm run lint && npm run typecheck && npm run build
 ```
 
-Capturas para README / landing:
+Regenerate marketing screenshots:
 
 ```bash
 npm run screenshots
 ```
 
-## Configuración rápida
+## Quick setup
 
-| Función | Dónde |
-| --- | --- |
-| Calendario | Ajustes → URL iCal de Google Calendar |
-| YouTube | Widget YouTube → pegar enlace → Reproducir |
-| Temperaturas | Incluidas en el instalador (LHM); si no aparecen °C, ejecuta como administrador |
-| Actualizaciones | Ajustes → **Buscar actualizaciones** |
-| Autostart / atajo | Ajustes |
+| Feature            | Where                                                       |
+| ------------------ | ----------------------------------------------------------- |
+| Calendar           | Settings → Google Calendar iCal URL                         |
+| YouTube            | YouTube widget → paste link → Play                          |
+| Temperatures       | Bundled in installer; run as administrator if °C is missing |
+| Updates            | Settings → **Check for updates**                            |
+| Autostart / hotkey | Settings                                                    |
 
-## Publicar release
+## Changelog (website + repo)
+
+- **English:** [CHANGELOG.md](./CHANGELOG.md) — parsed on the landing at build time (`/en`)
+- **Spanish:** [CHANGELOG.es.md](./CHANGELOG.es.md) — parsed on the Spanish landing (`/`)
+
+Add the same `## [x.y.z] - date` section to **both** files when you ship a release.
+
+## Publish a release
 
 ```bash
-git tag v0.2.3
-git push origin v0.2.3
+git tag v0.2.4
+git push origin v0.2.4
 ```
 
-Secrets en GitHub: ver [docs/UPDATER.md](docs/UPDATER.md).
+GitHub Actions secrets: [docs/UPDATER.md](docs/UPDATER.md).
 
-## Open source y contribuciones
+## Open source
 
-Este proyecto es **open source** bajo licencia [MIT](LICENSE): puedes usarlo, modificarlo y distribuirlo con libertad (manteniendo el aviso de copyright).
+MIT [LICENSE](LICENSE) — use, modify, and share with the copyright notice.
 
-- ¿Bug o idea? [Abre un issue](https://github.com/moisesvalero/sideglass-dashboard/issues)
-- ¿Mejora de código? Pull requests bienvenidos
-- ¿Te sirve en tu portfolio o lo usas? Mencionar el repo o poner una estrella ayuda mucho
+- [Open an issue](https://github.com/moisesvalero/sideglass-dashboard/issues)
+- Pull requests welcome
 
-## Licencia
+## License
 
 [MIT](LICENSE) — Copyright (c) 2026 Moises Valero

@@ -1,5 +1,6 @@
 import { readFileSync } from "node:fs"
 import { join } from "node:path"
+import type { LandingLang } from "@/lib/landing-content"
 
 export type ChangelogGroup = {
   category: string
@@ -12,19 +13,15 @@ export type ChangelogEntry = {
   groups: ChangelogGroup[]
 }
 
-/**
- * Single source of truth for the changelog: parses the root CHANGELOG.md at
- * build time. Add a new "## [x.y.z] - YYYY-MM-DD" section and the website
- * updates automatically on the next build/deploy.
- */
-export function getChangelog(): ChangelogEntry[] {
-  let raw: string
-  try {
-    raw = readFileSync(join(process.cwd(), "CHANGELOG.md"), "utf8")
-  } catch {
-    return []
-  }
+const CHANGELOG_EN = join(process.cwd(), "CHANGELOG.md")
+const CHANGELOG_ES = join(process.cwd(), "CHANGELOG.es.md")
 
+function readChangelogRaw(lang: LandingLang): string {
+  const path = lang === "es" ? CHANGELOG_ES : CHANGELOG_EN
+  return readFileSync(path, "utf8")
+}
+
+function parseChangelog(raw: string): ChangelogEntry[] {
   const entries: ChangelogEntry[] = []
   let current: ChangelogEntry | null = null
   let group: ChangelogGroup | null = null
@@ -58,6 +55,26 @@ export function getChangelog(): ChangelogEntry[] {
   return entries
 }
 
-export function getLatestVersion(fallback: string): string {
-  return getChangelog()[0]?.version ?? fallback
+/**
+ * Parses CHANGELOG.md (EN) or CHANGELOG.es.md (ES) at build time.
+ * Add a matching `## [x.y.z] - date` section to both files on each release.
+ */
+export function getChangelog(lang: LandingLang = "en"): ChangelogEntry[] {
+  try {
+    return parseChangelog(readChangelogRaw(lang))
+  } catch {
+    try {
+      return parseChangelog(readFileSync(CHANGELOG_EN, "utf8"))
+    } catch {
+      return []
+    }
+  }
+}
+
+export function getLatestVersion(fallback: string, lang: LandingLang = "en"): string {
+  return getChangelog(lang)[0]?.version ?? fallback
+}
+
+export function getChangelogSourcePath(lang: LandingLang): string {
+  return lang === "es" ? "CHANGELOG.es.md" : "CHANGELOG.md"
 }
