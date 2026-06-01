@@ -21,7 +21,6 @@ src-tauri/gen/
 src-tauri/signing.key
 
 # Build output
-package-lock.json
 tsconfig.tsbuildinfo
 *.tsbuildinfo
 
