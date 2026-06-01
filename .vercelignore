@@ -8,6 +8,8 @@ src-tauri/icons
 .next
 out
 *.md
+!CHANGELOG.md
+!CHANGELOG.es.md
 AGENTS.md
 TAURI_SETUP.md
 .cursorrules
