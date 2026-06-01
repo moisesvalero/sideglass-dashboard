@@ -6,6 +6,13 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 **Spanish version:** [CHANGELOG.es.md](./CHANGELOG.es.md) — keep both files in sync when you add a release.
 
+## [0.2.15] - 2026-06-01
+
+### Fixed
+
+- **«Enable °C» with no UAC / PawnIO never installed**: PawnIO install no longer runs from the normal process (it failed silently). A single Windows prompt elevates Sideglass; the helper installs PawnIO with admin rights and reads temperature. `PawnIO_setup.exe` bundled in the installer
+- Clearer error messages (UAC cancelled, missing installer, timeout, read failure)
+
 ## [0.2.14] - 2026-06-01
 
 ### Changed

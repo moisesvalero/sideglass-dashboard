@@ -87,13 +87,20 @@ const translations: Record<Lang, Record<string, string>> = {
     "hardware.enableCpuTemp": "Activar °C",
     "hardware.enablingSensors": "Activando…",
     "hardware.cpuTempHint":
-      "La temperatura de la CPU requiere permisos de administrador. Pulsa «Activar °C» junto a CPU y acepta el aviso de Windows.",
+      "Pulsa «Activar °C» y acepta el aviso de administrador de Windows (UAC). Sideglass instalará el driver de sensores y mostrará la temperatura sin abrir otra app.",
     "hardware.sensorsHint":
       "Las temperaturas necesitan permisos de administrador. Pulsa para activarlas (acepta el aviso de Windows).",
     "hardware.sensorsFailed": "No se pudieron activar los sensores. Acepta el aviso de Windows e inténtalo de nuevo.",
     "hardware.pawnioFailed":
       "PawnIO (driver de sensores) no se instaló. Reinicia el PC, vuelve a pulsar «Activar °C» o instala PawnIO 2.2 desde pawnio.eu como administrador.",
-    "hardware.pawnioUacCancelled": "Instalación cancelada. Acepta el aviso de administrador de Windows para instalar PawnIO.",
+    "hardware.pawnioUacCancelled":
+      "Instalación cancelada. Acepta el aviso de administrador de Windows (UAC) para activar los sensores.",
+    "hardware.sensorTimeout":
+      "Los sensores no respondieron a tiempo. Acepta el aviso de Windows si apareció y vuelve a pulsar «Activar °C».",
+    "hardware.sensorInitFailed":
+      "PawnIO está instalado pero no pudo leer la temperatura. Reinicia el PC e inténtalo de nuevo.",
+    "hardware.pawnioSetupMissing":
+      "Falta el instalador de PawnIO en la app. Reinstala Sideglass desde la web o GitHub.",
     "settings.help": "Ayuda",
     "settings.helpFaq": "Centro de ayuda y preguntas frecuentes",
     "settings.about": "Acerca de",
@@ -188,13 +195,20 @@ const translations: Record<Lang, Record<string, string>> = {
     "hardware.enableCpuTemp": "Enable °C",
     "hardware.enablingSensors": "Enabling…",
     "hardware.cpuTempHint":
-      "CPU temperature needs administrator rights. Tap «Enable °C» next to CPU and accept the Windows prompt.",
+      "Tap «Enable °C» and accept the Windows administrator prompt (UAC). Sideglass installs the sensor driver and shows temperature without opening another app.",
     "hardware.sensorsHint":
       "Temperatures require administrator rights. Click to enable them (accept the Windows prompt).",
     "hardware.sensorsFailed": "Could not enable sensors. Accept the Windows prompt and try again.",
     "hardware.pawnioFailed":
       "PawnIO (sensor driver) did not install. Reboot, tap «Enable °C» again, or install PawnIO 2.2 from pawnio.eu as administrator.",
-    "hardware.pawnioUacCancelled": "Installation cancelled. Accept the Windows administrator prompt to install PawnIO.",
+    "hardware.pawnioUacCancelled":
+      "Cancelled. Accept the Windows administrator prompt (UAC) to enable sensors.",
+    "hardware.sensorTimeout":
+      "Sensors did not respond in time. Accept the Windows prompt if it appeared and tap «Enable °C» again.",
+    "hardware.sensorInitFailed":
+      "PawnIO is installed but could not read temperature. Reboot and try again.",
+    "hardware.pawnioSetupMissing":
+      "PawnIO installer missing from the app. Reinstall Sideglass from the website or GitHub.",
     "settings.help": "Help",
     "settings.helpFaq": "Help center and FAQ",
     "settings.about": "About",

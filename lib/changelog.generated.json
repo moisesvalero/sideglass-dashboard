@@ -1,6 +1,19 @@
 {
   "es": [
     {
+      "version": "0.2.15",
+      "date": "2026-06-01",
+      "groups": [
+        {
+          "category": "Corregido",
+          "items": [
+            "**«Activar °C» sin UAC / PawnIO no se instalaba**: la instalación de PawnIO ya no se intenta desde el proceso normal (fallaba en silencio). Un único aviso de Windows eleva Sideglass; el proceso ayudante instala PawnIO con permisos de administrador y lee la temperatura. `PawnIO_setup.exe` incluido en el instalador",
+            "Mensajes de error más claros (UAC cancelado, falta instalador, timeout, lectura fallida)"
+          ]
+        }
+      ]
+    },
+    {
       "version": "0.2.14",
       "date": "2026-06-01",
       "groups": [
@@ -288,6 +301,19 @@
     }
   ],
   "en": [
+    {
+      "version": "0.2.15",
+      "date": "2026-06-01",
+      "groups": [
+        {
+          "category": "Fixed",
+          "items": [
+            "**«Enable °C» with no UAC / PawnIO never installed**: PawnIO install no longer runs from the normal process (it failed silently). A single Windows prompt elevates Sideglass; the helper installs PawnIO with admin rights and reads temperature. `PawnIO_setup.exe` bundled in the installer",
+            "Clearer error messages (UAC cancelled, missing installer, timeout, read failure)"
+          ]
+        }
+      ]
+    },
     {
       "version": "0.2.14",
       "date": "2026-06-01",

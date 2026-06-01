@@ -132,7 +132,7 @@ export function HardwareMonitor() {
       setCpuTempReady(cpuOk)
       if (!cpuOk) {
         setActivationFailed(true)
-        setActivationError("lhm_timeout")
+        setActivationError("sensor_timeout")
       }
     } catch (error) {
       setActivationFailed(true)
@@ -152,6 +152,10 @@ export function HardwareMonitor() {
     if (!activationFailed) return t("hardware.cpuTempHint")
     const code = activationError ?? ""
     if (code.includes("user_cancelled_uac")) return t("hardware.pawnioUacCancelled")
+    if (code.includes("pawnio_setup_missing")) return t("hardware.pawnioSetupMissing")
+    if (code.includes("sensor_init_failed")) return t("hardware.sensorInitFailed")
+    if (code.includes("sensor_timeout")) return t("hardware.sensorTimeout")
+    if (code.includes("pawnio_not_installed")) return t("hardware.pawnioFailed")
     if (code.includes("pawnio")) return t("hardware.pawnioFailed")
     return t("hardware.sensorsFailed")
   })()

@@ -244,64 +244,34 @@ fn run_elevated(
 #[cfg(windows)]
 const CREATE_NO_WINDOW: u32 = 0x0800_0000;
 
-/// True when the PawnIO kernel driver service is present (required for CPU
-/// package temperature via LibreHardwareMonitor on recent Windows builds).
 #[cfg(windows)]
-fn is_pawnio_installed() -> bool {
-    std::process::Command::new("sc")
-        .args(["query", "PawnIO"])
-        .creation_flags(CREATE_NO_WINDOW)
-        .output()
-        .map(|o| o.status.success())
-        .unwrap_or(false)
+fn shell_escape(s: &str) -> String {
+    s.replace('"', "").replace('&', "and")
 }
 
 #[cfg(windows)]
-fn find_pawnio_setup(resource_dir: &std::path::Path) -> Option<std::path::PathBuf> {
-    [
-        resource_dir.join("bin").join("PawnIO_setup.exe"),
-        resource_dir.join("PawnIO_setup.exe"),
-    ]
-    .into_iter()
-    .find(|p| p.exists())
+fn find_bin_file(resource_dir: &std::path::Path, name: &str) -> Option<std::path::PathBuf> {
+    let mut candidates = vec![
+        resource_dir.join("bin").join(name),
+        resource_dir.join(name),
+    ];
+    if let Ok(exe) = std::env::current_exe() {
+        if let Some(dir) = exe.parent() {
+            candidates.push(dir.join("resources").join("bin").join(name));
+            candidates.push(dir.join("resources").join(name));
+            candidates.push(dir.join("bin").join(name));
+        }
+    }
+    candidates.into_iter().find(|p| p.exists())
 }
 
-/// Installs the PawnIO driver (UAC) if it is not already present. The driver is
-/// required to open the device and read CPU temperature registers in-process.
 #[cfg(windows)]
-fn ensure_pawnio_installed(resource_dir: &std::path::Path) -> Result<(), String> {
-    use windows::Win32::UI::WindowsAndMessaging::SW_HIDE;
-
-    if is_pawnio_installed() {
-        return Ok(());
+fn write_sensor_status(json: &str) {
+    let path = sensor_temp_path();
+    if let Some(dir) = path.parent() {
+        let _ = std::fs::create_dir_all(dir);
     }
-
-    let Some(setup) = find_pawnio_setup(resource_dir) else {
-        return Err("pawnio_setup_missing".into());
-    };
-
-    eprintln!("[pawnio] installing via {}", setup.display());
-
-    // PawnIO 2.2+ supports `-install -silent` (see PawnIO.Setup releases).
-    let elevated = run_elevated(&setup, "-install -silent", SW_HIDE)
-        .or_else(|_| run_elevated(&setup, "-install", SW_HIDE));
-
-    if let Err(e) = elevated {
-        if e == "user_cancelled_uac" {
-            return Err(e);
-        }
-        eprintln!("[pawnio] elevated setup launch failed: {e}");
-    }
-
-    for attempt in 0..45 {
-        if is_pawnio_installed() {
-            eprintln!("[pawnio] driver available after {}s", attempt + 1);
-            return Ok(());
-        }
-        std::thread::sleep(std::time::Duration::from_secs(1));
-    }
-
-    Err("pawnio_not_installed".into())
+    let _ = std::fs::write(path, json);
 }
 
 /// Shared file the elevated helper writes CPU temperature to and the main
@@ -322,6 +292,9 @@ fn sensor_temp_path() -> std::path::PathBuf {
 fn read_helper_cpu_temp() -> Option<f32> {
     let data = std::fs::read_to_string(sensor_temp_path()).ok()?;
     let value: serde_json::Value = serde_json::from_str(&data).ok()?;
+    if value.get("error").is_some() {
+        return None;
+    }
     let ts = value.get("ts")?.as_u64()?;
     let now = std::time::SystemTime::now()
         .duration_since(std::time::UNIX_EPOCH)
@@ -333,8 +306,32 @@ fn read_helper_cpu_temp() -> Option<f32> {
     value.get("cpu")?.as_f64().map(|f| f as f32)
 }
 
+/// Reads an error code written by the helper (install/read failure).
+#[cfg(windows)]
+fn read_helper_error() -> Option<String> {
+    let data = std::fs::read_to_string(sensor_temp_path()).ok()?;
+    let value: serde_json::Value = serde_json::from_str(&data).ok()?;
+    let ts = value.get("ts")?.as_u64()?;
+    let now = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .map(|d| d.as_secs())
+        .unwrap_or(0);
+    if now.saturating_sub(ts) > 30 {
+        return None;
+    }
+    value
+        .get("error")?
+        .as_str()
+        .map(|s| s.to_string())
+}
+
 #[cfg(not(windows))]
 fn read_helper_cpu_temp() -> Option<f32> {
+    None
+}
+
+#[cfg(not(windows))]
+fn read_helper_error() -> Option<String> {
     None
 }
 
@@ -344,6 +341,38 @@ fn helper_arg(args: &[String], key: &str) -> Option<String> {
         .position(|a| a == key)
         .and_then(|i| args.get(i + 1))
         .cloned()
+}
+
+/// Installs PawnIO from an already-elevated process (no second UAC).
+#[cfg(windows)]
+fn install_pawnio_from_elevated(setup: &std::path::Path) -> bool {
+    eprintln!("[pawnio] elevated install via {}", setup.display());
+
+    let run = |args: &[&str]| -> bool {
+        std::process::Command::new(setup)
+            .args(args)
+            .creation_flags(CREATE_NO_WINDOW)
+            .status()
+            .map(|s| s.success())
+            .unwrap_or(false)
+    };
+
+    if run(&["-install", "-silent"]) {
+        eprintln!("[pawnio] silent install exited OK");
+    } else {
+        eprintln!("[pawnio] silent install failed, trying visible -install");
+        let _ = run(&["-install"]);
+    }
+
+    for attempt in 0..60 {
+        if pawnio::device_available() {
+            eprintln!("[pawnio] device open after {}s", attempt + 1);
+            return true;
+        }
+        std::thread::sleep(std::time::Duration::from_secs(1));
+    }
+
+    false
 }
 
 /// True while the given process id is still running.
@@ -366,8 +395,8 @@ fn process_alive(pid: u32) -> bool {
     }
 }
 
-/// Hidden elevated mode: open PawnIO, read the CPU temperature in a loop, and
-/// publish it for the main process. Exits when the parent process is gone.
+/// Hidden elevated mode: install PawnIO if needed, read CPU temperature in a
+/// loop, and publish it for the main process. Exits when the parent is gone.
 #[cfg(windows)]
 fn run_sensor_helper(args: &[String]) {
     let parent = helper_arg(args, "--parent").and_then(|s| s.parse::<u32>().ok());
@@ -377,14 +406,46 @@ fn run_sensor_helper(args: &[String]) {
     let amd = helper_arg(args, "--amd")
         .map(std::path::PathBuf::from)
         .unwrap_or_default();
+    let pawnio_setup = helper_arg(args, "--pawnio")
+        .map(std::path::PathBuf::from)
+        .unwrap_or_default();
     let cpu_name = helper_arg(args, "--cpu-name").unwrap_or_default();
 
-    let path = sensor_temp_path();
-    if let Some(dir) = path.parent() {
-        let _ = std::fs::create_dir_all(dir);
+    let ts = || {
+        std::time::SystemTime::now()
+            .duration_since(std::time::UNIX_EPOCH)
+            .map(|d| d.as_secs())
+            .unwrap_or(0)
+    };
+
+    write_sensor_status(&format!("{{\"status\":\"starting\",\"ts\":{}}}", ts()));
+
+    if !pawnio::device_available() {
+        write_sensor_status(&format!(
+            "{{\"status\":\"installing_pawnio\",\"ts\":{}}}",
+            ts()
+        ));
+        if !pawnio_setup.exists() {
+            write_sensor_status(&format!(
+                "{{\"error\":\"pawnio_setup_missing\",\"ts\":{}}}",
+                ts()
+            ));
+            return;
+        }
+        if !install_pawnio_from_elevated(&pawnio_setup) {
+            write_sensor_status(&format!(
+                "{{\"error\":\"pawnio_not_installed\",\"ts\":{}}}",
+                ts()
+            ));
+            return;
+        }
     }
 
     let Some(sensor) = pawnio::Sensor::init(&intel, &amd, &cpu_name) else {
+        write_sensor_status(&format!(
+            "{{\"error\":\"sensor_init_failed\",\"ts\":{}}}",
+            ts()
+        ));
         return;
     };
 
@@ -396,24 +457,19 @@ fn run_sensor_helper(args: &[String]) {
         }
 
         if let Some(temp) = sensor.read() {
-            let ts = std::time::SystemTime::now()
-                .duration_since(std::time::UNIX_EPOCH)
-                .map(|d| d.as_secs())
-                .unwrap_or(0);
-            let _ = std::fs::write(&path, format!("{{\"cpu\":{temp:.1},\"ts\":{ts}}}"));
+            write_sensor_status(&format!("{{\"cpu\":{temp:.1},\"ts\":{}}}", ts()));
         }
 
         std::thread::sleep(std::time::Duration::from_secs(2));
     }
 }
 
-/// Installs PawnIO if needed and launches the hidden elevated helper that reads
-/// CPU temperature in-process. One UAC prompt; no second visible app.
+/// Launches the hidden elevated helper (one UAC). The helper installs PawnIO
+/// with admin rights and reads CPU temperature in-process — no LibreHardwareMonitor.
 #[cfg(windows)]
 fn start_sensor_helper(app: &tauri::AppHandle) -> Result<bool, String> {
-    use windows::Win32::UI::WindowsAndMessaging::SW_HIDE;
+    use windows::Win32::UI::WindowsAndMessaging::SW_SHOWMINNOACTIVE;
 
-    // Helper already running and publishing fresh readings?
     if read_helper_cpu_temp().is_some() {
         return Ok(true);
     }
@@ -423,53 +479,48 @@ fn start_sensor_helper(app: &tauri::AppHandle) -> Result<bool, String> {
         .resource_dir()
         .map_err(|e| format!("resource_dir: {e}"))?;
 
-    let intel = [
-        resource_dir.join("bin").join("IntelMSR.bin"),
-        resource_dir.join("IntelMSR.bin"),
-    ]
-    .into_iter()
-    .find(|p| p.exists())
-    .unwrap_or_else(|| resource_dir.join("bin").join("IntelMSR.bin"));
-
-    let amd = [
-        resource_dir.join("bin").join("AMDFamily17.bin"),
-        resource_dir.join("AMDFamily17.bin"),
-    ]
-    .into_iter()
-    .find(|p| p.exists())
-    .unwrap_or_else(|| resource_dir.join("bin").join("AMDFamily17.bin"));
-
-    ensure_pawnio_installed(&resource_dir)?;
+    let intel = find_bin_file(&resource_dir, "IntelMSR.bin")
+        .ok_or_else(|| "intel_module_missing".to_string())?;
+    let amd = find_bin_file(&resource_dir, "AMDFamily17.bin")
+        .ok_or_else(|| "amd_module_missing".to_string())?;
+    let pawnio_setup = find_bin_file(&resource_dir, "PawnIO_setup.exe")
+        .ok_or_else(|| "pawnio_setup_missing".to_string())?;
 
     let exe = std::env::current_exe().map_err(|e| e.to_string())?;
     let pid = std::process::id();
-    let cpu_name = {
-        let sys = System::new_with_specifics(
-            RefreshKind::new().with_cpu(CpuRefreshKind::everything()),
-        );
-        sys.cpus()
-            .first()
-            .map(|c| c.brand().to_string())
-            .unwrap_or_default()
-    };
-
-    let args = format!(
-        "--sensor-helper --parent {pid} --intel \"{}\" --amd \"{}\" --cpu-name \"{}\"",
-        intel.display(),
-        amd.display(),
-        cpu_name
+    let cpu_name = shell_escape(
+        &{
+            let sys = System::new_with_specifics(
+                RefreshKind::new().with_cpu(CpuRefreshKind::everything()),
+            );
+            sys.cpus()
+                .first()
+                .map(|c| c.brand().to_string())
+                .unwrap_or_default()
+        },
     );
 
-    run_elevated(&exe, &args, SW_HIDE)?;
+    let args = format!(
+        "--sensor-helper --parent {pid} --intel \"{}\" --amd \"{}\" --pawnio \"{}\" --cpu-name \"{cpu_name}\"",
+        intel.display(),
+        amd.display(),
+        pawnio_setup.display(),
+    );
 
-    for _ in 0..30 {
+    eprintln!("[sensor] requesting UAC for elevated helper");
+    run_elevated(&exe, &args, SW_SHOWMINNOACTIVE)?;
+
+    for _ in 0..45 {
         std::thread::sleep(std::time::Duration::from_secs(1));
+        if let Some(err) = read_helper_error() {
+            return Err(err);
+        }
         if read_helper_cpu_temp().is_some() {
             return Ok(true);
         }
     }
 
-    Err("pawnio_no_temp".into())
+    Err("sensor_timeout".into())
 }
 
 /// Stops LibreHardwareMonitor so its executable is not locked while the

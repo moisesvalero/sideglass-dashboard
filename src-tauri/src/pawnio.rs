@@ -131,6 +131,11 @@ impl Drop for PawnIoDevice {
     }
 }
 
+/// True when the PawnIO kernel device can be opened (driver loaded and reachable).
+pub fn device_available() -> bool {
+    PawnIoDevice::open().is_some()
+}
+
 #[derive(Clone, Copy)]
 enum Vendor {
     Amd,
