@@ -1,6 +1,6 @@
 import type { LandingLang } from "@/lib/landing-content"
 import { landingContent } from "@/lib/landing-content"
-import { AUTHOR_NAME, AUTHOR_SITE, GITHUB_REPO } from "@/lib/site"
+import { AUTHOR_NAME, AUTHOR_SITE, GITHUB_REPO, LICENSE_URL } from "@/lib/site"
 
 export function LandingFooter({ lang }: { lang: LandingLang }) {
   const copy = landingContent[lang]
@@ -26,7 +26,14 @@ export function LandingFooter({ lang }: { lang: LandingLang }) {
           <span className="text-white/20" aria-hidden>
             ·
           </span>
-          <span>MIT</span>
+          <a
+            href={LICENSE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white/55 hover:text-white/80"
+          >
+            MIT · Open source
+          </a>
         </p>
       </div>
     </footer>

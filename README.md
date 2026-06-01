@@ -5,15 +5,21 @@
 </p>
 
 <p align="center">
-  <strong>App de escritorio para Windows</strong> (Tauri + Next.js) pensada para dejar fija en un monitor secundario: clima, agenda, hardware, notas, YouTube embebido y acceso rápido a IAs.
+  <strong>App de escritorio open source para Windows</strong> (Tauri + Next.js) — monitor secundario: clima, agenda, hardware, notas, YouTube embebido y dock de IAs.
 </p>
 
 <p align="center">
-  <a href="https://github.com/moisesvalero/personal-dashboard/releases/latest">Descargar instalador (.exe)</a>
+  <a href="https://github.com/moisesvalero/personal-dashboard/releases/latest">Descargar .exe</a>
   ·
-  <a href="https://personal-dashboard.vercel.app">Web / landing</a>
+  <a href="https://personal-dashboard.vercel.app">Landing</a>
+  ·
+  <a href="https://github.com/moisesvalero/personal-dashboard">GitHub</a>
   ·
   <a href="./CHANGELOG.md">Changelog</a>
+</p>
+
+<p align="center">
+  Si te gusta el proyecto, <a href="https://github.com/moisesvalero/personal-dashboard">una estrella en GitHub</a> o un issue/PR ayuda a darlo a conocer.
 </p>
 
 ---
@@ -88,6 +94,14 @@ git push origin v0.2.3
 
 Secrets en GitHub: ver [docs/UPDATER.md](docs/UPDATER.md).
 
+## Open source y contribuciones
+
+Este proyecto es **open source** bajo licencia [MIT](LICENSE): puedes usarlo, modificarlo y distribuirlo con libertad (manteniendo el aviso de copyright).
+
+- ¿Bug o idea? [Abre un issue](https://github.com/moisesvalero/personal-dashboard/issues)
+- ¿Mejora de código? Pull requests bienvenidos
+- ¿Te sirve en tu portfolio o lo usas? Mencionar el repo o poner una estrella ayuda mucho
+
 ## Licencia
 
-MIT — [LICENSE](LICENSE)
+[MIT](LICENSE) — Copyright (c) 2026 Moises Valero

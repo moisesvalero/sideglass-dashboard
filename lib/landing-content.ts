@@ -37,12 +37,12 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
     metaDescription:
       "Sideglass: aplicación de escritorio gratuita y de código abierto, con estética macOS, para tu monitor secundario: clima, calendario, hardware con temperaturas reales, YouTube y acceso rápido a tus IAs. Sin API keys obligatorias.",
     ogDescription: "Sideglass — panel premium para monitor secundario en Windows. Licencia MIT.",
-    eyebrow: "Escritorio · Windows · Código abierto",
+    eyebrow: "Escritorio · Windows · Open source",
     heroTitle: ["Sideglass", "tu panel de monitor secundario"],
     heroSubtitle:
       "Clima, agenda, hardware, notas, YouTube y acceso a tus IAs favoritas. Se adapta a monitor vertical u horizontal.",
     ctaDownload: "Descargar para Windows",
-    heroNote: "MIT · Sin API keys obligatorias",
+    heroNote: "Open source (MIT) · Sin API keys · Contribuciones bienvenidas",
     screenshotsTitle: "Capturas reales",
     screenshotsSubtitle:
       "Diseño adaptable para monitor secundario en vertical u horizontal. Modo claro y oscuro con materiales tipo macOS.",
@@ -71,8 +71,8 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
         desc: "Open-Meteo con detección automática de ubicación.",
       },
       {
-        label: "YouTube con tu cuenta",
-        desc: "Ventana integrada: inicia sesión, busca, maximiza y pantalla completa.",
+        label: "YouTube en el panel",
+        desc: "Pega un enlace y reproduce el video dentro del dashboard.",
       },
       {
         label: "Dock de IAs",
@@ -109,18 +109,18 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
         a: "El instalador ya incluye el servicio de sensores. Sideglass lo arranca en segundo plano y lee las temperaturas por WMI. No tienes que instalar nada más.",
       },
       {
-        q: "¿YouTube funciona con mi cuenta de Google?",
-        a: "Sí. Pulsa «Abrir YouTube» en el widget, inicia sesión una vez en la ventana integrada y tus cookies se guardan en tu equipo.",
+        q: "¿Cómo veo YouTube?",
+        a: "En el widget de YouTube pega la URL del video y pulsa Reproducir. Se muestra embebido en el panel.",
       },
       {
-        q: "¿Es gratis y de código abierto?",
-        a: "Sí. Licencia MIT: puedes usarla, modificarla y compartir mejoras.",
+        q: "¿Es open source?",
+        a: "Sí. Código en GitHub con licencia MIT: puedes usarlo, estudiarlo, modificarlo y compartirlo. Si te sirve, una estrella o un PR ayuda mucho a dar visibilidad al proyecto.",
       },
     ],
     changelogTitle: "Novedades",
     changelogLink: "Ver CHANGELOG completo",
     footerDeveloped: "Desarrollado por",
-    footerSource: "Código fuente del proyecto",
+    footerSource: "Código en GitHub (open source)",
     keywords: [
       "dashboard monitor secundario",
       "panel escritorio windows",
@@ -134,13 +134,13 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
     metaTitle: "Sideglass — Premium second-monitor panel for Windows",
     metaDescription:
       "Sideglass: free, open-source macOS-style desktop app for your secondary monitor — weather, calendar, hardware with real temperatures, YouTube and AI dock. No required API keys.",
-    ogDescription: "Sideglass — premium second-monitor panel for Windows. MIT.",
-    eyebrow: "Desktop · Windows · Open Source",
+    ogDescription: "Sideglass — open-source second-monitor panel for Windows (MIT).",
+    eyebrow: "Desktop · Windows · Open source",
     heroTitle: ["Sideglass", "your second-monitor panel"],
     heroSubtitle:
       "Weather, agenda, hardware, notes, YouTube and access to your favorite AIs. Responsive in portrait and landscape.",
     ctaDownload: "Download for Windows",
-    heroNote: "MIT · No required API keys",
+    heroNote: "Open source (MIT) · No API keys · Contributions welcome",
     screenshotsTitle: "Real screenshots",
     screenshotsSubtitle:
       "Responsive design for a secondary monitor in portrait or landscape. Light and dark mode with macOS-style materials.",
@@ -166,8 +166,8 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
       },
       { label: "Weather without API key", desc: "Open-Meteo with automatic location detection." },
       {
-        label: "YouTube with your account",
-        desc: "Embedded window: sign in, search, maximize and go fullscreen.",
+        label: "YouTube in the panel",
+        desc: "Paste a link and play the video inside the dashboard.",
       },
       {
         label: "AI dock",
@@ -201,18 +201,18 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
         a: "Sideglass ships with an integrated sensor service. The app starts it in the background and reads temperatures via WMI. No extra software to install.",
       },
       {
-        q: "Does YouTube work with my Google account?",
-        a: "Yes. Click Open YouTube in the widget. Sign in once in the embedded window; cookies are stored on your machine.",
+        q: "How do I watch YouTube?",
+        a: "Paste the video URL in the YouTube widget and press Play. It embeds in the panel.",
       },
       {
-        q: "Is it free and open source?",
-        a: "Yes. MIT license. You can use it, modify it and publish improvements.",
+        q: "Is it open source?",
+        a: "Yes. Source on GitHub under the MIT license: use, study, modify and share freely. A star or pull request helps the project get seen.",
       },
     ],
     changelogTitle: "What's new",
     changelogLink: "View full CHANGELOG",
     footerDeveloped: "Developed by",
-    footerSource: "Project source code",
+    footerSource: "Source on GitHub (open source)",
     keywords: [
       "second monitor dashboard",
       "windows desktop panel",

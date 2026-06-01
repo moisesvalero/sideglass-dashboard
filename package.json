@@ -1,6 +1,7 @@
 {
   "name": "desk-dashboard",
   "version": "0.2.3",
+  "license": "MIT",
   "private": true,
   "scripts": {
     "dev": "next dev",
