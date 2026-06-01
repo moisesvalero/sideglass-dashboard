@@ -114,16 +114,9 @@ async function main() {
 
       await capture(page, `portrait-${theme}.png`, { width: 480, height: 980 })
 
-      if (theme === "dark") {
-        await capture(page, "landscape-dark.png", { width: 1120, height: 780 })
-        await page.setViewportSize({ width: 480, height: 980 })
-        await page.waitForTimeout(800)
-        await page.screenshot({
-          path: path.join(outDir, "hero.png"),
-          clip: { x: 0, y: 0, width: 480, height: 820 },
-        })
-        console.log("Saved hero.png")
-      }
+    if (theme === "dark") {
+      await capture(page, "landscape-dark.png", { width: 1120, height: 780 })
+    }
 
       await page.close()
     }

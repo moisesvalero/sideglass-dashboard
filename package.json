@@ -14,7 +14,8 @@
     "tauri": "tauri",
     "tauri:dev": "tauri dev",
     "tauri:build": "tauri build",
-    "screenshots": "npm run build && node scripts/capture-screenshots.mjs"
+    "screenshots": "npm run build && node scripts/capture-screenshots.mjs",
+    "icon": "tauri icon public/app-icon-1024.png"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",

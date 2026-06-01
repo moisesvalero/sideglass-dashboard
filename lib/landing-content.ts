@@ -16,6 +16,7 @@ export type LandingCopy = {
   screenshotsTitle: string
   screenshotsSubtitle: string
   screenshotLabels: { portraitDark: string; portraitLight: string; landscapeDark: string }
+  screenshotAlts: { portraitDark: string; portraitLight: string; landscapeDark: string }
   featuresTitle: string
   features: Feature[]
   installTitle: string
@@ -32,12 +33,12 @@ export type LandingCopy = {
 export const landingContent: Record<LandingLang, LandingCopy> = {
   es: {
     htmlLang: "es",
-    metaTitle: "Desk Dashboard — Panel premium para tu monitor secundario en Windows",
+    metaTitle: "Sideglass — Panel premium para tu monitor secundario en Windows",
     metaDescription:
-      "App de escritorio gratuita y open source estilo macOS para tu monitor secundario en Windows: clima, calendario de Google, monitor de hardware con temperaturas reales, YouTube y acceso rapido a IAs. Sin API keys obligatorias.",
-    ogDescription: "Dashboard premium para monitor secundario en Windows — Tauri + Next.js, MIT.",
+      "Sideglass: app de escritorio gratuita y open source estilo macOS para tu monitor secundario: clima, calendario, hardware con temperaturas reales, YouTube y acceso rapido a IAs. Sin API keys obligatorias.",
+    ogDescription: "Sideglass — panel premium para monitor secundario en Windows. MIT.",
     eyebrow: "Escritorio · Windows · Open Source",
-    heroTitle: ["Tu monitor secundario,", "con calidad macOS"],
+    heroTitle: ["Sideglass", "tu panel de monitor secundario"],
     heroSubtitle:
       "Clima, agenda, hardware, notas, YouTube y acceso a tus IAs favoritas. Responsive en vertical y horizontal.",
     ctaDownload: "Descargar para Windows",
@@ -49,6 +50,11 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
       portraitDark: "Vertical · Oscuro",
       portraitLight: "Vertical · Claro",
       landscapeDark: "Horizontal · Oscuro",
+    },
+    screenshotAlts: {
+      portraitDark: "Sideglass en monitor vertical, modo oscuro",
+      portraitLight: "Sideglass en monitor vertical, modo claro",
+      landscapeDark: "Sideglass en monitor horizontal, modo oscuro",
     },
     featuresTitle: "Que incluye",
     features: [
@@ -81,11 +87,11 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
     faqTitle: "Preguntas frecuentes",
     faq: [
       {
-        q: "¿Que es Desk Dashboard?",
+        q: "¿Que es Sideglass?",
         a: "Una app de escritorio (Tauri + Next.js) pensada para dejar fija en un monitor secundario, vertical u horizontal, con la informacion que mas usas.",
       },
       {
-        q: "¿Como instalo Desk Dashboard en Windows?",
+        q: "¿Como instalo Sideglass en Windows?",
         a: "Descarga el .exe desde Releases en GitHub, ejecutalo y acepta el aviso de SmartScreen si aparece (la app no esta firmada con certificado de pago). La primera vez puedes elegir la carpeta de instalacion.",
       },
       {
@@ -94,7 +100,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
       },
       {
         q: "¿Como veo temperaturas reales de CPU y GPU?",
-        a: "Al instalar Desk Dashboard ya viene el servicio de sensores integrado. La app lo arranca en segundo plano y lee temperaturas via WMI. No hace falta instalar nada mas.",
+        a: "Al instalar Sideglass ya viene el servicio de sensores integrado. La app lo arranca en segundo plano y lee temperaturas via WMI. No hace falta instalar nada mas.",
       },
       {
         q: "¿YouTube funciona con mi cuenta de Google?",
@@ -119,12 +125,12 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
   },
   en: {
     htmlLang: "en",
-    metaTitle: "Desk Dashboard — Premium second-monitor panel for Windows",
+    metaTitle: "Sideglass — Premium second-monitor panel for Windows",
     metaDescription:
-      "Free, open-source macOS-style desktop app for your secondary monitor on Windows: weather, Google Calendar, hardware monitor with real temperatures, YouTube and quick access to AI assistants. No required API keys.",
-    ogDescription: "Premium second-monitor dashboard for Windows — Tauri + Next.js, MIT.",
+      "Sideglass: free, open-source macOS-style desktop app for your secondary monitor — weather, calendar, hardware with real temperatures, YouTube and AI dock. No required API keys.",
+    ogDescription: "Sideglass — premium second-monitor panel for Windows. MIT.",
     eyebrow: "Desktop · Windows · Open Source",
-    heroTitle: ["Your second monitor,", "with macOS quality"],
+    heroTitle: ["Sideglass", "your second-monitor panel"],
     heroSubtitle:
       "Weather, agenda, hardware, notes, YouTube and access to your favorite AIs. Responsive in portrait and landscape.",
     ctaDownload: "Download for Windows",
@@ -136,6 +142,11 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
       portraitDark: "Portrait · Dark",
       portraitLight: "Portrait · Light",
       landscapeDark: "Landscape · Dark",
+    },
+    screenshotAlts: {
+      portraitDark: "Sideglass on a portrait monitor, dark mode",
+      portraitLight: "Sideglass on a portrait monitor, light mode",
+      landscapeDark: "Sideglass on a landscape monitor, dark mode",
     },
     featuresTitle: "What's inside",
     features: [
@@ -168,11 +179,11 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
     faqTitle: "Frequently asked questions",
     faq: [
       {
-        q: "What is Desk Dashboard?",
+        q: "What is Sideglass?",
         a: "A desktop app (Tauri + Next.js) designed to stay fixed on a secondary monitor, portrait or landscape, with the information you use the most.",
       },
       {
-        q: "How do I install Desk Dashboard on Windows?",
+        q: "How do I install Sideglass on Windows?",
         a: "Download the .exe from GitHub Releases, run it and accept the SmartScreen warning if it appears (the app is not signed with a paid certificate). The first time you can choose the install folder.",
       },
       {
@@ -181,7 +192,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
       },
       {
         q: "How do I see real CPU and GPU temperatures?",
-        a: "Desk Dashboard ships with an integrated sensor service. The app starts it in the background and reads temperatures via WMI. No extra software to install.",
+        a: "Sideglass ships with an integrated sensor service. The app starts it in the background and reads temperatures via WMI. No extra software to install.",
       },
       {
         q: "Does YouTube work with my Google account?",

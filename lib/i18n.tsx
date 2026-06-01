@@ -6,7 +6,7 @@ type Lang = "es" | "en"
 
 const translations: Record<Lang, Record<string, string>> = {
   es: {
-    "dashboard.title": "Desk Dashboard",
+    "dashboard.title": "Sideglass",
     "time.loading": "Cargando...",
     "weather.loading": "Cargando...",
     "weather.noData": "Sin datos",
@@ -50,7 +50,7 @@ const translations: Record<Lang, Record<string, string>> = {
     "settings.reorder": "Arrastra los widgets para reordenar",
   },
   en: {
-    "dashboard.title": "Desk Dashboard",
+    "dashboard.title": "Sideglass",
     "time.loading": "Loading...",
     "weather.loading": "Loading...",
     "weather.noData": "No data",

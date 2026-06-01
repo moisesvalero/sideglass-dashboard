@@ -3,35 +3,27 @@ import { getChangelog, getLatestVersion } from "@/lib/changelog"
 import { LandingFooter } from "@/components/landing/landing-footer"
 import { LandingHeader } from "@/components/landing/landing-header"
 import { landingContent, type LandingLang } from "@/lib/landing-content"
-import { SITE_URL, AUTHOR_SITE, GITHUB_REPO, GITHUB_RELEASES, APP_VERSION } from "@/lib/site"
+import {
+  APP_NAME,
+  SITE_URL,
+  AUTHOR_SITE,
+  GITHUB_REPO,
+  GITHUB_RELEASES,
+  APP_VERSION,
+} from "@/lib/site"
 
-const screenshots = (copy: (typeof landingContent)[LandingLang]) => [
+const galleryShots = (copy: (typeof landingContent)[LandingLang]) => [
   {
     src: "/screenshots/portrait-dark.png",
-    alt:
-      copy.htmlLang === "es"
-        ? "Desk Dashboard en monitor vertical, modo oscuro"
-        : "Desk Dashboard on a portrait monitor, dark mode",
+    alt: copy.screenshotAlts.portraitDark,
     label: copy.screenshotLabels.portraitDark,
     className: "max-w-[280px] mx-auto",
   },
   {
     src: "/screenshots/portrait-light.png",
-    alt:
-      copy.htmlLang === "es"
-        ? "Desk Dashboard en monitor vertical, modo claro"
-        : "Desk Dashboard on a portrait monitor, light mode",
+    alt: copy.screenshotAlts.portraitLight,
     label: copy.screenshotLabels.portraitLight,
     className: "max-w-[280px] mx-auto",
-  },
-  {
-    src: "/screenshots/landscape-dark.png",
-    alt:
-      copy.htmlLang === "es"
-        ? "Desk Dashboard en monitor horizontal, modo oscuro"
-        : "Desk Dashboard on a landscape monitor, dark mode",
-    label: copy.screenshotLabels.landscapeDark,
-    className: "sm:col-span-2 max-w-3xl mx-auto w-full",
   },
 ]
 
@@ -39,12 +31,12 @@ export function LandingView({ lang }: { lang: LandingLang }) {
   const copy = landingContent[lang]
   const changelog = getChangelog()
   const version = getLatestVersion(APP_VERSION)
-  const shots = screenshots(copy)
+  const shots = galleryShots(copy)
 
   const softwareJsonLd = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    name: "Desk Dashboard",
+    name: APP_NAME,
     operatingSystem: "Windows",
     applicationCategory: "UtilitiesApplication",
     softwareVersion: version,
@@ -113,15 +105,13 @@ export function LandingView({ lang }: { lang: LandingLang }) {
           v{version} · {copy.heroNote}
         </p>
 
-        <div className="mt-14 mx-auto max-w-[300px]">
-          <div className="rounded-[28px] overflow-hidden border border-white/10 shadow-[0_32px_80px_rgba(0,0,0,0.55)] ring-1 ring-white/5">
+        <div className="mt-14 mx-auto max-w-5xl w-full">
+          <div className="rounded-2xl overflow-hidden border border-white/10 shadow-[0_32px_80px_rgba(0,0,0,0.55)] ring-1 ring-white/5">
             <Image
-              src="/screenshots/hero.png"
-              alt={
-                copy.htmlLang === "es" ? "Vista previa de Desk Dashboard" : "Desk Dashboard preview"
-              }
-              width={480}
-              height={820}
+              src="/screenshots/landscape-dark.png"
+              alt={copy.screenshotAlts.landscapeDark}
+              width={1120}
+              height={780}
               className="w-full h-auto"
               priority
             />

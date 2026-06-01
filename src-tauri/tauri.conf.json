@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "Desk Dashboard",
+  "productName": "Sideglass",
   "version": "0.2.0",
   "identifier": "com.deskdashboard.app",
   "build": {
@@ -15,7 +15,7 @@
       {
         "label": "main",
         "url": "/dashboard",
-        "title": "Desk Dashboard",
+        "title": "Sideglass",
         "width": 480,
         "height": 1040,
         "resizable": true,

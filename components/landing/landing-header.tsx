@@ -1,7 +1,8 @@
 import Link from "next/link"
 import { Github, Globe, Linkedin } from "lucide-react"
+import { BrandMark } from "@/components/landing/brand-mark"
 import type { LandingLang } from "@/lib/landing-content"
-import { AUTHOR_GITHUB, AUTHOR_LINKEDIN, AUTHOR_SITE } from "@/lib/site"
+import { APP_NAME, AUTHOR_GITHUB, AUTHOR_LINKEDIN, AUTHOR_SITE } from "@/lib/site"
 
 const social = [
   {
@@ -27,9 +28,10 @@ export function LandingHeader({ lang }: { lang: LandingLang }) {
       <div className="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
         <Link
           href={lang === "es" ? "/" : "/en"}
-          className="text-sm font-semibold tracking-tight text-white/90 hover:text-white shrink-0"
+          className="flex items-center gap-2 text-sm font-semibold tracking-tight text-white/90 hover:text-white shrink-0"
         >
-          Desk Dashboard
+          <BrandMark size={26} />
+          {APP_NAME}
         </Link>
 
         <div className="flex items-center gap-1 sm:gap-2">

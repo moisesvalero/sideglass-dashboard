@@ -518,7 +518,7 @@ fn main() {
             let _tray = TrayIconBuilder::new()
                 .icon(tray_icon)
                 .menu(&menu)
-                .tooltip("Desk Dashboard")
+                .tooltip("Sideglass")
                 .on_menu_event(move |app, event| {
                     let window = app.get_webview_window("main").unwrap();
                     match event.id().as_ref() {

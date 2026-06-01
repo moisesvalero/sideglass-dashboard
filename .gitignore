@@ -23,6 +23,7 @@ src-tauri/signing.key
 # Build output
 tsconfig.tsbuildinfo
 *.tsbuildinfo
+public/app-icon-source.png
 
 # Agent skills
 .agents/

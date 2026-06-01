@@ -1,7 +1,14 @@
 import type { Metadata } from "next"
 import { LandingView } from "@/components/landing/landing-view"
 import { landingContent } from "@/lib/landing-content"
-import { SITE_URL } from "@/lib/site"
+import { APP_NAME, SITE_URL } from "@/lib/site"
+
+const ogImage = {
+  url: "/screenshots/landscape-dark.png",
+  width: 1120,
+  height: 780,
+  alt: "Sideglass on a landscape monitor",
+}
 
 const copy = landingContent.es
 
@@ -18,19 +25,19 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "Desk Dashboard",
+    title: APP_NAME,
     description: copy.ogDescription,
     type: "website",
     locale: "es_ES",
     url: SITE_URL,
-    siteName: "Desk Dashboard",
-    images: [{ url: "/screenshots/hero.png", width: 960, height: 1640, alt: "Desk Dashboard" }],
+    siteName: APP_NAME,
+    images: [ogImage],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Desk Dashboard",
+    title: APP_NAME,
     description: copy.ogDescription,
-    images: ["/screenshots/hero.png"],
+    images: [ogImage.url],
   },
 }
 

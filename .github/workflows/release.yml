@@ -49,7 +49,7 @@ jobs:
         with:
           tauriScript: npm run tauri
           tagName: ${{ github.ref_name }}
-          releaseName: Desk Dashboard ${{ github.ref_name }}
+          releaseName: Sideglass ${{ github.ref_name }}
           releaseBody: See CHANGELOG.md for details.
           releaseDraft: true
           prerelease: false
