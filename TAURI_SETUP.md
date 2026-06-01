@@ -44,6 +44,7 @@ The installer will be created in `src-tauri/target/release/bundle/`
 ## Hardware Monitoring
 
 The app uses:
+
 - `sysinfo` crate for CPU and RAM monitoring
 - `nvml-wrapper` crate for NVIDIA GPU monitoring
 
@@ -55,20 +56,24 @@ The app uses:
 ## Configuration
 
 ### Window Size
+
 Edit `src-tauri/tauri.conf.json` to change window dimensions:
 
 ```json
 {
   "app": {
-    "windows": [{
-      "width": 420,
-      "height": 900
-    }]
+    "windows": [
+      {
+        "width": 420,
+        "height": 900
+      }
+    ]
   }
 }
 ```
 
 ### Refresh Rate
+
 Edit `components/dashboard/hardware-monitor.tsx` to change the polling interval:
 
 ```typescript
@@ -78,12 +83,15 @@ const interval = setInterval(fetchSystemInfo, 1500) // 1.5 seconds
 ## Troubleshooting
 
 ### GPU not detected
+
 - Ensure NVIDIA drivers are installed
 - Check if `nvml.dll` is accessible (usually in NVIDIA driver folder)
 
 ### High CPU usage
+
 - Increase the polling interval in `hardware-monitor.tsx`
 
 ### Build errors
+
 - Run `cargo clean` in `src-tauri/` folder
 - Ensure Rust toolchain is up to date: `rustup update`

@@ -1,9 +1,23 @@
 "use client"
 
-import { X, MapPin, Thermometer, Eye, EyeOff, Sun, Moon, Monitor, Calendar } from "lucide-react"
-import { useSettings } from "@/lib/settings"
+import {
+  X,
+  MapPin,
+  Thermometer,
+  Eye,
+  EyeOff,
+  Sun,
+  Moon,
+  Monitor,
+  Calendar,
+  Clock,
+  Languages,
+  Power,
+  Keyboard,
+  Bell,
+} from "lucide-react"
+import { useSettings, type Settings } from "@/lib/settings"
 import { useI18n } from "@/lib/i18n"
-import type { Settings } from "@/lib/settings"
 
 interface Props {
   open: boolean
@@ -11,8 +25,14 @@ interface Props {
 }
 
 const citySuggestions = [
-  "Madrid", "Barcelona", "New York", "London", "Tokyo", "Paris",
-  "Berlin", "Sydney", "Dubai", "Singapore", "Toronto", "Seoul", "Mexico City", "Buenos Aires",
+  "Madrid",
+  "Barcelona",
+  "New York",
+  "London",
+  "Tokyo",
+  "Paris",
+  "Berlin",
+  "Mexico City",
 ]
 
 const themes = [
@@ -23,7 +43,7 @@ const themes = [
 
 export function SettingsDrawer({ open, onClose }: Props) {
   const { settings, updateSettings } = useSettings()
-  const { t } = useI18n()
+  const { t, lang, setLang } = useI18n()
 
   if (!open) return null
 
@@ -35,36 +55,37 @@ export function SettingsDrawer({ open, onClose }: Props) {
 
   return (
     <>
-      <div className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm" onClick={onClose} />
-      <div className="fixed inset-x-0 bottom-0 z-[101] animate-in slide-in-from-bottom duration-300">
-        <div className="mx-auto max-w-md rounded-t-[32px] p-6 pb-8 bg-popover/95 backdrop-blur-[40px] border border-b-0 border-border">
+      <div className="fixed inset-0 z-[100] bg-black/40 backdrop-blur-sm" onClick={onClose} />
+      <div className="fixed inset-x-0 bottom-0 z-[101] animate-in">
+        <div className="mx-auto max-w-lg rounded-t-2xl p-6 pb-10 bg-popover border border-b-0 border-border shadow-2xl">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-lg font-semibold text-foreground">{t("settings.title")}</h2>
             <button
+              type="button"
               onClick={onClose}
-              className="w-8 h-8 rounded-full bg-muted hover:bg-muted/80 flex items-center justify-center transition-colors"
+              className="w-8 h-8 rounded-lg bg-muted hover:bg-muted/80 flex items-center justify-center"
+              aria-label="Cerrar"
             >
               <X className="w-4 h-4 text-muted-foreground" />
             </button>
           </div>
 
-          <div className="space-y-5 max-h-[60vh] overflow-y-auto custom-scrollbar">
-
-            {/* Theme */}
-            <div>
+          <div className="space-y-5 max-h-[65vh] overflow-y-auto custom-scrollbar pr-1">
+            <section>
               <label className="flex items-center gap-2 text-muted-foreground text-xs font-medium uppercase tracking-wider mb-2">
                 <Sun className="w-3.5 h-3.5" />
                 Tema
               </label>
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2">
                 {themes.map(({ key, icon: Icon, label }) => (
                   <button
                     key={key}
+                    type="button"
                     onClick={() => updateSettings({ theme: key })}
                     className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs transition-all ${
                       settings.theme === key
                         ? "bg-primary text-primary-foreground"
-                        : "bg-muted text-muted-foreground hover:bg-muted/70"
+                        : "bg-muted text-muted-foreground hover:bg-muted/80"
                     }`}
                   >
                     <Icon className="w-3.5 h-3.5" />
@@ -72,33 +93,87 @@ export function SettingsDrawer({ open, onClose }: Props) {
                   </button>
                 ))}
               </div>
-            </div>
+            </section>
 
-            {/* Weather Location */}
-            <div>
+            <section>
+              <label className="flex items-center gap-2 text-muted-foreground text-xs font-medium uppercase tracking-wider mb-2">
+                <Languages className="w-3.5 h-3.5" />
+                {t("settings.language")}
+              </label>
+              <div className="flex gap-2">
+                {(["es", "en"] as const).map((l) => (
+                  <button
+                    key={l}
+                    type="button"
+                    onClick={() => setLang(l)}
+                    className={`px-4 py-2 rounded-full text-xs ${
+                      lang === l
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-muted text-muted-foreground"
+                    }`}
+                  >
+                    {l === "es" ? "Espanol" : "English"}
+                  </button>
+                ))}
+              </div>
+            </section>
+
+            <section>
+              <label className="flex items-center gap-2 text-muted-foreground text-xs font-medium uppercase tracking-wider mb-2">
+                <Clock className="w-3.5 h-3.5" />
+                {t("settings.timeFormat")}
+              </label>
+              <div className="flex gap-2">
+                {(["24", "12"] as const).map((f) => (
+                  <button
+                    key={f}
+                    type="button"
+                    onClick={() => updateSettings({ timeFormat: f })}
+                    className={`px-4 py-2 rounded-full text-xs ${
+                      settings.timeFormat === f
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-muted text-muted-foreground"
+                    }`}
+                  >
+                    {f === "24" ? "24h" : "12h"}
+                  </button>
+                ))}
+              </div>
+            </section>
+
+            <section>
               <label className="flex items-center gap-2 text-muted-foreground text-xs font-medium uppercase tracking-wider mb-2">
                 <MapPin className="w-3.5 h-3.5" />
                 {t("settings.weatherLocation")}
+              </label>
+              <label className="flex items-center gap-2 mb-2 text-sm text-foreground">
+                <input
+                  type="checkbox"
+                  checked={settings.useAutoLocation}
+                  onChange={(e) => updateSettings({ useAutoLocation: e.target.checked })}
+                  className="rounded"
+                />
+                {t("settings.autoLocation")}
               </label>
               <div className="flex flex-wrap gap-1.5">
                 {citySuggestions.map((city) => (
                   <button
                     key={city}
+                    type="button"
                     onClick={() => updateSettings({ weatherCity: city })}
-                    className={`px-3 py-1.5 rounded-full text-xs transition-all ${
+                    className={`px-3 py-1.5 rounded-full text-xs ${
                       settings.weatherCity === city
                         ? "bg-primary text-primary-foreground"
-                        : "bg-muted text-muted-foreground hover:bg-muted/70"
+                        : "bg-muted text-muted-foreground"
                     }`}
                   >
                     {city}
                   </button>
                 ))}
               </div>
-            </div>
+            </section>
 
-            {/* Temperature Unit */}
-            <div>
+            <section>
               <label className="flex items-center gap-2 text-muted-foreground text-xs font-medium uppercase tracking-wider mb-2">
                 <Thermometer className="w-3.5 h-3.5" />
                 {t("settings.temperature")}
@@ -107,84 +182,113 @@ export function SettingsDrawer({ open, onClose }: Props) {
                 {(["celsius", "fahrenheit"] as const).map((unit) => (
                   <button
                     key={unit}
+                    type="button"
                     onClick={() => updateSettings({ tempUnit: unit })}
-                    className={`px-4 py-1.5 rounded-full text-xs transition-all ${
+                    className={`px-4 py-1.5 rounded-full text-xs ${
                       settings.tempUnit === unit
                         ? "bg-primary text-primary-foreground"
-                        : "bg-muted text-muted-foreground hover:bg-muted/70"
+                        : "bg-muted text-muted-foreground"
                     }`}
                   >
                     {unit === "celsius" ? "°C" : "°F"}
                   </button>
                 ))}
               </div>
-            </div>
+            </section>
 
-            {/* Calendar Script URL */}
-            <div>
+            <section>
               <label className="flex items-center gap-2 text-muted-foreground text-xs font-medium uppercase tracking-wider mb-2">
                 <Calendar className="w-3.5 h-3.5" />
-                Google Calendar
+                Google Calendar (iCal)
               </label>
-              <p className="text-muted-foreground/60 text-xs leading-relaxed mb-2">
-                1. Abre script.google.com &gt; Nuevo proyecto &gt; pega el codigo &gt; Deploy &gt; Web app &gt; Anyone &gt; copia el .exec URL
+              <p className="text-muted-foreground text-xs mb-2 leading-relaxed">
+                {t("calendar.icalHint")}
               </p>
-              <details className="mb-2">
-                <summary className="text-blue-400/70 text-xs cursor-pointer hover:text-blue-300">
-                  Ver codigo a pegar
-                </summary>
-                <pre className="mt-1 p-2 rounded-lg bg-muted text-muted-foreground text-[10px] leading-relaxed overflow-x-auto">
-{`function doGet() {
-  var cal = CalendarApp.getDefaultCalendar();
-  var now = new Date();
-  var end = new Date(now.getTime() + 90*24*60*60*1000);
-  var events = cal.getEvents(now, end);
-  var result = events.map(function(e) {
-    return { title: e.getTitle(), start: e.getStartTime().toISOString(), end: e.getEndTime().toISOString() };
-  });
-  return ContentService.createTextOutput(JSON.stringify(result))
-    .setMimeType(ContentService.MimeType.JSON);
-}`}
-                </pre>
-              </details>
+              <input
+                type="url"
+                value={settings.calendarIcalUrl || ""}
+                onChange={(e) => updateSettings({ calendarIcalUrl: e.target.value })}
+                placeholder="https://calendar.google.com/calendar/ical/..."
+                className="w-full bg-muted rounded-xl px-3 py-2 text-sm text-foreground outline-none border border-border placeholder:text-muted-foreground/50"
+              />
+            </section>
+
+            <section>
+              <label className="flex items-center gap-2 text-muted-foreground text-xs font-medium uppercase tracking-wider mb-2">
+                <Power className="w-3.5 h-3.5" />
+                {t("settings.autostart")}
+              </label>
+              <label className="flex items-center gap-2 text-sm">
+                <input
+                  type="checkbox"
+                  checked={settings.autostart}
+                  onChange={(e) => updateSettings({ autostart: e.target.checked })}
+                />
+                {t("settings.autostart")}
+              </label>
+            </section>
+
+            <section>
+              <label className="flex items-center gap-2 text-muted-foreground text-xs font-medium uppercase tracking-wider mb-2">
+                <Keyboard className="w-3.5 h-3.5" />
+                {t("settings.hotkey")}
+              </label>
               <input
                 type="text"
-                value={settings.calendarScriptUrl || ""}
-                onChange={(e) => updateSettings({ calendarScriptUrl: e.target.value })}
-                placeholder="pega aqui el .exec URL..."
-                className="w-full bg-muted rounded-xl px-3 py-2 text-sm text-foreground outline-none placeholder:text-muted-foreground/50 border border-border"
+                value={settings.globalHotkey}
+                onChange={(e) => updateSettings({ globalHotkey: e.target.value })}
+                className="w-full bg-muted rounded-xl px-3 py-2 text-sm font-mono border border-border"
               />
-            </div>
+            </section>
 
-            {/* Widget Toggles */}
-            <div>
+            <section>
+              <label className="flex items-center gap-2 text-muted-foreground text-xs font-medium uppercase tracking-wider mb-2">
+                <Bell className="w-3.5 h-3.5" />
+                {t("settings.notifications")}
+              </label>
+              <label className="flex items-center gap-2 text-sm">
+                <input
+                  type="checkbox"
+                  checked={settings.calendarNotifications}
+                  onChange={(e) => updateSettings({ calendarNotifications: e.target.checked })}
+                />
+                {t("settings.notifications")}
+              </label>
+            </section>
+
+            <section>
               <label className="flex items-center gap-2 text-muted-foreground text-xs font-medium uppercase tracking-wider mb-2">
                 <Eye className="w-3.5 h-3.5" />
                 {t("settings.visibility")}
               </label>
               <div className="space-y-2">
-                {([
-                  { key: "showCalendar", label: t("settings.calendar") },
-                  { key: "showMotivation", label: t("settings.motivation") },
-                  { key: "showHardware", label: t("settings.hardware") },
-                  { key: "showNotes", label: t("settings.notes") },
-                  { key: "showMusic", label: t("settings.music") },
-                ] as const).map(({ key, label }) => (
+                {(
+                  [
+                    { key: "showCalendar", label: t("settings.calendar") },
+                    { key: "showMotivation", label: t("settings.motivation") },
+                    { key: "showHardware", label: t("settings.hardware") },
+                    { key: "showNotes", label: t("settings.notes") },
+                    { key: "showMusic", label: t("settings.music") },
+                  ] as const
+                ).map(({ key, label }) => (
                   <button
                     key={key}
+                    type="button"
                     onClick={() => toggle(key)}
-                    className="w-full flex items-center justify-between px-3 py-2 rounded-xl bg-muted hover:bg-muted/70 transition-colors"
+                    className="w-full flex items-center justify-between px-3 py-2 rounded-xl bg-muted hover:bg-muted/80"
                   >
-                    <span className="text-foreground/80 text-sm">{label}</span>
+                    <span className="text-foreground/90 text-sm">{label}</span>
                     {settings[key] ? (
-                      <Eye className="w-4 h-4 text-emerald-400" />
+                      <Eye className="w-4 h-4 text-emerald-500" />
                     ) : (
                       <EyeOff className="w-4 h-4 text-muted-foreground/50" />
                     )}
                   </button>
                 ))}
               </div>
-            </div>
+            </section>
+
+            <p className="text-xs text-muted-foreground">{t("settings.reorder")}</p>
           </div>
         </div>
       </div>

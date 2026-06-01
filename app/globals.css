@@ -1,100 +1,71 @@
-@import 'tailwindcss';
-@import 'tw-animate-css';
+@import "tailwindcss";
+@import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 @custom-variant light (&:is(.light *));
 
 :root {
-  --radius: 1.5rem;
+  --radius: 14px;
+  --mac-blur: 48px;
 
-  /* iOS dark theme (default) */
-  --background: oklch(0.08 0.02 280);
-  --foreground: oklch(0.98 0 0);
-  --card: oklch(0.12 0.015 280 / 0.6);
-  --card-foreground: oklch(0.98 0 0);
-  --popover: oklch(0.1 0.02 280 / 0.8);
-  --popover-foreground: oklch(0.98 0 0);
-  --primary: oklch(0.7 0.15 200);
-  --primary-foreground: oklch(0.98 0 0);
-  --secondary: oklch(0.15 0.02 280);
-  --secondary-foreground: oklch(0.98 0 0);
-  --muted: oklch(0.2 0.015 280);
-  --muted-foreground: oklch(0.65 0 0);
-  --accent: oklch(0.75 0.18 180);
-  --accent-foreground: oklch(0.1 0 0);
-  --destructive: oklch(0.65 0.25 25);
-  --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(1 0 0 / 0.1);
-  --input: oklch(0.15 0.015 280);
-  --ring: oklch(0.7 0.15 200);
-  --chart-1: oklch(0.75 0.2 165);
-  --chart-2: oklch(0.7 0.18 200);
-  --chart-3: oklch(0.65 0.15 280);
-  --chart-4: oklch(0.8 0.15 150);
-  --chart-5: oklch(0.75 0.12 220);
+  --background: oklch(0.96 0.008 260);
+  --foreground: oklch(0.18 0.02 260);
+  --card: oklch(1 0 0 / 0.72);
+  --card-foreground: oklch(0.18 0.02 260);
+  --popover: oklch(1 0 0 / 0.88);
+  --popover-foreground: oklch(0.18 0.02 260);
+  --primary: oklch(0.52 0.18 255);
+  --primary-foreground: oklch(0.99 0 0);
+  --secondary: oklch(0.94 0.01 260);
+  --secondary-foreground: oklch(0.22 0.02 260);
+  --muted: oklch(0.92 0.01 260);
+  --muted-foreground: oklch(0.48 0.02 260);
+  --accent: oklch(0.55 0.16 255);
+  --accent-foreground: oklch(0.99 0 0);
+  --destructive: oklch(0.55 0.22 25);
+  --destructive-foreground: oklch(0.99 0 0);
+  --border: oklch(0 0 0 / 0.08);
+  --input: oklch(0.9 0.01 260);
+  --ring: oklch(0.52 0.18 255);
 
-  --ios-blue: oklch(0.65 0.2 250);
-  --ios-red: oklch(0.65 0.25 25);
-  --ios-green: oklch(0.75 0.2 150);
-  --ios-cyan: oklch(0.8 0.15 195);
-  --ios-purple: oklch(0.6 0.2 300);
-
-  --glass-bg: oklch(0.08 0.015 280 / 0.6);
-  --glass-border: oklch(1 0 0 / 0.1);
-  --glass-glow: oklch(0.7 0.15 200 / 0.3);
-}
-
-.light {
-  --background: oklch(0.97 0.005 280);
-  --foreground: oklch(0.15 0.02 280);
-  --card: oklch(1 0 0 / 0.75);
-  --card-foreground: oklch(0.15 0.02 280);
-  --popover: oklch(1 0 0 / 0.9);
-  --popover-foreground: oklch(0.15 0.02 280);
-  --primary: oklch(0.55 0.15 250);
-  --primary-foreground: oklch(0.98 0 0);
-  --secondary: oklch(0.94 0.01 280);
-  --secondary-foreground: oklch(0.15 0.02 280);
-  --muted: oklch(0.92 0.01 280);
-  --muted-foreground: oklch(0.45 0.02 280);
-  --accent: oklch(0.55 0.15 250);
-  --accent-foreground: oklch(0.98 0 0);
-  --destructive: oklch(0.55 0.25 25);
-  --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(0 0 0 / 0.1);
-  --input: oklch(0.9 0.01 280);
-  --ring: oklch(0.55 0.15 250);
-
-  --glass-bg: oklch(1 0 0 / 0.7);
-  --glass-border: oklch(0 0 0 / 0.08);
-  --glass-glow: oklch(0.55 0.15 250 / 0.25);
+  --glass-bg: oklch(1 0 0 / 0.55);
+  --glass-border: oklch(1 0 0 / 0.65);
+  --glass-shadow: 0 8px 32px oklch(0 0 0 / 0.08), 0 1px 0 oklch(1 0 0 / 0.8) inset;
+  --elev-1: 0 1px 2px oklch(0 0 0 / 0.06);
+  --elev-2: 0 8px 24px oklch(0 0 0 / 0.1);
 }
 
 .dark {
-  --background: oklch(0.08 0.02 280);
-  --foreground: oklch(0.98 0 0);
-  --card: oklch(0.12 0.015 280 / 0.6);
-  --card-foreground: oklch(0.98 0 0);
-  --popover: oklch(0.1 0.02 280 / 0.8);
-  --popover-foreground: oklch(0.98 0 0);
-  --primary: oklch(0.7 0.15 200);
-  --primary-foreground: oklch(0.98 0 0);
-  --secondary: oklch(0.15 0.02 280);
-  --secondary-foreground: oklch(0.98 0 0);
-  --muted: oklch(0.2 0.015 280);
-  --muted-foreground: oklch(0.65 0 0);
-  --accent: oklch(0.75 0.18 180);
-  --accent-foreground: oklch(0.1 0 0);
-  --destructive: oklch(0.65 0.25 25);
+  --background: oklch(0.14 0.015 280);
+  --foreground: oklch(0.96 0 0);
+  --card: oklch(0.2 0.02 280 / 0.55);
+  --card-foreground: oklch(0.96 0 0);
+  --popover: oklch(0.18 0.02 280 / 0.92);
+  --popover-foreground: oklch(0.96 0 0);
+  --primary: oklch(0.68 0.14 220);
+  --primary-foreground: oklch(0.12 0 0);
+  --secondary: oklch(0.22 0.02 280);
+  --secondary-foreground: oklch(0.96 0 0);
+  --muted: oklch(0.24 0.02 280);
+  --muted-foreground: oklch(0.68 0 0);
+  --accent: oklch(0.72 0.14 200);
+  --accent-foreground: oklch(0.12 0 0);
+  --destructive: oklch(0.62 0.22 25);
   --destructive-foreground: oklch(0.98 0 0);
   --border: oklch(1 0 0 / 0.1);
-  --input: oklch(0.15 0.015 280);
-  --ring: oklch(0.7 0.15 200);
+  --input: oklch(0.22 0.02 280);
+  --ring: oklch(0.68 0.14 220);
+
+  --glass-bg: oklch(0.16 0.02 280 / 0.62);
+  --glass-border: oklch(1 0 0 / 0.12);
+  --glass-shadow: 0 12px 40px oklch(0 0 0 / 0.35), 0 1px 0 oklch(1 0 0 / 0.08) inset;
+  --elev-1: 0 1px 2px oklch(0 0 0 / 0.2);
+  --elev-2: 0 12px 40px oklch(0 0 0 / 0.4);
 }
 
 @theme inline {
-  --font-sans: 'Geist', 'Geist Fallback', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-  --font-mono: 'Geist Mono', 'Geist Mono Fallback', monospace;
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "SF Mono", "Cascadia Code", ui-monospace, monospace;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -114,109 +85,151 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --radius-sm: calc(var(--radius) - 8px);
-  --radius-md: calc(var(--radius) - 4px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --color-ios-blue: var(--ios-blue);
-  --color-ios-red: var(--ios-red);
-  --color-ios-green: var(--ios-green);
-  --color-ios-cyan: var(--ios-cyan);
-  --color-ios-purple: var(--ios-purple);
-  --color-glass-bg: var(--glass-bg);
-  --color-glass-border: var(--glass-border);
-  --color-glass-glow: var(--glass-glow);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 6px);
+  --radius-xl: calc(var(--radius) + 12px);
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
-  html, body {
+  html,
+  body {
     background: transparent !important;
   }
   body {
-    @apply text-foreground;
+    @apply text-foreground antialiased;
+    font-feature-settings:
+      "kern" 1,
+      "liga" 1,
+      "tnum" 1;
   }
 }
 
-/* Glassmorphism card base */
 .glass-card {
   background: var(--glass-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(var(--mac-blur)) saturate(1.4);
+  -webkit-backdrop-filter: blur(var(--mac-blur)) saturate(1.4);
   border: 1px solid var(--glass-border);
-  border-radius: 24px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--glass-shadow);
 }
 
-/* Weather icon glow effect */
-.weather-glow {
-  filter: drop-shadow(0 0 20px rgba(255, 200, 80, 0.4));
-}
-
-/* Progress bar gradient */
-.progress-gradient {
-  background: linear-gradient(90deg,
-    oklch(0.75 0.2 150) 0%,
-    oklch(0.8 0.18 180) 50%,
-    oklch(0.75 0.15 200) 100%
-  );
-}
-
-/* Dock glass effect */
 .dock-glass {
   background: var(--glass-bg);
-  backdrop-filter: blur(40px);
-  -webkit-backdrop-filter: blur(40px);
+  backdrop-filter: blur(56px) saturate(1.6);
+  -webkit-backdrop-filter: blur(56px) saturate(1.6);
   border: 1px solid var(--glass-border);
   box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    var(--elev-2),
+    0 1px 0 oklch(1 0 0 / 0.12) inset;
 }
 
-/* Glow effect for active indicator */
-.shadow-glow {
-  box-shadow: 0 0 8px 2px rgba(255, 255, 255, 0.6);
+.widget-title {
+  @apply text-xs font-semibold uppercase tracking-widest text-muted-foreground;
 }
 
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-5px); }
+.weather-glow {
+  filter: drop-shadow(0 0 16px oklch(0.78 0.15 85 / 0.45));
 }
 
-.float-animation {
-  animation: float 4s ease-in-out infinite;
+.progress-gradient {
+  background: linear-gradient(90deg, oklch(0.72 0.16 165) 0%, oklch(0.68 0.14 220) 100%);
+}
+
+.traffic-light {
+  @apply w-3 h-3 rounded-full transition-opacity hover:opacity-90;
+}
+
+.traffic-close {
+  background: #ff5f57;
+}
+.traffic-minimize {
+  background: #febc2e;
+}
+.traffic-maximize {
+  background: #28c840;
 }
 
 @keyframes pulse-soft {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
 }
 
 .pulse-soft {
   animation: pulse-soft 2s ease-in-out infinite;
 }
 
-.custom-scrollbar::-webkit-scrollbar {
-  width: 4px;
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
 }
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: transparent;
+
+.float-animation {
+  animation: float 4s ease-in-out infinite;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
 }
 .custom-scrollbar::-webkit-scrollbar-thumb {
   background: var(--border);
-  border-radius: 2px;
+  border-radius: 4px;
 }
 
 @keyframes slide-in-from-bottom {
-  from { transform: translateY(100%); }
-  to { transform: translateY(0); }
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
 }
+
 .animate-in {
-  animation: slide-in-from-bottom 0.3s ease-out;
+  animation: slide-in-from-bottom 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.dashboard-grid {
+  display: grid;
+  gap: 1rem;
+  width: 100%;
+  max-width: min(100%, 1200px);
+  margin-inline: auto;
+  padding: 2.5rem 1rem 7rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 720px) and (orientation: landscape) {
+  .dashboard-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 2.5rem 1.25rem 6rem;
+  }
+  .dashboard-grid .widget-span-2 {
+    grid-column: span 2;
+  }
+}
+
+@media (min-width: 1100px) and (orientation: landscape) {
+  .dashboard-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .dashboard-grid .widget-span-2 {
+    grid-column: span 2;
+  }
+  .dashboard-grid .widget-span-3 {
+    grid-column: span 3;
+  }
 }

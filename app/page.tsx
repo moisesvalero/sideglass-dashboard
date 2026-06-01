@@ -1,6 +1,21 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useMemo } from "react"
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+} from "@dnd-kit/core"
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable"
 import { TimeWeatherWidget } from "@/components/dashboard/time-weather-widget"
 import { CalendarWidget } from "@/components/dashboard/calendar-widget"
 import { MotivationWidget } from "@/components/dashboard/motivation-widget"
@@ -10,53 +25,93 @@ import { Titlebar } from "@/components/dashboard/titlebar"
 import { SettingsDrawer } from "@/components/dashboard/settings-drawer"
 import { NotesWidget } from "@/components/dashboard/notes-widget"
 import { MusicWidget } from "@/components/dashboard/music-widget"
-import { useSettings } from "@/lib/settings"
+import { SortableWidget } from "@/components/dashboard/widget-sortable"
+import { useSettings, type WidgetId } from "@/lib/settings"
 import { useI18n } from "@/lib/i18n"
+import { useDashboardBootstrap } from "@/hooks/use-dashboard-bootstrap"
+
+const widgetMap: Record<WidgetId, React.ComponentType> = {
+  time: TimeWeatherWidget,
+  calendar: CalendarWidget,
+  motivation: MotivationWidget,
+  hardware: HardwareMonitor,
+  notes: NotesWidget,
+  music: MusicWidget,
+}
+
+function isWidgetVisible(id: WidgetId, settings: ReturnType<typeof useSettings>["settings"]) {
+  if (id === "time") return true
+  if (id === "calendar") return settings.showCalendar
+  if (id === "motivation") return settings.showMotivation
+  if (id === "hardware") return settings.showHardware
+  if (id === "notes") return settings.showNotes
+  if (id === "music") return settings.showMusic
+  return true
+}
 
 export default function Dashboard() {
   const [settingsOpen, setSettingsOpen] = useState(false)
-  const { settings } = useSettings()
+  const { settings, updateSettings } = useSettings()
   const { t } = useI18n()
-  const isDark = settings.theme === "dark"
+  const isDark =
+    settings.theme === "dark" ||
+    (settings.theme === "system" &&
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches)
+
+  useDashboardBootstrap()
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
+  )
+
+  const visibleOrder = useMemo(
+    () => settings.widgetOrder.filter((id) => isWidgetVisible(id, settings)),
+    [settings]
+  )
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event
+    if (!over || active.id === over.id) return
+
+    const oldIndex = settings.widgetOrder.indexOf(active.id as WidgetId)
+    const newIndex = settings.widgetOrder.indexOf(over.id as WidgetId)
+    updateSettings({ widgetOrder: arrayMove(settings.widgetOrder, oldIndex, newIndex) })
+  }
 
   return (
     <main className="relative min-h-screen w-full overflow-x-hidden bg-background">
       <div className="fixed inset-0 -z-10 bg-background" />
       <div
-        className="fixed inset-0 -z-10"
+        className="fixed inset-0 -z-10 pointer-events-none"
         style={{
           background: isDark
-            ? `
-              radial-gradient(ellipse at 20% 20%, rgba(30, 30, 80, 0.4) 0%, transparent 50%),
-              radial-gradient(ellipse at 80% 80%, rgba(50, 20, 80, 0.3) 0%, transparent 50%),
-              radial-gradient(ellipse at 50% 50%, rgba(20, 30, 60, 0.3) 0%, transparent 70%)
-            `
-            : `
-              radial-gradient(ellipse at 20% 20%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
-              radial-gradient(ellipse at 80% 80%, rgba(168, 85, 247, 0.06) 0%, transparent 50%),
-              radial-gradient(ellipse at 50% 50%, rgba(99, 102, 241, 0.05) 0%, transparent 70%)
-            `,
+            ? `radial-gradient(ellipse at 15% 10%, oklch(0.35 0.08 260 / 0.35), transparent 55%),
+               radial-gradient(ellipse at 85% 90%, oklch(0.32 0.1 300 / 0.25), transparent 50%)`
+            : `radial-gradient(ellipse at 15% 10%, oklch(0.75 0.06 250 / 0.2), transparent 55%),
+               radial-gradient(ellipse at 85% 90%, oklch(0.8 0.05 280 / 0.15), transparent 50%)`,
         }}
       />
 
-      <div className="fixed inset-0 -z-10 overflow-hidden">
-        <div className={`absolute top-1/4 left-1/4 w-96 h-96 rounded-full blur-3xl ${isDark ? "bg-blue-900/10" : "bg-blue-500/8"}`} />
-        <div className={`absolute bottom-1/3 right-1/4 w-80 h-80 rounded-full blur-3xl ${isDark ? "bg-purple-900/10" : "bg-purple-500/6"}`} />
-      </div>
-
       <Titlebar onSettingsClick={() => setSettingsOpen(true)} title={t("dashboard.title")} />
 
-      <div className="flex flex-col min-h-screen p-4 gap-4 max-w-md mx-auto pb-28 pt-10">
-        <TimeWeatherWidget />
-        {settings.showCalendar && <CalendarWidget />}
-        {settings.showMotivation && <MotivationWidget />}
-        {settings.showHardware && <HardwareMonitor />}
-        {settings.showNotes && <NotesWidget />}
-        {settings.showMusic && <MusicWidget />}
-      </div>
+      <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+        <SortableContext items={visibleOrder} strategy={verticalListSortingStrategy}>
+          <div className="dashboard-grid pt-11">
+            {visibleOrder.map((id) => {
+              const Component = widgetMap[id]
+              return (
+                <SortableWidget key={id} id={id}>
+                  <Component />
+                </SortableWidget>
+              )
+            })}
+          </div>
+        </SortableContext>
+      </DndContext>
 
       <AIDock />
-
       <SettingsDrawer open={settingsOpen} onClose={() => setSettingsOpen(false)} />
     </main>
   )

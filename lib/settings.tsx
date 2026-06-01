@@ -2,28 +2,44 @@
 
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react"
 
+export const WIDGET_IDS = ["time", "calendar", "motivation", "hardware", "notes", "music"] as const
+
+export type WidgetId = (typeof WIDGET_IDS)[number]
+
 export interface Settings {
   weatherCity: string
+  useAutoLocation: boolean
   tempUnit: "celsius" | "fahrenheit"
+  timeFormat: "12" | "24"
   theme: "dark" | "light" | "system"
-  calendarScriptUrl: string
+  calendarIcalUrl: string
+  widgetOrder: WidgetId[]
   showCalendar: boolean
   showMotivation: boolean
   showHardware: boolean
   showNotes: boolean
   showMusic: boolean
+  autostart: boolean
+  globalHotkey: string
+  calendarNotifications: boolean
 }
 
 const defaultSettings: Settings = {
   weatherCity: "Madrid",
+  useAutoLocation: true,
   tempUnit: "celsius",
+  timeFormat: "24",
   theme: "dark",
-  calendarScriptUrl: "",
+  calendarIcalUrl: "",
+  widgetOrder: [...WIDGET_IDS],
   showCalendar: true,
   showMotivation: true,
   showHardware: true,
-  showNotes: false,
-  showMusic: false,
+  showNotes: true,
+  showMusic: true,
+  autostart: false,
+  globalHotkey: "CommandOrControl+Shift+D",
+  calendarNotifications: true,
 }
 
 type SettingsContextType = {
@@ -48,6 +64,19 @@ function applyTheme(theme: Settings["theme"]) {
   }
 }
 
+function migrateStored(raw: Record<string, unknown>): Settings {
+  const next = { ...defaultSettings, ...raw } as Settings & {
+    calendarScriptUrl?: string
+  }
+  if (!next.calendarIcalUrl && next.calendarScriptUrl) {
+    next.calendarIcalUrl = next.calendarScriptUrl
+  }
+  if (!Array.isArray(next.widgetOrder) || next.widgetOrder.length === 0) {
+    next.widgetOrder = [...WIDGET_IDS]
+  }
+  return next
+}
+
 export function SettingsProvider({ children }: { children: ReactNode }) {
   const [settings, setSettings] = useState<Settings>(defaultSettings)
   const [mounted, setMounted] = useState(false)
@@ -56,9 +85,10 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
     const stored = localStorage.getItem("dashboard-settings")
     if (stored) {
       try {
-        const parsed = { ...defaultSettings, ...JSON.parse(stored) }
-        setSettings(parsed)
-      } catch { /* ignore */ }
+        setSettings(migrateStored(JSON.parse(stored)))
+      } catch {
+        /* ignore */
+      }
     }
     setMounted(true)
   }, [])
@@ -82,8 +112,6 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
       return next
     })
   }
-
-  if (!mounted) return <>{children}</>
 
   return (
     <SettingsContext.Provider value={{ settings, updateSettings }}>

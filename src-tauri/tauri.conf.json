@@ -1,8 +1,8 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "iOS Dashboard",
-  "version": "0.1.0",
-  "identifier": "com.iosdashboard.app",
+  "productName": "Desk Dashboard",
+  "version": "0.2.0",
+  "identifier": "com.deskdashboard.app",
   "build": {
     "beforeDevCommand": "npm run dev",
     "devUrl": "http://localhost:3000",
@@ -13,36 +13,41 @@
     "withGlobalTauri": true,
     "windows": [
       {
-        "title": "Dashboard",
-        "width": 420,
-        "height": 900,
+        "label": "main",
+        "title": "Desk Dashboard",
+        "width": 480,
+        "height": 1040,
         "resizable": true,
         "fullscreen": false,
         "decorations": false,
         "transparent": true,
         "center": true,
-        "minWidth": 380,
-        "minHeight": 700,
-        "maximizable": false
+        "minWidth": 360,
+        "minHeight": 600,
+        "maximizable": true
       }
     ],
     "security": {
-      "csp": null
+      "csp": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self' data:; connect-src 'self' ipc: http://ipc.localhost https://api.open-meteo.com https://geocoding-api.open-meteo.com; frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com; object-src 'none'; base-uri 'self'"
+    }
+  },
+  "plugins": {
+    "updater": {
+      "endpoints": [
+        "https://github.com/moisesvalero/personal-dashboard/releases/latest/download/latest.json"
+      ],
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEZFMDUyMzhBRTIyREM4OEMKUldTTXlDM2lpaU1GL2hsVVZXVDlwZ3R0K3E2SEZkVndxTWJQdlVVOUhEaTdPWHJCQVBBWEVjdG8K"
     }
   },
   "bundle": {
     "active": true,
     "targets": "all",
-    "icon": [
-      "icons/32x32.png",
-      "icons/128x128.png",
-      "icons/128x128@2x.png",
-      "icons/icon.ico"
-    ],
+    "icon": ["icons/32x32.png", "icons/128x128.png", "icons/128x128@2x.png", "icons/icon.ico"],
     "windows": {
       "webviewInstallMode": {
         "type": "embedBootstrapper"
       }
-    }
+    },
+    "createUpdaterArtifacts": true
   }
 }

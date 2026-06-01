@@ -1,17 +1,21 @@
 import type { Metadata } from "next"
-import { Geist, Geist_Mono } from "next/font/google"
-import { Analytics } from "@vercel/analytics/next"
+import { Geist } from "next/font/google"
 import { SettingsProvider } from "@/lib/settings"
 import { I18nProvider } from "@/lib/i18n"
+import { SITE_URL } from "@/lib/site"
 import "./globals.css"
 
 const geist = Geist({ subsets: ["latin"] })
-const geistMono = Geist_Mono({ subsets: ["latin"] })
-
 export const metadata: Metadata = {
-  title: "Dashboard",
-  description: "Premium visionOS-style vertical dashboard",
-  generator: "v0.app",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: "Desk Dashboard",
+    template: "%s · Desk Dashboard",
+  },
+  description: "Premium macOS-style dashboard for your secondary monitor on Windows",
+  applicationName: "Desk Dashboard",
+  authors: [{ name: "Moises Valero" }],
+  creator: "Moises Valero",
 }
 
 export default function RootLayout({
@@ -20,17 +24,14 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="es" suppressHydrationWarning>
       <body
-        className={`${geist.className} ${geistMono.variable} font-sans antialiased`}
+        className={`${geist.className} font-sans antialiased`}
         style={{ background: "transparent" }}
       >
         <I18nProvider>
-          <SettingsProvider>
-            {children}
-          </SettingsProvider>
+          <SettingsProvider>{children}</SettingsProvider>
         </I18nProvider>
-        {process.env.NODE_ENV === "production" && <Analytics />}
       </body>
     </html>
   )

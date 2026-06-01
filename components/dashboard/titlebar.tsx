@@ -1,71 +1,73 @@
 "use client"
 
-import { Settings, Minus, Square, X } from "lucide-react"
+import { Settings } from "lucide-react"
 import { isTauri } from "@/lib/tauri"
 
-export function Titlebar({ onSettingsClick, title }: { onSettingsClick: () => void; title: string }) {
+export function Titlebar({
+  onSettingsClick,
+  title,
+}: {
+  onSettingsClick: () => void
+  title: string
+}) {
   const tauriMode = isTauri()
 
   const handleMinimize = async () => {
     const win = await getTauriWindow()
-    win?.minimize()
+    await win?.minimize()
   }
   const handleMaximize = async () => {
     const win = await getTauriWindow()
-    win?.toggleMaximize()
+    await win?.toggleMaximize()
   }
   const handleClose = async () => {
     const win = await getTauriWindow()
-    win?.close()
+    await win?.close()
   }
 
   return (
     <div
       data-tauri-drag-region
-      className="fixed top-0 left-0 right-0 z-50 h-9 flex items-center justify-between select-none"
+      className="fixed top-0 left-0 right-0 z-50 h-10 flex items-center select-none bg-background/20 backdrop-blur-md border-b border-border/40"
     >
-      <div className="flex items-center gap-2 pl-3">
-        <button
-          onClick={onSettingsClick}
-          className="w-7 h-7 rounded-md hover:bg-white/10 flex items-center justify-center transition-colors"
-          data-tauri-drag-region="false"
-          aria-label="Ajustes"
-        >
-          <Settings className="w-3.5 h-3.5 text-white/50" />
-        </button>
-      </div>
+      {tauriMode ? (
+        <div className="flex items-center gap-2 pl-4" data-tauri-drag-region="false">
+          <button
+            type="button"
+            onClick={handleClose}
+            className="traffic-light traffic-close"
+            aria-label="Cerrar"
+          />
+          <button
+            type="button"
+            onClick={handleMinimize}
+            className="traffic-light traffic-minimize"
+            aria-label="Minimizar"
+          />
+          <button
+            type="button"
+            onClick={handleMaximize}
+            className="traffic-light traffic-maximize"
+            aria-label="Maximizar"
+          />
+        </div>
+      ) : (
+        <div className="w-24" />
+      )}
 
-      <span className="text-white/25 text-[11px] font-medium pointer-events-none">
+      <span className="flex-1 text-center text-[11px] font-medium text-muted-foreground pointer-events-none truncate px-2">
         {title}
       </span>
 
-      {tauriMode ? (
-        <div className="flex items-center h-full" data-tauri-drag-region="false">
-          <button
-            onClick={handleMinimize}
-            className="w-11 h-9 hover:bg-white/10 flex items-center justify-center transition-colors"
-            aria-label="Minimizar"
-          >
-            <Minus className="w-3.5 h-3.5 text-white/60" />
-          </button>
-          <button
-            onClick={handleMaximize}
-            className="w-11 h-9 hover:bg-white/10 flex items-center justify-center transition-colors"
-            aria-label="Maximizar"
-          >
-            <Square className="w-3 h-3 text-white/60" />
-          </button>
-          <button
-            onClick={handleClose}
-            className="w-11 h-9 hover:bg-red-500/80 flex items-center justify-center transition-colors"
-            aria-label="Cerrar"
-          >
-            <X className="w-3.5 h-3.5 text-white/60 group-hover:text-white" />
-          </button>
-        </div>
-      ) : (
-        <div className="w-[132px]" />
-      )}
+      <button
+        type="button"
+        onClick={onSettingsClick}
+        className="w-9 h-9 mr-2 rounded-lg hover:bg-muted flex items-center justify-center transition-colors"
+        data-tauri-drag-region="false"
+        aria-label="Ajustes"
+      >
+        <Settings className="w-4 h-4 text-muted-foreground" />
+      </button>
     </div>
   )
 }

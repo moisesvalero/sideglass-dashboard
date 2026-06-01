@@ -1,37 +1,48 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Sun, Cloud, CloudRain, CloudSnow, CloudLightning, CloudDrizzle, CloudFog, Loader2 } from "lucide-react"
+import {
+  Sun,
+  Cloud,
+  CloudRain,
+  CloudSnow,
+  CloudLightning,
+  CloudDrizzle,
+  CloudFog,
+  Loader2,
+} from "lucide-react"
 import { useSettings } from "@/lib/settings"
 import { useI18n } from "@/lib/i18n"
+import { fetchWeather, wmoToOpenWeatherIcon } from "@/lib/open-meteo"
 
 interface WeatherData {
   temp: number
   condition: string
-  icon: string
+  iconCode: number
   city: string
   humidity: number
   feelsLike: number
 }
 
 const weatherIcons: Record<string, React.ReactNode> = {
-  "01": <Sun className="w-16 h-16 text-amber-400 weather-glow float-animation" />,
-  "02": <Cloud className="w-16 h-16 text-white/80" />,
-  "03": <Cloud className="w-16 h-16 text-white/60" />,
-  "04": <Cloud className="w-16 h-16 text-white/50" />,
-  "09": <CloudDrizzle className="w-16 h-16 text-blue-300" />,
-  "10": <CloudRain className="w-16 h-16 text-blue-400" />,
-  "11": <CloudLightning className="w-16 h-16 text-yellow-300" />,
-  "13": <CloudSnow className="w-16 h-16 text-white/80" />,
-  "50": <CloudFog className="w-16 h-16 text-white/40" />,
+  "01": <Sun className="w-14 h-14 text-amber-500 weather-glow float-animation" />,
+  "02": <Cloud className="w-14 h-14 text-muted-foreground" />,
+  "03": <Cloud className="w-14 h-14 text-muted-foreground/80" />,
+  "04": <Cloud className="w-14 h-14 text-muted-foreground/60" />,
+  "09": <CloudDrizzle className="w-14 h-14 text-sky-400" />,
+  "10": <CloudRain className="w-14 h-14 text-sky-500" />,
+  "11": <CloudLightning className="w-14 h-14 text-amber-400" />,
+  "13": <CloudSnow className="w-14 h-14 text-muted-foreground" />,
+  "50": <CloudFog className="w-14 h-14 text-muted-foreground/50" />,
+  "741": <CloudFog className="w-14 h-14 text-muted-foreground/50" />,
+  "800": <Sun className="w-14 h-14 text-amber-500 weather-glow float-animation" />,
 }
 
 function getWeatherIcon(code: number): React.ReactNode {
-  const prefix = code < 10 ? `0${code}` : `${code}`
-  return weatherIcons[prefix] || weatherIcons[prefix.charAt(0) + "0"] || weatherIcons["01"]
+  const ow = wmoToOpenWeatherIcon(code)
+  const prefix = ow.length >= 3 ? ow.slice(0, 3) : ow
+  return weatherIcons[prefix] || weatherIcons[ow] || weatherIcons["800"]
 }
-
-const WEATHER_API_KEY = process.env.NEXT_PUBLIC_OPENWEATHER_KEY || ""
 
 export function TimeWeatherWidget() {
   const [mounted, setMounted] = useState(false)
@@ -40,7 +51,7 @@ export function TimeWeatherWidget() {
   const [weatherLoading, setWeatherLoading] = useState(true)
   const [weatherError, setWeatherError] = useState(false)
   const { settings } = useSettings()
-  const { t } = useI18n()
+  const { t, lang } = useI18n()
 
   useEffect(() => {
     setMounted(true)
@@ -52,107 +63,79 @@ export function TimeWeatherWidget() {
   useEffect(() => {
     if (!mounted) return
 
-    const fetchWeather = async () => {
+    const load = async () => {
       setWeatherLoading(true)
       setWeatherError(false)
-
       try {
-        const city = settings.weatherCity || "Madrid"
-        const units = settings.tempUnit === "fahrenheit" ? "imperial" : "metric"
-        const apiKey = WEATHER_API_KEY
-
-        if (!apiKey) {
-          setWeatherError(true)
-          setWeatherLoading(false)
-          return
-        }
-
-        const res = await fetch(
-          `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&appid=${apiKey}&units=${units}&lang=es`,
-          { signal: AbortSignal.timeout(5000) }
-        )
-        if (!res.ok) throw new Error("Weather fetch failed")
-
-        const data = await res.json()
-        setWeather({
-          temp: Math.round(data.main.temp),
-          condition: data.weather[0].description,
-          icon: `${data.weather[0].id}`,
-          city: data.name,
-          humidity: data.main.humidity,
-          feelsLike: Math.round(data.main.feels_like),
+        const data = await fetchWeather({
+          city: settings.weatherCity,
+          useAutoLocation: settings.useAutoLocation,
+          tempUnit: settings.tempUnit,
         })
+        setWeather(data)
       } catch {
         setWeatherError(true)
       }
       setWeatherLoading(false)
     }
 
-    fetchWeather()
-    const weatherInterval = setInterval(fetchWeather, 600000)
-    return () => clearInterval(weatherInterval)
-  }, [mounted, settings.weatherCity, settings.tempUnit])
+    load()
+    const interval = setInterval(load, 600_000)
+    return () => clearInterval(interval)
+  }, [mounted, settings.weatherCity, settings.useAutoLocation, settings.tempUnit])
 
-  const formatTime = (date: Date) => {
-    return date.toLocaleTimeString("es-ES", {
+  const locale = lang === "es" ? "es-ES" : "en-US"
+  const use12h = settings.timeFormat === "12"
+
+  const formatTime = (date: Date) =>
+    date.toLocaleTimeString(locale, {
       hour: "2-digit",
       minute: "2-digit",
-      hour12: false,
+      hour12: use12h,
     })
-  }
 
-  const formatDate = (date: Date) => {
-    return date.toLocaleDateString("es-ES", {
+  const formatDate = (date: Date) =>
+    date.toLocaleDateString(locale, {
       weekday: "long",
       month: "long",
       day: "numeric",
     })
-  }
+
+  const tempSuffix = settings.tempUnit === "celsius" ? "°C" : "°F"
 
   return (
-    <div className="glass-card p-6">
-      <div className="flex items-center justify-between">
-        <div className="flex flex-col">
-          <span className="text-6xl font-light tracking-tight text-white tabular-nums">
+    <div className="glass-card p-6 widget-span-2">
+      <div className="flex items-center justify-between gap-4">
+        <div className="flex flex-col min-w-0">
+          <span className="text-5xl sm:text-6xl font-light tracking-tight text-foreground tabular-nums">
             {mounted && time ? formatTime(time) : "--:--"}
           </span>
-          <span className="text-lg text-white/60 mt-1">
+          <span className="text-base text-muted-foreground mt-1 capitalize truncate">
             {mounted && time ? formatDate(time) : t("time.loading")}
           </span>
         </div>
 
-        <div className="flex flex-col items-center gap-2 min-w-[80px]">
+        <div className="flex flex-col items-center gap-2 min-w-[88px] shrink-0">
           {weatherLoading ? (
-            <Loader2 className="w-8 h-8 text-white/40 animate-spin" />
+            <Loader2 className="w-7 h-7 text-muted-foreground animate-spin" />
           ) : weather ? (
             <>
-              <div className="relative">
-                {getWeatherIcon(parseInt(weather.icon) || 800)}
-                <div className="absolute inset-0 bg-amber-400/20 blur-xl rounded-full" />
-              </div>
-              <div className="flex flex-col items-center gap-0.5">
-                <span className="text-3xl font-light text-white">
-                  {weather.temp}°{settings.tempUnit === "celsius" ? "" : "F"}
+              {getWeatherIcon(weather.iconCode)}
+              <div className="flex flex-col items-center gap-0.5 text-center">
+                <span className="text-2xl font-light text-foreground tabular-nums">
+                  {weather.temp}
+                  {tempSuffix}
                 </span>
-                <span className="text-white/50 text-xs capitalize">{weather.condition}</span>
-                <span className="text-white/30 text-xs">
+                <span className="text-muted-foreground text-xs capitalize">
+                  {weather.condition}
+                </span>
+                <span className="text-muted-foreground/70 text-[11px]">
                   {weather.city} · {weather.humidity}%
                 </span>
               </div>
             </>
           ) : weatherError ? (
-            <div className="flex flex-col items-center gap-2">
-              <div className="relative">
-                <Sun className="w-16 h-16 text-amber-400 weather-glow float-animation" />
-                <div className="absolute inset-0 bg-amber-400/20 blur-xl rounded-full" />
-              </div>
-              <div className="flex flex-col items-center gap-0.5">
-                <span className="text-3xl font-light text-white">--°</span>
-                <span className="text-white/40 text-xs">
-                  {WEATHER_API_KEY ? t("weather.noData") : t("weather.setKey")}
-                </span>
-              </div>
-            </div>
+            <p className="text-xs text-muted-foreground text-center">{t("weather.setKey")}</p>
           ) : null}
         </div>
       </div>

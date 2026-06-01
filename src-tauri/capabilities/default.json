@@ -2,10 +2,11 @@
   "$schema": "../gen/schemas/desktop-schema.json",
   "identifier": "default",
   "description": "Default window permissions",
-  "windows": ["main"],
+  "windows": ["main", "youtube"],
   "permissions": [
     "core:default",
     "shell:allow-open",
+    "opener:default",
     "core:window:allow-minimize",
     "core:window:allow-toggle-maximize",
     "core:window:allow-close",
@@ -13,6 +14,16 @@
     "core:window:allow-hide",
     "core:window:allow-set-focus",
     "core:window:allow-is-visible",
-    "core:window:allow-start-dragging"
+    "core:window:allow-start-dragging",
+    "core:window:allow-create",
+    "core:window:allow-center",
+    "core:window:allow-set-size",
+    "core:window:allow-set-title",
+    "core:webview:allow-create-webview-window",
+    "autostart:default",
+    "window-state:default",
+    "global-shortcut:default",
+    "notification:default",
+    "updater:default"
   ]
 }

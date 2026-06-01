@@ -1,41 +1,37 @@
-# OpenCode / Codex Instructions
+# Desk Dashboard — Agent Instructions
 
-## Project: iOS Dashboard (Tauri Desktop App)
+## Project
 
-### Quick Context
-Premium iOS/visionOS-style dashboard for Windows. Next.js frontend + Tauri/Rust backend.
-Features: glassmorphism UI, real-time hardware monitoring, AI dock with 5 assistants.
+Premium macOS-style dashboard for Windows (secondary monitor). Next.js static export + Tauri v2 + Rust.
 
-### Key Files to Know
-- `app/page.tsx` - Main dashboard layout
-- `components/dashboard/` - All widget components
-- `lib/tauri.ts` - Tauri API integration
-- `src-tauri/src/main.rs` - Rust backend (system monitoring)
-- `app/globals.css` - All styles and design tokens
+## Key paths
 
-### Important Notes
-1. **Tailwind v4** - Config is in `globals.css` NOT tailwind.config.ts
-2. **Tauri detection** - Use `isTauri()` from `lib/tauri.ts` before Tauri APIs
-3. **Hydration** - Time components need `mounted` state to avoid SSR mismatch
-4. **shadcn/ui** - Components are in `components/ui/`, use directly
+- `app/page.tsx` — Dashboard layout + widget order (dnd-kit)
+- `app/globals.css` — Tailwind v4 theme + glass materials
+- `components/dashboard/` — Widgets
+- `lib/settings.tsx` — User preferences (localStorage)
+- `lib/tauri.ts` — Tauri invoke wrappers
+- `src-tauri/src/main.rs` — System info, iCal fetch, YouTube window, LHM/WMI, updater
 
-### Adding Features
-- New widget? Create in `components/dashboard/`, use `.glass-card` class
-- New Tauri command? Add to `main.rs`, register handler, add TS types in `lib/tauri.ts`
-- New styles? Add to `globals.css`, prefer semantic tokens
+## Commands
 
-### Build Commands
 ```bash
-pnpm dev          # Web preview
-pnpm tauri:dev    # Desktop dev
-pnpm tauri:build  # Build .exe
+npm run dev          # Web preview
+npm run tauri:dev    # Desktop app
+npm run tauri:build  # Windows installer
+npm run lint && npm run typecheck && npm run build
 ```
 
-### Current TODO
-- Weather API integration
-- Editable calendar events  
-- System tray support
-- Settings panel
-- More widgets (music, notes)
-- Window drag region
-- Persist preferences
+## Integrations
+
+- **Weather**: Open-Meteo (no API key)
+- **Calendar**: Google Calendar iCal URL in settings
+- **YouTube**: `open_youtube_window` Tauri command
+- **Temps**: LibreHardwareMonitor via WMI (`src-tauri/bin/` optional)
+- **Updates**: `tauri-plugin-updater` + `docs/UPDATER.md`
+
+## Conventions
+
+- Use semantic tokens (`text-foreground`, `bg-muted`) — never hardcode `text-white` in widgets
+- Call `isTauri()` before Tauri APIs
+- Hydration: time widgets need `mounted` state
