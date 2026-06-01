@@ -28,7 +28,7 @@ export function Titlebar({
   return (
     <div
       data-tauri-drag-region
-      className="fixed top-0 left-0 right-0 z-50 h-10 flex items-center select-none bg-background/20 backdrop-blur-md border-b border-border/40"
+      className="sticky top-0 z-50 h-10 w-full shrink-0 flex items-center select-none bg-background/20 backdrop-blur-md border-b border-border/40"
     >
       {tauriMode ? (
         <div className="flex items-center gap-2 pl-4" data-tauri-drag-region="false">

@@ -94,7 +94,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
     faq: [
       {
         q: "¿Qué es Sideglass?",
-        a: "Una aplicación de escritorio pensada para dejar fija en un monitor secundario —en vertical u horizontal— con la información que más usas cada día.",
+        a: "Una aplicación de escritorio para dejar en un monitor secundario, en vertical u horizontal, con la información que más usas cada día.",
       },
       {
         q: "¿Cómo instalo Sideglass en Windows?",

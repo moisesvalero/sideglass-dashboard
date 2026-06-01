@@ -202,20 +202,41 @@
   animation: slide-in-from-bottom 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+.dashboard-shell {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  height: 100vh;
+  height: 100dvh;
+  max-height: 100dvh;
+  width: 100%;
+  overflow: hidden;
+}
+
+.dashboard-scroll {
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.dashboard-dock-row {
+  background: var(--background);
+}
+
 .dashboard-grid {
   display: grid;
   gap: 1rem;
   width: 100%;
   max-width: min(100%, 1200px);
   margin-inline: auto;
-  padding: 2.5rem 1rem 7rem;
+  padding: 1rem 1rem 1.25rem;
   grid-template-columns: 1fr;
 }
 
 @media (min-width: 720px) and (orientation: landscape) {
   .dashboard-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    padding: 2.5rem 1.25rem 6rem;
+    padding: 1rem 1.25rem 1.5rem;
   }
   .dashboard-grid .widget-span-2 {
     grid-column: span 2;

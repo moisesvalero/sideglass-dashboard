@@ -11,7 +11,7 @@ const staticPort = Number(process.env.SCREENSHOT_PORT || 3456)
 const baseURL =
   process.env.SCREENSHOT_URL || `http://127.0.0.1:${staticPort}/dashboard`
 
-function demoSettings(theme) {
+function demoSettings(theme, { compact = false } = {}) {
   return {
     weatherCity: "London",
     useAutoLocation: false,
@@ -19,12 +19,14 @@ function demoSettings(theme) {
     timeFormat: "24",
     theme,
     calendarIcalUrl: "",
-    widgetOrder: ["time", "calendar", "motivation", "hardware", "notes", "music"],
+    widgetOrder: compact
+      ? ["time", "calendar", "motivation", "hardware"]
+      : ["time", "calendar", "motivation", "hardware", "notes", "music"],
     showCalendar: true,
     showMotivation: true,
     showHardware: true,
-    showNotes: true,
-    showMusic: true,
+    showNotes: !compact,
+    showMusic: !compact,
     autostart: false,
     globalHotkey: "CommandOrControl+Shift+D",
     calendarNotifications: true,
@@ -66,7 +68,7 @@ function startStaticServer() {
   })
 }
 
-async function seedPage(page, theme) {
+async function seedPage(page, theme, { compact = false } = {}) {
   await page.addInitScript(
     ({ settings, notes, quote, lang }) => {
       localStorage.setItem("dashboard-settings", JSON.stringify(settings))
@@ -75,7 +77,7 @@ async function seedPage(page, theme) {
       localStorage.setItem("dashboard-lang", lang)
     },
     {
-      settings: demoSettings(theme),
+      settings: demoSettings(theme, { compact }),
       notes: demoNotes,
       quote: demoQuote,
       lang: "en",
@@ -83,13 +85,18 @@ async function seedPage(page, theme) {
   )
 }
 
-async function capture(page, fileName, viewport, options = {}) {
+async function capture(page, fileName, viewport) {
   await page.setViewportSize(viewport)
+  await page.evaluate(() => {
+    window.scrollTo(0, 0)
+    const scroller = document.querySelector(".dashboard-scroll")
+    if (scroller) scroller.scrollTop = 0
+  })
   await page.waitForTimeout(2500)
+  // Viewport only — fullPage stitches scroll height and pins fixed UI (dock) mid-frame.
   await page.screenshot({
     path: path.join(outDir, fileName),
-    fullPage: options.fullPage ?? true,
-    ...options,
+    fullPage: false,
   })
   console.log("Saved", fileName)
 }
@@ -108,17 +115,19 @@ async function main() {
 
   try {
     for (const theme of ["dark", "light"]) {
-      const page = await browser.newPage({ deviceScaleFactor: 2 })
-      await seedPage(page, theme)
-      await page.goto(baseURL, { waitUntil: "networkidle", timeout: 60_000 })
+      const portraitPage = await browser.newPage({ deviceScaleFactor: 2 })
+      await seedPage(portraitPage, theme, { compact: true })
+      await portraitPage.goto(baseURL, { waitUntil: "networkidle", timeout: 60_000 })
+      await capture(portraitPage, `portrait-${theme}.png`, { width: 480, height: 980 })
+      await portraitPage.close()
 
-      await capture(page, `portrait-${theme}.png`, { width: 480, height: 980 })
-
-    if (theme === "dark") {
-      await capture(page, "landscape-dark.png", { width: 1120, height: 780 })
-    }
-
-      await page.close()
+      if (theme === "dark") {
+        const landscapePage = await browser.newPage({ deviceScaleFactor: 2 })
+        await seedPage(landscapePage, theme)
+        await landscapePage.goto(baseURL, { waitUntil: "networkidle", timeout: 60_000 })
+        await capture(landscapePage, "landscape-dark.png", { width: 1120, height: 780 })
+        await landscapePage.close()
+      }
     }
   } finally {
     await browser.close()

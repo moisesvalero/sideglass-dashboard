@@ -38,7 +38,11 @@ jobs:
           $exe = Get-ChildItem -Path $extract -Recurse -Filter "LibreHardwareMonitor.exe" | Select-Object -First 1
           if (-not $exe) { throw "LibreHardwareMonitor.exe not found in archive" }
           Copy-Item -Path "$($exe.Directory.FullName)\*" -Destination $dest -Recurse -Force
-          Write-Host "Bundled LHM from $($asset.name) into $dest"
+          $bundled = Get-ChildItem -Path $dest -Recurse -File
+          if (-not (Test-Path "$dest/LibreHardwareMonitor.exe")) {
+            throw "LibreHardwareMonitor.exe missing in $dest after bundle ($($bundled.Count) files)"
+          }
+          Write-Host "Bundled LHM from $($asset.name) into $dest ($($bundled.Count) files)"
 
       - name: Prepare signing key
         shell: bash

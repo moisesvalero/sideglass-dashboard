@@ -1,35 +1,74 @@
 "use client"
 
-import { useState } from "react"
-import { AiBrandIcon, AI_BRAND_ICONS } from "@/components/icons/ai-brand-icon"
+import { useState, useEffect } from "react"
+import {
+  AiBrandIcon,
+  AI_BRAND_ICONS,
+  resolveAiIconSrc,
+  type AiIconSrc,
+} from "@/components/icons/ai-brand-icon"
+import { useSettings } from "@/lib/settings"
 import { openExternalUrl } from "@/lib/tauri"
 
-const aiApps = [
-  { id: "chatgpt", name: "ChatGPT", iconSrc: AI_BRAND_ICONS.chatgpt, url: "https://chatgpt.com" },
-  { id: "gemini", name: "Gemini", iconSrc: AI_BRAND_ICONS.gemini, url: "https://gemini.google.com" },
-  { id: "claude", name: "Claude", iconSrc: AI_BRAND_ICONS.claude, url: "https://claude.ai" },
+const aiApps: {
+  id: string
+  name: string
+  icon: AiIconSrc
+  url: string
+}[] = [
+  { id: "chatgpt", name: "ChatGPT", icon: AI_BRAND_ICONS.chatgpt, url: "https://chatgpt.com" },
+  { id: "gemini", name: "Gemini", icon: AI_BRAND_ICONS.gemini, url: "https://gemini.google.com" },
+  { id: "claude", name: "Claude", icon: AI_BRAND_ICONS.claude, url: "https://claude.ai" },
   {
     id: "perplexity",
     name: "Perplexity",
-    iconSrc: AI_BRAND_ICONS.perplexity,
+    icon: AI_BRAND_ICONS.perplexity,
     url: "https://www.perplexity.ai",
   },
   {
     id: "copilot",
     name: "Microsoft Copilot",
-    iconSrc: AI_BRAND_ICONS.copilot,
+    icon: AI_BRAND_ICONS.copilot,
     url: "https://copilot.microsoft.com",
   },
-] as const
+]
+
+function useIsDarkUi() {
+  const { settings } = useSettings()
+  const [isDark, setIsDark] = useState(() => settings.theme !== "light")
+
+  useEffect(() => {
+    if (settings.theme === "dark") {
+      setIsDark(true)
+      return
+    }
+    if (settings.theme === "light") {
+      setIsDark(false)
+      return
+    }
+    const mq = window.matchMedia("(prefers-color-scheme: dark)")
+    const update = () => setIsDark(mq.matches)
+    update()
+    mq.addEventListener("change", update)
+    return () => mq.removeEventListener("change", update)
+  }, [settings.theme])
+
+  return isDark
+}
 
 export function AIDock() {
   const [hoveredApp, setHoveredApp] = useState<string | null>(null)
+  const isDark = useIsDarkUi()
 
   return (
-    <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 px-2 w-full max-w-md pointer-events-none">
-      <div className="dock-glass rounded-2xl px-3 py-2.5 flex items-end justify-center gap-1.5 pointer-events-auto mx-auto w-fit">
+    <footer
+      className="dashboard-dock-row shrink-0 z-40 w-full border-t border-border/50 px-2 pt-3 pb-5 flex justify-center pointer-events-none"
+      aria-label="AI apps"
+    >
+      <div className="dock-glass rounded-2xl px-3 py-2.5 flex items-end justify-center gap-1.5 pointer-events-auto w-fit max-w-md">
         {aiApps.map((app) => {
           const isHovered = hoveredApp === app.id
+          const iconSrc = resolveAiIconSrc(app.icon, isDark)
           return (
             <button
               key={app.id}
@@ -47,7 +86,7 @@ export function AIDock() {
               title={app.name}
               aria-label={app.name}
             >
-              <AiBrandIcon src={app.iconSrc} className="w-7 h-7 sm:w-8 sm:h-8 object-contain" />
+              <AiBrandIcon src={iconSrc} className="w-7 h-7 sm:w-8 sm:h-8 object-contain" />
 
               <span
                 className={`
@@ -65,6 +104,6 @@ export function AIDock() {
           )
         })}
       </div>
-    </div>
+    </footer>
   )
 }

@@ -81,37 +81,42 @@ export default function Dashboard() {
   }
 
   return (
-    <main className="relative min-h-screen w-full overflow-x-hidden bg-background">
-      <div className="fixed inset-0 -z-10 bg-background" />
-      <div
-        className="fixed inset-0 -z-10 pointer-events-none"
-        style={{
-          background: isDark
-            ? `radial-gradient(ellipse at 15% 10%, oklch(0.35 0.08 260 / 0.35), transparent 55%),
-               radial-gradient(ellipse at 85% 90%, oklch(0.32 0.1 300 / 0.25), transparent 50%)`
-            : `radial-gradient(ellipse at 15% 10%, oklch(0.75 0.06 250 / 0.2), transparent 55%),
-               radial-gradient(ellipse at 85% 90%, oklch(0.8 0.05 280 / 0.15), transparent 50%)`,
-        }}
-      />
+    <main className="dashboard-shell relative w-full bg-background">
+      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+        <div className="absolute inset-0 bg-background" />
+        <div
+          className="absolute inset-0"
+          style={{
+            background: isDark
+              ? `radial-gradient(ellipse at 15% 10%, oklch(0.35 0.08 260 / 0.35), transparent 55%),
+                 radial-gradient(ellipse at 85% 90%, oklch(0.32 0.1 300 / 0.25), transparent 50%)`
+              : `radial-gradient(ellipse at 15% 10%, oklch(0.75 0.06 250 / 0.2), transparent 55%),
+                 radial-gradient(ellipse at 85% 90%, oklch(0.8 0.05 280 / 0.15), transparent 50%)`,
+          }}
+        />
+      </div>
 
       <Titlebar onSettingsClick={() => setSettingsOpen(true)} title={t("dashboard.title")} />
 
-      <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-        <SortableContext items={visibleOrder} strategy={verticalListSortingStrategy}>
-          <div className="dashboard-grid pt-11">
-            {visibleOrder.map((id) => {
-              const Component = widgetMap[id]
-              return (
-                <SortableWidget key={id} id={id}>
-                  <Component />
-                </SortableWidget>
-              )
-            })}
-          </div>
-        </SortableContext>
-      </DndContext>
+      <div className="dashboard-scroll custom-scrollbar">
+        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+          <SortableContext items={visibleOrder} strategy={verticalListSortingStrategy}>
+            <div className="dashboard-grid">
+              {visibleOrder.map((id) => {
+                const Component = widgetMap[id]
+                return (
+                  <SortableWidget key={id} id={id}>
+                    <Component />
+                  </SortableWidget>
+                )
+              })}
+            </div>
+          </SortableContext>
+        </DndContext>
+      </div>
 
       <AIDock />
+
       <SettingsDrawer open={settingsOpen} onClose={() => setSettingsOpen(false)} />
     </main>
   )
