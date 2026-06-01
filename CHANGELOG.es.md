@@ -6,6 +6,12 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es/1.1.0/) y el p
 
 **Versión en inglés:** [CHANGELOG.md](./CHANGELOG.md) — mantén ambos archivos sincronizados al publicar una release.
 
+## [0.2.7] - 2026-06-01
+
+### Corregido
+
+- Error al actualizar «error opening file for writing LibreHardwareMonitor.exe»: ahora se cierra el servicio de sensores antes de instalar (en la app y mediante un hook del instalador), evitando que el archivo quede bloqueado
+
 ## [0.2.6] - 2026-06-01
 
 ### Añadido

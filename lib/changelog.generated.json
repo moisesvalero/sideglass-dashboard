@@ -1,6 +1,18 @@
 {
   "es": [
     {
+      "version": "0.2.7",
+      "date": "2026-06-01",
+      "groups": [
+        {
+          "category": "Corregido",
+          "items": [
+            "Error al actualizar «error opening file for writing LibreHardwareMonitor.exe»: ahora se cierra el servicio de sensores antes de instalar (en la app y mediante un hook del instalador), evitando que el archivo quede bloqueado"
+          ]
+        }
+      ]
+    },
+    {
       "version": "0.2.6",
       "date": "2026-06-01",
       "groups": [
@@ -170,6 +182,18 @@
     }
   ],
   "en": [
+    {
+      "version": "0.2.7",
+      "date": "2026-06-01",
+      "groups": [
+        {
+          "category": "Fixed",
+          "items": [
+            "Update error \"error opening file for writing LibreHardwareMonitor.exe\": the sensor service is now stopped before installing (both in-app and via an installer hook), so the file is no longer locked"
+          ]
+        }
+      ]
+    },
     {
       "version": "0.2.6",
       "date": "2026-06-01",

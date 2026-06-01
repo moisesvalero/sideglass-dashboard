@@ -6,6 +6,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 **Spanish version:** [CHANGELOG.es.md](./CHANGELOG.es.md) — keep both files in sync when you add a release.
 
+## [0.2.7] - 2026-06-01
+
+### Fixed
+
+- Update error "error opening file for writing LibreHardwareMonitor.exe": the sensor service is now stopped before installing (both in-app and via an installer hook), so the file is no longer locked
+
 ## [0.2.6] - 2026-06-01
 
 ### Added

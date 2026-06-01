@@ -126,6 +126,33 @@ fn try_start_lhm(app: &tauri::AppHandle, force: bool) -> bool {
     false
 }
 
+/// Stops LibreHardwareMonitor so its executable is not locked while the
+/// updater overwrites the install directory (otherwise NSIS fails with
+/// "error opening file for writing LibreHardwareMonitor.exe").
+#[cfg(windows)]
+fn stop_lhm() {
+    // The elevated instance must be killed elevated too; try both contexts.
+    let _ = std::process::Command::new("taskkill")
+        .args(["/F", "/IM", "LibreHardwareMonitor.exe", "/T"])
+        .creation_flags(0x08000000)
+        .spawn()
+        .and_then(|mut c| c.wait());
+
+    let _ = std::process::Command::new("powershell")
+        .args([
+            "-NoProfile",
+            "-WindowStyle",
+            "Hidden",
+            "-Command",
+            "Start-Process taskkill -ArgumentList '/F','/IM','LibreHardwareMonitor.exe','/T' -Verb RunAs -WindowStyle Hidden -Wait",
+        ])
+        .creation_flags(0x08000000)
+        .spawn()
+        .and_then(|mut c| c.wait());
+
+    std::thread::sleep(std::time::Duration::from_millis(800));
+}
+
 /// User-initiated activation of the sensor service. Triggers the UAC prompt on
 /// demand (more reliable than a silent startup attempt the user may miss) and
 /// reports whether temperatures became available.
@@ -728,6 +755,16 @@ async fn install_update(app: tauri::AppHandle) -> Result<String, String> {
         Some(u) => u,
         None => return Ok("no_update".to_string()),
     };
+
+    // Free the locked sensor executable before the installer overwrites files.
+    #[cfg(windows)]
+    {
+        let state = app.state::<AppState>();
+        *state.lhm_started.lock().unwrap() = false;
+        tauri::async_runtime::spawn_blocking(stop_lhm)
+            .await
+            .map_err(|e| e.to_string())?;
+    }
 
     let progress_app = app.clone();
     let mut downloaded: u64 = 0;
