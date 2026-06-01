@@ -41,6 +41,55 @@ export function wmoToOpenWeatherIcon(code: number): string {
   return "801"
 }
 
+export interface CitySuggestion {
+  id: number
+  name: string
+  /** "City, Region, Country" for display */
+  label: string
+  latitude: number
+  longitude: number
+}
+
+/** Live city search for the weather location autocomplete. */
+export async function searchCities(
+  query: string,
+  lang = "es",
+  signal?: AbortSignal
+): Promise<CitySuggestion[]> {
+  const q = query.trim()
+  if (q.length < 2) return []
+  try {
+    const res = await fetch(
+      `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(q)}&count=8&language=${lang}&format=json`,
+      { signal: signal ?? AbortSignal.timeout(8000) }
+    )
+    if (!res.ok) return []
+    const data = await res.json()
+    const results = Array.isArray(data.results) ? data.results : []
+    return results.map(
+      (r: {
+        id: number
+        name: string
+        admin1?: string
+        country?: string
+        latitude: number
+        longitude: number
+      }): CitySuggestion => {
+        const parts = [r.name, r.admin1, r.country].filter(Boolean)
+        return {
+          id: r.id,
+          name: r.name,
+          label: parts.join(", "),
+          latitude: r.latitude,
+          longitude: r.longitude,
+        }
+      }
+    )
+  } catch {
+    return []
+  }
+}
+
 async function geocode(city: string): Promise<{ lat: number; lon: number; name: string } | null> {
   const res = await fetch(
     `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1&language=es`,

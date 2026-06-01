@@ -6,7 +6,17 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es/1.1.0/) y el p
 
 **Versión en inglés:** [CHANGELOG.md](./CHANGELOG.md) — mantén ambos archivos sincronizados al publicar una release.
 
-## [0.2.5] - 2026-06-01
+## [0.2.6] - 2026-06-01
+
+### Añadido
+
+- **Temperatura de CPU/GPU**: botón «Activar temperaturas» en el monitor de hardware que inicia el servicio de sensores bajo demanda (acepta el aviso de Windows). Lectura de sensores ampliada (más nombres y rango hasta 150 °C)
+- **Actualización profesional**: aviso de «Nueva versión disponible» con sus novedades, botones **Instalar ahora** / **Ahora no**, barra de progreso durante la descarga y botón **Reiniciar** al terminar
+- **Buscador de ciudades** en el clima: sugerencias automáticas al escribir (autocompletado con país y región)
+
+### Cambiado
+
+- El comprobador de actualizaciones ya no instala de forma instantánea: ahora el usuario decide cuándo instalar
 
 ### Añadido
 

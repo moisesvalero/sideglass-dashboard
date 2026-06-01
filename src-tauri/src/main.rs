@@ -58,18 +58,26 @@ struct AppState {
 #[cfg(windows)]
 use std::os::windows::process::CommandExt;
 
+/// Launches LibreHardwareMonitor (elevated, required for the CPU package
+/// sensor over WMI) and waits until temperatures are exposed. Returns true if
+/// sensors became available. When `force` is false it skips work if already
+/// started or already exposing sensors.
 #[cfg(windows)]
-fn try_start_lhm(app: &tauri::AppHandle) {
-    let state = app.state::<AppState>();
-    let mut guard = state.lhm_started.lock().unwrap();
-    if *guard {
-        return;
+fn try_start_lhm(app: &tauri::AppHandle, force: bool) -> bool {
+    // Already exposing sensors? Nothing to do.
+    if read_lhm_temperatures().2 {
+        let state = app.state::<AppState>();
+        *state.lhm_started.lock().unwrap() = true;
+        return true;
     }
 
-    // If sensors are already exposed (e.g. LHM left running), skip launching.
-    if read_lhm_temperatures().2 {
+    {
+        let state = app.state::<AppState>();
+        let mut guard = state.lhm_started.lock().unwrap();
+        if *guard && !force {
+            return false;
+        }
         *guard = true;
-        return;
     }
 
     if let Ok(resource_dir) = app.path().resource_dir() {
@@ -105,17 +113,36 @@ fn try_start_lhm(app: &tauri::AppHandle) {
                         .spawn();
                 }
 
-                *guard = true;
-                for _ in 0..15 {
+                for _ in 0..20 {
                     std::thread::sleep(std::time::Duration::from_secs(1));
-                    let (_, _, ok) = read_lhm_temperatures();
-                    if ok {
-                        return;
+                    if read_lhm_temperatures().2 {
+                        return true;
                     }
                 }
-                return;
+                return false;
             }
         }
+    }
+    false
+}
+
+/// User-initiated activation of the sensor service. Triggers the UAC prompt on
+/// demand (more reliable than a silent startup attempt the user may miss) and
+/// reports whether temperatures became available.
+#[tauri::command]
+async fn start_sensor_service(app: tauri::AppHandle) -> Result<bool, String> {
+    #[cfg(windows)]
+    {
+        let handle = app.clone();
+        let ok = tauri::async_runtime::spawn_blocking(move || try_start_lhm(&handle, true))
+            .await
+            .map_err(|e| e.to_string())?;
+        Ok(ok)
+    }
+    #[cfg(not(windows))]
+    {
+        let _ = app;
+        Ok(false)
     }
 }
 
@@ -177,15 +204,18 @@ fn read_lhm_temperatures() -> (Option<f32>, Option<f32>, bool) {
             .to_lowercase();
         let value: f32 = row.get("Value").and_then(variant_to_f32).unwrap_or(0.0);
 
-        if value <= 0.0 || value > 120.0 {
+        if value <= 0.0 || value > 150.0 {
             continue;
         }
 
         if cpu_temp.is_none()
             && (name.contains("cpu package")
                 || name.contains("cpu core")
+                || name.contains("core (tctl")
                 || name.contains("tctl")
                 || name.contains("tdie")
+                || name.contains("core max")
+                || name.contains("core average")
                 || (name.contains("cpu") && name.contains("temperature")))
         {
             cpu_temp = Some(value);
@@ -195,6 +225,7 @@ fn read_lhm_temperatures() -> (Option<f32>, Option<f32>, bool) {
             && (name.contains("gpu core")
                 || name.contains("graphics")
                 || name.contains("gpu hotspot")
+                || name.contains("gpu temperature")
                 || (name.contains("gpu") && name.contains("temperature")))
         {
             gpu_temp = Some(value);
@@ -208,7 +239,7 @@ fn read_lhm_temperatures() -> (Option<f32>, Option<f32>, bool) {
             .unwrap_or_default()
             .to_lowercase();
         let value: f32 = row.get("Value").and_then(variant_to_f32).unwrap_or(0.0);
-        if value <= 0.0 || value > 120.0 {
+        if value <= 0.0 || value > 150.0 {
             continue;
         }
         if cpu_temp.is_none() && name.contains("cpu") && !name.contains("gpu") {
@@ -641,8 +672,24 @@ async fn register_global_hotkey(app: tauri::AppHandle, accelerator: String) -> R
     Ok(())
 }
 
+#[derive(serde::Serialize, Clone)]
+struct UpdateInfo {
+    available: bool,
+    version: String,
+    notes: String,
+}
+
+#[derive(serde::Serialize, Clone)]
+struct UpdateProgress {
+    downloaded: u64,
+    total: u64,
+    percent: f64,
+}
+
+/// Phase 1: only checks whether a new version exists (no download/install), so
+/// the UI can show a "new version found" prompt and let the user decide.
 #[tauri::command]
-async fn check_for_updates(app: tauri::AppHandle) -> Result<String, String> {
+async fn check_for_updates(app: tauri::AppHandle) -> Result<UpdateInfo, String> {
     use tauri_plugin_updater::UpdaterExt;
 
     let updater = app
@@ -651,15 +698,71 @@ async fn check_for_updates(app: tauri::AppHandle) -> Result<String, String> {
         .build()
         .map_err(|e| e.to_string())?;
     match updater.check().await.map_err(|e| e.to_string())? {
-        Some(update) => {
-            update
-                .download_and_install(|_chunk, _total| {}, || {})
-                .await
-                .map_err(|e| e.to_string())?;
-            Ok(format!("updated_to_{}", update.version))
-        }
-        None => Ok("no_update".to_string()),
+        Some(update) => Ok(UpdateInfo {
+            available: true,
+            version: update.version.clone(),
+            notes: update.body.clone().unwrap_or_default(),
+        }),
+        None => Ok(UpdateInfo {
+            available: false,
+            version: String::new(),
+            notes: String::new(),
+        }),
     }
+}
+
+/// Phase 2: downloads and installs the update, emitting `update://progress`
+/// events so the UI can render a real progress bar.
+#[tauri::command]
+async fn install_update(app: tauri::AppHandle) -> Result<String, String> {
+    use tauri::Emitter;
+    use tauri_plugin_updater::UpdaterExt;
+
+    let updater = app
+        .updater_builder()
+        .timeout(std::time::Duration::from_secs(120))
+        .build()
+        .map_err(|e| e.to_string())?;
+
+    let update = match updater.check().await.map_err(|e| e.to_string())? {
+        Some(u) => u,
+        None => return Ok("no_update".to_string()),
+    };
+
+    let progress_app = app.clone();
+    let mut downloaded: u64 = 0;
+    update
+        .download_and_install(
+            move |chunk_len, content_length| {
+                downloaded += chunk_len as u64;
+                let total = content_length.unwrap_or(0);
+                let percent = if total > 0 {
+                    (downloaded as f64 / total as f64) * 100.0
+                } else {
+                    0.0
+                };
+                let _ = progress_app.emit(
+                    "update://progress",
+                    UpdateProgress {
+                        downloaded,
+                        total,
+                        percent,
+                    },
+                );
+            },
+            || {},
+        )
+        .await
+        .map_err(|e| e.to_string())?;
+
+    let _ = app.emit("update://finished", ());
+    Ok(format!("updated_to_{}", update.version))
+}
+
+/// Relaunches the app after an update has been installed.
+#[tauri::command]
+fn restart_app(app: tauri::AppHandle) {
+    app.restart();
 }
 
 #[tauri::command]
@@ -729,6 +832,9 @@ fn main() {
             register_global_hotkey,
             send_notification,
             check_for_updates,
+            install_update,
+            restart_app,
+            start_sensor_service,
         ])
         .setup(|app| {
             // Start the sensor service in the background so the window shows
@@ -737,7 +843,7 @@ fn main() {
             {
                 let handle = app.handle().clone();
                 std::thread::spawn(move || {
-                    try_start_lhm(&handle);
+                    try_start_lhm(&handle, false);
                 });
             }
 

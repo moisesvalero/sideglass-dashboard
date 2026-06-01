@@ -107,12 +107,64 @@ export async function toggleFullscreen(): Promise<void> {
   await win.setFullscreen(!fullscreen)
 }
 
-export async function checkForUpdates(): Promise<string> {
-  if (!isTauri()) return "no_tauri"
-  const timeout = new Promise<string>((_, reject) =>
+export interface UpdateInfo {
+  available: boolean
+  version: string
+  notes: string
+}
+
+export interface UpdateProgress {
+  downloaded: number
+  total: number
+  percent: number
+}
+
+export async function checkForUpdates(): Promise<UpdateInfo> {
+  if (!isTauri()) return { available: false, version: "", notes: "" }
+  const timeout = new Promise<UpdateInfo>((_, reject) =>
     setTimeout(() => reject(new Error("timeout")), 30_000)
   )
-  return Promise.race([invokeCommand<string>("check_for_updates"), timeout])
+  return Promise.race([invokeCommand<UpdateInfo>("check_for_updates"), timeout])
+}
+
+export async function installUpdate(): Promise<string> {
+  if (!isTauri()) return "no_tauri"
+  return invokeCommand<string>("install_update")
+}
+
+export async function restartApp(): Promise<void> {
+  if (!isTauri()) return
+  await invokeCommand("restart_app")
+}
+
+/** User-initiated activation of the CPU/GPU sensor service (triggers UAC). */
+export async function startSensorService(): Promise<boolean> {
+  if (!isTauri()) return false
+  return invokeCommand<boolean>("start_sensor_service")
+}
+
+type UnlistenFn = () => void
+
+async function getTauriEvent() {
+  if (!isTauri()) return null
+  // @ts-expect-error Tauri global
+  return window.__TAURI__.event as {
+    listen: <T>(event: string, handler: (e: { payload: T }) => void) => Promise<UnlistenFn>
+  }
+}
+
+export async function onUpdateProgress(
+  handler: (progress: UpdateProgress) => void
+): Promise<UnlistenFn> {
+  const ev = await getTauriEvent()
+  if (!ev) return () => {}
+  return ev.listen<UpdateProgress>("update://progress", (e) => handler(e.payload))
+}
+
+export async function onUpdateFinished(handler: () => void): Promise<UnlistenFn> {
+  const ev = await getTauriEvent()
+  if (!ev) return () => {}
+  return ev.listen("update://finished", () => handler())
 }
 
 export interface YoutubeResult {

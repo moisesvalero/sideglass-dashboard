@@ -25,7 +25,9 @@ import {
 import { useSettings, type Settings } from "@/lib/settings"
 import { useI18n } from "@/lib/i18n"
 import { APP_NAME, APP_VERSION, GITHUB_REPO, SITE_URL } from "@/lib/site"
-import { checkForUpdates, isTauri, openExternalUrl } from "@/lib/tauri"
+import { isTauri, openExternalUrl } from "@/lib/tauri"
+import { useUpdater } from "@/lib/updater"
+import { CityAutocomplete } from "@/components/dashboard/city-autocomplete"
 
 interface Props {
   open: boolean
@@ -41,26 +43,24 @@ const themes = [
 export function SettingsDrawer({ open, onClose }: Props) {
   const { settings, updateSettings } = useSettings()
   const { t, lang, setLang } = useI18n()
-  const [updateStatus, setUpdateStatus] = useState<string | null>(null)
-  const [updateBusy, setUpdateBusy] = useState(false)
+  const { status: updateState, check } = useUpdater()
   const inTauri = isTauri()
 
   if (!open) return null
 
+  const updateBusy = updateState === "checking"
+  const updateStatus =
+    updateState === "checking"
+      ? t("settings.checkingUpdates")
+      : updateState === "up-to-date"
+        ? t("settings.upToDate")
+        : updateState === "error"
+          ? t("settings.updateError")
+          : null
+
   const handleCheckUpdates = async () => {
     if (!inTauri) return
-    setUpdateBusy(true)
-    setUpdateStatus(t("settings.checkingUpdates"))
-    try {
-      const result = await checkForUpdates()
-      if (result === "no_update") setUpdateStatus(t("settings.upToDate"))
-      else if (result.startsWith("updated_to_")) setUpdateStatus(t("settings.updateInstalled"))
-      else setUpdateStatus(t("settings.upToDate"))
-    } catch {
-      setUpdateStatus(t("settings.updateError"))
-    } finally {
-      setUpdateBusy(false)
-    }
+    await check(true)
   }
 
   const toggle = (key: keyof Settings) => {
@@ -173,13 +173,12 @@ export function SettingsDrawer({ open, onClose }: Props) {
                 />
                 {t("settings.autoLocation")}
               </label>
-              <input
-                type="text"
+              <CityAutocomplete
                 value={settings.weatherCity}
-                onChange={(e) => updateSettings({ weatherCity: e.target.value })}
+                onChange={(city) => updateSettings({ weatherCity: city })}
                 disabled={settings.useAutoLocation}
                 placeholder={t("settings.manualLocation")}
-                className="w-full bg-muted rounded-xl px-3 py-2 text-sm text-foreground outline-none border border-border placeholder:text-muted-foreground/50 disabled:opacity-50"
+                lang={lang}
               />
               {settings.useAutoLocation && (
                 <p className="mt-1.5 text-xs text-muted-foreground">

@@ -2,13 +2,7 @@
 
 import { useEffect } from "react"
 import { useSettings } from "@/lib/settings"
-import {
-  isTauri,
-  registerGlobalHotkey,
-  setAutostart,
-  invokeCommand,
-  checkForUpdates,
-} from "@/lib/tauri"
+import { isTauri, registerGlobalHotkey, setAutostart, invokeCommand } from "@/lib/tauri"
 import { fetchIcal } from "@/lib/tauri"
 import { parseIcalEvents } from "@/lib/ical"
 import { useTauriFullscreenHotkey } from "@/hooks/use-tauri-fullscreen-hotkey"
@@ -28,16 +22,6 @@ export function useDashboardBootstrap() {
     if (!isTauri()) return
     void registerGlobalHotkey(settings.globalHotkey)
   }, [settings.globalHotkey])
-
-  useEffect(() => {
-    if (!isTauri()) return
-    const timer = setTimeout(() => {
-      void checkForUpdates().catch(() => {
-        /* sin release publicado aun */
-      })
-    }, 8000)
-    return () => clearTimeout(timer)
-  }, [])
 
   useEffect(() => {
     if (!isTauri() || !settings.calendarNotifications || !settings.calendarIcalUrl) return

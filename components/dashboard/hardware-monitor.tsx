@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react"
 import { Cpu, MemoryStick, Monitor } from "lucide-react"
-import { isTauri, getSystemInfo, type SystemInfo } from "@/lib/tauri"
+import { isTauri, getSystemInfo, startSensorService, type SystemInfo } from "@/lib/tauri"
 import { useI18n } from "@/lib/i18n"
 
 interface SensorData {
@@ -61,6 +61,8 @@ export function HardwareMonitor() {
   const [isRunningInTauri] = useState(() => (typeof window !== "undefined" ? isTauri() : false))
   const [sensorsAvailable, setSensorsAvailable] = useState(false)
   const [sensorWarmup, setSensorWarmup] = useState(true)
+  const [activating, setActivating] = useState(false)
+  const [activationFailed, setActivationFailed] = useState(false)
   const [sensors, setSensors] = useState<SensorData[]>([
     { label: "CPU", value: 42, temp: null, icon: <Cpu className="h-4 w-4" />, subtitle: "CPU" },
     {
@@ -111,6 +113,24 @@ export function HardwareMonitor() {
   }, [fetchSystemInfo, isRunningInTauri])
 
   const showSensorWarning = isRunningInTauri && !sensorsAvailable && !sensorWarmup
+
+  const handleEnableSensors = useCallback(async () => {
+    setActivating(true)
+    setActivationFailed(false)
+    try {
+      const ok = await startSensorService()
+      if (ok) {
+        setSensorsAvailable(true)
+        await fetchSystemInfo()
+      } else {
+        setActivationFailed(true)
+      }
+    } catch {
+      setActivationFailed(true)
+    } finally {
+      setActivating(false)
+    }
+  }, [fetchSystemInfo])
 
   return (
     <div className="glass-card p-5">
@@ -174,9 +194,19 @@ export function HardwareMonitor() {
         <p className="mt-4 text-center text-xs text-muted-foreground">{t("hardware.sensorsLoading")}</p>
       )}
       {showSensorWarning && (
-        <p className="mt-4 text-center text-xs leading-relaxed text-muted-foreground">
-          {t("hardware.lhmHint")}
-        </p>
+        <div className="mt-4 space-y-2">
+          <button
+            type="button"
+            onClick={() => void handleEnableSensors()}
+            disabled={activating}
+            className="w-full rounded-xl bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-60"
+          >
+            {activating ? t("hardware.enablingSensors") : t("hardware.enableSensors")}
+          </button>
+          <p className="text-center text-xs leading-relaxed text-muted-foreground">
+            {activationFailed ? t("hardware.sensorsFailed") : t("hardware.sensorsHint")}
+          </p>
+        </div>
       )}
       {!isRunningInTauri && (
         <p className="mt-4 text-center text-xs text-muted-foreground">{t("hardware.tauriHint")}</p>

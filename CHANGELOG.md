@@ -6,7 +6,17 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 **Spanish version:** [CHANGELOG.es.md](./CHANGELOG.es.md) — keep both files in sync when you add a release.
 
-## [0.2.5] - 2026-06-01
+## [0.2.6] - 2026-06-01
+
+### Added
+
+- **CPU/GPU temperature**: an "Enable temperatures" button in the hardware monitor that starts the sensor service on demand (accept the Windows prompt). Broader sensor parsing (more names, range up to 150 °C)
+- **Professional updates**: a "New version available" prompt with release notes, **Install now** / **Not now** buttons, a real progress bar during download, and a **Restart** button when finished
+- **City search** in weather: live suggestions as you type (autocomplete with country and region)
+
+### Changed
+
+- The update checker no longer installs instantly: the user now decides when to install
 
 ### Added
 

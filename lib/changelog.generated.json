@@ -1,9 +1,23 @@
 {
   "es": [
     {
-      "version": "0.2.5",
+      "version": "0.2.6",
       "date": "2026-06-01",
       "groups": [
+        {
+          "category": "Añadido",
+          "items": [
+            "**Temperatura de CPU/GPU**: botón «Activar temperaturas» en el monitor de hardware que inicia el servicio de sensores bajo demanda (acepta el aviso de Windows). Lectura de sensores ampliada (más nombres y rango hasta 150 °C)",
+            "**Actualización profesional**: aviso de «Nueva versión disponible» con sus novedades, botones **Instalar ahora** / **Ahora no**, barra de progreso durante la descarga y botón **Reiniciar** al terminar",
+            "**Buscador de ciudades** en el clima: sugerencias automáticas al escribir (autocompletado con país y región)"
+          ]
+        },
+        {
+          "category": "Cambiado",
+          "items": [
+            "El comprobador de actualizaciones ya no instala de forma instantánea: ahora el usuario decide cuándo instalar"
+          ]
+        },
         {
           "category": "Añadido",
           "items": [
@@ -157,9 +171,23 @@
   ],
   "en": [
     {
-      "version": "0.2.5",
+      "version": "0.2.6",
       "date": "2026-06-01",
       "groups": [
+        {
+          "category": "Added",
+          "items": [
+            "**CPU/GPU temperature**: an \"Enable temperatures\" button in the hardware monitor that starts the sensor service on demand (accept the Windows prompt). Broader sensor parsing (more names, range up to 150 °C)",
+            "**Professional updates**: a \"New version available\" prompt with release notes, **Install now** / **Not now** buttons, a real progress bar during download, and a **Restart** button when finished",
+            "**City search** in weather: live suggestions as you type (autocomplete with country and region)"
+          ]
+        },
+        {
+          "category": "Changed",
+          "items": [
+            "The update checker no longer installs instantly: the user now decides when to install"
+          ]
+        },
         {
           "category": "Added",
           "items": [
