@@ -56,7 +56,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
     screenshotLabels: {
       portraitDark: "Vertical · Oscuro",
       portraitLight: "Vertical · Claro",
-      landscapeDark: "Horizontal · Modo edición",
+      landscapeDark: "Horizontal · Layout personalizado",
     },
     screenshotAlts: {
       portraitDark: "Sideglass en monitor vertical, modo oscuro",
@@ -185,7 +185,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
     screenshotLabels: {
       portraitDark: "Portrait · Dark",
       portraitLight: "Portrait · Light",
-      landscapeDark: "Landscape · Edit mode",
+      landscapeDark: "Landscape · Custom layout",
     },
     screenshotAlts: {
       portraitDark: "Sideglass on a portrait monitor, dark mode",

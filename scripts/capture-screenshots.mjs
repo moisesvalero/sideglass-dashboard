@@ -10,39 +10,50 @@ const outDir = path.join(root, "public", "screenshots")
 const staticPort = Number(process.env.SCREENSHOT_PORT || 3456)
 const baseURL = process.env.SCREENSHOT_URL || `http://127.0.0.1:${staticPort}/dashboard`
 
-function demoSettings(theme, { compact = false } = {}) {
+function demoSettings(theme, { compact = false, showcase = false } = {}) {
   return {
-    weatherCity: "London",
+    weatherCity: showcase ? "Madrid" : "London",
     useAutoLocation: false,
     tempUnit: "celsius",
     timeFormat: "24",
     theme,
-    calendarIcalUrl: "",
-    widgetLayouts: compact
+    calendarIcalUrl: showcase ? demoIcalUrl() : "",
+    widgetLayouts: showcase
       ? {
-          time: { cols: 4, rows: 9 },
+          time: { cols: 2, rows: 10 },
+          hardware: { cols: 2, rows: 10 },
           calendar: { cols: 2, rows: 10 },
-          motivation: { cols: 2, rows: 8 },
-          hardware: { cols: 4, rows: 16 },
           notes: { cols: 2, rows: 10 },
-          music: { cols: 4, rows: 16 },
+          motivation: { cols: 4, rows: 10 },
+          music: { cols: 2, rows: 12 },
         }
-      : {
-          time: { cols: 4, rows: 9 },
-          calendar: { cols: 2, rows: 10 },
-          motivation: { cols: 2, rows: 8 },
-          hardware: { cols: 2, rows: 16 },
-          notes: { cols: 2, rows: 10 },
-          music: { cols: 4, rows: 16 },
-        },
-    widgetOrder: compact
-      ? ["time", "calendar", "motivation", "hardware"]
-      : ["time", "calendar", "motivation", "hardware", "notes", "music"],
+      : compact
+        ? {
+            time: { cols: 4, rows: 9 },
+            calendar: { cols: 2, rows: 10 },
+            motivation: { cols: 2, rows: 8 },
+            hardware: { cols: 4, rows: 16 },
+            notes: { cols: 2, rows: 10 },
+            music: { cols: 4, rows: 16 },
+          }
+        : {
+            time: { cols: 4, rows: 9 },
+            calendar: { cols: 2, rows: 10 },
+            motivation: { cols: 2, rows: 8 },
+            hardware: { cols: 2, rows: 16 },
+            notes: { cols: 2, rows: 10 },
+            music: { cols: 4, rows: 16 },
+          },
+    widgetOrder: showcase
+      ? ["time", "hardware", "calendar", "notes", "motivation"]
+      : compact
+        ? ["time", "calendar", "motivation", "hardware"]
+        : ["time", "calendar", "motivation", "hardware", "notes", "music"],
     showCalendar: true,
     showMotivation: true,
     showHardware: true,
     showNotes: !compact,
-    showMusic: !compact,
+    showMusic: !compact && !showcase,
     autostart: false,
     globalHotkey: "CommandOrControl+Shift+D",
     calendarNotifications: true,
@@ -50,17 +61,51 @@ function demoSettings(theme, { compact = false } = {}) {
 }
 
 const demoNotes = JSON.stringify([
-  { id: "a1", text: "Review the dashboard PR", createdAt: Date.now() },
-  { id: "a2", text: "Secondary monitor in portrait", createdAt: Date.now() },
+  { id: "a1", text: "Tune the studio monitor layout", createdAt: Date.now() },
+  { id: "a2", text: "Ship Sideglass 0.2.18", createdAt: Date.now() },
 ])
 
 const today = new Date()
 const todayKey = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`
+
+function icalDate(offsetDays, hour) {
+  const d = new Date()
+  d.setDate(d.getDate() + offsetDays)
+  d.setHours(hour, 0, 0, 0)
+  return `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, "0")}${String(
+    d.getDate()
+  ).padStart(2, "0")}T${String(d.getHours()).padStart(2, "0")}0000`
+}
+
+function demoIcalUrl() {
+  const body = `BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:sideglass-standup
+DTSTART:${icalDate(0, 10)}
+DTEND:${icalDate(0, 10)}
+SUMMARY:Design review
+END:VEVENT
+BEGIN:VEVENT
+UID:sideglass-focus
+DTSTART:${icalDate(0, 14)}
+DTEND:${icalDate(0, 15)}
+SUMMARY:Focus block
+END:VEVENT
+BEGIN:VEVENT
+UID:sideglass-release
+DTSTART:${icalDate(1, 9)}
+DTEND:${icalDate(1, 10)}
+SUMMARY:Release notes
+END:VEVENT
+END:VCALENDAR`
+  return `data:text/calendar;charset=utf-8,${encodeURIComponent(body)}`
+}
 const demoQuote = JSON.stringify({
   date: todayKey,
   quote: {
-    text: "Discipline is the bridge between goals and accomplishment.",
-    author: "Jim Rohn",
+    text: "Make the important thing impossible to miss.",
+    author: "Sideglass",
   },
 })
 
@@ -84,7 +129,7 @@ function startStaticServer() {
   })
 }
 
-async function seedPage(page, theme, { compact = false } = {}) {
+async function seedPage(page, theme, { compact = false, showcase = false } = {}) {
   await page.addInitScript(
     ({ settings, notes, quote, lang }) => {
       localStorage.setItem("dashboard-settings", JSON.stringify(settings))
@@ -93,7 +138,7 @@ async function seedPage(page, theme, { compact = false } = {}) {
       localStorage.setItem("dashboard-lang", lang)
     },
     {
-      settings: demoSettings(theme, { compact }),
+      settings: demoSettings(theme, { compact, showcase }),
       notes: demoNotes,
       quote: demoQuote,
       lang: "en",
@@ -142,14 +187,9 @@ async function main() {
 
       if (theme === "dark") {
         const landscapePage = await browser.newPage({ deviceScaleFactor: 2 })
-        await seedPage(landscapePage, theme)
+        await seedPage(landscapePage, theme, { showcase: true })
         await landscapePage.goto(baseURL, { waitUntil: "networkidle", timeout: 60_000 })
-        await capture(
-          landscapePage,
-          "landscape-dark.png",
-          { width: 1120, height: 780 },
-          { editMode: true }
-        )
+        await capture(landscapePage, "landscape-dark.png", { width: 1280, height: 820 })
         await landscapePage.close()
       }
     }
