@@ -1,6 +1,6 @@
 [package]
 name = "desk-dashboard"
-version = "0.2.11"
+version = "0.2.12"
 description = "Premium macOS-style dashboard for Windows"
 authors = ["you"]
 edition = "2021"
@@ -19,7 +19,12 @@ reqwest = { version = "0.12", default-features = false, features = ["rustls-tls"
 
 [target.'cfg(windows)'.dependencies]
 wmi = "0.14"
-windows = { version = "0.58", features = ["Win32_UI_Shell", "Win32_UI_WindowsAndMessaging", "Win32_Foundation"] }
+windows = { version = "0.58", features = [
+  "Win32_UI_Shell",
+  "Win32_UI_WindowsAndMessaging",
+  "Win32_Foundation",
+  "Win32_Graphics_Gdi",
+] }
 
 [target.'cfg(not(any(target_os = "android", target_os = "ios")))'.dependencies]
 tauri-plugin-opener = "2"

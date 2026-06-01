@@ -6,6 +6,16 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es/1.1.0/) y el p
 
 **Versión en inglés:** [CHANGELOG.md](./CHANGELOG.md) — mantén ambos archivos sincronizados al publicar una release.
 
+## [0.2.12] - 2026-06-01
+
+### Corregido
+
+- **Pantalla completa (F11)**: modo inmersivo que cubre el monitor, oculta la barra de tareas de Windows y la barra superior de la app (− □ ×). Esc para salir; restaura tamaño y posición anteriores
+
+### Cambiado
+
+- **FAQ web**: aclara que la URL iCal secreta es privada, solo se guarda en el PC del usuario y Sideglass no puede verla
+
 ## [0.2.11] - 2026-06-01
 
 ### Corregido

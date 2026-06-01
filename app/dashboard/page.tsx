@@ -31,6 +31,10 @@ import { SortableWidget } from "@/components/dashboard/widget-sortable"
 import { useSettings, type WidgetId } from "@/lib/settings"
 import { useI18n } from "@/lib/i18n"
 import { useDashboardBootstrap } from "@/hooks/use-dashboard-bootstrap"
+import {
+  DashboardFullscreenProvider,
+  useDashboardFullscreen,
+} from "@/lib/dashboard-fullscreen"
 
 const widgetMap: Record<WidgetId, React.ComponentType> = {
   time: TimeWeatherWidget,
@@ -51,10 +55,11 @@ function isWidgetVisible(id: WidgetId, settings: ReturnType<typeof useSettings>[
   return true
 }
 
-export default function Dashboard() {
+function DashboardContent() {
   const [settingsOpen, setSettingsOpen] = useState(false)
   const { settings, updateSettings } = useSettings()
   const { t } = useI18n()
+  const { isFullscreen } = useDashboardFullscreen()
   const isDark =
     settings.theme === "dark" ||
     (settings.theme === "system" &&
@@ -88,7 +93,9 @@ export default function Dashboard() {
         settingsOpen={settingsOpen}
         onCloseSettings={() => setSettingsOpen(false)}
       />
-      <main className="dashboard-shell relative w-full bg-background">
+      <main
+        className={`dashboard-shell relative w-full bg-background${isFullscreen ? " dashboard-shell--immersive" : ""}`}
+      >
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
         <div className="absolute inset-0 bg-background" />
         <div
@@ -103,7 +110,17 @@ export default function Dashboard() {
         />
       </div>
 
-      <Titlebar onSettingsClick={() => setSettingsOpen(true)} title={t("dashboard.title")} />
+      {!isFullscreen && (
+        <Titlebar onSettingsClick={() => setSettingsOpen(true)} title={t("dashboard.title")} />
+      )}
+      {isFullscreen && (
+        <p
+          className="pointer-events-none absolute left-1/2 top-2 z-[60] -translate-x-1/2 rounded-full border border-border/60 bg-background/85 px-3 py-1 text-xs text-muted-foreground backdrop-blur-sm"
+          aria-live="polite"
+        >
+          {t("dashboard.exitFullscreenHint")}
+        </p>
+      )}
 
       <div className="dashboard-scroll custom-scrollbar">
         <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
@@ -128,5 +145,13 @@ export default function Dashboard() {
       </main>
       <UpdateDialog />
     </UpdaterProvider>
+  )
+}
+
+export default function Dashboard() {
+  return (
+    <DashboardFullscreenProvider>
+      <DashboardContent />
+    </DashboardFullscreenProvider>
   )
 }

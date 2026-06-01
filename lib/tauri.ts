@@ -100,11 +100,20 @@ export async function getCurrentTauriWindow(): Promise<TauriWindowHandle | null>
   }
 }
 
+/** Immersive fullscreen: covers monitor, hides Windows taskbar; UI hides custom titlebar. */
+export async function toggleImmersiveFullscreen(): Promise<boolean> {
+  if (!isTauri()) return false
+  return invokeCommand<boolean>("toggle_immersive_fullscreen")
+}
+
+export async function isImmersiveFullscreen(): Promise<boolean> {
+  if (!isTauri()) return false
+  return invokeCommand<boolean>("is_immersive_fullscreen")
+}
+
+/** @deprecated Use toggleImmersiveFullscreen */
 export async function toggleFullscreen(): Promise<void> {
-  const win = await getCurrentTauriWindow()
-  if (!win) return
-  const fullscreen = await win.isFullscreen()
-  await win.setFullscreen(!fullscreen)
+  await toggleImmersiveFullscreen()
 }
 
 export interface UpdateInfo {

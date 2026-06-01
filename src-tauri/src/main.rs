@@ -48,11 +48,19 @@ pub struct SystemInfo {
     pub sensors_available: bool,
 }
 
+struct ImmersiveBackup {
+    position: tauri::PhysicalPosition<i32>,
+    size: tauri::PhysicalSize<u32>,
+    maximized: bool,
+}
+
 struct AppState {
     sys: Mutex<System>,
     #[cfg(target_os = "windows")]
     nvml: Option<Nvml>,
     lhm_started: Mutex<bool>,
+    immersive_active: Mutex<bool>,
+    immersive_backup: Mutex<Option<ImmersiveBackup>>,
     /// Cached result of the last successful `check()` so install does not re-fetch.
     #[cfg(not(any(target_os = "android", target_os = "ios")))]
     pending_update: Mutex<Option<tauri_plugin_updater::Update>>,
@@ -60,6 +68,130 @@ struct AppState {
 
 #[cfg(windows)]
 use std::os::windows::process::CommandExt;
+
+#[cfg(windows)]
+fn win_cover_current_monitor(window: &tauri::WebviewWindow) -> Result<(), String> {
+    use windows::Win32::Foundation::HWND;
+    use windows::Win32::Graphics::Gdi::{
+        GetMonitorInfoW, MonitorFromWindow, MONITORINFO, MONITOR_DEFAULTTONEAREST,
+    };
+    use windows::Win32::UI::WindowsAndMessaging::{
+        SetWindowPos, HWND_TOP, SWP_FRAMECHANGED, SWP_SHOWWINDOW,
+    };
+
+    let hwnd = HWND(
+        window
+            .hwnd()
+            .map_err(|e| format!("hwnd: {e}"))?
+            .0 as *mut _,
+    );
+
+    unsafe {
+        let monitor = MonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST);
+        let mut info = MONITORINFO {
+            cbSize: std::mem::size_of::<MONITORINFO>() as u32,
+            ..Default::default()
+        };
+        if !GetMonitorInfoW(monitor, &mut info).as_bool() {
+            return Err("GetMonitorInfoW failed".into());
+        }
+        let r = info.rcMonitor;
+        let w = r.right - r.left;
+        let h = r.bottom - r.top;
+        SetWindowPos(
+            hwnd,
+            HWND_TOP,
+            r.left,
+            r.top,
+            w,
+            h,
+            SWP_FRAMECHANGED | SWP_SHOWWINDOW,
+        )
+        .map_err(|e| format!("SetWindowPos: {e}"))?;
+    }
+    Ok(())
+}
+
+#[cfg(windows)]
+fn enter_immersive_windows(
+    window: &tauri::WebviewWindow,
+    state: &tauri::State<'_, AppState>,
+) -> Result<(), String> {
+    let pos = window.outer_position().map_err(|e| e.to_string())?;
+    let size = window.outer_size().map_err(|e| e.to_string())?;
+    let maximized = window.is_maximized().unwrap_or(false);
+    *state.immersive_backup.lock().unwrap() = Some(ImmersiveBackup {
+        position: pos,
+        size,
+        maximized,
+    });
+
+    if maximized {
+        window.unmaximize().map_err(|e| e.to_string())?;
+    }
+    let _ = window.set_fullscreen(false);
+    std::thread::sleep(std::time::Duration::from_millis(80));
+    win_cover_current_monitor(window)?;
+    Ok(())
+}
+
+#[cfg(windows)]
+fn exit_immersive_windows(
+    window: &tauri::WebviewWindow,
+    state: &tauri::State<'_, AppState>,
+) -> Result<(), String> {
+    let _ = window.set_fullscreen(false);
+    let backup = state.immersive_backup.lock().unwrap().take();
+    if let Some(b) = backup {
+        window
+            .set_position(b.position)
+            .map_err(|e| e.to_string())?;
+        window.set_size(b.size).map_err(|e| e.to_string())?;
+        if b.maximized {
+            let _ = window.maximize();
+        }
+    }
+    Ok(())
+}
+
+/// F11 immersive mode: covers the current monitor (hides Windows taskbar) and the
+/// frontend hides the custom titlebar. Restores previous size/position on exit.
+#[tauri::command]
+fn toggle_immersive_fullscreen(
+    window: tauri::WebviewWindow,
+    state: tauri::State<'_, AppState>,
+) -> Result<bool, String> {
+    let mut active = state.immersive_active.lock().unwrap();
+    let entering = !*active;
+
+    if entering {
+        #[cfg(windows)]
+        enter_immersive_windows(&window, &state)?;
+        #[cfg(not(windows))]
+        {
+            if window.is_maximized().unwrap_or(false) {
+                window.unmaximize().map_err(|e| e.to_string())?;
+            }
+            window.set_fullscreen(true).map_err(|e| e.to_string())?;
+        }
+        *active = true;
+    } else {
+        #[cfg(windows)]
+        exit_immersive_windows(&window, &state)?;
+        #[cfg(not(windows))]
+        {
+            window.set_fullscreen(false).map_err(|e| e.to_string())?;
+        }
+        *active = false;
+    }
+
+    Ok(*active)
+}
+
+#[tauri::command]
+fn is_immersive_fullscreen(state: tauri::State<'_, AppState>) -> bool {
+    *state.immersive_active.lock().unwrap()
+}
 
 #[cfg(windows)]
 fn run_elevated(exe: &std::path::Path, args: &str) -> Result<(), String> {
@@ -1012,6 +1144,8 @@ fn main() {
         sys: Mutex::new(sys),
         nvml,
         lhm_started: Mutex::new(false),
+        immersive_active: Mutex::new(false),
+        immersive_backup: Mutex::new(None),
         #[cfg(not(any(target_os = "android", target_os = "ios")))]
         pending_update: Mutex::new(None),
     };
@@ -1020,6 +1154,8 @@ fn main() {
     let app_state = AppState {
         sys: Mutex::new(sys),
         lhm_started: Mutex::new(false),
+        immersive_active: Mutex::new(false),
+        immersive_backup: Mutex::new(None),
         #[cfg(not(any(target_os = "android", target_os = "ios")))]
         pending_update: Mutex::new(None),
     };
@@ -1057,6 +1193,8 @@ fn main() {
             dismiss_pending_update,
             restart_app,
             start_sensor_service,
+            toggle_immersive_fullscreen,
+            is_immersive_fullscreen,
         ])
         .setup(|app| {
             // Start the sensor service in the background so the window shows

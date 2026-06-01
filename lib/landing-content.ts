@@ -120,7 +120,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
       },
       {
         q: "¿Cómo consigo la dirección secreta iCal de mi Google Calendar?",
-        a: "Para sincronizar tu calendario necesitamos su dirección secreta en formato iCal. Sigue estos pasos desde tu ordenador (no está disponible en la app del móvil):",
+        a: "Para sincronizar tu calendario pegas la dirección secreta en formato iCal en Ajustes. Esa clave es privada: se guarda solo en tu PC y Sideglass no la envía a ningún servidor nuestro; nosotros no podemos verla ni leer tus eventos. Sigue estos pasos desde tu ordenador (no está disponible en la app del móvil):",
         steps: [
           "Entra en Google Calendar: ve a calendar.google.com desde tu navegador.",
           "Abre la configuración de tu calendario: en el menú lateral izquierdo, baja hasta «Configuración de mis calendarios» y haz clic sobre el nombre del calendario que quieres sincronizar.",
@@ -128,7 +128,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
           "Copia la dirección secreta: busca el recuadro «Dirección secreta en formato iCal» y pulsa el icono de copiar (los dos folios) a la derecha del enlace.",
           "Pega esa URL en Ajustes de Sideglass, en el campo Google Calendar (iCal).",
         ],
-        note: "Nota de seguridad: no compartas este enlace con nadie. Permite ver tus eventos sin contraseña. Si se te filtra, usa el botón «Restablecer» en Google Calendar para generar una URL nueva.",
+        note: "Privacidad: la URL iCal queda en la configuración local de Sideglass en tu ordenador. No hay base de datos en la nube ni registro del enlace por parte del proyecto. Tampoco la compartas con otras personas: quien la tenga puede ver tu calendario sin contraseña. Si se filtra, pulsa «Restablecer» en Google Calendar para generar una URL nueva.",
       },
       {
         q: "¿Cómo veo temperaturas reales de CPU y GPU?",
@@ -246,7 +246,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
       },
       {
         q: "How do I get the secret iCal address of my Google Calendar?",
-        a: "To sync your calendar we need its secret address in iCal format. Follow these steps from your computer (not available in the mobile app):",
+        a: "To sync your calendar you paste the secret iCal address into Settings. That key is private: it stays on your PC only and Sideglass does not send it to any server we run; we cannot see it or read your events. Follow these steps from your computer (not available in the mobile app):",
         steps: [
           "Open Google Calendar: go to calendar.google.com in your browser.",
           "Open your calendar settings: in the left sidebar, scroll to «Settings for my calendars» and click the name of the calendar you want to sync.",
@@ -254,7 +254,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
           "Copy the secret address: find the «Secret address in iCal format» box and click the copy icon (the two sheets) to the right of the link.",
           "Paste that URL into Sideglass Settings, in the Google Calendar (iCal) field.",
         ],
-        note: "Security note: do not share this link with anyone. It lets anyone see your events without a password. If it leaks, use the «Reset» button in Google Calendar to generate a new URL.",
+        note: "Privacy: the iCal URL is stored in Sideglass local settings on your computer. There is no cloud database and the project does not log your link. Do not share it with others either: anyone with the link can view your calendar without a password. If it leaks, use «Reset» in Google Calendar to generate a new URL.",
       },
       {
         q: "How do I see real CPU and GPU temperatures?",

@@ -1,6 +1,24 @@
 {
   "es": [
     {
+      "version": "0.2.12",
+      "date": "2026-06-01",
+      "groups": [
+        {
+          "category": "Corregido",
+          "items": [
+            "**Pantalla completa (F11)**: modo inmersivo que cubre el monitor, oculta la barra de tareas de Windows y la barra superior de la app (− □ ×). Esc para salir; restaura tamaño y posición anteriores"
+          ]
+        },
+        {
+          "category": "Cambiado",
+          "items": [
+            "**FAQ web**: aclara que la URL iCal secreta es privada, solo se guarda en el PC del usuario y Sideglass no puede verla"
+          ]
+        }
+      ]
+    },
+    {
       "version": "0.2.11",
       "date": "2026-06-01",
       "groups": [
@@ -244,6 +262,24 @@
     }
   ],
   "en": [
+    {
+      "version": "0.2.12",
+      "date": "2026-06-01",
+      "groups": [
+        {
+          "category": "Fixed",
+          "items": [
+            "**Fullscreen (F11)**: immersive mode covers the monitor, hides the Windows taskbar and the app title bar (− □ ×). Esc to exit; restores previous size and position"
+          ]
+        },
+        {
+          "category": "Changed",
+          "items": [
+            "**Web FAQ**: clarifies the secret iCal URL stays on the user's PC only and Sideglass cannot see it"
+          ]
+        }
+      ]
+    },
     {
       "version": "0.2.11",
       "date": "2026-06-01",

@@ -206,6 +206,12 @@
   overflow: hidden;
 }
 
+.dashboard-shell--immersive {
+  grid-template-rows: 1fr auto;
+  max-height: none;
+  height: 100%;
+}
+
 .dashboard-scroll {
   min-height: 0;
   overflow-x: hidden;

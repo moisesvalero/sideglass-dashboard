@@ -6,6 +6,16 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 **Spanish version:** [CHANGELOG.es.md](./CHANGELOG.es.md) — keep both files in sync when you add a release.
 
+## [0.2.12] - 2026-06-01
+
+### Fixed
+
+- **Fullscreen (F11)**: immersive mode covers the monitor, hides the Windows taskbar and the app title bar (− □ ×). Esc to exit; restores previous size and position
+
+### Changed
+
+- **Web FAQ**: clarifies the secret iCal URL stays on the user's PC only and Sideglass cannot see it
+
 ## [0.2.11] - 2026-06-01
 
 ### Fixed

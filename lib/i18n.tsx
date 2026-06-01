@@ -7,6 +7,7 @@ type Lang = "es" | "en"
 const translations: Record<Lang, Record<string, string>> = {
   es: {
     "dashboard.title": "Sideglass",
+    "dashboard.exitFullscreenHint": "Pantalla completa · F11 o Esc para salir",
     "time.loading": "Cargando...",
     "weather.loading": "Cargando...",
     "weather.noData": "Sin datos",
@@ -104,6 +105,7 @@ const translations: Record<Lang, Record<string, string>> = {
   },
   en: {
     "dashboard.title": "Sideglass",
+    "dashboard.exitFullscreenHint": "Fullscreen · F11 or Esc to exit",
     "time.loading": "Loading...",
     "weather.loading": "Loading...",
     "weather.noData": "No data",

@@ -785,7 +785,7 @@ dependencies = [
 
 [[package]]
 name = "desk-dashboard"
-version = "0.2.10"
+version = "0.2.11"
 dependencies = [
  "nvml-wrapper",
  "reqwest 0.12.28",
