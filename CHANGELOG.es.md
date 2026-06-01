@@ -6,6 +6,16 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es/1.1.0/) y el p
 
 **Versión en inglés:** [CHANGELOG.md](./CHANGELOG.md) — mantén ambos archivos sincronizados al publicar una release.
 
+## [0.2.5] - 2026-06-01
+
+### Añadido
+
+- Pantalla completa con **F11** cuando la ventana del dashboard tiene el foco
+
+### Cambiado
+
+- Barra de título al estilo Windows: icono y nombre a la izquierda, controles a la derecha
+
 ## [0.2.4] - 2026-06-01
 
 ### Añadido

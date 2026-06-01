@@ -73,6 +73,9 @@ const translations: Record<Lang, Record<string, string>> = {
     "settings.version": "Versión",
     "titlebar.help": "Ayuda",
     "titlebar.settings": "Ajustes",
+    "titlebar.minimize": "Minimizar",
+    "titlebar.maximize": "Maximizar",
+    "titlebar.close": "Cerrar",
   },
   en: {
     "dashboard.title": "Sideglass",
@@ -142,6 +145,9 @@ const translations: Record<Lang, Record<string, string>> = {
     "settings.version": "Version",
     "titlebar.help": "Help",
     "titlebar.settings": "Settings",
+    "titlebar.minimize": "Minimize",
+    "titlebar.maximize": "Maximize",
+    "titlebar.close": "Close",
   },
 }
 

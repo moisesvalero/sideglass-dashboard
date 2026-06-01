@@ -81,6 +81,32 @@ export async function registerGlobalHotkey(accelerator: string): Promise<void> {
   await invokeCommand("register_global_hotkey", { accelerator })
 }
 
+export type TauriWindowHandle = {
+  minimize: () => Promise<void>
+  toggleMaximize: () => Promise<void>
+  close: () => Promise<void>
+  setFullscreen: (fullscreen: boolean) => Promise<void>
+  isFullscreen: () => Promise<boolean>
+}
+
+export async function getCurrentTauriWindow(): Promise<TauriWindowHandle | null> {
+  try {
+    if (!isTauri()) return null
+    // @ts-expect-error Tauri global
+    const { getCurrentWindow } = window.__TAURI__.window
+    return getCurrentWindow() as TauriWindowHandle
+  } catch {
+    return null
+  }
+}
+
+export async function toggleFullscreen(): Promise<void> {
+  const win = await getCurrentTauriWindow()
+  if (!win) return
+  const fullscreen = await win.isFullscreen()
+  await win.setFullscreen(!fullscreen)
+}
+
 export async function checkForUpdates(): Promise<string> {
   if (!isTauri()) return "no_tauri"
   const timeout = new Promise<string>((_, reject) =>

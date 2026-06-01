@@ -11,11 +11,13 @@ import {
 } from "@/lib/tauri"
 import { fetchIcal } from "@/lib/tauri"
 import { parseIcalEvents } from "@/lib/ical"
+import { useTauriFullscreenHotkey } from "@/hooks/use-tauri-fullscreen-hotkey"
 
 const notifiedIds = new Set<string>()
 
 export function useDashboardBootstrap() {
   const { settings } = useSettings()
+  useTauriFullscreenHotkey()
 
   useEffect(() => {
     if (!isTauri()) return

@@ -1,7 +1,8 @@
 "use client"
 
 import { HelpCircle, Minus, Settings, Square, X } from "lucide-react"
-import { isTauri, openExternalUrl } from "@/lib/tauri"
+import { BrandMark } from "@/components/landing/brand-mark"
+import { getCurrentTauriWindow, isTauri, openExternalUrl } from "@/lib/tauri"
 import { useI18n } from "@/lib/i18n"
 import { SITE_URL } from "@/lib/site"
 
@@ -21,26 +22,34 @@ export function Titlebar({
   }
 
   const handleMinimize = async () => {
-    const win = await getTauriWindow()
+    const win = await getCurrentTauriWindow()
     await win?.minimize()
   }
   const handleMaximize = async () => {
-    const win = await getTauriWindow()
+    const win = await getCurrentTauriWindow()
     await win?.toggleMaximize()
   }
   const handleClose = async () => {
-    const win = await getTauriWindow()
+    const win = await getCurrentTauriWindow()
     await win?.close()
   }
 
   return (
     <div
       data-tauri-drag-region
-      className="sticky top-0 z-50 flex h-10 w-full shrink-0 items-center select-none border-b border-border/40 bg-background/90 backdrop-blur-md"
+      className="sticky top-0 z-50 flex h-10 w-full shrink-0 items-stretch select-none border-b border-border/40 bg-background/90 backdrop-blur-md"
     >
-      <span className="pointer-events-none flex-1 truncate px-4 text-center text-[11px] font-medium text-muted-foreground">
-        {title}
-      </span>
+      <div
+        data-tauri-drag-region
+        className="flex min-w-0 shrink-0 items-center gap-2 px-3"
+      >
+        <BrandMark size={16} />
+        <span className="truncate text-[12px] font-semibold leading-none text-foreground">
+          {title}
+        </span>
+      </div>
+
+      <div className="min-w-0 flex-1" data-tauri-drag-region aria-hidden />
 
       <div className="flex shrink-0 items-stretch" data-tauri-drag-region="false">
         <button
@@ -68,7 +77,8 @@ export function Titlebar({
               type="button"
               onClick={handleMinimize}
               className="win-caption-btn w-12"
-              aria-label="Minimizar"
+              aria-label={t("titlebar.minimize")}
+              title={t("titlebar.minimize")}
             >
               <Minus className="h-3.5 w-3.5" strokeWidth={2} />
             </button>
@@ -76,7 +86,8 @@ export function Titlebar({
               type="button"
               onClick={handleMaximize}
               className="win-caption-btn w-12"
-              aria-label="Maximizar"
+              aria-label={t("titlebar.maximize")}
+              title={t("titlebar.maximize")}
             >
               <Square className="h-3 w-3" strokeWidth={2} />
             </button>
@@ -84,7 +95,8 @@ export function Titlebar({
               type="button"
               onClick={handleClose}
               className="win-caption-btn win-caption-close w-12"
-              aria-label="Cerrar"
+              aria-label={t("titlebar.close")}
+              title={t("titlebar.close")}
             >
               <X className="h-4 w-4" strokeWidth={2} />
             </button>
@@ -93,15 +105,4 @@ export function Titlebar({
       </div>
     </div>
   )
-}
-
-async function getTauriWindow() {
-  try {
-    if (!isTauri()) return null
-    // @ts-expect-error Tauri global
-    const { getCurrentWindow } = window.__TAURI__.window
-    return getCurrentWindow()
-  } catch {
-    return null
-  }
 }

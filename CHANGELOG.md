@@ -6,6 +6,16 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 **Spanish version:** [CHANGELOG.es.md](./CHANGELOG.es.md) — keep both files in sync when you add a release.
 
+## [0.2.5] - 2026-06-01
+
+### Added
+
+- Fullscreen toggle with **F11** when the dashboard window is focused
+
+### Changed
+
+- Title bar follows Windows layout: app icon and name on the left, controls on the right
+
 ## [0.2.4] - 2026-06-01
 
 ### Added
