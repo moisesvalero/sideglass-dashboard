@@ -1,7 +1,7 @@
-# LibreHardwareMonitor (opcional)
+# Sensor service (LibreHardwareMonitor)
 
-Coloca aqui `LibreHardwareMonitor.exe` para empaquetarlo con la app y leer temperaturas reales via WMI.
+The Windows installer bundles LibreHardwareMonitor here automatically (CI on release).
 
-Descarga: https://github.com/LibreHardwareMonitor/LibreHardwareMonitor/releases
+Desk Dashboard starts it in the background on launch so CPU/GPU temperatures work without the user installing anything extra.
 
-Sin este archivo, puedes ejecutar LibreHardwareMonitor manualmente como administrador antes de abrir Desk Dashboard.
+For local `tauri build`, download the latest zip from [LibreHardwareMonitor releases](https://github.com/LibreHardwareMonitor/LibreHardwareMonitor/releases) and copy `LibreHardwareMonitor.exe` plus its DLLs into this folder.

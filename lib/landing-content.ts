@@ -12,7 +12,6 @@ export type LandingCopy = {
   heroTitle: string[]
   heroSubtitle: string
   ctaDownload: string
-  langSwitch: string
   heroNote: string
   screenshotsTitle: string
   screenshotsSubtitle: string
@@ -25,7 +24,8 @@ export type LandingCopy = {
   faq: Faq[]
   changelogTitle: string
   changelogLink: string
-  footer: string
+  footerDeveloped: string
+  footerSource: string
   keywords: string[]
 }
 
@@ -41,7 +41,6 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
     heroSubtitle:
       "Clima, agenda, hardware, notas, YouTube y acceso a tus IAs favoritas. Responsive en vertical y horizontal.",
     ctaDownload: "Descargar para Windows",
-    langSwitch: "English",
     heroNote: "MIT · Sin API keys obligatorias",
     screenshotsTitle: "Capturas reales",
     screenshotsSubtitle:
@@ -55,7 +54,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
     features: [
       {
         label: "Hardware nativo",
-        desc: "CPU, RAM y GPU en tiempo real. Temperaturas reales con LibreHardwareMonitor.",
+        desc: "CPU, RAM y GPU en tiempo real. Temperaturas reales incluidas en el instalador.",
       },
       {
         label: "Calendario Google",
@@ -77,7 +76,6 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
       "Descarga el instalador .exe desde GitHub Releases.",
       "Si Windows SmartScreen advierte, pulsa Mas informacion y Ejecutar de todas formas (app sin firma de pago).",
       "Abre Ajustes y pega tu URL iCal de Google Calendar si quieres agenda.",
-      "Para temperaturas: instala LibreHardwareMonitor o coloca el .exe en src-tauri/bin/ al compilar.",
       "Activa inicio con Windows y el atajo global desde Ajustes.",
     ],
     faqTitle: "Preguntas frecuentes",
@@ -96,7 +94,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
       },
       {
         q: "¿Como veo temperaturas reales de CPU y GPU?",
-        a: "Coloca LibreHardwareMonitor.exe en src-tauri/bin/ antes de compilar, o ejecutalo manualmente como administrador. La app lee sensores via WMI.",
+        a: "Al instalar Desk Dashboard ya viene el servicio de sensores integrado. La app lo arranca en segundo plano y lee temperaturas via WMI. No hace falta instalar nada mas.",
       },
       {
         q: "¿YouTube funciona con mi cuenta de Google?",
@@ -109,7 +107,8 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
     ],
     changelogTitle: "Novedades",
     changelogLink: "Ver CHANGELOG completo",
-    footer: "MIT · GitHub",
+    footerDeveloped: "Desarrollado por",
+    footerSource: "Codigo fuente del proyecto",
     keywords: [
       "dashboard monitor secundario",
       "panel escritorio windows",
@@ -129,7 +128,6 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
     heroSubtitle:
       "Weather, agenda, hardware, notes, YouTube and access to your favorite AIs. Responsive in portrait and landscape.",
     ctaDownload: "Download for Windows",
-    langSwitch: "Español",
     heroNote: "MIT · No required API keys",
     screenshotsTitle: "Real screenshots",
     screenshotsSubtitle:
@@ -143,7 +141,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
     features: [
       {
         label: "Native hardware",
-        desc: "Real-time CPU, RAM and GPU. Real temperatures with LibreHardwareMonitor.",
+        desc: "Real-time CPU, RAM and GPU. Real temperatures bundled with the installer.",
       },
       {
         label: "Google Calendar",
@@ -165,7 +163,6 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
       "Download the .exe installer from GitHub Releases.",
       "If Windows SmartScreen warns you, click More info and Run anyway (app without a paid signature).",
       "Open Settings and paste your Google Calendar iCal URL if you want the agenda.",
-      "For temperatures: install LibreHardwareMonitor or drop the .exe into src-tauri/bin/ when building.",
       "Enable start with Windows and the global shortcut from Settings.",
     ],
     faqTitle: "Frequently asked questions",
@@ -184,7 +181,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
       },
       {
         q: "How do I see real CPU and GPU temperatures?",
-        a: "Place LibreHardwareMonitor.exe in src-tauri/bin/ before building, or run it manually as administrator. The app reads sensors via WMI.",
+        a: "Desk Dashboard ships with an integrated sensor service. The app starts it in the background and reads temperatures via WMI. No extra software to install.",
       },
       {
         q: "Does YouTube work with my Google account?",
@@ -197,7 +194,8 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
     ],
     changelogTitle: "What's new",
     changelogLink: "View full CHANGELOG",
-    footer: "MIT · GitHub",
+    footerDeveloped: "Developed by",
+    footerSource: "Project source code",
     keywords: [
       "second monitor dashboard",
       "windows desktop panel",

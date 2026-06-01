@@ -1,8 +1,9 @@
 import Image from "next/image"
-import Link from "next/link"
 import { getChangelog, getLatestVersion } from "@/lib/changelog"
+import { LandingFooter } from "@/components/landing/landing-footer"
+import { LandingHeader } from "@/components/landing/landing-header"
 import { landingContent, type LandingLang } from "@/lib/landing-content"
-import { SITE_URL, GITHUB_REPO, GITHUB_RELEASES, APP_VERSION } from "@/lib/site"
+import { SITE_URL, AUTHOR_SITE, GITHUB_REPO, GITHUB_RELEASES, APP_VERSION } from "@/lib/site"
 
 const screenshots = (copy: (typeof landingContent)[LandingLang]) => [
   {
@@ -53,7 +54,7 @@ export function LandingView({ lang }: { lang: LandingLang }) {
     license: "https://opensource.org/licenses/MIT",
     inLanguage: copy.htmlLang,
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-    author: { "@type": "Person", name: "Moises Valero", url: GITHUB_REPO },
+    author: { "@type": "Person", name: "Moises Valero", url: AUTHOR_SITE },
   }
 
   const faqJsonLd = {
@@ -83,7 +84,9 @@ export function LandingView({ lang }: { lang: LandingLang }) {
 
       <div className="fixed top-0 left-1/2 -translate-x-1/2 w-[900px] h-[480px] bg-blue-600/12 rounded-full blur-[140px] pointer-events-none" />
 
-      <header className="relative z-10 max-w-4xl mx-auto px-6 pt-16 pb-8 text-center">
+      <LandingHeader lang={lang} />
+
+      <header className="relative z-10 max-w-4xl mx-auto px-6 pt-12 pb-8 text-center">
         <p className="text-xs font-medium tracking-[0.2em] text-blue-400/80 uppercase mb-6">
           {copy.eyebrow}
         </p>
@@ -98,19 +101,13 @@ export function LandingView({ lang }: { lang: LandingLang }) {
         <p className="text-lg text-white/55 max-w-xl mx-auto mb-10 leading-relaxed">
           {copy.heroSubtitle}
         </p>
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+        <div className="flex justify-center">
           <a
             href={GITHUB_RELEASES}
             className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-white text-black font-medium text-sm hover:bg-white/90 transition-transform hover:scale-[1.02]"
           >
             {copy.ctaDownload}
           </a>
-          <Link
-            href={lang === "es" ? "/en" : "/"}
-            className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl border border-white/15 text-sm text-white/80 hover:bg-white/5"
-          >
-            {copy.langSwitch}
-          </Link>
         </div>
         <p className="text-white/30 text-xs mt-4">
           v{version} · {copy.heroNote}
@@ -244,14 +241,7 @@ export function LandingView({ lang }: { lang: LandingLang }) {
         </p>
       </section>
 
-      <footer className="relative z-10 border-t border-white/[0.06] py-8 text-center text-sm text-white/40">
-        <p>
-          MIT ·{" "}
-          <a href={GITHUB_REPO} className="text-blue-400 hover:underline">
-            GitHub
-          </a>
-        </p>
-      </footer>
+      <LandingFooter lang={lang} />
     </div>
   )
 }

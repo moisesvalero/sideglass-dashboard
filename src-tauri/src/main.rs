@@ -70,7 +70,11 @@ fn try_start_lhm(app: &tauri::AppHandle) {
         ];
         for path in candidates {
             if path.exists() {
-                let _ = std::process::Command::new(&path).arg("--minimize").spawn();
+                let work_dir = path.parent().unwrap_or_else(|| path.as_path());
+                let _ = std::process::Command::new(&path)
+                    .current_dir(work_dir)
+                    .arg("--minimize")
+                    .spawn();
                 *guard = true;
                 std::thread::sleep(std::time::Duration::from_secs(2));
                 return;

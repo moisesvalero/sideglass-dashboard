@@ -23,6 +23,23 @@ jobs:
       - name: Install frontend dependencies
         run: npm install
 
+      - name: Bundle LibreHardwareMonitor (temperatures)
+        shell: pwsh
+        run: |
+          $dest = "src-tauri/bin"
+          New-Item -ItemType Directory -Force -Path $dest | Out-Null
+          $release = Invoke-RestMethod -Uri "https://api.github.com/repos/LibreHardwareMonitor/LibreHardwareMonitor/releases/latest"
+          $asset = $release.assets | Where-Object { $_.name -match '\.zip$' } | Select-Object -First 1
+          if (-not $asset) { throw "LibreHardwareMonitor release zip not found" }
+          $zip = "$env:RUNNER_TEMP/lhm.zip"
+          Invoke-WebRequest -Uri $asset.browser_download_url -OutFile $zip
+          $extract = "$env:RUNNER_TEMP/lhm"
+          Expand-Archive -Path $zip -DestinationPath $extract -Force
+          $exe = Get-ChildItem -Path $extract -Recurse -Filter "LibreHardwareMonitor.exe" | Select-Object -First 1
+          if (-not $exe) { throw "LibreHardwareMonitor.exe not found in archive" }
+          Copy-Item -Path "$($exe.Directory.FullName)\*" -Destination $dest -Recurse -Force
+          Write-Host "Bundled LHM from $($asset.name) into $dest"
+
       - name: Build Tauri app
         uses: tauri-apps/tauri-action@v0
         env:

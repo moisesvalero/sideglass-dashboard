@@ -5,3 +5,8 @@ export const SITE_URL = (
 export const GITHUB_REPO = "https://github.com/moisesvalero/personal-dashboard"
 export const GITHUB_RELEASES = `${GITHUB_REPO}/releases/latest`
 export const APP_VERSION = "0.2.0"
+
+export const AUTHOR_NAME = "Moises Valero"
+export const AUTHOR_SITE = "https://moisesvalero.es"
+export const AUTHOR_GITHUB = "https://github.com/moisesvalero"
+export const AUTHOR_LINKEDIN = "https://www.linkedin.com/in/moisesvalero/"

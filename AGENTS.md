@@ -28,7 +28,7 @@ npm run lint && npm run typecheck && npm run build
 - **Weather**: Open-Meteo (no API key)
 - **Calendar**: Google Calendar iCal URL in settings
 - **YouTube**: `open_youtube_window` Tauri command
-- **Temps**: LibreHardwareMonitor via WMI (`src-tauri/bin/` optional)
+- **Temps**: LibreHardwareMonitor bundled in releases (`src-tauri/bin/`, auto-started via WMI)
 - **Updates**: `tauri-plugin-updater` + `docs/UPDATER.md`
 
 ## Conventions
