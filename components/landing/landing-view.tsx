@@ -176,7 +176,6 @@ export function LandingView({ lang }: { lang: LandingLang }) {
           changelogSubtitle: copy.changelogSubtitle,
           changelogLink: copy.changelogLink,
           changelogEmpty: copy.changelogEmpty,
-          changelogBullets: copy.changelogBullets,
         }}
       />
 

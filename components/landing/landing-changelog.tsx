@@ -7,7 +7,6 @@ type Copy = {
   changelogSubtitle: string
   changelogLink: string
   changelogEmpty: string
-  changelogBullets: string[]
 }
 
 export function LandingChangelog({
@@ -17,8 +16,7 @@ export function LandingChangelog({
   latest: ChangelogEntry | undefined
   copy: Copy
 }) {
-  const highlights =
-    copy.changelogBullets.length > 0 ? copy.changelogBullets : pickLatestHighlights(latest)
+  const highlights = pickLatestHighlights(latest)
 
   return (
     <section
