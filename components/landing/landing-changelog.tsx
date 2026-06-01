@@ -1,5 +1,5 @@
 import type { ChangelogEntry } from "@/lib/changelog"
-import { GITHUB_REPO } from "@/lib/site"
+import { GITHUB_RELEASES } from "@/lib/site"
 
 type Copy = {
   changelogTitle: string
@@ -10,11 +10,9 @@ type Copy = {
 export function LandingChangelog({
   entries,
   copy,
-  sourceFile,
 }: {
   entries: ChangelogEntry[]
   copy: Copy
-  sourceFile: string
 }) {
   return (
     <section
@@ -64,7 +62,7 @@ export function LandingChangelog({
 
       <p className="mt-6 text-center text-sm">
         <a
-          href={`${GITHUB_REPO}/blob/main/${sourceFile}`}
+          href={GITHUB_RELEASES}
           target="_blank"
           rel="noopener noreferrer"
           className="text-blue-400 hover:text-blue-300"

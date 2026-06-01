@@ -1,5 +1,5 @@
 import Image from "next/image"
-import { getChangelog, getChangelogSourcePath, getLatestVersion } from "@/lib/changelog"
+import { getChangelog, getLatestVersion } from "@/lib/changelog"
 import { LandingChangelog } from "@/components/landing/landing-changelog"
 import { LandingFooter } from "@/components/landing/landing-footer"
 import { LandingHeader } from "@/components/landing/landing-header"
@@ -201,7 +201,6 @@ export function LandingView({ lang }: { lang: LandingLang }) {
           changelogLink: copy.changelogLink,
           changelogEmpty: copy.changelogEmpty,
         }}
-        sourceFile={getChangelogSourcePath(lang)}
       />
 
       <section id="faq" className="relative z-10 max-w-2xl mx-auto px-6 py-12 scroll-mt-20">

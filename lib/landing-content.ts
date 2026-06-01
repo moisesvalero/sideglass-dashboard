@@ -131,7 +131,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
     ],
     navChangelog: "Novedades",
     changelogTitle: "Novedades",
-    changelogLink: "Ver CHANGELOG.es.md en GitHub",
+    changelogLink: "Ver en GitHub",
     changelogEmpty:
       "No hay entradas de changelog en este despliegue. Edita CHANGELOG.es.md y vuelve a desplegar la web.",
     footerDeveloped: "Desarrollado por",
@@ -238,7 +238,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
     ],
     navChangelog: "What's new",
     changelogTitle: "What's new",
-    changelogLink: "View CHANGELOG.md on GitHub",
+    changelogLink: "View on GitHub",
     changelogEmpty:
       "No changelog entries in this deployment. Edit CHANGELOG.md and redeploy the site.",
     footerDeveloped: "Developed by",
