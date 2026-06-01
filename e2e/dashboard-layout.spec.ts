@@ -28,4 +28,11 @@ test.describe("dashboard layout width", () => {
     await expect(page.locator(".glass-hero")).toBeVisible()
     await expect(page.locator(".hardware-control-grid")).toBeVisible()
   })
+
+  test("customize mode exposes resize handles", async ({ page }) => {
+    await page.waitForTimeout(1000)
+    await page.getByTestId("customize-layout").dispatchEvent("click")
+    await expect(page.locator(".dashboard-edit-toolbar")).toBeVisible()
+    await expect(page.locator(".dashboard-resize-handle")).toHaveCount(6)
+  })
 })

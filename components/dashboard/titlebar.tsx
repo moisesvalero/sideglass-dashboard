@@ -1,6 +1,6 @@
 "use client"
 
-import { HelpCircle, Minus, Settings, Square, X } from "lucide-react"
+import { HelpCircle, LayoutGrid, Minus, Settings, Square, X } from "lucide-react"
 import { BrandMark } from "@/components/landing/brand-mark"
 import { getCurrentTauriWindow, isTauri, openExternalUrl } from "@/lib/tauri"
 import { useI18n } from "@/lib/i18n"
@@ -8,9 +8,13 @@ import { SITE_URL } from "@/lib/site"
 
 export function Titlebar({
   onSettingsClick,
+  onCustomizeClick,
+  isCustomizing,
   title,
 }: {
   onSettingsClick: () => void
+  onCustomizeClick: () => void
+  isCustomizing: boolean
   title: string
 }) {
   const tauriMode = isTauri()
@@ -57,6 +61,16 @@ export function Titlebar({
           title={t("titlebar.help")}
         >
           <HelpCircle className="h-4 w-4 text-muted-foreground" />
+        </button>
+        <button
+          type="button"
+          onClick={onCustomizeClick}
+          data-testid="customize-layout"
+          className={`win-caption-btn px-3 ${isCustomizing ? "bg-primary/15 text-primary" : ""}`}
+          aria-label={t("titlebar.customize")}
+          title={t("titlebar.customize")}
+        >
+          <LayoutGrid className="h-4 w-4 text-muted-foreground" />
         </button>
         <button
           type="button"

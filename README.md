@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <strong>Open-source desktop app for Windows</strong> (Tauri + Next.js) — secondary monitor dashboard: weather, calendar, hardware, notes, embedded YouTube, and AI dock.
+  <strong>Open-source desktop app for Windows</strong> (Tauri + Next.js) — customizable secondary monitor dashboard: weather, calendar, hardware, notes, embedded YouTube, and AI dock.
 </p>
 
 <p align="center">
@@ -45,7 +45,8 @@
 - Clock and weather (Open-Meteo, no API key)
 - Google Calendar via iCal URL
 - Live CPU, RAM, and GPU; temperatures via bundled LibreHardwareMonitor / NVML
-- **YouTube inside the panel** (paste a link)
+- **Resizable widgets**: edit mode lets you drag and resize every card from the corner
+- **YouTube inside the panel** with real search in the Tauri app
 - AI dock (ChatGPT, Gemini, Claude, Perplexity, Microsoft Copilot)
 - Local notes, daily quote, reorderable widgets
 - **Windows-style** title bar (minimize / maximize / close on the right)
@@ -84,7 +85,8 @@ npm run screenshots
 | Feature            | Where                                                       |
 | ------------------ | ----------------------------------------------------------- |
 | Calendar           | Settings → Google Calendar iCal URL                         |
-| YouTube            | YouTube widget → paste link → Play                          |
+| Resize widgets     | Top bar → customize button → drag the card corner           |
+| YouTube            | YouTube widget → search in app or paste link in web preview |
 | Temperatures       | Bundled in installer; run as administrator if °C is missing |
 | Updates            | Settings → **Check for updates**                            |
 | Autostart / hotkey | Settings                                                    |

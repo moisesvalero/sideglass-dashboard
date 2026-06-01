@@ -5,6 +5,16 @@ import { createContext, useContext, useEffect, useState, type ReactNode } from "
 export const WIDGET_IDS = ["time", "hardware", "calendar", "motivation", "notes", "music"] as const
 
 export type WidgetId = (typeof WIDGET_IDS)[number]
+export type WidgetLayout = { cols: number; rows: number }
+
+export const DEFAULT_WIDGET_LAYOUTS: Record<WidgetId, WidgetLayout> = {
+  time: { cols: 4, rows: 9 },
+  hardware: { cols: 4, rows: 16 },
+  calendar: { cols: 2, rows: 9 },
+  motivation: { cols: 2, rows: 7 },
+  notes: { cols: 2, rows: 10 },
+  music: { cols: 4, rows: 16 },
+}
 
 export interface Settings {
   weatherCity: string
@@ -14,6 +24,7 @@ export interface Settings {
   theme: "dark" | "light" | "system"
   calendarIcalUrl: string
   widgetOrder: WidgetId[]
+  widgetLayouts: Record<WidgetId, WidgetLayout>
   showCalendar: boolean
   showMotivation: boolean
   showHardware: boolean
@@ -32,6 +43,7 @@ const defaultSettings: Settings = {
   theme: "dark",
   calendarIcalUrl: "",
   widgetOrder: [...WIDGET_IDS],
+  widgetLayouts: { ...DEFAULT_WIDGET_LAYOUTS },
   showCalendar: true,
   showMotivation: true,
   showHardware: true,
@@ -73,6 +85,27 @@ function migrateStored(raw: Record<string, unknown>): Settings {
   }
   if (!Array.isArray(next.widgetOrder) || next.widgetOrder.length === 0) {
     next.widgetOrder = [...WIDGET_IDS]
+  }
+  const rawLayouts =
+    typeof raw.widgetLayouts === "object" && raw.widgetLayouts
+      ? raw.widgetLayouts
+      : typeof raw.widgetSizes === "object" && raw.widgetSizes
+        ? raw.widgetSizes
+        : {}
+  next.widgetLayouts = { ...DEFAULT_WIDGET_LAYOUTS }
+  for (const id of WIDGET_IDS) {
+    const value = (rawLayouts as Record<string, unknown>)[id]
+    if (
+      typeof value === "object" &&
+      value &&
+      typeof (value as WidgetLayout).cols === "number" &&
+      typeof (value as WidgetLayout).rows === "number"
+    ) {
+      next.widgetLayouts[id] = {
+        cols: Math.min(4, Math.max(1, Math.round((value as WidgetLayout).cols))),
+        rows: Math.min(28, Math.max(5, Math.round((value as WidgetLayout).rows))),
+      }
+    }
   }
   return next
 }

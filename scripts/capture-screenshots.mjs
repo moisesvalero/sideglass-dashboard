@@ -18,6 +18,23 @@ function demoSettings(theme, { compact = false } = {}) {
     timeFormat: "24",
     theme,
     calendarIcalUrl: "",
+    widgetLayouts: compact
+      ? {
+          time: { cols: 4, rows: 9 },
+          calendar: { cols: 2, rows: 10 },
+          motivation: { cols: 2, rows: 8 },
+          hardware: { cols: 4, rows: 16 },
+          notes: { cols: 2, rows: 10 },
+          music: { cols: 4, rows: 16 },
+        }
+      : {
+          time: { cols: 4, rows: 9 },
+          calendar: { cols: 2, rows: 10 },
+          motivation: { cols: 2, rows: 8 },
+          hardware: { cols: 2, rows: 16 },
+          notes: { cols: 2, rows: 10 },
+          music: { cols: 4, rows: 16 },
+        },
     widgetOrder: compact
       ? ["time", "calendar", "motivation", "hardware"]
       : ["time", "calendar", "motivation", "hardware", "notes", "music"],
@@ -84,8 +101,11 @@ async function seedPage(page, theme, { compact = false } = {}) {
   )
 }
 
-async function capture(page, fileName, viewport) {
+async function capture(page, fileName, viewport, { editMode = false } = {}) {
   await page.setViewportSize(viewport)
+  if (editMode) {
+    await page.getByRole("button", { name: "Customize layout" }).click()
+  }
   await page.evaluate(() => {
     window.scrollTo(0, 0)
     const scroller = document.querySelector(".dashboard-scroll")
@@ -124,7 +144,12 @@ async function main() {
         const landscapePage = await browser.newPage({ deviceScaleFactor: 2 })
         await seedPage(landscapePage, theme)
         await landscapePage.goto(baseURL, { waitUntil: "networkidle", timeout: 60_000 })
-        await capture(landscapePage, "landscape-dark.png", { width: 1120, height: 780 })
+        await capture(
+          landscapePage,
+          "landscape-dark.png",
+          { width: 1120, height: 780 },
+          { editMode: true }
+        )
         await landscapePage.close()
       }
     }

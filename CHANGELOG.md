@@ -6,6 +6,23 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 **Spanish version:** [CHANGELOG.es.md](./CHANGELOG.es.md) — keep both files in sync when you add a release.
 
+## [0.2.18] - 2026-06-01
+
+### Added
+
+- **Resizable dashboard widgets**: edit mode lets users drag widgets and resize each card from the corner, with the custom layout saved locally
+- **Fresh marketing screenshots**: README and landing screenshots now reflect the customizable dashboard
+
+### Fixed
+
+- **Updater installer lock**: includes the installer fix that closes the internal `desk-dashboard.exe` process before replacing files
+
+## [0.2.17] - 2026-06-01
+
+### Fixed
+
+- **Updater installer lock**: the Windows installer now closes the internal `desk-dashboard.exe` process before replacing files, so updates no longer stop with “Error opening file for writing”
+
 ## [0.2.16] - 2026-06-01
 
 ### Changed

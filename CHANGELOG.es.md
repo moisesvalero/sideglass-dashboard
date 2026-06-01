@@ -6,6 +6,23 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es/1.1.0/) y el p
 
 **Versión en inglés:** [CHANGELOG.md](./CHANGELOG.md) — mantén ambos archivos sincronizados al publicar una release.
 
+## [0.2.18] - 2026-06-01
+
+### Añadido
+
+- **Widgets redimensionables**: el modo edición permite arrastrar widgets y cambiar el tamaño de cada tarjeta desde la esquina, guardando el layout localmente
+- **Nuevas capturas de marketing**: README y landing muestran capturas actualizadas del dashboard personalizable
+
+### Corregido
+
+- **Bloqueo del instalador al actualizar**: incluye el fix para cerrar el proceso interno `desk-dashboard.exe` antes de reemplazar archivos
+
+## [0.2.17] - 2026-06-01
+
+### Corregido
+
+- **Bloqueo del instalador al actualizar**: el instalador de Windows ahora cierra el proceso interno `desk-dashboard.exe` antes de reemplazar archivos, evitando el error “Error opening file for writing”
+
 ## [0.2.16] - 2026-06-01
 
 ### Cambiado

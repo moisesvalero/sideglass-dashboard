@@ -1,6 +1,37 @@
 {
   "es": [
     {
+      "version": "0.2.18",
+      "date": "2026-06-01",
+      "groups": [
+        {
+          "category": "Añadido",
+          "items": [
+            "**Widgets redimensionables**: el modo edición permite arrastrar widgets y cambiar el tamaño de cada tarjeta desde la esquina, guardando el layout localmente",
+            "**Nuevas capturas de marketing**: README y landing muestran capturas actualizadas del dashboard personalizable"
+          ]
+        },
+        {
+          "category": "Corregido",
+          "items": [
+            "**Bloqueo del instalador al actualizar**: incluye el fix para cerrar el proceso interno `desk-dashboard.exe` antes de reemplazar archivos"
+          ]
+        }
+      ]
+    },
+    {
+      "version": "0.2.17",
+      "date": "2026-06-01",
+      "groups": [
+        {
+          "category": "Corregido",
+          "items": [
+            "**Bloqueo del instalador al actualizar**: el instalador de Windows ahora cierra el proceso interno `desk-dashboard.exe` antes de reemplazar archivos, evitando el error “Error opening file for writing”"
+          ]
+        }
+      ]
+    },
+    {
       "version": "0.2.16",
       "date": "2026-06-01",
       "groups": [
@@ -310,6 +341,37 @@
     }
   ],
   "en": [
+    {
+      "version": "0.2.18",
+      "date": "2026-06-01",
+      "groups": [
+        {
+          "category": "Added",
+          "items": [
+            "**Resizable dashboard widgets**: edit mode lets users drag widgets and resize each card from the corner, with the custom layout saved locally",
+            "**Fresh marketing screenshots**: README and landing screenshots now reflect the customizable dashboard"
+          ]
+        },
+        {
+          "category": "Fixed",
+          "items": [
+            "**Updater installer lock**: includes the installer fix that closes the internal `desk-dashboard.exe` process before replacing files"
+          ]
+        }
+      ]
+    },
+    {
+      "version": "0.2.17",
+      "date": "2026-06-01",
+      "groups": [
+        {
+          "category": "Fixed",
+          "items": [
+            "**Updater installer lock**: the Windows installer now closes the internal `desk-dashboard.exe` process before replacing files, so updates no longer stop with “Error opening file for writing”"
+          ]
+        }
+      ]
+    },
     {
       "version": "0.2.16",
       "date": "2026-06-01",

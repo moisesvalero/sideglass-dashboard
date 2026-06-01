@@ -28,7 +28,12 @@ import { UpdaterProvider, UpdaterSettingsBridge } from "@/lib/updater"
 import { NotesWidget } from "@/components/dashboard/notes-widget"
 import { MusicWidget } from "@/components/dashboard/music-widget"
 import { SortableWidget } from "@/components/dashboard/widget-sortable"
-import { useSettings, type WidgetId } from "@/lib/settings"
+import {
+  DEFAULT_WIDGET_LAYOUTS,
+  useSettings,
+  type WidgetId,
+  type WidgetLayout,
+} from "@/lib/settings"
 import { useI18n } from "@/lib/i18n"
 import { useDashboardBootstrap } from "@/hooks/use-dashboard-bootstrap"
 import { DashboardFullscreenProvider, useDashboardFullscreen } from "@/lib/dashboard-fullscreen"
@@ -54,6 +59,7 @@ function isWidgetVisible(id: WidgetId, settings: ReturnType<typeof useSettings>[
 
 function DashboardContent() {
   const [settingsOpen, setSettingsOpen] = useState(false)
+  const [editMode, setEditMode] = useState(false)
   const { settings, updateSettings } = useSettings()
   const { t } = useI18n()
   const { isFullscreen } = useDashboardFullscreen()
@@ -84,6 +90,22 @@ function DashboardContent() {
     updateSettings({ widgetOrder: arrayMove(settings.widgetOrder, oldIndex, newIndex) })
   }
 
+  const handleLayoutChange = (id: WidgetId, layout: WidgetLayout) => {
+    updateSettings({
+      widgetLayouts: {
+        ...settings.widgetLayouts,
+        [id]: layout,
+      },
+    })
+  }
+
+  const resetLayout = () => {
+    updateSettings({
+      widgetOrder: [...Object.keys(DEFAULT_WIDGET_LAYOUTS)] as WidgetId[],
+      widgetLayouts: { ...DEFAULT_WIDGET_LAYOUTS },
+    })
+  }
+
   return (
     <UpdaterProvider>
       <UpdaterSettingsBridge
@@ -110,7 +132,12 @@ function DashboardContent() {
         </div>
 
         {!isFullscreen && (
-          <Titlebar onSettingsClick={() => setSettingsOpen(true)} title={t("dashboard.title")} />
+          <Titlebar
+            onSettingsClick={() => setSettingsOpen(true)}
+            onCustomizeClick={() => setEditMode((value) => !value)}
+            isCustomizing={editMode}
+            title={t("dashboard.title")}
+          />
         )}
         {isFullscreen && (
           <p
@@ -122,7 +149,16 @@ function DashboardContent() {
         )}
 
         <div className="dashboard-scroll custom-scrollbar">
+          {editMode && (
+            <div className="dashboard-edit-toolbar">
+              <span>{t("dashboard.customizeHint")}</span>
+              <button type="button" onClick={resetLayout}>
+                {t("dashboard.resetLayout")}
+              </button>
+            </div>
+          )}
           <DndContext
+            id="dashboard-widgets"
             sensors={sensors}
             collisionDetection={closestCenter}
             onDragEnd={handleDragEnd}
@@ -132,7 +168,13 @@ function DashboardContent() {
                 {visibleOrder.map((id) => {
                   const Component = widgetMap[id]
                   return (
-                    <SortableWidget key={id} id={id}>
+                    <SortableWidget
+                      key={id}
+                      id={id}
+                      layout={settings.widgetLayouts[id] ?? DEFAULT_WIDGET_LAYOUTS[id]}
+                      editMode={editMode}
+                      onLayoutChange={handleLayoutChange}
+                    >
                       <Component />
                     </SortableWidget>
                   )

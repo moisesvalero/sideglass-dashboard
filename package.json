@@ -1,6 +1,6 @@
 {
   "name": "sideglass-dashboard",
-  "version": "0.2.16",
+  "version": "0.2.18",
   "license": "MIT",
   "private": true,
   "scripts": {

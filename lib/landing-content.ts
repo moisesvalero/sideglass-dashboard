@@ -45,7 +45,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
     eyebrow: "Escritorio · Windows · Open source",
     heroTitle: ["Tu monitor secundario,", "siempre a la vista"],
     heroSubtitle:
-      "Clima, agenda, hardware, notas, YouTube y acceso a tus IAs favoritas. Se adapta a monitor vertical u horizontal.",
+      "Clima, agenda, hardware, notas, YouTube y acceso a tus IAs favoritas. Ordena y redimensiona cada widget a tu gusto.",
     ctaDownload: "Descargar para Windows",
     ctaGithub: "Ver en GitHub",
     heroNote: "Open source (MIT)",
@@ -56,12 +56,12 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
     screenshotLabels: {
       portraitDark: "Vertical · Oscuro",
       portraitLight: "Vertical · Claro",
-      landscapeDark: "Horizontal · Oscuro",
+      landscapeDark: "Horizontal · Modo edición",
     },
     screenshotAlts: {
       portraitDark: "Sideglass en monitor vertical, modo oscuro",
       portraitLight: "Sideglass en monitor vertical, modo claro",
-      landscapeDark: "Sideglass en monitor horizontal, modo oscuro",
+      landscapeDark: "Sideglass en monitor horizontal con widgets redimensionables",
     },
     featuresTitle: "Qué incluye",
     featureGroups: [
@@ -85,6 +85,10 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
       {
         title: "Panel completo",
         items: [
+          {
+            label: "Layout personalizable",
+            desc: "Activa el modo editar, arrastra los widgets y redimensiona cada tarjeta desde la esquina.",
+          },
           {
             label: "YouTube integrado",
             desc: "Busca y reproduce vídeos dentro del dashboard, sin pegar enlaces.",
@@ -134,6 +138,10 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
         a: "El instalador ya incluye el servicio de sensores. Sideglass lo arranca en segundo plano y lee las temperaturas por WMI. Para la temperatura de la CPU, Windows pedirá permiso de administrador al abrir (el servicio lo necesita para leer ese sensor); acéptalo y, en unos segundos, verás los °C.",
       },
       {
+        q: "¿Puedo cambiar el tamaño de los widgets?",
+        a: "Sí. Pulsa el botón de personalización en la barra superior, arrastra los widgets para ordenarlos y usa la esquina inferior de cada tarjeta para redimensionarla. Sideglass guarda el layout en tu PC.",
+      },
+      {
         q: "¿Cómo veo YouTube?",
         a: "En el widget de YouTube escribe lo que quieras buscar y pulsa Buscar: se muestran los resultados dentro del panel. Haz clic en un video y se reproduce embebido, sin salir de Sideglass.",
       },
@@ -166,7 +174,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
     eyebrow: "Desktop · Windows · Open source",
     heroTitle: ["Your second monitor,", "always in view"],
     heroSubtitle:
-      "Weather, agenda, hardware, notes, YouTube and access to your favorite AIs. Responsive in portrait and landscape.",
+      "Weather, agenda, hardware, notes, YouTube and access to your favorite AIs. Arrange and resize every widget your way.",
     ctaDownload: "Download for Windows",
     ctaGithub: "View on GitHub",
     heroNote: "Open source (MIT)",
@@ -177,12 +185,12 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
     screenshotLabels: {
       portraitDark: "Portrait · Dark",
       portraitLight: "Portrait · Light",
-      landscapeDark: "Landscape · Dark",
+      landscapeDark: "Landscape · Edit mode",
     },
     screenshotAlts: {
       portraitDark: "Sideglass on a portrait monitor, dark mode",
       portraitLight: "Sideglass on a portrait monitor, light mode",
-      landscapeDark: "Sideglass on a landscape monitor, dark mode",
+      landscapeDark: "Sideglass on a landscape monitor with resizable widgets",
     },
     featuresTitle: "What's inside",
     featureGroups: [
@@ -206,6 +214,10 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
       {
         title: "Full panel",
         items: [
+          {
+            label: "Customizable layout",
+            desc: "Turn on edit mode, drag widgets around, and resize every card from the corner.",
+          },
           {
             label: "Built-in YouTube",
             desc: "Search and play videos inside the dashboard, no links to paste.",
@@ -253,6 +265,10 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
       {
         q: "How do I see real CPU and GPU temperatures?",
         a: "Sideglass ships with an integrated sensor service that runs in the background and reads temperatures via WMI. For the CPU temperature, Windows will ask for administrator permission on launch (the service needs it to read that sensor); accept it and the °C will appear within a few seconds.",
+      },
+      {
+        q: "Can I resize the widgets?",
+        a: "Yes. Click the customization button in the title bar, drag widgets to reorder them, and use the bottom corner of each card to resize it. Sideglass saves the layout on your PC.",
       },
       {
         q: "How do I watch YouTube?",
