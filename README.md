@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/moisesvalero/sideglass-dashboard/releases/latest">Descargar .exe</a>
+  <a href="https://github.com/moisesvalero/sideglass-dashboard/releases/latest/download/Sideglass_x64-setup.exe">Descargar .exe</a>
   ·
   <a href="https://personal-dashboard.vercel.app">Landing</a>
   ·

@@ -12,6 +12,7 @@ export type LandingCopy = {
   heroTitle: string[]
   heroSubtitle: string
   ctaDownload: string
+  ctaReleaseNotes: string
   heroNote: string
   screenshotsTitle: string
   screenshotsSubtitle: string
@@ -42,6 +43,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
     heroSubtitle:
       "Clima, agenda, hardware, notas, YouTube y acceso a tus IAs favoritas. Se adapta a monitor vertical u horizontal.",
     ctaDownload: "Descargar para Windows",
+    ctaReleaseNotes: "Notas de versión y otros archivos en GitHub",
     heroNote: "Open source (MIT) · Sin API keys · Contribuciones bienvenidas",
     screenshotsTitle: "Capturas reales",
     screenshotsSubtitle:
@@ -85,7 +87,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
     ],
     installTitle: "Instalación en 4 pasos",
     install: [
-      "Pulsa «Descargar para Windows» arriba y guarda el instalador (.exe) desde GitHub Releases.",
+      "Pulsa «Descargar para Windows» arriba: se descarga el instalador (.exe) de la última versión.",
       "Abre el archivo y sigue el asistente. Si Windows muestra un aviso de seguridad, confirma que quieres continuar; es habitual en aplicaciones nuevas.",
       "Opcional: en Ajustes, pega la URL iCal de Google Calendar para ver tu agenda del día.",
       "En Ajustes puedes activar el inicio con Windows y un atajo global para mostrar u ocultar el panel.",
@@ -140,6 +142,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
     heroSubtitle:
       "Weather, agenda, hardware, notes, YouTube and access to your favorite AIs. Responsive in portrait and landscape.",
     ctaDownload: "Download for Windows",
+    ctaReleaseNotes: "Release notes and other files on GitHub",
     heroNote: "Open source (MIT) · No API keys · Contributions welcome",
     screenshotsTitle: "Real screenshots",
     screenshotsSubtitle:
@@ -177,7 +180,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
     ],
     installTitle: "Install in 4 steps",
     install: [
-      "Click «Download for Windows» above and save the installer (.exe) from GitHub Releases.",
+      "Click «Download for Windows» above to download the latest installer (.exe).",
       "Run the file and follow the setup wizard. If Windows shows a security prompt, confirm to continue — common for new desktop apps.",
       "Optional: in Settings, paste your Google Calendar iCal URL to see today's agenda.",
       "In Settings you can enable start with Windows and a global shortcut to show or hide the panel.",

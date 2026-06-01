@@ -9,6 +9,8 @@ import {
   AUTHOR_SITE,
   GITHUB_REPO,
   GITHUB_RELEASES,
+  WINDOWS_INSTALLER_NAME,
+  WINDOWS_INSTALLER_URL,
   APP_VERSION,
 } from "@/lib/site"
 
@@ -42,7 +44,7 @@ export function LandingView({ lang }: { lang: LandingLang }) {
     softwareVersion: version,
     description: copy.metaDescription,
     url: SITE_URL,
-    downloadUrl: GITHUB_RELEASES,
+    downloadUrl: WINDOWS_INSTALLER_URL,
     license: "https://opensource.org/licenses/MIT",
     inLanguage: copy.htmlLang,
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
@@ -93,12 +95,21 @@ export function LandingView({ lang }: { lang: LandingLang }) {
         <p className="text-lg text-white/55 max-w-xl mx-auto mb-10 leading-relaxed">
           {copy.heroSubtitle}
         </p>
-        <div className="flex justify-center">
+        <div className="flex flex-col items-center gap-3">
           <a
-            href={GITHUB_RELEASES}
+            href={WINDOWS_INSTALLER_URL}
+            download={WINDOWS_INSTALLER_NAME}
             className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-white text-black font-medium text-sm hover:bg-white/90 transition-transform hover:scale-[1.02]"
           >
             {copy.ctaDownload}
+          </a>
+          <a
+            href={GITHUB_RELEASES}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs text-white/45 underline-offset-2 hover:text-white/70 hover:underline"
+          >
+            {copy.ctaReleaseNotes}
           </a>
         </div>
         <p className="text-white/30 text-xs mt-4">

@@ -74,3 +74,19 @@ jobs:
           releaseDraft: false
           prerelease: false
           args: ${{ env.BUILD_ARGS }}
+
+      - name: Upload stable Windows installer URL
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          INSTALLER_NAME: Sideglass_x64-setup.exe
+        run: |
+          $bundleDir = "src-tauri/target/x86_64-pc-windows-msvc/release/bundle/nsis"
+          $setup = Get-ChildItem -Path $bundleDir -Filter "*-setup.exe" -ErrorAction SilentlyContinue | Select-Object -First 1
+          if (-not $setup) {
+            throw "NSIS setup.exe not found under $bundleDir"
+          }
+          $stable = Join-Path $env:RUNNER_TEMP $env:INSTALLER_NAME
+          Copy-Item -Path $setup.FullName -Destination $stable -Force
+          Write-Host "Uploading stable asset $env:INSTALLER_NAME from $($setup.Name)"
+          gh release upload ${{ github.ref_name }} $stable --clobber
