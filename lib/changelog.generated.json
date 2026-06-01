@@ -1,6 +1,18 @@
 {
   "es": [
     {
+      "version": "0.2.11",
+      "date": "2026-06-01",
+      "groups": [
+        {
+          "category": "Corregido",
+          "items": [
+            "**Botón «Activar °C»: el aviso de Windows (UAC) ya aparece de verdad**. Antes se usaba PowerShell con ventana oculta, que en algunas configuraciones de Windows silenciaba el prompt y el botón parecía no hacer nada. Ahora se invoca la API nativa `ShellExecuteW` con `runas`, que fuerza el prompt sin excepciones"
+          ]
+        }
+      ]
+    },
+    {
       "version": "0.2.10",
       "date": "2026-06-01",
       "groups": [
@@ -232,6 +244,18 @@
     }
   ],
   "en": [
+    {
+      "version": "0.2.11",
+      "date": "2026-06-01",
+      "groups": [
+        {
+          "category": "Fixed",
+          "items": [
+            "**\"Enable °C\" button: the Windows UAC prompt now actually appears**. The previous PowerShell-based launch with a hidden window could silently suppress the prompt on some setups, making the button look broken. We now call the native `ShellExecuteW` API with `runas`, which forces the prompt every time"
+          ]
+        }
+      ]
+    },
     {
       "version": "0.2.10",
       "date": "2026-06-01",

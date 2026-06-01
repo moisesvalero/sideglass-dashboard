@@ -61,6 +61,49 @@ struct AppState {
 #[cfg(windows)]
 use std::os::windows::process::CommandExt;
 
+#[cfg(windows)]
+fn run_elevated(exe: &std::path::Path, args: &str) -> Result<(), String> {
+    use std::os::windows::ffi::OsStrExt;
+    use windows::core::PCWSTR;
+    use windows::Win32::UI::Shell::{ShellExecuteW, SE_ERR_ACCESSDENIED};
+    use windows::Win32::UI::WindowsAndMessaging::SW_SHOWMINNOACTIVE;
+
+    fn to_wide(s: &std::ffi::OsStr) -> Vec<u16> {
+        s.encode_wide().chain(std::iter::once(0)).collect()
+    }
+
+    let verb: Vec<u16> = "runas\0".encode_utf16().collect();
+    let file = to_wide(exe.as_os_str());
+    let params_os = std::ffi::OsString::from(args);
+    let params = to_wide(&params_os);
+    let work_dir_os = exe
+        .parent()
+        .map(|p| p.as_os_str().to_owned())
+        .unwrap_or_default();
+    let work_dir = to_wide(&work_dir_os);
+
+    // ShellExecuteW returns HINSTANCE; values <= 32 mean failure.
+    let result = unsafe {
+        ShellExecuteW(
+            None,
+            PCWSTR(verb.as_ptr()),
+            PCWSTR(file.as_ptr()),
+            PCWSTR(params.as_ptr()),
+            PCWSTR(work_dir.as_ptr()),
+            SW_SHOWMINNOACTIVE,
+        )
+    };
+
+    let code = result.0 as isize;
+    if code > 32 {
+        Ok(())
+    } else if code == SE_ERR_ACCESSDENIED as isize {
+        Err("user_cancelled_uac".into())
+    } else {
+        Err(format!("ShellExecuteW failed: code {code}"))
+    }
+}
+
 /// Launches LibreHardwareMonitor (elevated, required for the CPU package
 /// sensor over WMI) and waits until temperatures are exposed. Returns true if
 /// sensors became available. When `force` is false it skips work if already
@@ -109,28 +152,25 @@ fn try_start_lhm(app: &tauri::AppHandle, force: bool) -> bool {
         stop_lhm();
     }
 
-    let path_str = path.to_string_lossy().replace('\'', "''");
-    let elevated = std::process::Command::new("powershell")
-        .args([
-            "-NoProfile",
-            "-WindowStyle",
-            "Hidden",
-            "-Command",
-            &format!(
-                "Start-Process -FilePath '{path_str}' -ArgumentList '--minimize' -Verb RunAs -WindowStyle Hidden"
-            ),
-        ])
-        .creation_flags(0x08000000)
-        .spawn();
-
-    if let Err(e) = elevated {
-        eprintln!("[lhm] elevated spawn failed: {e}; falling back to normal launch");
-        let work_dir = path.parent().unwrap_or_else(|| path.as_path());
-        let _ = std::process::Command::new(&path)
-            .current_dir(work_dir)
-            .arg("--minimize")
-            .creation_flags(0x08000000)
-            .spawn();
+    // ShellExecuteW with verb "runas" is the only reliable way to trigger the
+    // Windows UAC prompt from a non-elevated process. PowerShell's
+    // Start-Process -Verb RunAs with -WindowStyle Hidden can swallow the
+    // prompt entirely on some setups (the user reported "no UAC appears").
+    eprintln!("[lhm] launching elevated: {}", path.display());
+    match run_elevated(&path, "--minimize") {
+        Ok(()) => eprintln!("[lhm] UAC accepted, LHM launching"),
+        Err(e) => {
+            eprintln!("[lhm] elevation failed: {e}");
+            // Best effort: try non-elevated. CPU package temperature won't be
+            // exposed, but GPU/board temps may still appear so the UI gets
+            // some feedback instead of total silence.
+            let work_dir = path.parent().unwrap_or_else(|| path.as_path());
+            let _ = std::process::Command::new(&path)
+                .current_dir(work_dir)
+                .arg("--minimize")
+                .creation_flags(0x08000000)
+                .spawn();
+        }
     }
 
     // WMI provider can take up to ~30s after the process starts to expose

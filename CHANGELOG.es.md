@@ -6,6 +6,12 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es/1.1.0/) y el p
 
 **Versión en inglés:** [CHANGELOG.md](./CHANGELOG.md) — mantén ambos archivos sincronizados al publicar una release.
 
+## [0.2.11] - 2026-06-01
+
+### Corregido
+
+- **Botón «Activar °C»: el aviso de Windows (UAC) ya aparece de verdad**. Antes se usaba PowerShell con ventana oculta, que en algunas configuraciones de Windows silenciaba el prompt y el botón parecía no hacer nada. Ahora se invoca la API nativa `ShellExecuteW` con `runas`, que fuerza el prompt sin excepciones
+
 ## [0.2.10] - 2026-06-01
 
 ### Corregido

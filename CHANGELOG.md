@@ -6,6 +6,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 **Spanish version:** [CHANGELOG.es.md](./CHANGELOG.es.md) — keep both files in sync when you add a release.
 
+## [0.2.11] - 2026-06-01
+
+### Fixed
+
+- **"Enable °C" button: the Windows UAC prompt now actually appears**. The previous PowerShell-based launch with a hidden window could silently suppress the prompt on some setups, making the button look broken. We now call the native `ShellExecuteW` API with `runas`, which forces the prompt every time
+
 ## [0.2.10] - 2026-06-01
 
 ### Fixed
