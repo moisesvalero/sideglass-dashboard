@@ -3,7 +3,6 @@ import { GITHUB_REPO } from "@/lib/site"
 
 type Copy = {
   changelogTitle: string
-  changelogHint: string
   changelogLink: string
   changelogEmpty: string
 }
@@ -22,10 +21,9 @@ export function LandingChangelog({
       id="changelog"
       className="relative z-10 mx-auto max-w-2xl scroll-mt-20 px-6 py-12 pb-8"
     >
-      <h2 className="mb-2 text-center text-sm font-medium uppercase tracking-widest text-white/40">
+      <h2 className="mb-8 text-center text-sm font-medium uppercase tracking-widest text-white/40">
         {copy.changelogTitle}
       </h2>
-      <p className="mb-8 text-center text-xs text-white/35">{copy.changelogHint}</p>
 
       {entries.length === 0 ? (
         <p className="rounded-xl border border-amber-500/20 bg-amber-500/10 px-4 py-3 text-center text-sm text-amber-200/80">

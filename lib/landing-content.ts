@@ -26,7 +26,6 @@ export type LandingCopy = {
   faq: Faq[]
   navChangelog: string
   changelogTitle: string
-  changelogHint: string
   changelogLink: string
   changelogEmpty: string
   footerDeveloped: string
@@ -132,7 +131,6 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
     ],
     navChangelog: "Novedades",
     changelogTitle: "Novedades",
-    changelogHint: "Se genera al compilar desde CHANGELOG.es.md (mismo contenido que el repo).",
     changelogLink: "Ver CHANGELOG.es.md en GitHub",
     changelogEmpty:
       "No hay entradas de changelog en este despliegue. Edita CHANGELOG.es.md y vuelve a desplegar la web.",
@@ -240,7 +238,6 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
     ],
     navChangelog: "What's new",
     changelogTitle: "What's new",
-    changelogHint: "Generated at build time from CHANGELOG.md (same as the repo).",
     changelogLink: "View CHANGELOG.md on GitHub",
     changelogEmpty:
       "No changelog entries in this deployment. Edit CHANGELOG.md and redeploy the site.",

@@ -198,7 +198,6 @@ export function LandingView({ lang }: { lang: LandingLang }) {
         entries={changelog}
         copy={{
           changelogTitle: copy.changelogTitle,
-          changelogHint: copy.changelogHint,
           changelogLink: copy.changelogLink,
           changelogEmpty: copy.changelogEmpty,
         }}
