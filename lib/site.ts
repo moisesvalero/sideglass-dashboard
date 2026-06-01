@@ -3,7 +3,7 @@ export const SITE_URL = (
 ).replace(/\/$/, "")
 
 export const APP_NAME = "Sideglass"
-export const APP_TAGLINE = "Premium panel for your second monitor"
+export const APP_TAGLINE = "Panel para tu monitor secundario"
 
 export const GITHUB_REPO = "https://github.com/moisesvalero/sideglass-dashboard"
 

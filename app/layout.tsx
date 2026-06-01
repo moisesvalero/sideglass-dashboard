@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     default: APP_NAME,
     template: `%s · ${APP_NAME}`,
   },
-  description: "Premium macOS-style panel for your second monitor on Windows",
+  description: "Panel estilo macOS para tu monitor secundario en Windows",
   applicationName: APP_NAME,
   authors: [{ name: "Moises Valero" }],
   creator: "Moises Valero",

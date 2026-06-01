@@ -35,10 +35,10 @@ export type LandingCopy = {
 export const landingContent: Record<LandingLang, LandingCopy> = {
   es: {
     htmlLang: "es",
-    metaTitle: "Sideglass — Panel premium para tu monitor secundario en Windows",
+    metaTitle: "Panel para monitor secundario en Windows",
     metaDescription:
       "Sideglass: aplicación de escritorio gratuita y de código abierto, con estética macOS, para tu monitor secundario: clima, calendario, hardware con temperaturas reales, YouTube y acceso rápido a tus IAs. Sin API keys obligatorias.",
-    ogDescription: "Sideglass — panel premium para monitor secundario en Windows. Licencia MIT.",
+    ogDescription: "Sideglass: panel para monitor secundario en Windows. Licencia MIT.",
     eyebrow: "Escritorio · Windows · Open source",
     heroTitle: ["Sideglass", "tu panel de monitor secundario"],
     heroSubtitle:
@@ -83,7 +83,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
       },
       {
         label: "Notas locales",
-        desc: "Bloc de notas rápido con diseño premium. Tus datos solo en tu PC.",
+        desc: "Bloc de notas rápido con diseño cuidado. Tus datos solo en tu PC.",
       },
     ],
     installTitle: "Instalación en 4 pasos",
@@ -135,10 +135,10 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
   },
   en: {
     htmlLang: "en",
-    metaTitle: "Sideglass — Premium second-monitor panel for Windows",
+    metaTitle: "Second-monitor panel for Windows",
     metaDescription:
-      "Sideglass: free, open-source macOS-style desktop app for your secondary monitor — weather, calendar, hardware with real temperatures, YouTube and AI dock. No required API keys.",
-    ogDescription: "Sideglass — open-source second-monitor panel for Windows (MIT).",
+      "Sideglass: free, open-source macOS-style desktop app for your secondary monitor: weather, calendar, hardware with real temperatures, YouTube and AI dock. No required API keys.",
+    ogDescription: "Sideglass: open-source second-monitor panel for Windows (MIT).",
     eyebrow: "Desktop · Windows · Open source",
     heroTitle: ["Sideglass", "your second-monitor panel"],
     heroSubtitle:
@@ -178,12 +178,12 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
         label: "AI dock",
         desc: "ChatGPT, Gemini, Claude, Perplexity and Microsoft Copilot with official brand icons.",
       },
-      { label: "Local notes", desc: "Quick notepad with premium design. Data stays on your PC." },
+      { label: "Local notes", desc: "Quick notepad with a polished layout. Data stays on your PC." },
     ],
     installTitle: "Install in 4 steps",
     install: [
       "Click «Download for Windows» above to download the latest installer (.exe).",
-      "Run the file and follow the setup wizard. If Windows shows a security prompt, confirm to continue — common for new desktop apps.",
+      "Run the file and follow the setup wizard. If Windows shows a security prompt, confirm to continue. That is normal for new desktop apps.",
       "Optional: in Settings, paste your Google Calendar iCal URL to see today's agenda.",
       "In Settings you can enable start with Windows and a global shortcut to show or hide the panel.",
     ],

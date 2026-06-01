@@ -13,7 +13,7 @@ const ogImage = {
 const copy = landingContent.es
 
 export const metadata: Metadata = {
-  title: copy.metaTitle,
+  title: { absolute: APP_NAME },
   description: copy.metaDescription,
   keywords: copy.keywords,
   alternates: {
