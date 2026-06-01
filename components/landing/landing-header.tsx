@@ -43,7 +43,9 @@ export function LandingHeader({ lang, faqLabel }: { lang: LandingLang; faqLabel:
             <Link
               href="/"
               className={`inline-flex min-h-9 min-w-9 items-center justify-center rounded-md px-2.5 py-1 text-xs font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--landing-accent)] ${
-                lang === "es" ? "bg-white/15 text-[var(--landing-text)]" : "text-[var(--landing-text-muted)] hover:text-[var(--landing-text)]"
+                lang === "es"
+                  ? "bg-white/15 text-[var(--landing-text)]"
+                  : "text-[var(--landing-text-muted)] hover:text-[var(--landing-text)]"
               }`}
               aria-current={lang === "es" ? "page" : undefined}
             >
@@ -52,7 +54,9 @@ export function LandingHeader({ lang, faqLabel }: { lang: LandingLang; faqLabel:
             <Link
               href="/en"
               className={`inline-flex min-h-9 min-w-9 items-center justify-center rounded-md px-2.5 py-1 text-xs font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--landing-accent)] ${
-                lang === "en" ? "bg-white/15 text-[var(--landing-text)]" : "text-[var(--landing-text-muted)] hover:text-[var(--landing-text)]"
+                lang === "en"
+                  ? "bg-white/15 text-[var(--landing-text)]"
+                  : "text-[var(--landing-text-muted)] hover:text-[var(--landing-text)]"
               }`}
               aria-current={lang === "en" ? "page" : undefined}
             >

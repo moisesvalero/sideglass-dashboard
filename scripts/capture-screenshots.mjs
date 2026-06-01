@@ -8,8 +8,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const root = path.join(__dirname, "..")
 const outDir = path.join(root, "public", "screenshots")
 const staticPort = Number(process.env.SCREENSHOT_PORT || 3456)
-const baseURL =
-  process.env.SCREENSHOT_URL || `http://127.0.0.1:${staticPort}/dashboard`
+const baseURL = process.env.SCREENSHOT_URL || `http://127.0.0.1:${staticPort}/dashboard`
 
 function demoSettings(theme, { compact = false } = {}) {
   return {

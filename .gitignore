@@ -31,3 +31,8 @@ skills-lock.json
 
 # Impeccable critique snapshots (local only)
 .impeccable/
+
+# Playwright
+test-results/
+playwright-report/
+blob-report/

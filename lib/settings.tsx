@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react"
 
-export const WIDGET_IDS = ["time", "calendar", "motivation", "hardware", "notes", "music"] as const
+export const WIDGET_IDS = ["time", "hardware", "calendar", "motivation", "notes", "music"] as const
 
 export type WidgetId = (typeof WIDGET_IDS)[number]
 

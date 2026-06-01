@@ -8,6 +8,22 @@
   --radius: 14px;
   --mac-blur: 48px;
 
+  --dashboard-bg: oklch(0.965 0.009 255);
+  --dashboard-bg-elevated: oklch(0.985 0.006 255);
+  --dashboard-surface: oklch(1 0 0 / 0.62);
+  --dashboard-surface-strong: oklch(1 0 0 / 0.78);
+  --dashboard-control: oklch(0.94 0.008 255 / 0.72);
+  --dashboard-selection: oklch(0.92 0.018 245 / 0.76);
+  --dashboard-border: oklch(1 0 0 / 0.72);
+  --dashboard-border-subtle: oklch(0.2 0.02 255 / 0.08);
+  --dashboard-highlight: oklch(1 0 0 / 0.82);
+  --dashboard-shadow: 0 10px 24px oklch(0.2 0.02 255 / 0.08);
+  --dashboard-shadow-hover: 0 14px 28px oklch(0.2 0.02 255 / 0.11);
+  --dashboard-blur: 34px;
+  --dashboard-radius: 18px;
+  --dashboard-radius-sm: 12px;
+  --dashboard-ease: cubic-bezier(0.22, 1, 0.36, 1);
+
   --background: oklch(0.96 0.008 260);
   --foreground: oklch(0.18 0.02 260);
   --card: oklch(1 0 0 / 0.72);
@@ -29,13 +45,35 @@
   --ring: oklch(0.52 0.18 255);
 
   --glass-bg: oklch(1 0 0 / 0.55);
-  --glass-border: oklch(1 0 0 / 0.65);
-  --glass-shadow: 0 8px 32px oklch(0 0 0 / 0.08), 0 1px 0 oklch(1 0 0 / 0.8) inset;
+  --glass-border: oklch(1 0 0 / 0.5);
+  --glass-shadow: 0 8px 32px oklch(0 0 0 / 0.08), 0 1px 0 oklch(1 0 0 / 0.85) inset;
+  --glass-hero-bg: oklch(1 0 0 / 0.72);
+  --glass-hero-border: oklch(1 0 0 / 0.75);
+  --glass-hero-shadow: 0 12px 40px oklch(0 0 0 / 0.1), 0 1px 0 oklch(1 0 0 / 0.9) inset;
+  --glass-tile-bg: oklch(1 0 0 / 0.48);
+  --glass-tile-border: oklch(1 0 0 / 0.55);
+  --glass-tile-shadow: 0 4px 20px oklch(0 0 0 / 0.06), 0 1px 0 oklch(1 0 0 / 0.7) inset;
+  --mac-blur-hero: 56px;
+  --mac-blur-tile: 36px;
+  --radius-hero: 20px;
+  --radius-tile: 16px;
   --elev-1: 0 1px 2px oklch(0 0 0 / 0.06);
   --elev-2: 0 8px 24px oklch(0 0 0 / 0.1);
 }
 
 .dark {
+  --dashboard-bg: oklch(0.135 0.014 275);
+  --dashboard-bg-elevated: oklch(0.17 0.018 275);
+  --dashboard-surface: oklch(0.22 0.023 275 / 0.58);
+  --dashboard-surface-strong: oklch(0.25 0.024 275 / 0.72);
+  --dashboard-control: oklch(0.28 0.024 275 / 0.58);
+  --dashboard-selection: oklch(0.32 0.04 250 / 0.5);
+  --dashboard-border: oklch(1 0 0 / 0.12);
+  --dashboard-border-subtle: oklch(1 0 0 / 0.08);
+  --dashboard-highlight: oklch(1 0 0 / 0.09);
+  --dashboard-shadow: 0 12px 28px oklch(0 0 0 / 0.32);
+  --dashboard-shadow-hover: 0 16px 34px oklch(0 0 0 / 0.38);
+
   --background: oklch(0.14 0.015 280);
   --foreground: oklch(0.96 0 0);
   --card: oklch(0.2 0.02 280 / 0.55);
@@ -56,9 +94,15 @@
   --input: oklch(0.22 0.02 280);
   --ring: oklch(0.68 0.14 220);
 
-  --glass-bg: oklch(0.16 0.02 280 / 0.62);
-  --glass-border: oklch(1 0 0 / 0.12);
+  --glass-bg: oklch(0.16 0.02 280 / 0.55);
+  --glass-border: oklch(1 0 0 / 0.1);
   --glass-shadow: 0 12px 40px oklch(0 0 0 / 0.35), 0 1px 0 oklch(1 0 0 / 0.08) inset;
+  --glass-hero-bg: oklch(0.18 0.025 280 / 0.68);
+  --glass-hero-border: oklch(1 0 0 / 0.14);
+  --glass-hero-shadow: 0 16px 48px oklch(0 0 0 / 0.45), 0 1px 0 oklch(1 0 0 / 0.1) inset;
+  --glass-tile-bg: oklch(0.17 0.02 280 / 0.45);
+  --glass-tile-border: oklch(1 0 0 / 0.08);
+  --glass-tile-shadow: 0 6px 24px oklch(0 0 0 / 0.28), 0 1px 0 oklch(1 0 0 / 0.06) inset;
   --elev-1: 0 1px 2px oklch(0 0 0 / 0.2);
   --elev-2: 0 12px 40px oklch(0 0 0 / 0.4);
 }
@@ -108,13 +152,131 @@
   }
 }
 
+.dashboard-surface,
+.dashboard-surface-hero,
+.dashboard-control,
+.dashboard-selection {
+  border: 1px solid var(--dashboard-border);
+  box-shadow:
+    var(--dashboard-shadow),
+    0 1px 0 var(--dashboard-highlight) inset;
+}
+
+.dashboard-surface,
+.dashboard-surface-hero {
+  background: var(--dashboard-surface);
+  backdrop-filter: blur(var(--dashboard-blur)) saturate(1.35);
+  -webkit-backdrop-filter: blur(var(--dashboard-blur)) saturate(1.35);
+  border-radius: var(--dashboard-radius);
+  transition:
+    border-color 180ms var(--dashboard-ease),
+    box-shadow 180ms var(--dashboard-ease),
+    background-color 180ms var(--dashboard-ease),
+    transform 180ms var(--dashboard-ease);
+}
+
+.dashboard-surface-hero {
+  background: var(--dashboard-surface-strong);
+  border-radius: 20px;
+}
+
+.dashboard-control,
+.dashboard-selection {
+  background: var(--dashboard-control);
+  border-color: var(--dashboard-border-subtle);
+  border-radius: var(--dashboard-radius-sm);
+}
+
+.dashboard-selection {
+  background: var(--dashboard-selection);
+}
+
+.dashboard-card-hover:hover {
+  border-color: color-mix(in oklch, var(--dashboard-border) 70%, var(--primary) 30%);
+  box-shadow:
+    var(--dashboard-shadow-hover),
+    0 1px 0 var(--dashboard-highlight) inset;
+}
+
 .glass-card {
-  background: var(--glass-bg);
-  backdrop-filter: blur(var(--mac-blur)) saturate(1.4);
-  -webkit-backdrop-filter: blur(var(--mac-blur)) saturate(1.4);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--glass-shadow);
+  background: var(--dashboard-surface);
+  backdrop-filter: blur(var(--dashboard-blur)) saturate(1.35);
+  -webkit-backdrop-filter: blur(var(--dashboard-blur)) saturate(1.35);
+  border: 1px solid var(--dashboard-border);
+  border-radius: var(--dashboard-radius);
+  box-shadow:
+    var(--dashboard-shadow),
+    0 1px 0 var(--dashboard-highlight) inset;
+}
+
+.glass-hero {
+  background: var(--dashboard-surface-strong);
+  backdrop-filter: blur(var(--dashboard-blur)) saturate(1.35);
+  -webkit-backdrop-filter: blur(var(--dashboard-blur)) saturate(1.35);
+  border: 1px solid var(--dashboard-border);
+  border-radius: 20px;
+  box-shadow:
+    var(--dashboard-shadow),
+    0 1px 0 var(--dashboard-highlight) inset;
+  transition:
+    border-color 180ms var(--dashboard-ease),
+    box-shadow 180ms var(--dashboard-ease),
+    background-color 180ms var(--dashboard-ease);
+}
+
+.glass-tile {
+  background: var(--dashboard-surface);
+  backdrop-filter: blur(var(--dashboard-blur)) saturate(1.35);
+  -webkit-backdrop-filter: blur(var(--dashboard-blur)) saturate(1.35);
+  border: 1px solid var(--dashboard-border);
+  border-radius: var(--dashboard-radius);
+  box-shadow:
+    var(--dashboard-shadow),
+    0 1px 0 var(--dashboard-highlight) inset;
+  transition:
+    border-color 180ms var(--dashboard-ease),
+    box-shadow 180ms var(--dashboard-ease),
+    background-color 180ms var(--dashboard-ease);
+}
+
+.glass-hero:hover,
+.glass-tile:hover {
+  border-color: color-mix(in oklch, var(--dashboard-border) 70%, var(--primary) 30%);
+  box-shadow:
+    var(--dashboard-shadow-hover),
+    0 1px 0 var(--dashboard-highlight) inset;
+}
+
+.dashboard-widget-header {
+  @apply flex items-center justify-between gap-2;
+}
+
+.dashboard-widget-title {
+  @apply flex min-w-0 items-center gap-2 text-[13px] font-medium text-foreground;
+}
+
+.metric-value {
+  @apply text-2xl font-light tabular-nums tracking-tight text-foreground;
+}
+
+.metric-label {
+  @apply text-[13px] font-medium text-foreground;
+}
+
+.metric-sublabel {
+  @apply truncate text-[11px] text-muted-foreground;
+}
+
+.capsule-bar {
+  @apply h-1.5 overflow-hidden rounded-full bg-foreground/8;
+}
+
+.capsule-bar-fill {
+  @apply h-full rounded-full transition-all duration-500 ease-out;
+}
+
+.hairline {
+  @apply border-t border-border/50;
 }
 
 .dock-glass {
@@ -132,7 +294,7 @@
 }
 
 .weather-glow {
-  filter: drop-shadow(0 0 16px oklch(0.78 0.15 85 / 0.45));
+  filter: drop-shadow(0 0 10px oklch(0.78 0.13 85 / 0.28));
 }
 
 .progress-gradient {
@@ -173,6 +335,17 @@
 
 .float-animation {
   animation: float 4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .float-animation,
+  .pulse-soft {
+    animation: none;
+  }
+
+  .capsule-bar-fill {
+    transition: none;
+  }
 }
 
 .custom-scrollbar::-webkit-scrollbar {
@@ -227,25 +400,42 @@
   display: grid;
   gap: 1rem;
   width: 100%;
-  max-width: min(100%, 1200px);
+  max-width: 100%;
   margin-inline: auto;
-  padding: 1rem 1rem 1.25rem;
+  padding: 0.9rem clamp(0.75rem, 2.4vw, 1.8rem) 1.25rem;
   grid-template-columns: 1fr;
+  box-sizing: border-box;
 }
 
-@media (min-width: 720px) and (orientation: landscape) {
+.hardware-control-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+/* Monitor secundario vertical: ancho completo, 2 columnas cuando cabe */
+@media (min-width: 560px) {
   .dashboard-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    padding: 1rem 1.25rem 1.5rem;
+    gap: 1rem;
   }
   .dashboard-grid .widget-span-2 {
     grid-column: span 2;
   }
 }
 
-@media (min-width: 1100px) and (orientation: landscape) {
+@media (min-width: 900px) {
+  .hardware-control-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* Escritorio / monitor horizontal ancho */
+@media (min-width: 1100px) {
   .dashboard-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.15rem;
+    padding: 1.15rem clamp(1.25rem, 3vw, 2.5rem) 1.5rem;
   }
   .dashboard-grid .widget-span-2 {
     grid-column: span 2;

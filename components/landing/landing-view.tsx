@@ -179,7 +179,10 @@ export function LandingView({ lang }: { lang: LandingLang }) {
         }}
       />
 
-      <section id="faq" className="landing-section relative z-10 mx-auto max-w-2xl scroll-mt-24 px-4 sm:px-6">
+      <section
+        id="faq"
+        className="landing-section relative z-10 mx-auto max-w-2xl scroll-mt-24 px-4 sm:px-6"
+      >
         <h2 className="landing-section-title">{copy.faqTitle}</h2>
         <div className="mt-[var(--landing-space-xl)] space-y-4">
           {copy.faq.map((item) => (

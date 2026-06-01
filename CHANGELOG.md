@@ -6,6 +6,13 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 **Spanish version:** [CHANGELOG.es.md](./CHANGELOG.es.md) — keep both files in sync when you add a release.
 
+## [0.2.16] - 2026-06-01
+
+### Changed
+
+- **Dashboard redesign**: refreshed the cards, spacing, material system, hover states, loading states, and light/dark theme polish for a more modern macOS-style desktop feel
+- **Widget hierarchy**: clock/weather, hardware, calendar, notes, music, and motivation now use clearer roles and calmer visual density while keeping the AI dock unchanged
+
 ## [0.2.15] - 2026-06-01
 
 ### Fixed

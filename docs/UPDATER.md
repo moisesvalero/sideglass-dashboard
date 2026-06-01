@@ -6,10 +6,10 @@ La clave publica esta en `src-tauri/tauri.conf.json`. La clave privada es `src-t
 
 En **Settings → Secrets → Actions** crea:
 
-| Secret | Valor |
-|--------|--------|
-| `TAURI_SIGNING_PRIVATE_KEY` | **Todo** el contenido de `src-tauri/signing.key` tal cual (varias lineas). No lo codifiques en base64. |
-| `TAURI_SIGNING_PRIVATE_KEY_PASSWORD` | La contraseña que pusiste al generar la clave |
+| Secret                               | Valor                                                                                                  |
+| ------------------------------------ | ------------------------------------------------------------------------------------------------------ |
+| `TAURI_SIGNING_PRIVATE_KEY`          | **Todo** el contenido de `src-tauri/signing.key` tal cual (varias lineas). No lo codifiques en base64. |
+| `TAURI_SIGNING_PRIVATE_KEY_PASSWORD` | La contraseña que pusiste al generar la clave                                                          |
 
 Errores tipicos:
 

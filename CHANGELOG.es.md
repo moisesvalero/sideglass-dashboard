@@ -6,6 +6,13 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es/1.1.0/) y el p
 
 **Versión en inglés:** [CHANGELOG.md](./CHANGELOG.md) — mantén ambos archivos sincronizados al publicar una release.
 
+## [0.2.16] - 2026-06-01
+
+### Cambiado
+
+- **Rediseño del dashboard**: tarjetas, espaciado, sistema de materiales, estados hover, estados de carga y temas claro/oscuro actualizados para un acabado más moderno estilo macOS
+- **Jerarquía de widgets**: reloj/clima, hardware, calendario, notas, música y motivación tienen roles más claros y una densidad visual más cuidada, manteniendo el dock IA sin cambios
+
 ## [0.2.15] - 2026-06-01
 
 ### Corregido

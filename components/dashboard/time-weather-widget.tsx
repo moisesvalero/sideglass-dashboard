@@ -25,17 +25,17 @@ interface WeatherData {
 }
 
 const weatherIcons: Record<string, React.ReactNode> = {
-  "01": <Sun className="w-14 h-14 text-amber-500 weather-glow float-animation" />,
-  "02": <Cloud className="w-14 h-14 text-muted-foreground" />,
-  "03": <Cloud className="w-14 h-14 text-muted-foreground/80" />,
-  "04": <Cloud className="w-14 h-14 text-muted-foreground/60" />,
-  "09": <CloudDrizzle className="w-14 h-14 text-sky-400" />,
-  "10": <CloudRain className="w-14 h-14 text-sky-500" />,
-  "11": <CloudLightning className="w-14 h-14 text-amber-400" />,
-  "13": <CloudSnow className="w-14 h-14 text-muted-foreground" />,
-  "50": <CloudFog className="w-14 h-14 text-muted-foreground/50" />,
-  "741": <CloudFog className="w-14 h-14 text-muted-foreground/50" />,
-  "800": <Sun className="w-14 h-14 text-amber-500 weather-glow float-animation" />,
+  "01": <Sun className="h-12 w-12 text-amber-500 weather-glow float-animation" />,
+  "02": <Cloud className="h-12 w-12 text-muted-foreground" />,
+  "03": <Cloud className="h-12 w-12 text-muted-foreground/80" />,
+  "04": <Cloud className="h-12 w-12 text-muted-foreground/60" />,
+  "09": <CloudDrizzle className="h-12 w-12 text-sky-400" />,
+  "10": <CloudRain className="h-12 w-12 text-sky-500" />,
+  "11": <CloudLightning className="h-12 w-12 text-amber-400" />,
+  "13": <CloudSnow className="h-12 w-12 text-muted-foreground" />,
+  "50": <CloudFog className="h-12 w-12 text-muted-foreground/50" />,
+  "741": <CloudFog className="h-12 w-12 text-muted-foreground/50" />,
+  "800": <Sun className="h-12 w-12 text-amber-500 weather-glow float-animation" />,
 }
 
 function getWeatherIcon(code: number): React.ReactNode {
@@ -104,38 +104,38 @@ export function TimeWeatherWidget() {
   const tempSuffix = settings.tempUnit === "celsius" ? "°C" : "°F"
 
   return (
-    <div className="glass-card p-6 widget-span-2">
-      <div className="flex items-center justify-between gap-4">
-        <div className="flex flex-col min-w-0">
-          <span className="text-5xl sm:text-6xl font-light tracking-tight text-foreground tabular-nums">
+    <div className="glass-hero widget-span-2 p-5 sm:p-6">
+      <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+        <div className="min-w-0 flex-1">
+          <p className="text-[4rem] font-extralight leading-none tracking-[-0.035em] text-foreground tabular-nums sm:text-[4.75rem] lg:text-[5.25rem]">
             {mounted && time ? formatTime(time) : "--:--"}
-          </span>
-          <span className="text-base text-muted-foreground mt-1 capitalize truncate">
+          </p>
+          <p className="mt-2 truncate text-[13px] capitalize text-muted-foreground">
             {mounted && time ? formatDate(time) : t("time.loading")}
-          </span>
+          </p>
         </div>
 
-        <div className="flex flex-col items-center gap-2 min-w-[88px] shrink-0">
+        <div className="dashboard-control flex min-w-0 shrink-0 flex-row flex-wrap items-center gap-3 px-3.5 py-3 sm:max-w-[17rem]">
           {weatherLoading ? (
-            <Loader2 className="w-7 h-7 text-muted-foreground animate-spin" />
+            <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
           ) : weather ? (
             <>
               {getWeatherIcon(weather.iconCode)}
-              <div className="flex flex-col items-center gap-0.5 text-center">
-                <span className="text-2xl font-light text-foreground tabular-nums">
-                  {weather.temp}
-                  {tempSuffix}
-                </span>
-                <span className="text-muted-foreground text-xs capitalize">
+              <span className="text-3xl font-light tabular-nums text-foreground sm:text-[2rem]">
+                {weather.temp}
+                {tempSuffix}
+              </span>
+              <div className="min-w-0 text-left">
+                <span className="block max-w-[12rem] text-xs capitalize leading-snug text-muted-foreground sm:max-w-[9rem]">
                   {weather.condition}
                 </span>
-                <span className="text-muted-foreground/70 text-[11px]">
+                <span className="text-[11px] text-muted-foreground/70">
                   {weather.city} · {weather.humidity}%
                 </span>
               </div>
             </>
           ) : weatherError ? (
-            <p className="text-xs text-muted-foreground text-center">{t("weather.setKey")}</p>
+            <p className="max-w-[8rem] text-xs text-muted-foreground">{t("weather.setKey")}</p>
           ) : null}
         </div>
       </div>

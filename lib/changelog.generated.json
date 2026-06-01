@@ -1,6 +1,19 @@
 {
   "es": [
     {
+      "version": "0.2.16",
+      "date": "2026-06-01",
+      "groups": [
+        {
+          "category": "Cambiado",
+          "items": [
+            "**Rediseño del dashboard**: tarjetas, espaciado, sistema de materiales, estados hover, estados de carga y temas claro/oscuro actualizados para un acabado más moderno estilo macOS",
+            "**Jerarquía de widgets**: reloj/clima, hardware, calendario, notas, música y motivación tienen roles más claros y una densidad visual más cuidada, manteniendo el dock IA sin cambios"
+          ]
+        }
+      ]
+    },
+    {
       "version": "0.2.15",
       "date": "2026-06-01",
       "groups": [
@@ -151,9 +164,7 @@
         },
         {
           "category": "Añadido",
-          "items": [
-            "Pantalla completa con **F11** cuando la ventana del dashboard tiene el foco"
-          ]
+          "items": ["Pantalla completa con **F11** cuando la ventana del dashboard tiene el foco"]
         },
         {
           "category": "Cambiado",
@@ -199,9 +210,7 @@
       "groups": [
         {
           "category": "Añadido",
-          "items": [
-            "Botón **Buscar actualizaciones** en Ajustes"
-          ]
+          "items": ["Botón **Buscar actualizaciones** en Ajustes"]
         },
         {
           "category": "Cambiado",
@@ -301,6 +310,19 @@
     }
   ],
   "en": [
+    {
+      "version": "0.2.16",
+      "date": "2026-06-01",
+      "groups": [
+        {
+          "category": "Changed",
+          "items": [
+            "**Dashboard redesign**: refreshed the cards, spacing, material system, hover states, loading states, and light/dark theme polish for a more modern macOS-style desktop feel",
+            "**Widget hierarchy**: clock/weather, hardware, calendar, notes, music, and motivation now use clearer roles and calmer visual density while keeping the AI dock unchanged"
+          ]
+        }
+      ]
+    },
     {
       "version": "0.2.15",
       "date": "2026-06-01",
@@ -452,9 +474,7 @@
         },
         {
           "category": "Added",
-          "items": [
-            "Fullscreen toggle with **F11** when the dashboard window is focused"
-          ]
+          "items": ["Fullscreen toggle with **F11** when the dashboard window is focused"]
         },
         {
           "category": "Changed",
@@ -500,9 +520,7 @@
       "groups": [
         {
           "category": "Added",
-          "items": [
-            "**Check for updates** button in Settings"
-          ]
+          "items": ["**Check for updates** button in Settings"]
         },
         {
           "category": "Changed",

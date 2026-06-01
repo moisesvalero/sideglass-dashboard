@@ -14,20 +14,26 @@ export function SortableWidget({ id, children }: { id: WidgetId; children: React
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    opacity: isDragging ? 0.85 : 1,
-    zIndex: isDragging ? 10 : undefined,
+    opacity: isDragging ? 0.92 : 1,
+    zIndex: isDragging ? 20 : undefined,
   }
 
+  const spanClass = id === "time" || id === "hardware" || id === "music" ? "widget-span-2" : ""
+
   return (
-    <div ref={setNodeRef} style={style} className="relative group">
+    <div
+      ref={setNodeRef}
+      style={style}
+      className={`group relative ${spanClass} ${isDragging ? "scale-[1.01]" : ""}`}
+    >
       <button
         type="button"
-        className="absolute top-3 right-3 z-10 p-1 rounded-md bg-muted/80 opacity-0 group-hover:opacity-100 transition-opacity cursor-grab active:cursor-grabbing"
+        className="dashboard-control absolute right-3 top-3 z-10 flex h-7 w-7 cursor-grab items-center justify-center opacity-0 transition-opacity duration-150 active:cursor-grabbing group-hover:opacity-100 focus-visible:opacity-100"
         {...attributes}
         {...listeners}
         aria-label="Reordenar"
       >
-        <GripVertical className="w-3.5 h-3.5 text-muted-foreground" />
+        <GripVertical className="h-3.5 w-3.5 text-muted-foreground" />
       </button>
       {children}
     </div>

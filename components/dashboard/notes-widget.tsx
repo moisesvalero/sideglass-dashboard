@@ -47,16 +47,16 @@ export function NotesWidget() {
   if (!mounted) return null
 
   return (
-    <div className="glass-card p-5">
-      <div className="flex items-center justify-between mb-3">
-        <div className="flex items-center gap-2">
-          <StickyNote className="w-4 h-4 text-amber-500/90" />
-          <h2 className="widget-title">{t("notes.title")}</h2>
+    <div className="glass-tile p-5">
+      <div className="dashboard-widget-header mb-3">
+        <div className="dashboard-widget-title">
+          <StickyNote className="h-4 w-4 text-amber-500/90" />
+          <span>{t("notes.title")}</span>
         </div>
         <button
           type="button"
           onClick={addNote}
-          className="w-7 h-7 rounded-lg bg-muted hover:bg-muted/80 flex items-center justify-center transition-colors"
+          className="dashboard-control flex h-7 w-7 items-center justify-center transition-colors hover:bg-muted/70"
           aria-label={t("notes.title")}
         >
           <Plus className="w-3.5 h-3.5 text-muted-foreground" />
@@ -68,16 +68,13 @@ export function NotesWidget() {
           <p className="text-muted-foreground text-sm text-center py-4">{t("notes.empty")}</p>
         ) : (
           notes.map((note) => (
-            <div
-              key={note.id}
-              className="group flex gap-2 items-start bg-muted/50 rounded-xl px-3 py-2 border border-border/50"
-            >
+            <div key={note.id} className="dashboard-control group flex items-start gap-2 px-3 py-2">
               <textarea
                 value={note.text}
                 onChange={(e) => updateNote(note.id, e.target.value)}
                 placeholder={t("notes.placeholder")}
                 rows={1}
-                className="flex-1 bg-transparent text-foreground text-sm resize-none outline-none placeholder:text-muted-foreground/60"
+                className="min-h-6 flex-1 resize-none bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground/60 focus-visible:ring-0"
                 style={{ minHeight: "24px" }}
                 onInput={(e) => {
                   const el = e.currentTarget

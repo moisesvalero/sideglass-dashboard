@@ -91,29 +91,32 @@ export function CalendarWidget() {
 
   if (!icalUrl) {
     return (
-      <div className="glass-card p-5">
-        <div className="flex items-center gap-2 mb-3">
-          <Calendar className="w-4 h-4 text-muted-foreground" />
-          <h2 className="widget-title">{t("calendar.schedule")}</h2>
+      <div className="glass-tile p-5">
+        <div className="dashboard-widget-header mb-3">
+          <div className="dashboard-widget-title">
+            <Calendar className="h-4 w-4 text-muted-foreground" />
+            <span>{t("calendar.schedule")}</span>
+          </div>
         </div>
-        <p className="text-muted-foreground text-sm text-center py-4">{t("calendar.setup")}</p>
-        <p className="text-muted-foreground/60 text-xs text-center">{t("calendar.icalHint")}</p>
+        <p className="py-3 text-center text-sm text-muted-foreground">{t("calendar.setup")}</p>
+        <p className="text-center text-xs text-muted-foreground/60">{t("calendar.icalHint")}</p>
       </div>
     )
   }
 
   const count = events.length
   const eventLabel = count === 1 ? t("calendar.events") : t("calendar.events_plural")
+  const [next, ...rest] = events
 
   return (
-    <div className="glass-card p-5">
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-2">
-          <Calendar className="w-4 h-4 text-muted-foreground" />
-          <h2 className="widget-title">{t("calendar.schedule")}</h2>
+    <div className="glass-tile p-5">
+      <div className="dashboard-widget-header mb-4">
+        <div className="dashboard-widget-title">
+          <Calendar className="h-4 w-4 text-muted-foreground" />
+          <span>{t("calendar.schedule")}</span>
         </div>
-        <div className="flex items-center gap-2">
-          {isLive && <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 pulse-soft" />}
+        <div className="flex items-center gap-1.5">
+          {isLive && <span className="pulse-soft h-1.5 w-1.5 rounded-full bg-emerald-500" />}
           <span className="text-xs text-muted-foreground">
             {loading ? "..." : `${count} ${eventLabel}`}
           </span>
@@ -121,19 +124,31 @@ export function CalendarWidget() {
       </div>
 
       {loading ? (
-        <div className="flex justify-center py-4">
-          <Loader2 className="w-4 h-4 text-muted-foreground animate-spin" />
+        <div className="flex justify-center py-6">
+          <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
         </div>
       ) : count === 0 ? (
-        <p className="text-muted-foreground text-sm text-center py-4">{t("calendar.noEvents")}</p>
+        <p className="py-4 text-center text-sm text-muted-foreground">{t("calendar.noEvents")}</p>
       ) : (
-        <div className="space-y-3">
-          {events.map((event) => (
-            <div key={event.id} className="flex items-center gap-3">
-              <div className={`w-0.5 h-10 rounded-full ${event.color}`} />
-              <div className="flex-1 min-w-0">
-                <p className="text-foreground font-medium truncate text-sm">{event.title}</p>
-                <p className="text-muted-foreground text-xs">
+        <div className="space-y-0">
+          {next ? (
+            <div className="dashboard-selection mb-3 px-3 py-3">
+              <p className="metric-label">{t("calendar.nextUp")}</p>
+              <p className="mt-1 truncate text-base font-medium text-foreground">{next.title}</p>
+              <p className="mt-0.5 text-xs text-muted-foreground">
+                {next.date} · {next.time}
+              </p>
+            </div>
+          ) : null}
+          {rest.map((event) => (
+            <div
+              key={event.id}
+              className="hairline flex items-center gap-3 border-t border-border/40 py-2.5"
+            >
+              <div className={`h-2.5 w-2.5 shrink-0 rounded-full ${event.color}`} />
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-sm font-medium text-foreground">{event.title}</p>
+                <p className="text-xs text-muted-foreground">
                   {event.date} · {event.time}
                 </p>
               </div>

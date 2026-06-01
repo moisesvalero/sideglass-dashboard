@@ -31,10 +31,7 @@ import { SortableWidget } from "@/components/dashboard/widget-sortable"
 import { useSettings, type WidgetId } from "@/lib/settings"
 import { useI18n } from "@/lib/i18n"
 import { useDashboardBootstrap } from "@/hooks/use-dashboard-bootstrap"
-import {
-  DashboardFullscreenProvider,
-  useDashboardFullscreen,
-} from "@/lib/dashboard-fullscreen"
+import { DashboardFullscreenProvider, useDashboardFullscreen } from "@/lib/dashboard-fullscreen"
 
 const widgetMap: Record<WidgetId, React.ComponentType> = {
   time: TimeWeatherWidget,
@@ -96,52 +93,58 @@ function DashboardContent() {
       <main
         className={`dashboard-shell relative w-full bg-background${isFullscreen ? " dashboard-shell--immersive" : ""}`}
       >
-      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute inset-0 bg-background" />
-        <div
-          className="absolute inset-0"
-          style={{
-            background: isDark
-              ? `radial-gradient(ellipse at 15% 10%, oklch(0.35 0.08 260 / 0.35), transparent 55%),
-                 radial-gradient(ellipse at 85% 90%, oklch(0.32 0.1 300 / 0.25), transparent 50%)`
-              : `radial-gradient(ellipse at 15% 10%, oklch(0.75 0.06 250 / 0.2), transparent 55%),
-                 radial-gradient(ellipse at 85% 90%, oklch(0.8 0.05 280 / 0.15), transparent 50%)`,
-          }}
-        />
-      </div>
+        <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+          <div className="absolute inset-0 bg-background" />
+          <div
+            className="absolute inset-0"
+            style={{
+              background: isDark
+                ? `radial-gradient(ellipse at 20% 0%, oklch(0.36 0.08 250 / 0.22), transparent 52%),
+                 radial-gradient(ellipse at 90% 85%, oklch(0.28 0.08 295 / 0.18), transparent 48%),
+                 linear-gradient(180deg, var(--dashboard-bg-elevated), var(--dashboard-bg))`
+                : `radial-gradient(ellipse at 20% 0%, oklch(0.82 0.055 235 / 0.22), transparent 52%),
+                 radial-gradient(ellipse at 90% 85%, oklch(0.86 0.035 285 / 0.18), transparent 48%),
+                 linear-gradient(180deg, var(--dashboard-bg-elevated), var(--dashboard-bg))`,
+            }}
+          />
+        </div>
 
-      {!isFullscreen && (
-        <Titlebar onSettingsClick={() => setSettingsOpen(true)} title={t("dashboard.title")} />
-      )}
-      {isFullscreen && (
-        <p
-          className="pointer-events-none absolute left-1/2 top-2 z-[60] -translate-x-1/2 rounded-full border border-border/60 bg-background/85 px-3 py-1 text-xs text-muted-foreground backdrop-blur-sm"
-          aria-live="polite"
-        >
-          {t("dashboard.exitFullscreenHint")}
-        </p>
-      )}
+        {!isFullscreen && (
+          <Titlebar onSettingsClick={() => setSettingsOpen(true)} title={t("dashboard.title")} />
+        )}
+        {isFullscreen && (
+          <p
+            className="pointer-events-none absolute left-1/2 top-2 z-[60] -translate-x-1/2 rounded-full border border-border/60 bg-background/85 px-3 py-1 text-xs text-muted-foreground backdrop-blur-sm"
+            aria-live="polite"
+          >
+            {t("dashboard.exitFullscreenHint")}
+          </p>
+        )}
 
-      <div className="dashboard-scroll custom-scrollbar">
-        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-          <SortableContext items={visibleOrder} strategy={verticalListSortingStrategy}>
-            <div className="dashboard-grid">
-              {visibleOrder.map((id) => {
-                const Component = widgetMap[id]
-                return (
-                  <SortableWidget key={id} id={id}>
-                    <Component />
-                  </SortableWidget>
-                )
-              })}
-            </div>
-          </SortableContext>
-        </DndContext>
-      </div>
+        <div className="dashboard-scroll custom-scrollbar">
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={handleDragEnd}
+          >
+            <SortableContext items={visibleOrder} strategy={verticalListSortingStrategy}>
+              <div className="dashboard-grid">
+                {visibleOrder.map((id) => {
+                  const Component = widgetMap[id]
+                  return (
+                    <SortableWidget key={id} id={id}>
+                      <Component />
+                    </SortableWidget>
+                  )
+                })}
+              </div>
+            </SortableContext>
+          </DndContext>
+        </div>
 
-      <AIDock />
+        <AIDock />
 
-      <SettingsDrawer open={settingsOpen} onClose={() => setSettingsOpen(false)} />
+        <SettingsDrawer open={settingsOpen} onClose={() => setSettingsOpen(false)} />
       </main>
       <UpdateDialog />
     </UpdaterProvider>

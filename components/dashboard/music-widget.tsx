@@ -63,11 +63,11 @@ export function MusicWidget() {
   }
 
   return (
-    <div className="glass-card widget-span-2 p-5">
-      <div className="mb-3 flex items-center justify-between">
-        <div className="flex items-center gap-2">
+    <div className="glass-tile widget-span-2 overflow-hidden p-0">
+      <div className="flex items-center justify-between gap-2 px-5 pb-3 pt-5">
+        <div className="dashboard-widget-title">
           <Youtube className="h-4 w-4 text-red-500" />
-          <h2 className="widget-title">{t("music.title")}</h2>
+          <span>{t("music.title")}</span>
         </div>
         {(videoId || results.length > 0) && (
           <button
@@ -82,20 +82,20 @@ export function MusicWidget() {
       </div>
 
       {!videoId && (
-        <div className="flex gap-2">
+        <div className="flex gap-2 px-5 pb-4">
           <input
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && void handleSearch()}
             placeholder={searchEnabled ? t("music.searchPlaceholder") : t("music.paste")}
-            className="min-w-0 flex-1 rounded-xl border border-border bg-muted/60 px-3 py-2 text-sm text-foreground outline-none placeholder:text-muted-foreground/50"
+            className="dashboard-control min-w-0 flex-1 px-3 py-2 text-sm text-foreground outline-none placeholder:text-muted-foreground/55 focus-visible:ring-2 focus-visible:ring-ring/35"
           />
           <button
             type="button"
             onClick={() => void handleSearch()}
             disabled={loading || !query.trim()}
-            className="flex shrink-0 items-center gap-1.5 rounded-xl bg-red-500/90 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-red-500 disabled:opacity-50"
+            className="flex shrink-0 items-center gap-1.5 rounded-xl bg-red-500/90 px-4 py-2 text-sm font-medium text-white transition-[background-color,opacity,transform] hover:bg-red-500 active:scale-[0.98] disabled:opacity-50"
           >
             {loading ? (
               <Loader2 className="h-4 w-4 animate-spin" />
@@ -107,11 +107,11 @@ export function MusicWidget() {
         </div>
       )}
 
-      {error && <p className="mt-3 text-xs text-muted-foreground">{error}</p>}
+      {error && <p className="px-5 pb-2 text-xs text-muted-foreground">{error}</p>}
 
       {videoId ? (
-        <div className="mt-3 overflow-hidden rounded-xl border border-border bg-black/80">
-          <div className="relative" style={{ paddingBottom: "56.25%" }}>
+        <div className="overflow-hidden border-t border-border/50 bg-black/90">
+          <div className="relative aspect-video w-full">
             <iframe
               title="YouTube"
               src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&modestbranding=1&rel=0`}
@@ -122,20 +122,20 @@ export function MusicWidget() {
           </div>
         </div>
       ) : results.length > 0 ? (
-        <ul className="custom-scrollbar mt-3 max-h-72 space-y-1.5 overflow-y-auto pr-1">
+        <ul className="custom-scrollbar max-h-72 space-y-1.5 overflow-y-auto px-5 pb-5 pr-3">
           {results.map((video) => (
             <li key={video.id}>
               <button
                 type="button"
                 onClick={() => setVideoId(video.id)}
-                className="flex w-full items-center gap-3 rounded-xl border border-transparent p-1.5 text-left transition-colors hover:border-border hover:bg-muted/50"
+                className="flex w-full items-center gap-3 rounded-xl border border-transparent p-1.5 text-left transition-colors hover:border-border/60 hover:bg-foreground/5 focus-visible:border-ring focus-visible:outline-none"
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={video.thumbnail}
                   alt=""
                   loading="lazy"
-                  className="h-12 w-20 shrink-0 rounded-lg object-cover"
+                  className="aspect-video h-12 w-[4.25rem] shrink-0 rounded-lg object-cover"
                 />
                 <div className="min-w-0">
                   <p className="truncate text-sm font-medium text-foreground">{video.title}</p>
@@ -148,7 +148,7 @@ export function MusicWidget() {
           ))}
         </ul>
       ) : (
-        <div className="mt-3 flex aspect-video items-center justify-center rounded-xl border border-dashed border-border bg-muted/30 px-4 text-center text-xs text-muted-foreground">
+        <div className="dashboard-control mx-5 mb-5 flex aspect-video items-center justify-center px-4 text-center text-xs text-muted-foreground">
           {searchEnabled ? t("music.searchHint") : t("music.empty")}
         </div>
       )}

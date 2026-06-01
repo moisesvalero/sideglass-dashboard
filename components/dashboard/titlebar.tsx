@@ -39,10 +39,7 @@ export function Titlebar({
       data-tauri-drag-region
       className="sticky top-0 z-50 flex h-10 w-full shrink-0 items-stretch select-none border-b border-border/40 bg-background/90 backdrop-blur-md"
     >
-      <div
-        data-tauri-drag-region
-        className="flex min-w-0 shrink-0 items-center gap-2 px-3"
-      >
+      <div data-tauri-drag-region className="flex min-w-0 shrink-0 items-center gap-2 px-3">
         <BrandMark size={16} />
         <span className="truncate text-[12px] font-semibold leading-none text-foreground">
           {title}

@@ -78,7 +78,17 @@ const payload = {
   en: en ?? previous.en ?? [],
 }
 
-writeFileSync(out, `${JSON.stringify(payload, null, 2)}\n`, "utf8")
+let output = `${JSON.stringify(payload, null, 2)}\n`
+
+try {
+  const prettier = await import("prettier")
+  const config = (await prettier.resolveConfig(out)) ?? {}
+  output = await prettier.format(output, { ...config, parser: "json" })
+} catch {
+  /* keep JSON.stringify output if prettier is unavailable */
+}
+
+writeFileSync(out, output, "utf8")
 console.log(
   `[sync-changelog] wrote ${out} (es: ${payload.es.length}, en: ${payload.en.length} versions)`
 )

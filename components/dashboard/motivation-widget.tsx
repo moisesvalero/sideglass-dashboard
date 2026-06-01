@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Sun, Loader2 } from "lucide-react"
+import { Sparkles, Loader2 } from "lucide-react"
 import { useI18n } from "@/lib/i18n"
 
 interface QuoteData {
@@ -54,31 +54,28 @@ export function MotivationWidget() {
 
   if (!mounted || loading) {
     return (
-      <div className="glass-card p-5">
-        <div className="flex justify-center py-4">
-          <Loader2 className="w-5 h-5 text-muted-foreground animate-spin" />
-        </div>
+      <div className="glass-tile flex justify-center p-5">
+        <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
       </div>
     )
   }
 
   return (
-    <div className="glass-card p-5">
-      <div className="flex items-center gap-2 mb-3">
-        <Sun className="w-4 h-4 text-amber-500" />
-        <h2 className="widget-title">{t("motivation.title")}</h2>
+    <div className="glass-tile p-5">
+      <div className="dashboard-widget-header mb-3">
+        <div className="dashboard-widget-title">
+          <Sparkles className="h-4 w-4 text-amber-500" />
+          <span>{t("motivation.title")}</span>
+        </div>
       </div>
 
       {quote && (
-        <div className="flex gap-3">
-          <div className="w-0.5 rounded-full bg-gradient-to-b from-amber-400 to-primary flex-shrink-0" />
-          <div>
-            <p className="text-foreground text-sm leading-relaxed italic">
-              &ldquo;{quote.text}&rdquo;
-            </p>
-            <p className="text-muted-foreground text-xs mt-2">— {quote.author}</p>
-          </div>
-        </div>
+        <blockquote className="space-y-2">
+          <p className="text-[15px] leading-relaxed tracking-[-0.01em] text-foreground">
+            &ldquo;{quote.text}&rdquo;
+          </p>
+          <footer className="text-xs text-muted-foreground">{quote.author}</footer>
+        </blockquote>
       )}
     </div>
   )

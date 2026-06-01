@@ -5,15 +5,7 @@ export type AiIconSrc = string | { light: string; dark: string }
 /** Official brand marks from https://svgl.app (stored in /public/icons/ai/) */
 export function AiBrandIcon({ src, className }: { src: string; className?: string }) {
   return (
-    <Image
-      src={src}
-      alt=""
-      width={32}
-      height={32}
-      className={className}
-      aria-hidden
-      unoptimized
-    />
+    <Image src={src} alt="" width={32} height={32} className={className} aria-hidden unoptimized />
   )
 }
 

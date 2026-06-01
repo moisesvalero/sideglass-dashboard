@@ -16,9 +16,7 @@ type DashboardFullscreenContextValue = {
   toggleFullscreen: () => Promise<void>
 }
 
-const DashboardFullscreenContext = createContext<DashboardFullscreenContextValue | null>(
-  null
-)
+const DashboardFullscreenContext = createContext<DashboardFullscreenContextValue | null>(null)
 
 export function DashboardFullscreenProvider({ children }: { children: ReactNode }) {
   const [isFullscreen, setIsFullscreen] = useState(false)

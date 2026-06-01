@@ -19,10 +19,13 @@ const translations: Record<Lang, Record<string, string>> = {
     "calendar.events_plural": "eventos",
     "calendar.setup": "Pega la URL iCal de Google Calendar en ajustes",
     "calendar.icalHint": "Google Calendar > Configuración > Dirección secreta en formato iCal",
+    "calendar.nextUp": "Próximo",
     "motivation.title": "Frase del día",
     "hardware.title": "Estado del sistema",
     "hardware.live": "En vivo",
     "hardware.demo": "Demo",
+    "hardware.statusTile": "Sensores",
+    "hardware.statusTileHint": "Lectura en segundo plano",
     "hardware.tauriHint": "Ejecuta con Tauri para datos reales",
     "hardware.sensorsLoading": "Conectando sensores de temperatura…",
     "hardware.lhmHint":
@@ -90,7 +93,8 @@ const translations: Record<Lang, Record<string, string>> = {
       "Pulsa «Activar °C» y acepta el aviso de administrador de Windows (UAC). Sideglass instalará el driver de sensores y mostrará la temperatura sin abrir otra app.",
     "hardware.sensorsHint":
       "Las temperaturas necesitan permisos de administrador. Pulsa para activarlas (acepta el aviso de Windows).",
-    "hardware.sensorsFailed": "No se pudieron activar los sensores. Acepta el aviso de Windows e inténtalo de nuevo.",
+    "hardware.sensorsFailed":
+      "No se pudieron activar los sensores. Acepta el aviso de Windows e inténtalo de nuevo.",
     "hardware.pawnioFailed":
       "PawnIO (driver de sensores) no se instaló. Reinicia el PC, vuelve a pulsar «Activar °C» o instala PawnIO 2.2 desde pawnio.eu como administrador.",
     "hardware.pawnioUacCancelled":
@@ -127,10 +131,13 @@ const translations: Record<Lang, Record<string, string>> = {
     "calendar.events_plural": "events",
     "calendar.setup": "Paste your Google Calendar iCal URL in settings",
     "calendar.icalHint": "Google Calendar > Settings > Secret address in iCal format",
+    "calendar.nextUp": "Next up",
     "motivation.title": "Daily Quote",
     "hardware.title": "System Status",
     "hardware.live": "Live",
     "hardware.demo": "Demo",
+    "hardware.statusTile": "Sensors",
+    "hardware.statusTileHint": "Background polling",
     "hardware.tauriHint": "Run with Tauri for real data",
     "hardware.sensorsLoading": "Connecting temperature sensors…",
     "hardware.lhmHint":

@@ -75,13 +75,13 @@ export function SettingsDrawer({ open, onClose }: Props) {
     <>
       <div className="fixed inset-0 z-[100] bg-black/40 backdrop-blur-sm" onClick={onClose} />
       <div className="fixed inset-x-0 bottom-0 z-[101] animate-in">
-        <div className="mx-auto w-full max-w-2xl rounded-t-2xl border border-b-0 border-border bg-popover p-6 pb-10 shadow-2xl sm:px-8 md:max-w-3xl">
+        <div className="dashboard-surface mx-auto w-full max-w-2xl rounded-t-[20px] border-b-0 p-6 pb-10 sm:px-8 md:max-w-3xl">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-lg font-semibold text-foreground">{t("settings.title")}</h2>
             <button
               type="button"
               onClick={onClose}
-              className="w-8 h-8 rounded-lg bg-muted hover:bg-muted/80 flex items-center justify-center"
+              className="dashboard-control flex h-8 w-8 items-center justify-center hover:bg-muted/70"
               aria-label="Cerrar"
             >
               <X className="w-4 h-4 text-muted-foreground" />
@@ -100,10 +100,10 @@ export function SettingsDrawer({ open, onClose }: Props) {
                     key={key}
                     type="button"
                     onClick={() => updateSettings({ theme: key })}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs transition-all ${
+                    className={`flex items-center gap-2 rounded-full px-4 py-2 text-xs transition-all ${
                       settings.theme === key
                         ? "bg-primary text-primary-foreground"
-                        : "bg-muted text-muted-foreground hover:bg-muted/80"
+                        : "dashboard-control text-muted-foreground hover:bg-muted/70"
                     }`}
                   >
                     <Icon className="w-3.5 h-3.5" />
@@ -124,10 +124,10 @@ export function SettingsDrawer({ open, onClose }: Props) {
                     key={l}
                     type="button"
                     onClick={() => setLang(l)}
-                    className={`px-4 py-2 rounded-full text-xs ${
+                    className={`rounded-full px-4 py-2 text-xs ${
                       lang === l
                         ? "bg-primary text-primary-foreground"
-                        : "bg-muted text-muted-foreground"
+                        : "dashboard-control text-muted-foreground hover:bg-muted/70"
                     }`}
                   >
                     {l === "es" ? "Español" : "English"}
@@ -147,10 +147,10 @@ export function SettingsDrawer({ open, onClose }: Props) {
                     key={f}
                     type="button"
                     onClick={() => updateSettings({ timeFormat: f })}
-                    className={`px-4 py-2 rounded-full text-xs ${
+                    className={`rounded-full px-4 py-2 text-xs ${
                       settings.timeFormat === f
                         ? "bg-primary text-primary-foreground"
-                        : "bg-muted text-muted-foreground"
+                        : "dashboard-control text-muted-foreground hover:bg-muted/70"
                     }`}
                   >
                     {f === "24" ? "24h" : "12h"}
@@ -198,10 +198,10 @@ export function SettingsDrawer({ open, onClose }: Props) {
                     key={unit}
                     type="button"
                     onClick={() => updateSettings({ tempUnit: unit })}
-                    className={`px-4 py-1.5 rounded-full text-xs ${
+                    className={`rounded-full px-4 py-1.5 text-xs ${
                       settings.tempUnit === unit
                         ? "bg-primary text-primary-foreground"
-                        : "bg-muted text-muted-foreground"
+                        : "dashboard-control text-muted-foreground hover:bg-muted/70"
                     }`}
                   >
                     {unit === "celsius" ? "°C" : "°F"}
@@ -223,7 +223,7 @@ export function SettingsDrawer({ open, onClose }: Props) {
                 value={settings.calendarIcalUrl || ""}
                 onChange={(e) => updateSettings({ calendarIcalUrl: e.target.value })}
                 placeholder="https://calendar.google.com/calendar/ical/..."
-                className="w-full bg-muted rounded-xl px-3 py-2 text-sm text-foreground outline-none border border-border placeholder:text-muted-foreground/50"
+                className="dashboard-control w-full px-3 py-2 text-sm text-foreground outline-none placeholder:text-muted-foreground/50"
               />
             </section>
 
@@ -272,7 +272,7 @@ export function SettingsDrawer({ open, onClose }: Props) {
                 type="text"
                 value={settings.globalHotkey}
                 onChange={(e) => updateSettings({ globalHotkey: e.target.value })}
-                className="w-full bg-muted rounded-xl px-3 py-2 text-sm font-mono border border-border"
+                className="dashboard-control w-full px-3 py-2 font-mono text-sm"
               />
             </section>
 
@@ -310,7 +310,7 @@ export function SettingsDrawer({ open, onClose }: Props) {
                     key={key}
                     type="button"
                     onClick={() => toggle(key)}
-                    className="w-full flex items-center justify-between px-3 py-2 rounded-xl bg-muted hover:bg-muted/80"
+                    className="dashboard-control flex w-full items-center justify-between px-3 py-2 hover:bg-muted/70"
                   >
                     <span className="text-foreground/90 text-sm">{label}</span>
                     {settings[key] ? (
@@ -333,7 +333,7 @@ export function SettingsDrawer({ open, onClose }: Props) {
               <button
                 type="button"
                 onClick={() => void openExternalUrl(faqUrl)}
-                className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl bg-muted hover:bg-muted/80 transition-colors"
+                className="dashboard-control flex w-full items-center justify-between px-3 py-2.5 transition-colors hover:bg-muted/70"
               >
                 <span className="text-foreground/90 text-sm">{t("settings.helpFaq")}</span>
                 <ExternalLink className="w-3.5 h-3.5 text-muted-foreground" />
@@ -345,7 +345,7 @@ export function SettingsDrawer({ open, onClose }: Props) {
                 <Info className="w-3.5 h-3.5" />
                 {t("settings.about")}
               </label>
-              <div className="rounded-xl bg-muted/50 border border-border/50 px-3 py-3 space-y-2">
+              <div className="dashboard-control space-y-2 px-3 py-3">
                 <div className="flex items-baseline justify-between gap-2">
                   <span className="text-sm font-medium text-foreground">{APP_NAME}</span>
                   <span className="text-xs text-muted-foreground tabular-nums">

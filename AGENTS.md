@@ -21,6 +21,8 @@ npm run dev          # Web preview
 npm run tauri:dev    # Desktop app
 npm run tauri:build  # Windows installer
 npm run lint && npm run typecheck && npm run build
+npm run test:e2e          # Playwright (layout + dashboard smoke)
+npm run test:e2e:install  # Chromium for Playwright (first time)
 ```
 
 ## Integrations
