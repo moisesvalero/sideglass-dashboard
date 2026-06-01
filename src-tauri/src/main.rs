@@ -13,6 +13,9 @@ use tauri::{
 #[cfg(target_os = "windows")]
 use nvml_wrapper::Nvml;
 
+#[cfg(windows)]
+mod pawnio;
+
 #[derive(Serialize, Clone)]
 pub struct CpuInfo {
     pub name: String,
@@ -58,7 +61,6 @@ struct AppState {
     sys: Mutex<System>,
     #[cfg(target_os = "windows")]
     nvml: Option<Nvml>,
-    lhm_started: Mutex<bool>,
     immersive_active: Mutex<bool>,
     immersive_backup: Mutex<Option<ImmersiveBackup>>,
     /// Cached result of the last successful `check()` so install does not re-fetch.
@@ -194,11 +196,14 @@ fn is_immersive_fullscreen(state: tauri::State<'_, AppState>) -> bool {
 }
 
 #[cfg(windows)]
-fn run_elevated(exe: &std::path::Path, args: &str) -> Result<(), String> {
+fn run_elevated(
+    exe: &std::path::Path,
+    args: &str,
+    show: windows::Win32::UI::WindowsAndMessaging::SHOW_WINDOW_CMD,
+) -> Result<(), String> {
     use std::os::windows::ffi::OsStrExt;
     use windows::core::PCWSTR;
     use windows::Win32::UI::Shell::{ShellExecuteW, SE_ERR_ACCESSDENIED};
-    use windows::Win32::UI::WindowsAndMessaging::SW_SHOWMINNOACTIVE;
 
     fn to_wide(s: &std::ffi::OsStr) -> Vec<u16> {
         s.encode_wide().chain(std::iter::once(0)).collect()
@@ -222,7 +227,7 @@ fn run_elevated(exe: &std::path::Path, args: &str) -> Result<(), String> {
             PCWSTR(file.as_ptr()),
             PCWSTR(params.as_ptr()),
             PCWSTR(work_dir.as_ptr()),
-            SW_SHOWMINNOACTIVE,
+            show,
         )
     };
 
@@ -252,40 +257,34 @@ fn is_pawnio_installed() -> bool {
 }
 
 #[cfg(windows)]
-fn find_pawnio_setup(lhm_exe: &std::path::Path, resource_dir: &std::path::Path) -> Option<std::path::PathBuf> {
-    let lhm_dir = lhm_exe.parent()?;
+fn find_pawnio_setup(resource_dir: &std::path::Path) -> Option<std::path::PathBuf> {
     [
         resource_dir.join("bin").join("PawnIO_setup.exe"),
         resource_dir.join("PawnIO_setup.exe"),
-        lhm_dir.join("PawnIO_setup.exe"),
-        lhm_dir.join("Resources").join("PawnIO_setup.exe"),
     ]
     .into_iter()
     .find(|p| p.exists())
 }
 
-/// Installs PawnIO before LibreHardwareMonitor so LHM does not spawn its own
-/// embedded installer (which can fail with STATUS_IMAGE_MACHINE_TYPE_MISMATCH
-/// when an old bundled setup runs against a running LHM instance).
+/// Installs the PawnIO driver (UAC) if it is not already present. The driver is
+/// required to open the device and read CPU temperature registers in-process.
 #[cfg(windows)]
-fn ensure_pawnio_installed(
-    lhm_exe: &std::path::Path,
-    resource_dir: &std::path::Path,
-) -> Result<(), String> {
+fn ensure_pawnio_installed(resource_dir: &std::path::Path) -> Result<(), String> {
+    use windows::Win32::UI::WindowsAndMessaging::SW_HIDE;
+
     if is_pawnio_installed() {
         return Ok(());
     }
 
-    let Some(setup) = find_pawnio_setup(lhm_exe, resource_dir) else {
+    let Some(setup) = find_pawnio_setup(resource_dir) else {
         return Err("pawnio_setup_missing".into());
     };
 
-    stop_lhm();
     eprintln!("[pawnio] installing via {}", setup.display());
 
     // PawnIO 2.2+ supports `-install -silent` (see PawnIO.Setup releases).
-    let elevated = run_elevated(&setup, "-install -silent")
-        .or_else(|_| run_elevated(&setup, "-install"));
+    let elevated = run_elevated(&setup, "-install -silent", SW_HIDE)
+        .or_else(|_| run_elevated(&setup, "-install", SW_HIDE));
 
     if let Err(e) = elevated {
         if e == "user_cancelled_uac" {
@@ -305,93 +304,172 @@ fn ensure_pawnio_installed(
     Err("pawnio_not_installed".into())
 }
 
-/// Launches LibreHardwareMonitor (elevated, required for the CPU package
-/// sensor over WMI) and waits until temperatures are exposed. When `force` is
-/// true it always tears down any existing instance first (a non-elevated
-/// instance left running would block elevation because LHM refuses a second
-/// instance).
+/// Shared file the elevated helper writes CPU temperature to and the main
+/// (non-elevated) process reads. Uses ProgramData so it is readable regardless
+/// of which account approved the elevation prompt.
 #[cfg(windows)]
-fn try_start_lhm(app: &tauri::AppHandle, force: bool) -> Result<bool, String> {
-    if !force && read_lhm_temperatures().2 {
-        let state = app.state::<AppState>();
-        *state.lhm_started.lock().unwrap() = true;
+fn sensor_temp_path() -> std::path::PathBuf {
+    let base = std::env::var("ProgramData")
+        .ok()
+        .filter(|s| !s.is_empty())
+        .map(std::path::PathBuf::from)
+        .unwrap_or_else(std::env::temp_dir);
+    base.join("Sideglass").join("cpu_temp.json")
+}
+
+/// Reads the CPU temperature published by the elevated helper, if it is recent.
+#[cfg(windows)]
+fn read_helper_cpu_temp() -> Option<f32> {
+    let data = std::fs::read_to_string(sensor_temp_path()).ok()?;
+    let value: serde_json::Value = serde_json::from_str(&data).ok()?;
+    let ts = value.get("ts")?.as_u64()?;
+    let now = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .map(|d| d.as_secs())
+        .unwrap_or(0);
+    if now.saturating_sub(ts) > 10 {
+        return None;
+    }
+    value.get("cpu")?.as_f64().map(|f| f as f32)
+}
+
+#[cfg(not(windows))]
+fn read_helper_cpu_temp() -> Option<f32> {
+    None
+}
+
+#[cfg(windows)]
+fn helper_arg(args: &[String], key: &str) -> Option<String> {
+    args.iter()
+        .position(|a| a == key)
+        .and_then(|i| args.get(i + 1))
+        .cloned()
+}
+
+/// True while the given process id is still running.
+#[cfg(windows)]
+fn process_alive(pid: u32) -> bool {
+    use windows::Win32::Foundation::{CloseHandle, WAIT_OBJECT_0};
+    use windows::Win32::System::Threading::{
+        OpenProcess, WaitForSingleObject, PROCESS_SYNCHRONIZE,
+    };
+
+    unsafe {
+        match OpenProcess(PROCESS_SYNCHRONIZE, false, pid) {
+            Ok(h) => {
+                let signaled = WaitForSingleObject(h, 0) == WAIT_OBJECT_0;
+                let _ = CloseHandle(h);
+                !signaled
+            }
+            Err(_) => false,
+        }
+    }
+}
+
+/// Hidden elevated mode: open PawnIO, read the CPU temperature in a loop, and
+/// publish it for the main process. Exits when the parent process is gone.
+#[cfg(windows)]
+fn run_sensor_helper(args: &[String]) {
+    let parent = helper_arg(args, "--parent").and_then(|s| s.parse::<u32>().ok());
+    let intel = helper_arg(args, "--intel")
+        .map(std::path::PathBuf::from)
+        .unwrap_or_default();
+    let amd = helper_arg(args, "--amd")
+        .map(std::path::PathBuf::from)
+        .unwrap_or_default();
+    let cpu_name = helper_arg(args, "--cpu-name").unwrap_or_default();
+
+    let path = sensor_temp_path();
+    if let Some(dir) = path.parent() {
+        let _ = std::fs::create_dir_all(dir);
+    }
+
+    let Some(sensor) = pawnio::Sensor::init(&intel, &amd, &cpu_name) else {
+        return;
+    };
+
+    loop {
+        if let Some(pid) = parent {
+            if !process_alive(pid) {
+                break;
+            }
+        }
+
+        if let Some(temp) = sensor.read() {
+            let ts = std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .map(|d| d.as_secs())
+                .unwrap_or(0);
+            let _ = std::fs::write(&path, format!("{{\"cpu\":{temp:.1},\"ts\":{ts}}}"));
+        }
+
+        std::thread::sleep(std::time::Duration::from_secs(2));
+    }
+}
+
+/// Installs PawnIO if needed and launches the hidden elevated helper that reads
+/// CPU temperature in-process. One UAC prompt; no second visible app.
+#[cfg(windows)]
+fn start_sensor_helper(app: &tauri::AppHandle) -> Result<bool, String> {
+    use windows::Win32::UI::WindowsAndMessaging::SW_HIDE;
+
+    // Helper already running and publishing fresh readings?
+    if read_helper_cpu_temp().is_some() {
         return Ok(true);
     }
 
-    if !force {
-        let state = app.state::<AppState>();
-        let guard = state.lhm_started.lock().unwrap();
-        if *guard {
-            return Ok(read_lhm_temperatures().2);
-        }
-    }
+    let resource_dir = app
+        .path()
+        .resource_dir()
+        .map_err(|e| format!("resource_dir: {e}"))?;
 
-    let resource_dir = match app.path().resource_dir() {
-        Ok(d) => d,
-        Err(e) => {
-            eprintln!("[lhm] resource_dir error: {e}");
-            return Err(format!("resource_dir: {e}"));
-        }
-    };
-
-    let path = [
-        resource_dir.join("bin").join("LibreHardwareMonitor.exe"),
-        resource_dir.join("LibreHardwareMonitor.exe"),
+    let intel = [
+        resource_dir.join("bin").join("IntelMSR.bin"),
+        resource_dir.join("IntelMSR.bin"),
     ]
     .into_iter()
-    .find(|p| p.exists());
+    .find(|p| p.exists())
+    .unwrap_or_else(|| resource_dir.join("bin").join("IntelMSR.bin"));
 
-    let Some(path) = path else {
-        eprintln!("[lhm] LibreHardwareMonitor.exe not found in resource dir");
-        return Err("lhm_exe_missing".into());
+    let amd = [
+        resource_dir.join("bin").join("AMDFamily17.bin"),
+        resource_dir.join("AMDFamily17.bin"),
+    ]
+    .into_iter()
+    .find(|p| p.exists())
+    .unwrap_or_else(|| resource_dir.join("bin").join("AMDFamily17.bin"));
+
+    ensure_pawnio_installed(&resource_dir)?;
+
+    let exe = std::env::current_exe().map_err(|e| e.to_string())?;
+    let pid = std::process::id();
+    let cpu_name = {
+        let sys = System::new_with_specifics(
+            RefreshKind::new().with_cpu(CpuRefreshKind::everything()),
+        );
+        sys.cpus()
+            .first()
+            .map(|c| c.brand().to_string())
+            .unwrap_or_default()
     };
 
-    // Force=true: a stale non-elevated instance would block the elevated one
-    // from coming up, so kill anything that might be running first.
-    if force {
-        stop_lhm();
-    }
+    let args = format!(
+        "--sensor-helper --parent {pid} --intel \"{}\" --amd \"{}\" --cpu-name \"{}\"",
+        intel.display(),
+        amd.display(),
+        cpu_name
+    );
 
-    ensure_pawnio_installed(&path, &resource_dir)?;
+    run_elevated(&exe, &args, SW_HIDE)?;
 
-    // ShellExecuteW with verb "runas" is the only reliable way to trigger the
-    // Windows UAC prompt from a non-elevated process. PowerShell's
-    // Start-Process -Verb RunAs with -WindowStyle Hidden can swallow the
-    // prompt entirely on some setups (the user reported "no UAC appears").
-    eprintln!("[lhm] launching elevated: {}", path.display());
-    match run_elevated(&path, "--minimize") {
-        Ok(()) => eprintln!("[lhm] UAC accepted, LHM launching"),
-        Err(e) => {
-            eprintln!("[lhm] elevation failed: {e}");
-            if e == "user_cancelled_uac" {
-                return Err(e);
-            }
-            // Best effort: try non-elevated. CPU package temperature won't be
-            // exposed, but GPU/board temps may still appear so the UI gets
-            // some feedback instead of total silence.
-            let work_dir = path.parent().unwrap_or_else(|| path.as_path());
-            let _ = std::process::Command::new(&path)
-                .current_dir(work_dir)
-                .arg("--minimize")
-                .creation_flags(CREATE_NO_WINDOW)
-                .spawn();
-        }
-    }
-
-    // WMI provider can take up to ~30s after the process starts to expose
-    // the Sensor namespace, especially right after UAC. Poll generously.
-    for attempt in 0..30 {
+    for _ in 0..30 {
         std::thread::sleep(std::time::Duration::from_secs(1));
-        if read_lhm_temperatures().2 {
-            let state = app.state::<AppState>();
-            *state.lhm_started.lock().unwrap() = true;
-            eprintln!("[lhm] sensors available after {}s", attempt + 1);
+        if read_helper_cpu_temp().is_some() {
             return Ok(true);
         }
     }
 
-    eprintln!("[lhm] timed out waiting for sensors (user may have cancelled UAC)");
-    Err("lhm_timeout".into())
+    Err("pawnio_no_temp".into())
 }
 
 /// Stops LibreHardwareMonitor so its executable is not locked while the
@@ -429,7 +507,7 @@ async fn start_sensor_service(app: tauri::AppHandle) -> Result<bool, String> {
     #[cfg(windows)]
     {
         let handle = app.clone();
-        tauri::async_runtime::spawn_blocking(move || try_start_lhm(&handle, true))
+        tauri::async_runtime::spawn_blocking(move || start_sensor_helper(&handle))
             .await
             .map_err(|e| e.to_string())?
     }
@@ -661,7 +739,8 @@ fn get_system_info(state: State<AppState>) -> SystemInfo {
     let cpu_freq = sys.cpus().first().map(|cpu| cpu.frequency()).unwrap_or(0);
 
     let (lhm_cpu_temp, lhm_gpu_temp, _) = read_lhm_temperatures();
-    let cpu_temp = lhm_cpu_temp
+    let cpu_temp = read_helper_cpu_temp()
+        .or(lhm_cpu_temp)
         .or_else(cpu_temp_from_components)
         .or_else(read_wmi_thermal_zone_cpu_temp);
     // Only CPU temperature counts — GPU via NVML must not hide the CPU activation UI.
@@ -1145,7 +1224,6 @@ async fn install_update(app: tauri::AppHandle, state: State<'_, AppState>) -> Re
     // Stop LHM so the installer can overwrite files (max 8s, non-fatal if it fails).
     #[cfg(windows)]
     {
-        *state.lhm_started.lock().unwrap() = false;
         let _ = tauri::async_runtime::spawn_blocking(stop_lhm).await;
     }
 
@@ -1202,6 +1280,17 @@ async fn send_notification(
 }
 
 fn main() {
+    // Hidden elevated helper mode: read CPU temperature in-process via PawnIO
+    // and publish it, then exit. Must run before any Tauri/window setup.
+    #[cfg(windows)]
+    {
+        let args: Vec<String> = std::env::args().collect();
+        if args.iter().any(|a| a == "--sensor-helper") {
+            run_sensor_helper(&args);
+            return;
+        }
+    }
+
     let sys = System::new_with_specifics(
         RefreshKind::new()
             .with_cpu(CpuRefreshKind::everything())
@@ -1215,7 +1304,6 @@ fn main() {
     let app_state = AppState {
         sys: Mutex::new(sys),
         nvml,
-        lhm_started: Mutex::new(false),
         immersive_active: Mutex::new(false),
         immersive_backup: Mutex::new(None),
         #[cfg(not(any(target_os = "android", target_os = "ios")))]
@@ -1225,7 +1313,6 @@ fn main() {
     #[cfg(not(target_os = "windows"))]
     let app_state = AppState {
         sys: Mutex::new(sys),
-        lhm_started: Mutex::new(false),
         immersive_active: Mutex::new(false),
         immersive_backup: Mutex::new(None),
         #[cfg(not(any(target_os = "android", target_os = "ios")))]

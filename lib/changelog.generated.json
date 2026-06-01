@@ -1,6 +1,19 @@
 {
   "es": [
     {
+      "version": "0.2.14",
+      "date": "2026-06-01",
+      "groups": [
+        {
+          "category": "Cambiado",
+          "items": [
+            "**Temperatura de CPU sin abrir otra app**: Sideglass ya no abre LibreHardwareMonitor. Ahora lee la temperatura del procesador directamente desde dentro de la app, hablando con el driver PawnIO (igual que hacen MSI Afterburner o HWiNFO). Funciona en Intel (MSR) y AMD Ryzen (SMN). Un proceso ayudante oculto y elevado obtiene la lectura tras un único aviso de Windows; no aparece ninguna ventana extra",
+            "El driver PawnIO se instala dentro del propio instalador de Sideglass; al pulsar «Activar °C» solo hace falta aceptar un aviso de administrador"
+          ]
+        }
+      ]
+    },
+    {
       "version": "0.2.13",
       "date": "2026-06-01",
       "groups": [
@@ -275,6 +288,19 @@
     }
   ],
   "en": [
+    {
+      "version": "0.2.14",
+      "date": "2026-06-01",
+      "groups": [
+        {
+          "category": "Changed",
+          "items": [
+            "**CPU temperature without opening another app**: Sideglass no longer launches LibreHardwareMonitor. It now reads the CPU temperature directly from inside the app by talking to the PawnIO driver (the same way MSI Afterburner or HWiNFO do). Works on Intel (MSR) and AMD Ryzen (SMN). A hidden elevated helper provides the reading after a single Windows prompt; no extra window appears",
+            "The PawnIO driver is installed inside Sideglass's own installer; tapping «Enable °C» only requires accepting one administrator prompt"
+          ]
+        }
+      ]
+    },
     {
       "version": "0.2.13",
       "date": "2026-06-01",

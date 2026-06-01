@@ -6,6 +6,13 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 **Spanish version:** [CHANGELOG.es.md](./CHANGELOG.es.md) — keep both files in sync when you add a release.
 
+## [0.2.14] - 2026-06-01
+
+### Changed
+
+- **CPU temperature without opening another app**: Sideglass no longer launches LibreHardwareMonitor. It now reads the CPU temperature directly from inside the app by talking to the PawnIO driver (the same way MSI Afterburner or HWiNFO do). Works on Intel (MSR) and AMD Ryzen (SMN). A hidden elevated helper provides the reading after a single Windows prompt; no extra window appears
+- The PawnIO driver is installed inside Sideglass's own installer; tapping «Enable °C» only requires accepting one administrator prompt
+
 ## [0.2.13] - 2026-06-01
 
 ### Fixed

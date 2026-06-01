@@ -1,9 +1,12 @@
-# Sensor service (LibreHardwareMonitor + PawnIO)
+# Sensor service (PawnIO in-process)
 
-The Windows installer bundles **LibreHardwareMonitor** and **PawnIO_setup.exe** (2.2.0) here automatically on release builds.
+Sideglass reads CPU temperature **in-process** by talking to the signed **PawnIO** kernel driver (the same approach as MSI Afterburner / HWiNFO). It does **not** launch LibreHardwareMonitor.
 
-- **PawnIO** is the kernel driver LHM needs for CPU package temperature on recent Windows.
-- Sideglass does **not** start LHM at launch (avoids unexpected PawnIO prompts). Use **«Activar °C»** in the hardware widget or install PawnIO during setup.
-- On **«Activar °C»**, Sideglass installs PawnIO (UAC) if missing, then starts LHM elevated.
+Bundled here:
 
-For local `tauri build`, download the latest zip from [LibreHardwareMonitor releases](https://github.com/LibreHardwareMonitor/LibreHardwareMonitor/releases) and copy `LibreHardwareMonitor.exe` plus its DLLs into this folder. Also copy [PawnIO_setup.exe 2.2.0](https://github.com/namazso/PawnIO.Setup/releases/download/2.2.0/PawnIO_setup.exe) here.
+- `IntelMSR.bin` / `AMDFamily17.bin` — official signed PawnIO modules (from [namazso/PawnIO.Modules](https://github.com/namazso/PawnIO.Modules/releases)). Committed to the repo.
+- `PawnIO_setup.exe` (2.2.0) and `LibreHardwareMonitor.*` — downloaded automatically by CI on release builds. The PawnIO driver is installed by the Sideglass installer.
+
+How it works: tapping **«Activar °C»** installs PawnIO if missing, then launches a hidden elevated helper (`Sideglass.exe --sensor-helper`) that opens the PawnIO device, reads the temperature registers (Intel MSR / AMD SMN) and publishes the value to `%ProgramData%\Sideglass\cpu_temp.json`, which the main app reads. One UAC prompt, no extra window.
+
+For local `tauri build`, also drop `PawnIO_setup.exe` 2.2.0 here (and LibreHardwareMonitor if you want the legacy WMI fallback).
