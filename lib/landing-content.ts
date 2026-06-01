@@ -44,7 +44,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
       "Clima, agenda, hardware, notas, YouTube y acceso a tus IAs favoritas. Se adapta a monitor vertical u horizontal.",
     ctaDownload: "Descargar para Windows",
     ctaReleaseNotes: "Notas de versión y otros archivos en GitHub",
-    heroNote: "Open source (MIT) · Sin API keys · Contribuciones bienvenidas",
+    heroNote: "Open source (MIT)",
     screenshotsTitle: "Capturas reales",
     screenshotsSubtitle:
       "Diseño adaptable para monitor secundario en vertical u horizontal. Modo claro y oscuro con materiales tipo macOS.",
@@ -143,7 +143,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
       "Weather, agenda, hardware, notes, YouTube and access to your favorite AIs. Responsive in portrait and landscape.",
     ctaDownload: "Download for Windows",
     ctaReleaseNotes: "Release notes and other files on GitHub",
-    heroNote: "Open source (MIT) · No API keys · Contributions welcome",
+    heroNote: "Open source (MIT)",
     screenshotsTitle: "Real screenshots",
     screenshotsSubtitle:
       "Responsive design for a secondary monitor in portrait or landscape. Light and dark mode with macOS-style materials.",
