@@ -1,5 +1,6 @@
 export const SITE_URL = (
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://personal-dashboard.vercel.app"
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  "https://personal-dashboard-gules-three.vercel.app"
 ).replace(/\/$/, "")
 
 export const APP_NAME = "Sideglass"
