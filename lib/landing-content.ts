@@ -32,7 +32,7 @@ export type LandingCopy = {
   changelogEmpty: string
   changelogBullets: string[]
   footerDeveloped: string
-  footerSource: string
+  footerReportIssue: string
   keywords: string[]
 }
 
@@ -154,7 +154,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
       "Landing más legible, con mejor contraste y jerarquía visual",
     ],
     footerDeveloped: "Desarrollado por",
-    footerSource: "Código en GitHub (open source)",
+    footerReportIssue: "¿Algo no funciona? Abre un issue en GitHub",
     keywords: [
       "dashboard monitor secundario",
       "panel escritorio windows",
@@ -280,7 +280,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
       "Clearer landing page with improved contrast and hierarchy",
     ],
     footerDeveloped: "Developed by",
-    footerSource: "Source on GitHub (open source)",
+    footerReportIssue: "Something broken? Open a GitHub issue",
     keywords: [
       "second monitor dashboard",
       "windows desktop panel",

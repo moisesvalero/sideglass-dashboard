@@ -7,6 +7,7 @@ export const APP_NAME = "Sideglass"
 export const APP_TAGLINE = "Panel para tu monitor secundario"
 
 export const GITHUB_REPO = "https://github.com/moisesvalero/sideglass-dashboard"
+export const GITHUB_ISSUES_NEW = `${GITHUB_REPO}/issues/new`
 
 /** Stable NSIS asset name uploaded on every release (see .github/workflows/release.yml). */
 export const WINDOWS_INSTALLER_NAME = "Sideglass_x64-setup.exe"

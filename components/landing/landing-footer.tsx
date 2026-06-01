@@ -1,6 +1,6 @@
 import type { LandingLang } from "@/lib/landing-content"
 import { landingContent } from "@/lib/landing-content"
-import { AUTHOR_NAME, AUTHOR_SITE, GITHUB_REPO, LICENSE_URL } from "@/lib/site"
+import { AUTHOR_NAME, AUTHOR_SITE, GITHUB_ISSUES_NEW, LICENSE_URL } from "@/lib/site"
 
 export function LandingFooter({ lang }: { lang: LandingLang }) {
   const copy = landingContent[lang]
@@ -19,16 +19,17 @@ export function LandingFooter({ lang }: { lang: LandingLang }) {
             {AUTHOR_NAME}
           </a>
         </p>
-        <p className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
+        <p>
           <a
-            href={GITHUB_REPO}
+            href={GITHUB_ISSUES_NEW}
+            target="_blank"
+            rel="noopener noreferrer"
             className="text-[var(--landing-accent)] underline-offset-2 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--landing-accent)]"
           >
-            {copy.footerSource}
+            {copy.footerReportIssue}
           </a>
-          <span className="text-[var(--landing-text-subtle)]" aria-hidden>
-            ·
-          </span>
+        </p>
+        <p>
           <a
             href={LICENSE_URL}
             target="_blank"
