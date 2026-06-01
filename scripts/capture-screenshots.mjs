@@ -6,7 +6,7 @@ import { fileURLToPath } from "url"
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const root = path.join(__dirname, "..")
 const outDir = path.join(root, "public", "screenshots")
-const baseURL = process.env.SCREENSHOT_URL || "http://localhost:3000"
+const baseURL = process.env.SCREENSHOT_URL || "http://localhost:3000/dashboard"
 
 function demoSettings(theme) {
   return {

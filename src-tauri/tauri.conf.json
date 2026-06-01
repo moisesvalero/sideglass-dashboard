@@ -5,7 +5,7 @@
   "identifier": "com.deskdashboard.app",
   "build": {
     "beforeDevCommand": "npm run dev",
-    "devUrl": "http://localhost:3000",
+    "devUrl": "http://localhost:3000/dashboard",
     "beforeBuildCommand": "npm run build",
     "frontendDist": "../out"
   },
@@ -14,6 +14,7 @@
     "windows": [
       {
         "label": "main",
+        "url": "/dashboard",
         "title": "Desk Dashboard",
         "width": 480,
         "height": 1040,

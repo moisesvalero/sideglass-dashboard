@@ -12,7 +12,7 @@ export type LandingCopy = {
   heroTitle: string[]
   heroSubtitle: string
   ctaDownload: string
-  ctaPreview: string
+  langSwitch: string
   heroNote: string
   screenshotsTitle: string
   screenshotsSubtitle: string
@@ -41,7 +41,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
     heroSubtitle:
       "Clima, agenda, hardware, notas, YouTube y acceso a tus IAs favoritas. Responsive en vertical y horizontal.",
     ctaDownload: "Descargar para Windows",
-    ctaPreview: "Vista previa web",
+    langSwitch: "English",
     heroNote: "MIT · Sin API keys obligatorias",
     screenshotsTitle: "Capturas reales",
     screenshotsSubtitle:
@@ -129,7 +129,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
     heroSubtitle:
       "Weather, agenda, hardware, notes, YouTube and access to your favorite AIs. Responsive in portrait and landscape.",
     ctaDownload: "Download for Windows",
-    ctaPreview: "Web preview",
+    langSwitch: "Español",
     heroNote: "MIT · No required API keys",
     screenshotsTitle: "Real screenshots",
     screenshotsSubtitle:

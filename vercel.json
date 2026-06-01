@@ -4,8 +4,23 @@
   "outputDirectory": "out",
   "redirects": [
     {
-      "source": "/",
-      "destination": "/landing",
+      "source": "/landing",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/landing/:path*",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/dashboard",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/dashboard/:path*",
+      "destination": "/",
       "permanent": false
     }
   ]

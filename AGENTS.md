@@ -6,7 +6,8 @@ Premium macOS-style dashboard for Windows (secondary monitor). Next.js static ex
 
 ## Key paths
 
-- `app/page.tsx` — Dashboard layout + widget order (dnd-kit)
+- `app/page.tsx` — Landing (web)
+- `app/dashboard/page.tsx` — Dashboard layout + widget order (dnd-kit, Tauri)
 - `app/globals.css` — Tailwind v4 theme + glass materials
 - `components/dashboard/` — Widgets
 - `lib/settings.tsx` — User preferences (localStorage)

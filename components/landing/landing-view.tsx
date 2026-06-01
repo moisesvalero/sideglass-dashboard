@@ -106,10 +106,10 @@ export function LandingView({ lang }: { lang: LandingLang }) {
             {copy.ctaDownload}
           </a>
           <Link
-            href="/"
+            href={lang === "es" ? "/en" : "/"}
             className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl border border-white/15 text-sm text-white/80 hover:bg-white/5"
           >
-            {copy.ctaPreview}
+            {copy.langSwitch}
           </Link>
         </div>
         <p className="text-white/30 text-xs mt-4">

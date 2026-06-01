@@ -6,15 +6,14 @@ export const dynamic = "force-static"
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date()
   return [
-    { url: SITE_URL, lastModified: now, changeFrequency: "monthly", priority: 1 },
     {
-      url: `${SITE_URL}/landing`,
+      url: SITE_URL,
       lastModified: now,
       changeFrequency: "monthly",
-      priority: 0.9,
+      priority: 1,
       alternates: {
         languages: {
-          es: `${SITE_URL}/landing`,
+          es: SITE_URL,
           en: `${SITE_URL}/en`,
         },
       },
@@ -26,7 +25,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
       alternates: {
         languages: {
-          es: `${SITE_URL}/landing`,
+          es: SITE_URL,
           en: `${SITE_URL}/en`,
         },
       },
