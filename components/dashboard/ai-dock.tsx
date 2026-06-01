@@ -1,47 +1,26 @@
 "use client"
 
 import { useState } from "react"
-import {
-  ChatGPTIcon,
-  GeminiIcon,
-  ClaudeIcon,
-  PerplexityIcon,
-  CopilotIcon,
-} from "@/components/icons/ai-icons"
+import { AiBrandIcon, AI_BRAND_ICONS } from "@/components/icons/ai-brand-icon"
 import { openExternalUrl } from "@/lib/tauri"
 
 const aiApps = [
-  {
-    id: "chatgpt",
-    name: "ChatGPT",
-    icon: ChatGPTIcon,
-    url: "https://chatgpt.com",
-  },
-  {
-    id: "gemini",
-    name: "Gemini",
-    icon: GeminiIcon,
-    url: "https://gemini.google.com",
-  },
-  {
-    id: "claude",
-    name: "Claude",
-    icon: ClaudeIcon,
-    url: "https://claude.ai",
-  },
+  { id: "chatgpt", name: "ChatGPT", iconSrc: AI_BRAND_ICONS.chatgpt, url: "https://chatgpt.com" },
+  { id: "gemini", name: "Gemini", iconSrc: AI_BRAND_ICONS.gemini, url: "https://gemini.google.com" },
+  { id: "claude", name: "Claude", iconSrc: AI_BRAND_ICONS.claude, url: "https://claude.ai" },
   {
     id: "perplexity",
     name: "Perplexity",
-    icon: PerplexityIcon,
+    iconSrc: AI_BRAND_ICONS.perplexity,
     url: "https://www.perplexity.ai",
   },
   {
     id: "copilot",
     name: "Copilot",
-    icon: CopilotIcon,
+    iconSrc: AI_BRAND_ICONS.copilot,
     url: "https://copilot.microsoft.com",
   },
-]
+] as const
 
 export function AIDock() {
   const [hoveredApp, setHoveredApp] = useState<string | null>(null)
@@ -50,7 +29,6 @@ export function AIDock() {
     <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 px-2 w-full max-w-md pointer-events-none">
       <div className="dock-glass rounded-2xl px-3 py-2.5 flex items-end justify-center gap-1.5 pointer-events-auto mx-auto w-fit">
         {aiApps.map((app) => {
-          const Icon = app.icon
           const isHovered = hoveredApp === app.id
           return (
             <button
@@ -69,7 +47,7 @@ export function AIDock() {
               title={app.name}
               aria-label={app.name}
             >
-              <Icon className="w-7 h-7 sm:w-8 sm:h-8" />
+              <AiBrandIcon src={app.iconSrc} className="w-7 h-7 sm:w-8 sm:h-8 object-contain" />
 
               <span
                 className={`

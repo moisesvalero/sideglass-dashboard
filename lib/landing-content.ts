@@ -35,17 +35,17 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
     htmlLang: "es",
     metaTitle: "Sideglass — Panel premium para tu monitor secundario en Windows",
     metaDescription:
-      "Sideglass: app de escritorio gratuita y open source estilo macOS para tu monitor secundario: clima, calendario, hardware con temperaturas reales, YouTube y acceso rapido a IAs. Sin API keys obligatorias.",
-    ogDescription: "Sideglass — panel premium para monitor secundario en Windows. MIT.",
-    eyebrow: "Escritorio · Windows · Open Source",
+      "Sideglass: aplicación de escritorio gratuita y de código abierto, con estética macOS, para tu monitor secundario: clima, calendario, hardware con temperaturas reales, YouTube y acceso rápido a tus IAs. Sin API keys obligatorias.",
+    ogDescription: "Sideglass — panel premium para monitor secundario en Windows. Licencia MIT.",
+    eyebrow: "Escritorio · Windows · Código abierto",
     heroTitle: ["Sideglass", "tu panel de monitor secundario"],
     heroSubtitle:
-      "Clima, agenda, hardware, notas, YouTube y acceso a tus IAs favoritas. Responsive en vertical y horizontal.",
+      "Clima, agenda, hardware, notas, YouTube y acceso a tus IAs favoritas. Se adapta a monitor vertical u horizontal.",
     ctaDownload: "Descargar para Windows",
     heroNote: "MIT · Sin API keys obligatorias",
     screenshotsTitle: "Capturas reales",
     screenshotsSubtitle:
-      "Diseno responsive para monitor secundario en vertical u horizontal. Modo claro y oscuro con materiales tipo macOS.",
+      "Diseño adaptable para monitor secundario en vertical u horizontal. Modo claro y oscuro con materiales tipo macOS.",
     screenshotLabels: {
       portraitDark: "Vertical · Oscuro",
       portraitLight: "Vertical · Claro",
@@ -56,7 +56,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
       portraitLight: "Sideglass en monitor vertical, modo claro",
       landscapeDark: "Sideglass en monitor horizontal, modo oscuro",
     },
-    featuresTitle: "Que incluye",
+    featuresTitle: "Qué incluye",
     features: [
       {
         label: "Hardware nativo",
@@ -64,57 +64,63 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
       },
       {
         label: "Calendario Google",
-        desc: "Vincula con la URL iCal secreta. Sin scripts ni codigo raro.",
+        desc: "Conéctalo con tu URL iCal secreta. Sin scripts ni configuraciones raras.",
       },
-      { label: "Clima sin API key", desc: "Open-Meteo con deteccion automatica de ubicacion." },
+      {
+        label: "Clima sin API key",
+        desc: "Open-Meteo con detección automática de ubicación.",
+      },
       {
         label: "YouTube con tu cuenta",
-        desc: "Ventana integrada: inicia sesion, busca, maximiza y pantalla completa.",
+        desc: "Ventana integrada: inicia sesión, busca, maximiza y pantalla completa.",
       },
       {
-        label: "AI Dock",
-        desc: "ChatGPT, Gemini, Claude, Perplexity y Copilot con iconos oficiales.",
+        label: "Dock de IAs",
+        desc: "ChatGPT, Gemini, Claude, Perplexity y Copilot con iconos oficiales de marca.",
       },
-      { label: "Notas locales", desc: "Bloc rapido con diseno premium. Datos solo en tu PC." },
+      {
+        label: "Notas locales",
+        desc: "Bloc de notas rápido con diseño premium. Tus datos solo en tu PC.",
+      },
     ],
-    installTitle: "Instalacion",
+    installTitle: "Instalación en 4 pasos",
     install: [
-      "Descarga el instalador .exe desde GitHub Releases.",
-      "Si Windows SmartScreen advierte, pulsa Mas informacion y Ejecutar de todas formas (app sin firma de pago).",
-      "Abre Ajustes y pega tu URL iCal de Google Calendar si quieres agenda.",
-      "Activa inicio con Windows y el atajo global desde Ajustes.",
+      "Pulsa «Descargar para Windows» arriba y guarda el instalador (.exe) desde GitHub Releases.",
+      "Abre el archivo y sigue el asistente. Si Windows muestra un aviso de seguridad, confirma que quieres continuar; es habitual en aplicaciones nuevas.",
+      "Opcional: en Ajustes, pega la URL iCal de Google Calendar para ver tu agenda del día.",
+      "En Ajustes puedes activar el inicio con Windows y un atajo global para mostrar u ocultar el panel.",
     ],
     faqTitle: "Preguntas frecuentes",
     faq: [
       {
-        q: "¿Que es Sideglass?",
-        a: "Una app de escritorio (Tauri + Next.js) pensada para dejar fija en un monitor secundario, vertical u horizontal, con la informacion que mas usas.",
+        q: "¿Qué es Sideglass?",
+        a: "Una aplicación de escritorio pensada para dejar fija en un monitor secundario —en vertical u horizontal— con la información que más usas cada día.",
       },
       {
-        q: "¿Como instalo Sideglass en Windows?",
-        a: "Descarga el .exe desde Releases en GitHub, ejecutalo y acepta el aviso de SmartScreen si aparece (la app no esta firmada con certificado de pago). La primera vez puedes elegir la carpeta de instalacion.",
+        q: "¿Cómo instalo Sideglass en Windows?",
+        a: "Descarga el instalador desde el botón de arriba, ejecútalo y sigue los pasos del asistente. La primera vez puedes elegir la carpeta de instalación.",
       },
       {
-        q: "¿Como vinculo Google Calendar?",
-        a: "En Google Calendar: Configuracion del calendario > Integrar calendario > Direccion secreta en formato iCal. Copia la URL y pegala en Ajustes de la app.",
+        q: "¿Cómo vinculo Google Calendar?",
+        a: "En Google Calendar: Configuración del calendario → Integrar calendario → Dirección secreta en formato iCal. Copia la URL y pégala en Ajustes de Sideglass.",
       },
       {
-        q: "¿Como veo temperaturas reales de CPU y GPU?",
-        a: "Al instalar Sideglass ya viene el servicio de sensores integrado. La app lo arranca en segundo plano y lee temperaturas via WMI. No hace falta instalar nada mas.",
+        q: "¿Cómo veo temperaturas reales de CPU y GPU?",
+        a: "El instalador ya incluye el servicio de sensores. Sideglass lo arranca en segundo plano y lee las temperaturas por WMI. No tienes que instalar nada más.",
       },
       {
         q: "¿YouTube funciona con mi cuenta de Google?",
-        a: "Si. Pulsa Abrir YouTube en el widget. Inicia sesion una vez en la ventana integrada; las cookies se guardan en tu equipo.",
+        a: "Sí. Pulsa «Abrir YouTube» en el widget, inicia sesión una vez en la ventana integrada y tus cookies se guardan en tu equipo.",
       },
       {
-        q: "¿Es gratis y open source?",
-        a: "Si. Licencia MIT. Puedes usarla, modificarla y publicar mejoras.",
+        q: "¿Es gratis y de código abierto?",
+        a: "Sí. Licencia MIT: puedes usarla, modificarla y compartir mejoras.",
       },
     ],
     changelogTitle: "Novedades",
     changelogLink: "Ver CHANGELOG completo",
     footerDeveloped: "Desarrollado por",
-    footerSource: "Codigo fuente del proyecto",
+    footerSource: "Código fuente del proyecto",
     keywords: [
       "dashboard monitor secundario",
       "panel escritorio windows",
@@ -164,17 +170,17 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
         desc: "Embedded window: sign in, search, maximize and go fullscreen.",
       },
       {
-        label: "AI Dock",
-        desc: "ChatGPT, Gemini, Claude, Perplexity and Copilot with official icons.",
+        label: "AI dock",
+        desc: "ChatGPT, Gemini, Claude, Perplexity and Copilot with official brand icons.",
       },
       { label: "Local notes", desc: "Quick notepad with premium design. Data stays on your PC." },
     ],
-    installTitle: "Installation",
+    installTitle: "Install in 4 steps",
     install: [
-      "Download the .exe installer from GitHub Releases.",
-      "If Windows SmartScreen warns you, click More info and Run anyway (app without a paid signature).",
-      "Open Settings and paste your Google Calendar iCal URL if you want the agenda.",
-      "Enable start with Windows and the global shortcut from Settings.",
+      "Click «Download for Windows» above and save the installer (.exe) from GitHub Releases.",
+      "Run the file and follow the setup wizard. If Windows shows a security prompt, confirm to continue — common for new desktop apps.",
+      "Optional: in Settings, paste your Google Calendar iCal URL to see today's agenda.",
+      "In Settings you can enable start with Windows and a global shortcut to show or hide the panel.",
     ],
     faqTitle: "Frequently asked questions",
     faq: [
@@ -184,7 +190,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
       },
       {
         q: "How do I install Sideglass on Windows?",
-        a: "Download the .exe from GitHub Releases, run it and accept the SmartScreen warning if it appears (the app is not signed with a paid certificate). The first time you can choose the install folder.",
+        a: "Download the installer from the button above, run it and follow the setup steps. On first install you can choose where to install it.",
       },
       {
         q: "How do I connect Google Calendar?",
