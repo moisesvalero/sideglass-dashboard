@@ -1,6 +1,6 @@
 "use client"
 
-import { Settings } from "lucide-react"
+import { Minus, Settings, Square, X } from "lucide-react"
 import { isTauri } from "@/lib/tauri"
 
 export function Titlebar({
@@ -28,46 +28,51 @@ export function Titlebar({
   return (
     <div
       data-tauri-drag-region
-      className="sticky top-0 z-50 h-10 w-full shrink-0 flex items-center select-none bg-background/20 backdrop-blur-md border-b border-border/40"
+      className="sticky top-0 z-50 flex h-10 w-full shrink-0 items-center select-none border-b border-border/40 bg-background/90 backdrop-blur-md"
     >
-      {tauriMode ? (
-        <div className="flex items-center gap-2 pl-4" data-tauri-drag-region="false">
-          <button
-            type="button"
-            onClick={handleClose}
-            className="traffic-light traffic-close"
-            aria-label="Cerrar"
-          />
-          <button
-            type="button"
-            onClick={handleMinimize}
-            className="traffic-light traffic-minimize"
-            aria-label="Minimizar"
-          />
-          <button
-            type="button"
-            onClick={handleMaximize}
-            className="traffic-light traffic-maximize"
-            aria-label="Maximizar"
-          />
-        </div>
-      ) : (
-        <div className="w-24" />
-      )}
-
-      <span className="flex-1 text-center text-[11px] font-medium text-muted-foreground pointer-events-none truncate px-2">
+      <span className="pointer-events-none flex-1 truncate px-4 text-center text-[11px] font-medium text-muted-foreground">
         {title}
       </span>
 
-      <button
-        type="button"
-        onClick={onSettingsClick}
-        className="w-9 h-9 mr-2 rounded-lg hover:bg-muted flex items-center justify-center transition-colors"
-        data-tauri-drag-region="false"
-        aria-label="Ajustes"
-      >
-        <Settings className="w-4 h-4 text-muted-foreground" />
-      </button>
+      <div className="flex shrink-0 items-stretch" data-tauri-drag-region="false">
+        <button
+          type="button"
+          onClick={onSettingsClick}
+          className="win-caption-btn px-3"
+          aria-label="Ajustes"
+        >
+          <Settings className="h-4 w-4 text-muted-foreground" />
+        </button>
+
+        {tauriMode ? (
+          <>
+            <button
+              type="button"
+              onClick={handleMinimize}
+              className="win-caption-btn w-12"
+              aria-label="Minimizar"
+            >
+              <Minus className="h-3.5 w-3.5" strokeWidth={2} />
+            </button>
+            <button
+              type="button"
+              onClick={handleMaximize}
+              className="win-caption-btn w-12"
+              aria-label="Maximizar"
+            >
+              <Square className="h-3 w-3" strokeWidth={2} />
+            </button>
+            <button
+              type="button"
+              onClick={handleClose}
+              className="win-caption-btn win-caption-close w-12"
+              aria-label="Cerrar"
+            >
+              <X className="h-4 w-4" strokeWidth={2} />
+            </button>
+          </>
+        ) : null}
+      </div>
     </div>
   )
 }

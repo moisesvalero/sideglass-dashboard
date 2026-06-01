@@ -1,9 +1,8 @@
 "use client"
 
 import { useState } from "react"
-import { Youtube, X, ExternalLink } from "lucide-react"
+import { Youtube, X } from "lucide-react"
 import { useI18n } from "@/lib/i18n"
-import { openYoutubeWindow } from "@/lib/tauri"
 
 function extractVideoId(url: string): string | null {
   const patterns = [
@@ -23,20 +22,16 @@ export function MusicWidget() {
   const [videoId, setVideoId] = useState<string | null>(null)
   const { t } = useI18n()
 
-  const handleOpenYoutube = () => {
-    void openYoutubeWindow()
-  }
-
   const handlePlayLink = () => {
     const id = extractVideoId(linkInput.trim())
     if (id) setVideoId(id)
   }
 
   return (
-    <div className="glass-card p-5 widget-span-2">
-      <div className="flex items-center justify-between mb-3">
+    <div className="glass-card widget-span-2 p-5">
+      <div className="mb-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Youtube className="w-4 h-4 text-red-500" />
+          <Youtube className="h-4 w-4 text-red-500" />
           <h2 className="widget-title">{t("music.title")}</h2>
         </div>
         {videoId && (
@@ -46,23 +41,15 @@ export function MusicWidget() {
               setVideoId(null)
               setLinkInput("")
             }}
-            className="w-7 h-7 rounded-lg bg-muted flex items-center justify-center"
+            className="flex h-7 w-7 items-center justify-center rounded-lg bg-muted"
             aria-label="Cerrar video"
           >
-            <X className="w-3.5 h-3.5 text-muted-foreground" />
+            <X className="h-3.5 w-3.5 text-muted-foreground" />
           </button>
         )}
       </div>
 
-      <button
-        type="button"
-        onClick={handleOpenYoutube}
-        className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-red-500/90 hover:bg-red-500 text-white text-sm font-medium transition-colors mb-3"
-      >
-        <ExternalLink className="w-4 h-4" />
-        {t("music.open")}
-      </button>
-      <p className="text-muted-foreground text-xs mb-3 leading-relaxed">{t("music.openHint")}</p>
+      <p className="mb-3 text-xs leading-relaxed text-muted-foreground">{t("music.embedHint")}</p>
 
       <div className="flex gap-2">
         <input
@@ -71,30 +58,34 @@ export function MusicWidget() {
           onChange={(e) => setLinkInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handlePlayLink()}
           placeholder={t("music.paste")}
-          className="flex-1 bg-muted/60 rounded-xl px-3 py-2 text-sm text-foreground outline-none border border-border placeholder:text-muted-foreground/50 min-w-0"
+          className="min-w-0 flex-1 rounded-xl border border-border bg-muted/60 px-3 py-2 text-sm text-foreground outline-none placeholder:text-muted-foreground/50"
         />
         {linkInput.trim() && (
           <button
             type="button"
             onClick={handlePlayLink}
-            className="px-4 py-2 rounded-xl bg-muted hover:bg-muted/80 text-sm font-medium text-foreground transition-colors shrink-0"
+            className="shrink-0 rounded-xl bg-red-500/90 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-red-500"
           >
-            Play
+            {t("music.play")}
           </button>
         )}
       </div>
 
-      {videoId && (
-        <div className="rounded-xl overflow-hidden bg-black/80 mt-3 border border-border">
+      {videoId ? (
+        <div className="mt-3 overflow-hidden rounded-xl border border-border bg-black/80">
           <div className="relative" style={{ paddingBottom: "56.25%" }}>
             <iframe
               title="YouTube"
-              src={`https://www.youtube.com/embed/${videoId}?autoplay=1&modestbranding=1&rel=0`}
+              src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&modestbranding=1&rel=0`}
               allow="autoplay; encrypted-media; fullscreen"
               allowFullScreen
-              className="absolute inset-0 w-full h-full"
+              className="absolute inset-0 h-full w-full"
             />
           </div>
+        </div>
+      ) : (
+        <div className="mt-3 flex aspect-video items-center justify-center rounded-xl border border-dashed border-border bg-muted/30 px-4 text-center text-xs text-muted-foreground">
+          {t("music.empty")}
         </div>
       )}
     </div>

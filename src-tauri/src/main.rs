@@ -7,7 +7,7 @@ use tauri::{
     image::Image,
     menu::{MenuBuilder, MenuItemBuilder},
     tray::{MouseButton, MouseButtonState, TrayIconBuilder, TrayIconEvent},
-    Manager, State, WebviewUrl, WebviewWindowBuilder,
+    Manager, State,
 };
 
 #[cfg(target_os = "windows")]
@@ -56,6 +56,9 @@ struct AppState {
 }
 
 #[cfg(windows)]
+use std::os::windows::process::CommandExt;
+
+#[cfg(windows)]
 fn try_start_lhm(app: &tauri::AppHandle) {
     let state = app.state::<AppState>();
     let mut guard = state.lhm_started.lock().unwrap();
@@ -74,9 +77,16 @@ fn try_start_lhm(app: &tauri::AppHandle) {
                 let _ = std::process::Command::new(&path)
                     .current_dir(work_dir)
                     .arg("--minimize")
+                    .creation_flags(0x08000000) // CREATE_NO_WINDOW
                     .spawn();
                 *guard = true;
-                std::thread::sleep(std::time::Duration::from_secs(2));
+                for _ in 0..8 {
+                    std::thread::sleep(std::time::Duration::from_secs(1));
+                    let (_, _, ok) = read_lhm_temperatures();
+                    if ok {
+                        return;
+                    }
+                }
                 return;
             }
         }
@@ -133,7 +143,7 @@ fn read_lhm_temperatures() -> (Option<f32>, Option<f32>, bool) {
     let mut cpu_temp: Option<f32> = None;
     let mut gpu_temp: Option<f32> = None;
 
-    for row in results {
+    for row in &results {
         let name = row
             .get("Name")
             .map(variant_to_string)
@@ -158,14 +168,46 @@ fn read_lhm_temperatures() -> (Option<f32>, Option<f32>, bool) {
         if gpu_temp.is_none()
             && (name.contains("gpu core")
                 || name.contains("graphics")
+                || name.contains("gpu hotspot")
                 || (name.contains("gpu") && name.contains("temperature")))
         {
             gpu_temp = Some(value);
         }
     }
 
+    for row in &results {
+        let name = row
+            .get("Name")
+            .map(variant_to_string)
+            .unwrap_or_default()
+            .to_lowercase();
+        let value: f32 = row.get("Value").and_then(variant_to_f32).unwrap_or(0.0);
+        if value <= 0.0 || value > 120.0 {
+            continue;
+        }
+        if cpu_temp.is_none() && name.contains("cpu") && !name.contains("gpu") {
+            cpu_temp = Some(value);
+        }
+        if gpu_temp.is_none() && name.contains("gpu") {
+            gpu_temp = Some(value);
+        }
+    }
+
     let available = cpu_temp.is_some() || gpu_temp.is_some();
     (cpu_temp, gpu_temp, available)
+}
+
+fn cpu_temp_from_components() -> Option<f32> {
+    for component in Components::new_with_refreshed_list().iter() {
+        let label = component.label().to_lowercase();
+        let temp = component.temperature();
+        if temp > 0.0
+            && (label.contains("cpu") || label.contains("package") || label.contains("tctl"))
+        {
+            return Some(temp);
+        }
+    }
+    None
 }
 
 #[cfg(not(windows))]
@@ -191,12 +233,13 @@ fn get_system_info(state: State<AppState>) -> SystemInfo {
 
     let cpu_freq = sys.cpus().first().map(|cpu| cpu.frequency()).unwrap_or(0);
 
-    let (lhm_cpu_temp, lhm_gpu_temp, sensors_available) = read_lhm_temperatures();
+    let (lhm_cpu_temp, lhm_gpu_temp, mut sensors_available) = read_lhm_temperatures();
+    let cpu_temp = lhm_cpu_temp.or_else(cpu_temp_from_components);
 
     let cpu_info = CpuInfo {
         name: cpu_name,
         usage: cpu_usage,
-        temperature: lhm_cpu_temp,
+        temperature: cpu_temp,
         cores: sys.cpus().len(),
         frequency: cpu_freq,
     };
@@ -213,6 +256,17 @@ fn get_system_info(state: State<AppState>) -> SystemInfo {
     };
 
     let gpu_info = get_gpu_info(&state, lhm_gpu_temp);
+    if cpu_temp.is_some() || lhm_gpu_temp.is_some() {
+        sensors_available = true;
+    }
+    if gpu_info
+        .as_ref()
+        .and_then(|g| g.temperature)
+        .filter(|t| *t > 0.0)
+        .is_some()
+    {
+        sensors_available = true;
+    }
 
     SystemInfo {
         cpu: cpu_info,
@@ -348,30 +402,6 @@ async fn open_url(url: String) -> Result<(), String> {
 }
 
 #[tauri::command]
-async fn open_youtube_window(app: tauri::AppHandle) -> Result<(), String> {
-    if let Some(w) = app.get_webview_window("youtube") {
-        let _ = w.show();
-        let _ = w.set_focus();
-        return Ok(());
-    }
-
-    WebviewWindowBuilder::new(
-        &app,
-        "youtube",
-        WebviewUrl::External("https://www.youtube.com".parse().unwrap()),
-    )
-    .title("YouTube")
-    .inner_size(1100.0, 720.0)
-    .center()
-    .resizable(true)
-    .maximizable(true)
-    .build()
-    .map_err(|e| e.to_string())?;
-
-    Ok(())
-}
-
-#[tauri::command]
 async fn toggle_main_window(app: tauri::AppHandle) -> Result<(), String> {
     if let Some(window) = app.get_webview_window("main") {
         if window.is_visible().unwrap_or(true) {
@@ -475,7 +505,14 @@ fn main() {
     tauri::Builder::default()
         .plugin(tauri_plugin_shell::init())
         .plugin(tauri_plugin_opener::init())
-        .plugin(tauri_plugin_window_state::Builder::default().build())
+        .plugin(
+            tauri_plugin_window_state::Builder::new()
+                .with_state_flags(
+                    tauri_plugin_window_state::StateFlags::POSITION
+                        | tauri_plugin_window_state::StateFlags::MAXIMIZED,
+                )
+                .build(),
+        )
         .plugin(tauri_plugin_autostart::init(
             tauri_plugin_autostart::MacosLauncher::LaunchAgent,
             Some(vec![]),
@@ -488,7 +525,6 @@ fn main() {
             get_system_info,
             fetch_ical,
             open_url,
-            open_youtube_window,
             toggle_main_window,
             set_autostart,
             register_global_hotkey,
@@ -498,6 +534,10 @@ fn main() {
         .setup(|app| {
             #[cfg(windows)]
             try_start_lhm(app.handle());
+
+            if let Some(window) = app.get_webview_window("main") {
+                let _ = window.maximize();
+            }
 
             let show = MenuItemBuilder::with_id("show", "Mostrar").build(app)?;
             let hide = MenuItemBuilder::with_id("hide", "Ocultar").build(app)?;

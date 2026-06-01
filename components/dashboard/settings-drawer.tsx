@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import {
   X,
   MapPin,
@@ -15,9 +16,12 @@ import {
   Power,
   Keyboard,
   Bell,
+  Download,
 } from "lucide-react"
 import { useSettings, type Settings } from "@/lib/settings"
 import { useI18n } from "@/lib/i18n"
+import { APP_VERSION } from "@/lib/site"
+import { checkForUpdates, isTauri } from "@/lib/tauri"
 
 interface Props {
   open: boolean
@@ -44,8 +48,27 @@ const themes = [
 export function SettingsDrawer({ open, onClose }: Props) {
   const { settings, updateSettings } = useSettings()
   const { t, lang, setLang } = useI18n()
+  const [updateStatus, setUpdateStatus] = useState<string | null>(null)
+  const [updateBusy, setUpdateBusy] = useState(false)
+  const inTauri = isTauri()
 
   if (!open) return null
+
+  const handleCheckUpdates = async () => {
+    if (!inTauri) return
+    setUpdateBusy(true)
+    setUpdateStatus(t("settings.checkingUpdates"))
+    try {
+      const result = await checkForUpdates()
+      if (result === "no_update") setUpdateStatus(t("settings.upToDate"))
+      else if (result.startsWith("updated_to_")) setUpdateStatus(t("settings.updateInstalled"))
+      else setUpdateStatus(t("settings.upToDate"))
+    } catch {
+      setUpdateStatus(t("settings.updateError"))
+    } finally {
+      setUpdateBusy(false)
+    }
+  }
 
   const toggle = (key: keyof Settings) => {
     if (typeof settings[key] === "boolean") {
@@ -212,6 +235,27 @@ export function SettingsDrawer({ open, onClose }: Props) {
                 className="w-full bg-muted rounded-xl px-3 py-2 text-sm text-foreground outline-none border border-border placeholder:text-muted-foreground/50"
               />
             </section>
+
+            {inTauri && (
+              <section>
+                <label className="mb-2 flex items-center gap-2 text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                  <Download className="h-3.5 w-3.5" />
+                  {t("settings.updates")}
+                </label>
+                <p className="mb-2 text-xs text-muted-foreground">v{APP_VERSION}</p>
+                <button
+                  type="button"
+                  disabled={updateBusy}
+                  onClick={() => void handleCheckUpdates()}
+                  className="w-full rounded-xl bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-60"
+                >
+                  {updateBusy ? t("settings.checkingUpdates") : t("settings.checkUpdates")}
+                </button>
+                {updateStatus && (
+                  <p className="mt-2 text-center text-xs text-muted-foreground">{updateStatus}</p>
+                )}
+              </section>
+            )}
 
             <section>
               <label className="flex items-center gap-2 text-muted-foreground text-xs font-medium uppercase tracking-wider mb-2">

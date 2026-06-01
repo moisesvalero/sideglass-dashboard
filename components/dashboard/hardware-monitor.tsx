@@ -30,14 +30,14 @@ function systemInfoToSensors(info: SystemInfo): SensorData[] {
       label: "CPU",
       value: info.cpu.usage,
       temp: info.cpu.temperature,
-      icon: <Cpu className="w-4 h-4" />,
+      icon: <Cpu className="h-4 w-4" />,
       subtitle: info.cpu.name.length > 22 ? `${info.cpu.name.substring(0, 22)}…` : info.cpu.name,
     },
     {
       label: "RAM",
       value: info.memory.usage_percent,
       temp: null,
-      icon: <MemoryStick className="w-4 h-4" />,
+      icon: <MemoryStick className="h-4 w-4" />,
       subtitle: `${info.memory.used_gb.toFixed(1)} / ${info.memory.total_gb.toFixed(0)} GB`,
     },
   ]
@@ -47,7 +47,7 @@ function systemInfoToSensors(info: SystemInfo): SensorData[] {
       label: "GPU",
       value: info.gpu.usage,
       temp: info.gpu.temperature,
-      icon: <Monitor className="w-4 h-4" />,
+      icon: <Monitor className="h-4 w-4" />,
       subtitle: info.gpu.name.length > 22 ? `${info.gpu.name.substring(0, 22)}…` : info.gpu.name,
     })
   }
@@ -55,27 +55,35 @@ function systemInfoToSensors(info: SystemInfo): SensorData[] {
   return sensors
 }
 
+const SENSOR_WARMUP_MS = 25_000
+
 export function HardwareMonitor() {
   const [isRunningInTauri] = useState(() => (typeof window !== "undefined" ? isTauri() : false))
   const [sensorsAvailable, setSensorsAvailable] = useState(false)
+  const [sensorWarmup, setSensorWarmup] = useState(true)
   const [sensors, setSensors] = useState<SensorData[]>([
-    { label: "CPU", value: 42, temp: null, icon: <Cpu className="w-4 h-4" />, subtitle: "CPU" },
+    { label: "CPU", value: 42, temp: null, icon: <Cpu className="h-4 w-4" />, subtitle: "CPU" },
     {
       label: "RAM",
       value: 67,
       temp: null,
-      icon: <MemoryStick className="w-4 h-4" />,
+      icon: <MemoryStick className="h-4 w-4" />,
       subtitle: "21.4 / 32 GB",
     },
     {
       label: "GPU",
       value: 38,
       temp: null,
-      icon: <Monitor className="w-4 h-4" />,
+      icon: <Monitor className="h-4 w-4" />,
       subtitle: "GPU",
     },
   ])
   const { t } = useI18n()
+
+  useEffect(() => {
+    const timer = setTimeout(() => setSensorWarmup(false), SENSOR_WARMUP_MS)
+    return () => clearTimeout(timer)
+  }, [])
 
   const fetchSystemInfo = useCallback(async () => {
     if (!isRunningInTauri) return
@@ -83,6 +91,7 @@ export function HardwareMonitor() {
       const info = await getSystemInfo()
       setSensors(systemInfoToSensors(info))
       setSensorsAvailable(info.sensors_available)
+      if (info.sensors_available) setSensorWarmup(false)
     } catch (error) {
       console.error("Error fetching system info:", error)
     }
@@ -90,7 +99,7 @@ export function HardwareMonitor() {
 
   useEffect(() => {
     if (isRunningInTauri) {
-      fetchSystemInfo()
+      void fetchSystemInfo()
       const interval = setInterval(fetchSystemInfo, 2000)
       return () => clearInterval(interval)
     }
@@ -101,12 +110,14 @@ export function HardwareMonitor() {
     return () => clearInterval(interval)
   }, [fetchSystemInfo, isRunningInTauri])
 
+  const showSensorWarning = isRunningInTauri && !sensorsAvailable && !sensorWarmup
+
   return (
     <div className="glass-card p-5">
-      <div className="flex items-center justify-between mb-4">
+      <div className="mb-4 flex items-center justify-between">
         <h2 className="widget-title">{t("hardware.title")}</h2>
         <div className="flex items-center gap-1.5">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 pulse-soft" />
+          <span className="pulse-soft h-1.5 w-1.5 rounded-full bg-emerald-500" />
           <span className="text-xs text-muted-foreground">
             {isRunningInTauri ? t("hardware.live") : t("hardware.demo")}
           </span>
@@ -117,20 +128,20 @@ export function HardwareMonitor() {
         {sensors.map((sensor) => (
           <div key={sensor.label} className="space-y-2">
             <div className="flex items-center justify-between gap-2">
-              <div className="flex items-center gap-2 min-w-0">
+              <div className="flex min-w-0 items-center gap-2">
                 <div className="text-muted-foreground">{sensor.icon}</div>
                 <div className="min-w-0">
-                  <span className="text-foreground text-sm font-medium">{sensor.label}</span>
-                  <p className="text-muted-foreground text-xs truncate">{sensor.subtitle}</p>
+                  <span className="text-sm font-medium text-foreground">{sensor.label}</span>
+                  <p className="truncate text-xs text-muted-foreground">{sensor.subtitle}</p>
                 </div>
               </div>
-              <div className="flex items-center gap-2 shrink-0">
-                <span className="text-foreground font-mono text-sm tabular-nums">
+              <div className="flex shrink-0 items-center gap-2">
+                <span className="font-mono text-sm tabular-nums text-foreground">
                   {Math.round(sensor.value)}%
                 </span>
                 {sensor.temp !== null && sensor.temp > 0 ? (
                   <span
-                    className={`text-xs px-2 py-0.5 rounded-md bg-muted font-mono tabular-nums ${
+                    className={`rounded-md bg-muted px-2 py-0.5 font-mono text-xs tabular-nums ${
                       sensor.temp > 80
                         ? "text-red-500"
                         : sensor.temp > 65
@@ -140,12 +151,10 @@ export function HardwareMonitor() {
                   >
                     {Math.round(sensor.temp)}°C
                   </span>
-                ) : isRunningInTauri && sensor.label !== "RAM" ? (
-                  <span className="text-[10px] text-muted-foreground">{t("hardware.noTemp")}</span>
                 ) : null}
               </div>
             </div>
-            <div className="h-1.5 rounded-full bg-muted overflow-hidden">
+            <div className="h-1.5 overflow-hidden rounded-full bg-muted">
               <div
                 className={`h-full rounded-full transition-all duration-500 ease-out ${
                   sensor.value > 90
@@ -161,11 +170,16 @@ export function HardwareMonitor() {
         ))}
       </div>
 
-      {isRunningInTauri && !sensorsAvailable && (
-        <p className="text-muted-foreground text-xs mt-4 text-center">{t("hardware.lhmHint")}</p>
+      {isRunningInTauri && sensorWarmup && !sensorsAvailable && (
+        <p className="mt-4 text-center text-xs text-muted-foreground">{t("hardware.sensorsLoading")}</p>
+      )}
+      {showSensorWarning && (
+        <p className="mt-4 text-center text-xs leading-relaxed text-muted-foreground">
+          {t("hardware.lhmHint")}
+        </p>
       )}
       {!isRunningInTauri && (
-        <p className="text-muted-foreground text-xs mt-4 text-center">{t("hardware.tauriHint")}</p>
+        <p className="mt-4 text-center text-xs text-muted-foreground">{t("hardware.tauriHint")}</p>
       )}
     </div>
   )

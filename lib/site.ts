@@ -7,7 +7,7 @@ export const APP_TAGLINE = "Premium panel for your second monitor"
 
 export const GITHUB_REPO = "https://github.com/moisesvalero/personal-dashboard"
 export const GITHUB_RELEASES = `${GITHUB_REPO}/releases/latest`
-export const APP_VERSION = "0.2.2"
+export const APP_VERSION = "0.2.3"
 
 export const AUTHOR_NAME = "Moises Valero"
 export const AUTHOR_SITE = "https://moisesvalero.es"
