@@ -297,6 +297,61 @@
   filter: drop-shadow(0 0 10px oklch(0.78 0.13 85 / 0.28));
 }
 
+.motivation-card {
+  position: relative;
+}
+
+.motivation-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 16% 18%, oklch(0.82 0.16 82 / 0.16), transparent 28%),
+    linear-gradient(135deg, oklch(0.78 0.1 82 / 0.08), transparent 42%);
+}
+
+.motivation-note {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  min-height: 100%;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.45rem 0.15rem 0.1rem;
+}
+
+.motivation-quote-mark {
+  position: absolute;
+  left: -0.1rem;
+  top: -0.9rem;
+  z-index: -1;
+  font-family: var(--font-hand), "Segoe Print", "Bradley Hand ITC", cursive;
+  font-size: 4.25rem;
+  font-weight: 700;
+  line-height: 1;
+  color: oklch(0.74 0.16 82 / 0.18);
+}
+
+.motivation-quote {
+  max-width: 30ch;
+  font-family: var(--font-hand), "Segoe Print", "Bradley Hand ITC", cursive;
+  font-size: 2.15rem;
+  font-weight: 600;
+  line-height: 1.02;
+  color: color-mix(in oklch, var(--foreground) 92%, oklch(0.78 0.14 82) 8%);
+  text-wrap: balance;
+}
+
+.motivation-author {
+  margin-top: 0.25rem;
+  font-family: var(--font-hand), "Segoe Print", "Bradley Hand ITC", cursive;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: color-mix(in oklch, var(--muted-foreground) 82%, oklch(0.78 0.14 82) 18%);
+}
+
 .progress-gradient {
   background: linear-gradient(90deg, oklch(0.72 0.16 165) 0%, oklch(0.68 0.14 220) 100%);
 }

@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Sparkles, Loader2 } from "lucide-react"
+import { Loader2, Sparkles } from "lucide-react"
 import { useI18n } from "@/lib/i18n"
 
 interface QuoteData {
@@ -61,20 +61,21 @@ export function MotivationWidget() {
   }
 
   return (
-    <div className="glass-tile p-5">
+    <div className="glass-tile motivation-card overflow-hidden p-5">
       <div className="dashboard-widget-header mb-3">
         <div className="dashboard-widget-title">
-          <Sparkles className="h-4 w-4 text-amber-500" />
+          <Sparkles className="weather-glow h-4 w-4 text-amber-500" />
           <span>{t("motivation.title")}</span>
         </div>
       </div>
 
       {quote && (
-        <blockquote className="space-y-2">
-          <p className="text-[15px] leading-relaxed tracking-[-0.01em] text-foreground">
-            &ldquo;{quote.text}&rdquo;
-          </p>
-          <footer className="text-xs text-muted-foreground">{quote.author}</footer>
+        <blockquote className="motivation-note">
+          <span className="motivation-quote-mark" aria-hidden>
+            “
+          </span>
+          <p className="motivation-quote">{quote.text}</p>
+          <footer className="motivation-author">— {quote.author}</footer>
         </blockquote>
       )}
     </div>

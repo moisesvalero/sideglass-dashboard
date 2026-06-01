@@ -1,11 +1,16 @@
 import type { Metadata } from "next"
-import { Geist } from "next/font/google"
+import { Caveat, Geist } from "next/font/google"
 import { SettingsProvider } from "@/lib/settings"
 import { I18nProvider } from "@/lib/i18n"
 import { APP_NAME, SITE_URL } from "@/lib/site"
 import "./globals.css"
 
 const geist = Geist({ subsets: ["latin"] })
+const caveat = Caveat({
+  subsets: ["latin", "latin-ext"],
+  variable: "--font-hand",
+  weight: ["500", "600", "700"],
+})
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
@@ -33,7 +38,7 @@ export default function RootLayout({
   return (
     <html lang="es" suppressHydrationWarning>
       <body
-        className={`${geist.className} font-sans antialiased`}
+        className={`${geist.className} ${caveat.variable} font-sans antialiased`}
         style={{ background: "transparent" }}
       >
         <I18nProvider>
