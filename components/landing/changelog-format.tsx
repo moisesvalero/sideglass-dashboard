@@ -8,7 +8,7 @@ export function formatChangelogText(text: string) {
   return parts.map((part, i) => {
     if (part.startsWith("**") && part.endsWith("**")) {
       return (
-        <strong key={i} className="font-medium text-white/80">
+        <strong key={i} className="font-medium text-[var(--landing-accent-soft)]">
           {part.slice(2, -2)}
         </strong>
       )

@@ -6,6 +6,17 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es/1.1.0/) y el p
 
 **Versión en inglés:** [CHANGELOG.md](./CHANGELOG.md) — mantén ambos archivos sincronizados al publicar una release.
 
+## [0.2.10] - 2026-06-01
+
+### Corregido
+
+- **Botón «Activar °C»**: ahora cierra cualquier instancia previa de LibreHardwareMonitor antes de relanzarlo elevado (una instancia no elevada bloqueaba el UAC y el botón parecía no hacer nada). Espera hasta 30 s a que aparezcan los sensores tras aceptar el aviso de Windows
+
+### Cambiado
+
+- **Ajustes**: panel más ancho y con dos columnas en pantallas medianas/grandes para reducir el scroll vertical
+- **Landing**: pase de color (paleta cyan + soft + warm), animaciones de entrada del hero con stagger en features, microinteracciones en CTA y FAQ, contraste y tokens alineados
+
 ## [0.2.9] - 2026-06-01
 
 ### Corregido

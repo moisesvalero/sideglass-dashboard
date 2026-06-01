@@ -64,68 +64,88 @@ use std::os::windows::process::CommandExt;
 /// Launches LibreHardwareMonitor (elevated, required for the CPU package
 /// sensor over WMI) and waits until temperatures are exposed. Returns true if
 /// sensors became available. When `force` is false it skips work if already
-/// started or already exposing sensors.
+/// started or already exposing sensors. When `force` is true it always tears
+/// down any existing instance first (a non-elevated instance left running
+/// would block elevation because LHM refuses a second instance).
 #[cfg(windows)]
 fn try_start_lhm(app: &tauri::AppHandle, force: bool) -> bool {
-    // Already exposing sensors? Nothing to do.
-    if read_lhm_temperatures().2 {
+    if !force && read_lhm_temperatures().2 {
         let state = app.state::<AppState>();
         *state.lhm_started.lock().unwrap() = true;
         return true;
     }
 
-    {
+    if !force {
         let state = app.state::<AppState>();
-        let mut guard = state.lhm_started.lock().unwrap();
-        if *guard && !force {
+        let guard = state.lhm_started.lock().unwrap();
+        if *guard {
+            return read_lhm_temperatures().2;
+        }
+    }
+
+    let resource_dir = match app.path().resource_dir() {
+        Ok(d) => d,
+        Err(e) => {
+            eprintln!("[lhm] resource_dir error: {e}");
             return false;
         }
-        *guard = true;
+    };
+
+    let path = [
+        resource_dir.join("bin").join("LibreHardwareMonitor.exe"),
+        resource_dir.join("LibreHardwareMonitor.exe"),
+    ]
+    .into_iter()
+    .find(|p| p.exists());
+
+    let Some(path) = path else {
+        eprintln!("[lhm] LibreHardwareMonitor.exe not found in resource dir");
+        return false;
+    };
+
+    // Force=true: a stale non-elevated instance would block the elevated one
+    // from coming up, so kill anything that might be running first.
+    if force {
+        stop_lhm();
     }
 
-    if let Ok(resource_dir) = app.path().resource_dir() {
-        let candidates = [
-            resource_dir.join("bin").join("LibreHardwareMonitor.exe"),
-            resource_dir.join("LibreHardwareMonitor.exe"),
-        ];
-        for path in candidates {
-            if path.exists() {
-                // LibreHardwareMonitor needs administrator rights to expose the
-                // CPU package temperature over WMI. Launch it elevated (one UAC
-                // prompt); fall back to a normal launch if elevation is refused.
-                let path_str = path.to_string_lossy().replace('\'', "''");
-                let elevated = std::process::Command::new("powershell")
-                    .args([
-                        "-NoProfile",
-                        "-WindowStyle",
-                        "Hidden",
-                        "-Command",
-                        &format!(
-                            "Start-Process -FilePath '{path_str}' -ArgumentList '--minimize' -Verb RunAs -WindowStyle Hidden"
-                        ),
-                    ])
-                    .creation_flags(0x08000000) // CREATE_NO_WINDOW
-                    .spawn();
+    let path_str = path.to_string_lossy().replace('\'', "''");
+    let elevated = std::process::Command::new("powershell")
+        .args([
+            "-NoProfile",
+            "-WindowStyle",
+            "Hidden",
+            "-Command",
+            &format!(
+                "Start-Process -FilePath '{path_str}' -ArgumentList '--minimize' -Verb RunAs -WindowStyle Hidden"
+            ),
+        ])
+        .creation_flags(0x08000000)
+        .spawn();
 
-                if elevated.is_err() {
-                    let work_dir = path.parent().unwrap_or_else(|| path.as_path());
-                    let _ = std::process::Command::new(&path)
-                        .current_dir(work_dir)
-                        .arg("--minimize")
-                        .creation_flags(0x08000000)
-                        .spawn();
-                }
+    if let Err(e) = elevated {
+        eprintln!("[lhm] elevated spawn failed: {e}; falling back to normal launch");
+        let work_dir = path.parent().unwrap_or_else(|| path.as_path());
+        let _ = std::process::Command::new(&path)
+            .current_dir(work_dir)
+            .arg("--minimize")
+            .creation_flags(0x08000000)
+            .spawn();
+    }
 
-                for _ in 0..20 {
-                    std::thread::sleep(std::time::Duration::from_secs(1));
-                    if read_lhm_temperatures().2 {
-                        return true;
-                    }
-                }
-                return false;
-            }
+    // WMI provider can take up to ~30s after the process starts to expose
+    // the Sensor namespace, especially right after UAC. Poll generously.
+    for attempt in 0..30 {
+        std::thread::sleep(std::time::Duration::from_secs(1));
+        if read_lhm_temperatures().2 {
+            let state = app.state::<AppState>();
+            *state.lhm_started.lock().unwrap() = true;
+            eprintln!("[lhm] sensors available after {}s", attempt + 1);
+            return true;
         }
     }
+
+    eprintln!("[lhm] timed out waiting for sensors (user may have cancelled UAC)");
     false
 }
 

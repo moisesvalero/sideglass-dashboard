@@ -75,7 +75,7 @@ export function SettingsDrawer({ open, onClose }: Props) {
     <>
       <div className="fixed inset-0 z-[100] bg-black/40 backdrop-blur-sm" onClick={onClose} />
       <div className="fixed inset-x-0 bottom-0 z-[101] animate-in">
-        <div className="mx-auto max-w-lg rounded-t-2xl p-6 pb-10 bg-popover border border-b-0 border-border shadow-2xl">
+        <div className="mx-auto w-full max-w-2xl rounded-t-2xl border border-b-0 border-border bg-popover p-6 pb-10 shadow-2xl sm:px-8 md:max-w-3xl">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-lg font-semibold text-foreground">{t("settings.title")}</h2>
             <button
@@ -88,7 +88,7 @@ export function SettingsDrawer({ open, onClose }: Props) {
             </button>
           </div>
 
-          <div className="space-y-5 max-h-[65vh] overflow-y-auto custom-scrollbar pr-1">
+          <div className="grid max-h-[70vh] gap-x-8 gap-y-5 overflow-y-auto custom-scrollbar pr-1 md:grid-cols-2">
             <section>
               <label className="flex items-center gap-2 text-muted-foreground text-xs font-medium uppercase tracking-wider mb-2">
                 <Sun className="w-3.5 h-3.5" />
@@ -210,7 +210,7 @@ export function SettingsDrawer({ open, onClose }: Props) {
               </div>
             </section>
 
-            <section>
+            <section className="md:col-span-2">
               <label className="flex items-center gap-2 text-muted-foreground text-xs font-medium uppercase tracking-wider mb-2">
                 <Calendar className="w-3.5 h-3.5" />
                 Google Calendar (iCal)
@@ -291,7 +291,7 @@ export function SettingsDrawer({ open, onClose }: Props) {
               </label>
             </section>
 
-            <section>
+            <section className="md:col-span-2">
               <label className="flex items-center gap-2 text-muted-foreground text-xs font-medium uppercase tracking-wider mb-2">
                 <Eye className="w-3.5 h-3.5" />
                 {t("settings.visibility")}
@@ -323,9 +323,9 @@ export function SettingsDrawer({ open, onClose }: Props) {
               </div>
             </section>
 
-            <p className="text-xs text-muted-foreground">{t("settings.reorder")}</p>
+            <p className="text-xs text-muted-foreground md:col-span-2">{t("settings.reorder")}</p>
 
-            <section>
+            <section className="md:col-span-2">
               <label className="flex items-center gap-2 text-muted-foreground text-xs font-medium uppercase tracking-wider mb-2">
                 <HelpCircle className="w-3.5 h-3.5" />
                 {t("settings.help")}
@@ -340,7 +340,7 @@ export function SettingsDrawer({ open, onClose }: Props) {
               </button>
             </section>
 
-            <section>
+            <section className="md:col-span-2">
               <label className="flex items-center gap-2 text-muted-foreground text-xs font-medium uppercase tracking-wider mb-2">
                 <Info className="w-3.5 h-3.5" />
                 {t("settings.about")}

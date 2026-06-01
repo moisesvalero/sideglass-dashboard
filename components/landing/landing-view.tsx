@@ -30,18 +30,6 @@ const galleryShots = (copy: (typeof landingContent)[LandingLang]) => [
   },
 ]
 
-function SectionTitle({ children }: { children: React.ReactNode }) {
-  return (
-    <h2 className="mb-2 text-center text-xl font-semibold tracking-tight text-white/90 sm:text-2xl">
-      {children}
-    </h2>
-  )
-}
-
-function SectionLead({ children }: { children: React.ReactNode }) {
-  return <p className="mb-8 text-center text-sm leading-relaxed text-white/65">{children}</p>
-}
-
 export function LandingView({ lang }: { lang: LandingLang }) {
   const copy = landingContent[lang]
   const changelog = getChangelog(lang)
@@ -77,7 +65,7 @@ export function LandingView({ lang }: { lang: LandingLang }) {
   }
 
   return (
-    <div lang={copy.htmlLang} className="landing-page min-h-screen text-[#f5f5f7] antialiased">
+    <div lang={copy.htmlLang} className="landing-page min-h-screen antialiased">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareJsonLd) }}
@@ -87,32 +75,33 @@ export function LandingView({ lang }: { lang: LandingLang }) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
 
-      <div
-        className="pointer-events-none fixed left-1/2 top-0 h-[420px] w-[min(100%,720px)] -translate-x-1/2 rounded-full opacity-80"
-        style={{ background: "var(--landing-glow)" }}
-        aria-hidden
-      />
+      <div className="landing-ambient" aria-hidden>
+        <div className="landing-ambient-cyan" />
+        <div className="landing-ambient-violet" />
+      </div>
 
       <LandingHeader lang={lang} faqLabel={copy.navFaq} />
 
-      <header className="relative z-10 mx-auto max-w-4xl px-6 pb-8 pt-12 text-center">
-        <p className="mb-5 text-sm font-medium text-[var(--landing-accent)]">{copy.eyebrow}</p>
-        <h1
-          className="landing-display mb-5 text-4xl font-semibold leading-[1.1] tracking-tight sm:text-5xl"
-          style={{ letterSpacing: "-0.03em" }}
-        >
+      <header className="relative z-10 mx-auto max-w-4xl px-4 pb-[var(--landing-space-xl)] pt-[var(--landing-space-hero-top)] text-center sm:px-6">
+        <p className="landing-display landing-eyebrow landing-reveal mb-[var(--landing-space-lg)]">
+          {copy.eyebrow}
+        </p>
+        <h1 className="landing-display landing-hero-title landing-reveal landing-reveal-d1 mb-[var(--landing-space-lg)]">
           {copy.heroTitle[0]}
           <br />
-          <span className="text-white/95">{copy.heroTitle[1]}</span>
+          <span className="text-[var(--landing-text)]">{copy.heroTitle[1]}</span>
         </h1>
-        <p className="mx-auto mb-10 max-w-xl text-lg leading-relaxed text-white/70">
+        <p className="landing-hero-lead landing-reveal landing-reveal-d2 mb-[var(--landing-space-xl)]">
           {copy.heroSubtitle}
         </p>
-        <div className="flex flex-col items-center gap-3">
+        <div
+          id="download"
+          className="landing-reveal landing-reveal-d3 flex scroll-mt-28 flex-col items-stretch gap-3 sm:items-center"
+        >
           <a
             href={WINDOWS_INSTALLER_URL}
             download={WINDOWS_INSTALLER_NAME}
-            className="inline-flex items-center gap-2 rounded-xl bg-[var(--landing-accent)] px-8 py-3.5 text-sm font-semibold text-[var(--landing-accent-fg)] transition-opacity hover:opacity-90"
+            className="landing-cta-primary inline-flex items-center justify-center gap-2 rounded-xl bg-[var(--landing-accent)] text-[var(--landing-accent-fg)]"
           >
             {copy.ctaDownload}
           </a>
@@ -120,17 +109,17 @@ export function LandingView({ lang }: { lang: LandingLang }) {
             href={GITHUB_RELEASES}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-sm text-white/60 underline-offset-2 transition-colors hover:text-white/85 hover:underline"
+            className="landing-cta-secondary inline-flex items-center justify-center underline-offset-2 hover:underline"
           >
             {copy.ctaGithub}
           </a>
         </div>
-        <p className="mt-4 text-xs text-white/50">
+        <p className="landing-caption landing-reveal landing-reveal-d4 mt-[var(--landing-space-md)]">
           v{version} · {copy.heroNote}
         </p>
 
-        <div className="mx-auto mt-14 w-full max-w-5xl">
-          <div className="overflow-hidden rounded-2xl border border-white/12 ring-1 ring-white/5">
+        <div className="landing-reveal landing-reveal-d5 mx-auto mt-[var(--landing-space-2xl)] w-full max-w-5xl">
+          <div className="landing-shot-frame">
             <Image
               src="/screenshots/landscape-dark.png"
               alt={copy.screenshotAlts.landscapeDark}
@@ -143,13 +132,13 @@ export function LandingView({ lang }: { lang: LandingLang }) {
         </div>
       </header>
 
-      <section className="relative z-10 mx-auto max-w-5xl px-6 py-12">
-        <SectionTitle>{copy.screenshotsTitle}</SectionTitle>
-        <SectionLead>{copy.screenshotsSubtitle}</SectionLead>
-        <div className="grid gap-6 sm:grid-cols-2">
+      <section className="landing-section relative z-10 mx-auto max-w-5xl px-4 sm:px-6">
+        <h2 className="landing-section-title">{copy.screenshotsTitle}</h2>
+        <p className="landing-section-lead">{copy.screenshotsSubtitle}</p>
+        <div className="grid gap-[var(--landing-space-lg)] sm:grid-cols-2">
           {shots.map((shot) => (
             <figure key={shot.src} className={shot.className}>
-              <div className="overflow-hidden rounded-2xl border border-white/10 bg-black/30">
+              <div className="landing-shot-frame">
                 <Image
                   src={shot.src}
                   alt={shot.alt}
@@ -158,22 +147,22 @@ export function LandingView({ lang }: { lang: LandingLang }) {
                   className="h-auto w-full"
                 />
               </div>
-              <figcaption className="mt-3 text-center text-xs text-white/55">{shot.label}</figcaption>
+              <figcaption className="landing-caption mt-3 text-center">{shot.label}</figcaption>
             </figure>
           ))}
         </div>
       </section>
 
-      <section className="relative z-10 mx-auto max-w-3xl px-6 py-12">
-        <SectionTitle>{copy.featuresTitle}</SectionTitle>
-        <div className="mt-6">
+      <section className="landing-section relative z-10 mx-auto max-w-3xl px-4 sm:px-6">
+        <h2 className="landing-section-title">{copy.featuresTitle}</h2>
+        <div className="mt-[var(--landing-space-lg)]">
           <LandingFeatures groups={copy.featureGroups} />
         </div>
       </section>
 
-      <section className="relative z-10 mx-auto max-w-2xl px-6 py-12">
-        <SectionTitle>{copy.installTitle}</SectionTitle>
-        <ol className="mt-6 list-inside list-decimal space-y-4 text-sm leading-relaxed text-white/70">
+      <section className="landing-section relative z-10 mx-auto max-w-2xl px-4 sm:px-6">
+        <h2 className="landing-section-title">{copy.installTitle}</h2>
+        <ol className="landing-body mt-[var(--landing-space-lg)] list-inside list-decimal space-y-4">
           {copy.install.map((step) => (
             <li key={step}>{step}</li>
           ))}
@@ -187,30 +176,28 @@ export function LandingView({ lang }: { lang: LandingLang }) {
           changelogSubtitle: copy.changelogSubtitle,
           changelogLink: copy.changelogLink,
           changelogEmpty: copy.changelogEmpty,
+          changelogBullets: copy.changelogBullets,
         }}
       />
 
-      <section id="faq" className="relative z-10 mx-auto max-w-2xl scroll-mt-20 px-6 py-12">
-        <SectionTitle>{copy.faqTitle}</SectionTitle>
-        <div className="mt-8 space-y-4">
+      <section id="faq" className="landing-section relative z-10 mx-auto max-w-2xl scroll-mt-24 px-4 sm:px-6">
+        <h2 className="landing-section-title">{copy.faqTitle}</h2>
+        <div className="mt-[var(--landing-space-xl)] space-y-4">
           {copy.faq.map((item) => (
-            <details
-              key={item.q}
-              className="group rounded-xl border border-white/[0.1] bg-white/[0.03] px-4 py-3"
-            >
-              <summary className="cursor-pointer list-none font-medium text-white/92 [&::-webkit-details-marker]:hidden">
+            <details key={item.q} className="landing-faq group">
+              <summary className="cursor-pointer list-none font-medium text-[var(--landing-text)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--landing-accent)] [&::-webkit-details-marker]:hidden">
                 {item.q}
               </summary>
-              <p className="mt-2 text-sm leading-relaxed text-white/70">{item.a}</p>
+              <p className="landing-body mt-2">{item.a}</p>
               {item.steps && (
-                <ol className="mt-3 list-decimal space-y-2 pl-5 text-sm leading-relaxed text-white/65 marker:text-white/45">
+                <ol className="landing-body mt-3 list-decimal space-y-2 pl-5 marker:text-[var(--landing-text-subtle)]">
                   {item.steps.map((step) => (
                     <li key={step}>{step}</li>
                   ))}
                 </ol>
               )}
               {item.note && (
-                <p className="mt-3 rounded-lg border border-amber-500/25 bg-amber-500/10 px-3 py-2 text-xs leading-relaxed text-amber-100/90">
+                <p className="landing-body mt-3 rounded-lg border border-amber-500/25 bg-amber-500/10 px-3 py-2 text-amber-100">
                   {item.note}
                 </p>
               )}

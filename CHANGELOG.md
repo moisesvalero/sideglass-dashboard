@@ -6,6 +6,17 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 **Spanish version:** [CHANGELOG.es.md](./CHANGELOG.es.md) — keep both files in sync when you add a release.
 
+## [0.2.10] - 2026-06-01
+
+### Fixed
+
+- **"Enable °C" button**: now kills any existing LibreHardwareMonitor instance before relaunching it elevated (a non-elevated instance was blocking the UAC prompt, making the button look like it did nothing). Waits up to 30 s for sensors to appear after accepting the Windows prompt
+
+### Changed
+
+- **Settings**: wider drawer with a two-column layout on medium/large screens to reduce vertical scrolling
+- **Landing**: color pass (cyan + soft + warm palette), hero entrance animations with feature stagger, CTA and FAQ micro-interactions, contrast and tokens aligned
+
 ## [0.2.9] - 2026-06-01
 
 ### Fixed

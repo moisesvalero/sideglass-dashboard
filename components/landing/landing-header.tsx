@@ -12,11 +12,11 @@ const social = [
 
 export function LandingHeader({ lang, faqLabel }: { lang: LandingLang; faqLabel: string }) {
   return (
-    <header className="sticky top-0 z-50 border-b border-white/[0.08] bg-[var(--landing-bg)]/95">
+    <header className="sticky top-0 z-50 border-b border-[var(--landing-border)] bg-[color-mix(in_oklch,var(--landing-bg)_92%,transparent)] backdrop-blur-md">
       <div className="mx-auto flex h-14 max-w-5xl items-center justify-between gap-4 px-4 sm:px-6">
         <Link
           href={lang === "es" ? "/" : "/en"}
-          className="flex shrink-0 items-center gap-2 text-sm font-semibold tracking-tight text-white/90 hover:text-white"
+          className="flex min-h-11 shrink-0 items-center gap-2 text-sm font-semibold tracking-tight text-[var(--landing-text)] hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--landing-accent)]"
         >
           <BrandMark size={26} />
           {APP_NAME}
@@ -24,8 +24,14 @@ export function LandingHeader({ lang, faqLabel }: { lang: LandingLang; faqLabel:
 
         <div className="flex items-center gap-1 sm:gap-2">
           <a
+            href="#download"
+            className="landing-body hidden min-h-11 items-center rounded-lg px-3 py-2 font-medium text-[var(--landing-accent-soft)] transition-colors hover:bg-[oklch(0.72_0.1_215/0.12)] sm:inline-flex focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--landing-accent)]"
+          >
+            {lang === "es" ? "Descargar" : "Download"}
+          </a>
+          <a
             href="#faq"
-            className="hidden rounded-lg px-2.5 py-1.5 text-xs font-medium text-white/65 transition-colors hover:bg-white/10 hover:text-white sm:inline"
+            className="landing-body hidden min-h-11 items-center rounded-lg px-3 py-2 font-medium transition-colors hover:bg-[oklch(0.72_0.1_215/0.12)] hover:text-[var(--landing-text)] md:inline-flex focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--landing-accent)]"
           >
             {faqLabel}
           </a>
@@ -36,8 +42,8 @@ export function LandingHeader({ lang, faqLabel }: { lang: LandingLang; faqLabel:
           >
             <Link
               href="/"
-              className={`rounded-md px-2.5 py-1 text-xs font-medium transition-colors ${
-                lang === "es" ? "bg-white/15 text-white" : "text-white/55 hover:text-white/85"
+              className={`inline-flex min-h-9 min-w-9 items-center justify-center rounded-md px-2.5 py-1 text-xs font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--landing-accent)] ${
+                lang === "es" ? "bg-white/15 text-[var(--landing-text)]" : "text-[var(--landing-text-muted)] hover:text-[var(--landing-text)]"
               }`}
               aria-current={lang === "es" ? "page" : undefined}
             >
@@ -45,8 +51,8 @@ export function LandingHeader({ lang, faqLabel }: { lang: LandingLang; faqLabel:
             </Link>
             <Link
               href="/en"
-              className={`rounded-md px-2.5 py-1 text-xs font-medium transition-colors ${
-                lang === "en" ? "bg-white/15 text-white" : "text-white/55 hover:text-white/85"
+              className={`inline-flex min-h-9 min-w-9 items-center justify-center rounded-md px-2.5 py-1 text-xs font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--landing-accent)] ${
+                lang === "en" ? "bg-white/15 text-[var(--landing-text)]" : "text-[var(--landing-text-muted)] hover:text-[var(--landing-text)]"
               }`}
               aria-current={lang === "en" ? "page" : undefined}
             >
@@ -64,7 +70,7 @@ export function LandingHeader({ lang, faqLabel }: { lang: LandingLang; faqLabel:
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={label}
-                className="rounded-lg p-2 text-white/55 transition-colors hover:bg-white/10 hover:text-white"
+                className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg text-[var(--landing-text-muted)] transition-colors hover:bg-white/10 hover:text-[var(--landing-text)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--landing-accent)]"
               >
                 <Icon className="h-4 w-4" strokeWidth={1.75} />
               </a>

@@ -30,6 +30,7 @@ export type LandingCopy = {
   changelogSubtitle: string
   changelogLink: string
   changelogEmpty: string
+  changelogBullets: string[]
   footerDeveloped: string
   footerSource: string
   keywords: string[]
@@ -147,6 +148,11 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
     changelogLink: "Ver todas las versiones en GitHub",
     changelogEmpty:
       "No hay entradas de changelog en este despliegue. Edita CHANGELOG.es.md y vuelve a desplegar la web.",
+    changelogBullets: [
+      "Actualizaciones más fiables: aviso visible y barra de progreso al descargar",
+      "Temperatura de CPU más clara con el botón «Activar °C» en el panel",
+      "Landing más legible, con mejor contraste y jerarquía visual",
+    ],
     footerDeveloped: "Desarrollado por",
     footerSource: "Código en GitHub (open source)",
     keywords: [
@@ -268,6 +274,11 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
     changelogLink: "View all releases on GitHub",
     changelogEmpty:
       "No changelog entries in this deployment. Edit CHANGELOG.md and redeploy the site.",
+    changelogBullets: [
+      "More reliable updates: visible prompt and download progress bar",
+      "Clearer CPU temperature with the «Enable °C» control in the panel",
+      "Clearer landing page with improved contrast and hierarchy",
+    ],
     footerDeveloped: "Developed by",
     footerSource: "Source on GitHub (open source)",
     keywords: [

@@ -7,6 +7,7 @@ type Copy = {
   changelogSubtitle: string
   changelogLink: string
   changelogEmpty: string
+  changelogBullets: string[]
 }
 
 export function LandingChangelog({
@@ -16,29 +17,30 @@ export function LandingChangelog({
   latest: ChangelogEntry | undefined
   copy: Copy
 }) {
-  const highlights = pickLatestHighlights(latest)
+  const highlights =
+    copy.changelogBullets.length > 0 ? copy.changelogBullets : pickLatestHighlights(latest)
 
   return (
     <section
       id="changelog"
-      className="relative z-10 mx-auto max-w-2xl scroll-mt-20 px-6 py-12 pb-8"
+      className="landing-section relative z-10 mx-auto max-w-2xl scroll-mt-24 px-4 sm:px-6"
     >
-      <h2 className="mb-2 text-center text-xl font-semibold tracking-tight text-white/90 sm:text-2xl">
-        {copy.changelogTitle}
-      </h2>
-      <p className="mb-8 text-center text-sm text-white/65">{copy.changelogSubtitle}</p>
+      <h2 className="landing-section-title">{copy.changelogTitle}</h2>
+      <p className="landing-section-lead">{copy.changelogSubtitle}</p>
 
       {!latest || highlights.length === 0 ? (
-        <p className="rounded-xl border border-amber-500/20 bg-amber-500/10 px-4 py-3 text-center text-sm text-amber-200/90">
+        <p className="landing-body rounded-xl border border-amber-500/25 bg-amber-500/10 px-4 py-3 text-center text-amber-100">
           {copy.changelogEmpty}
         </p>
       ) : (
-        <div className="rounded-xl border border-white/[0.1] bg-white/[0.03] px-5 py-4">
+        <div className="landing-card">
           <div className="mb-3 flex items-baseline justify-between gap-3">
-            <span className="font-medium text-white/90">v{latest.version}</span>
-            <span className="text-xs text-white/50">{latest.date}</span>
+            <span className="font-medium text-[var(--landing-text)]">v{latest.version}</span>
+            <time className="landing-caption" dateTime={latest.date}>
+              {latest.date}
+            </time>
           </div>
-          <ul className="list-inside list-disc space-y-2 text-sm leading-relaxed text-white/70">
+          <ul className="landing-body list-inside list-disc space-y-2">
             {highlights.map((item) => (
               <li key={item}>{formatChangelogText(item)}</li>
             ))}
@@ -46,12 +48,12 @@ export function LandingChangelog({
         </div>
       )}
 
-      <p className="mt-6 text-center text-sm">
+      <p className="mt-[var(--landing-space-lg)] text-center">
         <a
           href={GITHUB_RELEASES}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-[var(--landing-accent)] hover:underline underline-offset-2"
+          className="landing-body text-[var(--landing-accent)] underline-offset-2 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--landing-accent)]"
         >
           {copy.changelogLink}
         </a>

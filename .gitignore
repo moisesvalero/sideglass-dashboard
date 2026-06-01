@@ -28,3 +28,6 @@ public/app-icon-source.png
 # Agent skills
 .agents/
 skills-lock.json
+
+# Impeccable critique snapshots (local only)
+.impeccable/

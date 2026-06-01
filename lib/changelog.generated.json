@@ -1,6 +1,25 @@
 {
   "es": [
     {
+      "version": "0.2.10",
+      "date": "2026-06-01",
+      "groups": [
+        {
+          "category": "Corregido",
+          "items": [
+            "**Botón «Activar °C»**: ahora cierra cualquier instancia previa de LibreHardwareMonitor antes de relanzarlo elevado (una instancia no elevada bloqueaba el UAC y el botón parecía no hacer nada). Espera hasta 30 s a que aparezcan los sensores tras aceptar el aviso de Windows"
+          ]
+        },
+        {
+          "category": "Cambiado",
+          "items": [
+            "**Ajustes**: panel más ancho y con dos columnas en pantallas medianas/grandes para reducir el scroll vertical",
+            "**Landing**: pase de color (paleta cyan + soft + warm), animaciones de entrada del hero con stagger en features, microinteracciones en CTA y FAQ, contraste y tokens alineados"
+          ]
+        }
+      ]
+    },
+    {
       "version": "0.2.9",
       "date": "2026-06-01",
       "groups": [
@@ -213,6 +232,25 @@
     }
   ],
   "en": [
+    {
+      "version": "0.2.10",
+      "date": "2026-06-01",
+      "groups": [
+        {
+          "category": "Fixed",
+          "items": [
+            "**\"Enable °C\" button**: now kills any existing LibreHardwareMonitor instance before relaunching it elevated (a non-elevated instance was blocking the UAC prompt, making the button look like it did nothing). Waits up to 30 s for sensors to appear after accepting the Windows prompt"
+          ]
+        },
+        {
+          "category": "Changed",
+          "items": [
+            "**Settings**: wider drawer with a two-column layout on medium/large screens to reduce vertical scrolling",
+            "**Landing**: color pass (cyan + soft + warm palette), hero entrance animations with feature stagger, CTA and FAQ micro-interactions, contrast and tokens aligned"
+          ]
+        }
+      ]
+    },
     {
       "version": "0.2.9",
       "date": "2026-06-01",
