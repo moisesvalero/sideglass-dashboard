@@ -20,5 +20,6 @@ export const AI_BRAND_ICONS = {
   gemini: "/icons/ai/gemini.svg",
   claude: "/icons/ai/claude.svg",
   perplexity: "/icons/ai/perplexity.svg",
+  /** Microsoft Copilot (not GitHub Copilot) — svgl.app/library/microsoft-copilot.svg */
   copilot: "/icons/ai/copilot.svg",
 } as const

@@ -16,7 +16,7 @@ const aiApps = [
   },
   {
     id: "copilot",
-    name: "Copilot",
+    name: "Microsoft Copilot",
     iconSrc: AI_BRAND_ICONS.copilot,
     url: "https://copilot.microsoft.com",
   },

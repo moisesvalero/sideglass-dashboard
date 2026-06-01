@@ -76,7 +76,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
       },
       {
         label: "Dock de IAs",
-        desc: "ChatGPT, Gemini, Claude, Perplexity y Copilot con iconos oficiales de marca.",
+        desc: "ChatGPT, Gemini, Claude, Perplexity y Microsoft Copilot con iconos oficiales de marca.",
       },
       {
         label: "Notas locales",
@@ -171,7 +171,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
       },
       {
         label: "AI dock",
-        desc: "ChatGPT, Gemini, Claude, Perplexity and Copilot with official brand icons.",
+        desc: "ChatGPT, Gemini, Claude, Perplexity and Microsoft Copilot with official brand icons.",
       },
       { label: "Local notes", desc: "Quick notepad with premium design. Data stays on your PC." },
     ],
