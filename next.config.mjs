@@ -1,8 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Enable static export for Tauri
+  // Static export → carpeta `out/` (Tauri). Build interno sigue en `.next/`.
   output: "export",
-  distDir: "out",
   images: {
     unoptimized: true,
   },
