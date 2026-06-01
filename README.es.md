@@ -45,7 +45,7 @@
 - Reloj y clima (Open-Meteo, sin API key)
 - Google Calendar vía URL iCal
 - CPU, RAM y GPU en vivo; temperaturas con LibreHardwareMonitor / NVML
-- **Widgets redimensionables**: modo edición para arrastrar y cambiar el tamaño de cada tarjeta desde la esquina
+- **Widgets redimensionables y responsivos**: arrastra la esquina al tamaño que quieras; el contenido escala dentro de la tarjeta
 - **YouTube dentro del panel** con búsqueda real en la app Tauri
 - Dock de IAs (ChatGPT, Gemini, Claude, Perplexity, Microsoft Copilot)
 - Notas locales, frase del día, widgets reordenables
@@ -82,14 +82,14 @@ npm run screenshots
 
 ## Configuración rápida
 
-| Función           | Dónde                                                               |
-| ----------------- | ------------------------------------------------------------------- |
-| Calendario        | Ajustes → URL iCal de Google Calendar                               |
-| Redimensionar     | Barra superior → botón personalizar → arrastra la esquina           |
-| YouTube           | Widget YouTube → buscar en la app o pegar enlace en la preview web  |
-| Temperaturas      | Incluidas en el instalador; ejecuta como administrador si no ves °C |
-| Actualizaciones   | Ajustes → **Buscar actualizaciones**                                |
-| Autostart / atajo | Ajustes                                                             |
+| Función           | Dónde                                                                |
+| ----------------- | -------------------------------------------------------------------- |
+| Calendario        | Ajustes → URL iCal de Google Calendar                                |
+| Redimensionar     | Barra superior → botón personalizar → arrastra la esquina libremente |
+| YouTube           | Widget YouTube → buscar en la app o pegar enlace en la preview web   |
+| Temperaturas      | Incluidas en el instalador; ejecuta como administrador si no ves °C  |
+| Actualizaciones   | Ajustes → **Buscar actualizaciones**                                 |
+| Autostart / atajo | Ajustes                                                              |
 
 ## Changelog (web y repo)
 

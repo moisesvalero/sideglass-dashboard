@@ -56,10 +56,10 @@ function demoSettings() {
     widgetLayouts: {
       time: { cols: 2, rows: 10 },
       hardware: { cols: 2, rows: 10 },
-      calendar: { cols: 2, rows: 10 },
+      calendar: { cols: 4, rows: 14 },
       notes: { cols: 2, rows: 10 },
       motivation: { cols: 4, rows: 10 },
-      music: { cols: 2, rows: 12 },
+      music: { cols: 4, rows: 12 },
     },
     widgetOrder: ["time", "hardware", "calendar", "notes", "motivation"],
     showCalendar: true,

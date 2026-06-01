@@ -6,6 +6,18 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es/1.1.0/) y el p
 
 **Versión en inglés:** [CHANGELOG.md](./CHANGELOG.md) — mantén ambos archivos sincronizados al publicar una release.
 
+## [0.2.20] - 2026-06-01
+
+### Cambiado
+
+- **Contenido de widgets responsivo**: reloj/clima, agenda y YouTube se adaptan al tamaño real de la tarjeta en vez de dejar huecos vacíos o desbordarse al redimensionar
+- **YouTube más compacto**: altura por defecto reducida y zona de búsqueda/reproductor mejor integrada para colocarlo abajo en layouts verticales
+- **Agenda**: al restablecer layout ahora usa una tarjeta de ancho completo y muestra como máximo los próximos 4 eventos
+
+### Corregido
+
+- **Desbordes al restablecer layout**: los eventos de agenda ya no se salen de su tarjeta ni se superponen con YouTube tras volver al layout por defecto
+
 ## [0.2.19] - 2026-06-01
 
 ### Corregido

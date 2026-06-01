@@ -6,6 +6,18 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 **Spanish version:** [CHANGELOG.es.md](./CHANGELOG.es.md) — keep both files in sync when you add a release.
 
+## [0.2.20] - 2026-06-01
+
+### Changed
+
+- **Responsive widget contents**: clock/weather, agenda, and YouTube now adapt to the actual card size instead of leaving empty space or overflowing when resized
+- **Compact YouTube widget**: reduced default height and improved the embedded player/search area so it fits better at the bottom of vertical layouts
+- **Agenda layout**: reset layout now gives the calendar a full-width card and always shows the next 4 events at most
+
+### Fixed
+
+- **Reset layout overflow**: agenda events no longer spill outside their card or overlap the YouTube widget after restoring the default layout
+
 ## [0.2.19] - 2026-06-01
 
 ### Fixed

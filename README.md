@@ -45,7 +45,7 @@
 - Clock and weather (Open-Meteo, no API key)
 - Google Calendar via iCal URL
 - Live CPU, RAM, and GPU; temperatures via bundled LibreHardwareMonitor / NVML
-- **Resizable widgets**: edit mode lets you drag and resize every card from the corner
+- **Resizable responsive widgets**: drag the corner to any saved size; contents scale inside the card
 - **YouTube inside the panel** with real search in the Tauri app
 - AI dock (ChatGPT, Gemini, Claude, Perplexity, Microsoft Copilot)
 - Local notes, daily quote, reorderable widgets
@@ -85,7 +85,7 @@ npm run screenshots
 | Feature            | Where                                                       |
 | ------------------ | ----------------------------------------------------------- |
 | Calendar           | Settings → Google Calendar iCal URL                         |
-| Resize widgets     | Top bar → customize button → drag the card corner           |
+| Resize widgets     | Top bar → customize button → drag the card corner freely    |
 | YouTube            | YouTube widget → search in app or paste link in web preview |
 | Temperatures       | Bundled in installer; run as administrator if °C is missing |
 | Updates            | Settings → **Check for updates**                            |

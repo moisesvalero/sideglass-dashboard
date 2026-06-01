@@ -1,6 +1,26 @@
 {
   "es": [
     {
+      "version": "0.2.20",
+      "date": "2026-06-01",
+      "groups": [
+        {
+          "category": "Cambiado",
+          "items": [
+            "**Contenido de widgets responsivo**: reloj/clima, agenda y YouTube se adaptan al tamaño real de la tarjeta en vez de dejar huecos vacíos o desbordarse al redimensionar",
+            "**YouTube más compacto**: altura por defecto reducida y zona de búsqueda/reproductor mejor integrada para colocarlo abajo en layouts verticales",
+            "**Agenda**: al restablecer layout ahora usa una tarjeta de ancho completo y muestra como máximo los próximos 4 eventos"
+          ]
+        },
+        {
+          "category": "Corregido",
+          "items": [
+            "**Desbordes al restablecer layout**: los eventos de agenda ya no se salen de su tarjeta ni se superponen con YouTube tras volver al layout por defecto"
+          ]
+        }
+      ]
+    },
+    {
       "version": "0.2.19",
       "date": "2026-06-01",
       "groups": [
@@ -355,6 +375,26 @@
     }
   ],
   "en": [
+    {
+      "version": "0.2.20",
+      "date": "2026-06-01",
+      "groups": [
+        {
+          "category": "Changed",
+          "items": [
+            "**Responsive widget contents**: clock/weather, agenda, and YouTube now adapt to the actual card size instead of leaving empty space or overflowing when resized",
+            "**Compact YouTube widget**: reduced default height and improved the embedded player/search area so it fits better at the bottom of vertical layouts",
+            "**Agenda layout**: reset layout now gives the calendar a full-width card and always shows the next 4 events at most"
+          ]
+        },
+        {
+          "category": "Fixed",
+          "items": [
+            "**Reset layout overflow**: agenda events no longer spill outside their card or overlap the YouTube widget after restoring the default layout"
+          ]
+        }
+      ]
+    },
     {
       "version": "0.2.19",
       "date": "2026-06-01",

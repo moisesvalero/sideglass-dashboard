@@ -297,6 +297,242 @@
   filter: drop-shadow(0 0 10px oklch(0.78 0.13 85 / 0.28));
 }
 
+.time-weather-widget,
+.calendar-widget,
+.music-widget {
+  min-height: 0;
+}
+
+.time-weather-layout {
+  display: flex;
+  height: 100%;
+  min-height: 0;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: clamp(0.75rem, 4cqh, 1.5rem);
+}
+
+.time-weather-time {
+  font-size: clamp(3rem, min(22cqw, 42cqh), 9rem);
+  font-weight: 200;
+  line-height: 0.9;
+  letter-spacing: -0.035em;
+  color: var(--foreground);
+  font-variant-numeric: tabular-nums;
+}
+
+.time-weather-date {
+  margin-top: clamp(0.35rem, 2cqh, 0.85rem);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: clamp(0.8rem, min(3.8cqw, 4cqh), 1.15rem);
+  text-transform: capitalize;
+  color: var(--muted-foreground);
+}
+
+.time-weather-panel {
+  display: flex;
+  min-width: 0;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: clamp(0.45rem, 2cqw, 0.85rem);
+  padding: clamp(0.65rem, 3cqh, 1rem) clamp(0.75rem, 2cqw, 1rem);
+}
+
+.time-weather-icon {
+  height: clamp(2rem, min(9cqw, 14cqh), 5rem);
+  width: clamp(2rem, min(9cqw, 14cqh), 5rem);
+}
+
+.time-weather-temp {
+  font-size: clamp(1.6rem, min(8cqw, 11cqh), 4.5rem);
+  font-weight: 300;
+  line-height: 1;
+  color: var(--foreground);
+  font-variant-numeric: tabular-nums;
+}
+
+.time-weather-condition,
+.time-weather-city {
+  display: block;
+  max-width: min(13rem, 46cqw);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--muted-foreground);
+}
+
+.time-weather-condition {
+  font-size: clamp(0.72rem, min(3cqw, 3.2cqh), 1rem);
+  line-height: 1.15;
+  text-transform: capitalize;
+}
+
+.time-weather-city {
+  margin-top: 0.15rem;
+  font-size: clamp(0.68rem, min(2.7cqw, 3cqh), 0.9rem);
+  color: color-mix(in oklch, var(--muted-foreground) 76%, transparent);
+}
+
+@container (min-width: 560px) and (min-height: 170px) {
+  .time-weather-layout {
+    flex-direction: row;
+    align-items: end;
+  }
+
+  .time-weather-panel {
+    max-width: min(42cqw, 24rem);
+  }
+}
+
+@container (max-height: 125px) {
+  .time-weather-widget {
+    padding: 1rem;
+  }
+
+  .time-weather-layout {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .time-weather-panel {
+    padding-block: 0.5rem;
+  }
+
+  .time-weather-date,
+  .time-weather-meta {
+    display: none;
+  }
+}
+
+.calendar-widget {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.calendar-empty {
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.6rem;
+}
+
+.calendar-events {
+  min-height: 0;
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 0.25rem;
+}
+
+.calendar-next-event {
+  margin-bottom: 0.65rem;
+  padding: 0.75rem;
+}
+
+.calendar-event-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border-top: 1px solid var(--border);
+  padding-block: 0.62rem;
+}
+
+@container (max-height: 165px) {
+  .calendar-widget {
+    padding: 1rem;
+  }
+
+  .calendar-widget .dashboard-widget-header {
+    margin-bottom: 0.55rem;
+  }
+
+  .calendar-next-event {
+    margin-bottom: 0.35rem;
+    padding: 0.55rem 0.65rem;
+  }
+
+  .calendar-next-event .metric-label {
+    display: none;
+  }
+
+  .calendar-event-row {
+    padding-block: 0.45rem;
+  }
+}
+
+.music-widget {
+  display: flex;
+  min-height: 0;
+  flex-direction: column;
+}
+
+.music-widget-header {
+  flex-shrink: 0;
+}
+
+.music-search-row {
+  flex-shrink: 0;
+}
+
+.music-player,
+.music-results,
+.music-empty {
+  min-height: 0;
+  flex: 1;
+}
+
+.music-player {
+  max-height: 100%;
+}
+
+.music-empty {
+  min-height: clamp(4.5rem, 42cqh, 10rem);
+}
+
+.music-results {
+  max-height: none;
+}
+
+@container (max-width: 470px) {
+  .music-search-row {
+    flex-direction: column;
+  }
+
+  .music-search-button {
+    justify-content: center;
+  }
+}
+
+@container (max-height: 205px) {
+  .music-widget-header {
+    padding: 0.8rem 1rem 0.55rem;
+  }
+
+  .music-search-row {
+    padding-inline: 1rem;
+    padding-bottom: 0.75rem;
+  }
+
+  .music-search-input {
+    padding-block: 0.55rem;
+  }
+
+  .music-search-button {
+    padding-block: 0.55rem;
+  }
+
+  .music-empty {
+    margin-inline: 1rem;
+    margin-bottom: 1rem;
+    min-height: 3.25rem;
+  }
+}
+
 .motivation-card {
   position: relative;
 }
@@ -466,6 +702,7 @@
 
 .widget-shell {
   min-height: 0;
+  container-type: size;
   grid-column: span var(--widget-cols, 1);
   grid-row: span var(--widget-rows, 8);
 }
@@ -475,6 +712,7 @@
 .widget-shell > .dashboard-surface,
 .widget-shell > .space-y-2 {
   height: 100%;
+  min-height: 0;
 }
 
 .widget-editing {

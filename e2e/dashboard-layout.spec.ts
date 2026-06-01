@@ -1,6 +1,52 @@
 import { test, expect } from "@playwright/test"
 import { seedDashboard } from "./helpers/dashboard-seed"
 
+function icalDate(offsetDays: number, hour: number) {
+  const d = new Date()
+  d.setDate(d.getDate() + offsetDays)
+  d.setHours(hour, 0, 0, 0)
+  return `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, "0")}${String(
+    d.getDate()
+  ).padStart(2, "0")}T${String(d.getHours()).padStart(2, "0")}0000`
+}
+
+function demoIcalText() {
+  const events = [
+    ["vet", "Sansa veterinario", 1, 15],
+    ["doctor", "Manolo medico", 2, 9],
+    ["hair", "Peluquero", 3, 12],
+    ["doctor-2", "Medico Virgi", 8, 10],
+    ["hidden", "Evento extra", 10, 18],
+  ]
+    .map(
+      ([uid, title, offset, hour]) => `BEGIN:VEVENT
+UID:${uid}
+DTSTART:${icalDate(Number(offset), Number(hour))}
+DTEND:${icalDate(Number(offset), Number(hour) + 1)}
+SUMMARY:${title}
+END:VEVENT`
+    )
+    .join("\n")
+
+  return `BEGIN:VCALENDAR
+VERSION:2.0
+${events}
+END:VCALENDAR`
+}
+
+const resetLayoutSettings = {
+  calendarIcalUrl: "/demo-calendar.ics",
+  widgetOrder: ["time", "motivation", "notes", "calendar", "music", "hardware"],
+  widgetLayouts: {
+    time: { cols: 4, rows: 9 },
+    motivation: { cols: 2, rows: 7 },
+    notes: { cols: 2, rows: 7 },
+    calendar: { cols: 4, rows: 8 },
+    music: { cols: 3, rows: 8 },
+    hardware: { cols: 4, rows: 14 },
+  },
+}
+
 async function gridWidthRatio(page: import("@playwright/test").Page) {
   return page.evaluate(() => {
     const grid = document.querySelector(".dashboard-grid")
@@ -13,8 +59,19 @@ async function gridWidthRatio(page: import("@playwright/test").Page) {
 }
 
 test.describe("dashboard layout width", () => {
-  test.beforeEach(async ({ page }) => {
-    await seedDashboard(page)
+  test.beforeEach(async ({ page }, testInfo) => {
+    const isResetLayoutTest = testInfo.title.includes("reset layout")
+    if (isResetLayoutTest) {
+      await page.route("**/demo-calendar.ics", (route) =>
+        route.fulfill({
+          status: 200,
+          contentType: "text/calendar",
+          body: demoIcalText(),
+        })
+      )
+    }
+
+    await seedDashboard(page, "dark", isResetLayoutTest ? resetLayoutSettings : {})
     await page.goto("/dashboard", { waitUntil: "networkidle" })
     await expect(page.locator(".dashboard-grid")).toBeVisible()
   })
@@ -34,5 +91,24 @@ test.describe("dashboard layout width", () => {
     await page.getByTestId("customize-layout").dispatchEvent("click")
     await expect(page.locator(".dashboard-edit-toolbar")).toBeVisible()
     await expect(page.locator(".dashboard-resize-handle")).toHaveCount(6)
+  })
+
+  test("reset layout keeps calendar and youtube content inside cards", async ({ page }) => {
+    await expect(page.locator(".calendar-event-row")).toHaveCount(3)
+    await page.getByTestId("customize-layout").dispatchEvent("click")
+    await page.getByRole("button", { name: "Restablecer layout" }).click()
+    await expect(page.locator(".calendar-event-row")).toHaveCount(3)
+
+    const overflow = await page.evaluate(() => {
+      const calendar = document.querySelector<HTMLElement>(".calendar-widget")
+      const music = document.querySelector<HTMLElement>(".music-widget")
+      return {
+        calendar: calendar ? calendar.scrollHeight - calendar.clientHeight : 0,
+        music: music ? music.scrollHeight - music.clientHeight : 0,
+      }
+    })
+
+    expect(overflow.calendar).toBeLessThanOrEqual(2)
+    expect(overflow.music).toBeLessThanOrEqual(2)
   })
 })

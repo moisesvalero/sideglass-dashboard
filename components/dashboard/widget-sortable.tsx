@@ -79,6 +79,7 @@ export function SortableWidget({
     <div
       ref={setNodeRef}
       style={style}
+      data-widget-id={id}
       className={`widget-shell group relative ${editMode ? "widget-editing" : ""} ${
         isDragging ? "scale-[1.01]" : ""
       }`}

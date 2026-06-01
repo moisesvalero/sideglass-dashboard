@@ -7,14 +7,14 @@ export const DEMO_SETTINGS = {
   timeFormat: "24" as const,
   theme: "dark" as const,
   calendarIcalUrl: "",
-  widgetOrder: ["time", "hardware", "calendar", "motivation", "notes", "music"],
+  widgetOrder: ["time", "motivation", "notes", "calendar", "hardware", "music"],
   widgetLayouts: {
     time: { cols: 4, rows: 9 },
     hardware: { cols: 4, rows: 16 },
-    calendar: { cols: 2, rows: 9 },
+    calendar: { cols: 4, rows: 14 },
     motivation: { cols: 2, rows: 7 },
     notes: { cols: 2, rows: 10 },
-    music: { cols: 4, rows: 16 },
+    music: { cols: 4, rows: 12 },
   },
   showCalendar: true,
   showMotivation: true,
@@ -26,13 +26,17 @@ export const DEMO_SETTINGS = {
   calendarNotifications: true,
 }
 
-export async function seedDashboard(page: Page, theme: "dark" | "light" = "dark") {
+export async function seedDashboard(
+  page: Page,
+  theme: "dark" | "light" = "dark",
+  overrides: Partial<typeof DEMO_SETTINGS> = {}
+) {
   await page.addInitScript(
     (settings) => {
       localStorage.setItem("dashboard-settings", JSON.stringify(settings))
       localStorage.setItem("dashboard-lang", "es")
       localStorage.setItem("dashboard-notes", "[]")
     },
-    { ...DEMO_SETTINGS, theme }
+    { ...DEMO_SETTINGS, ...overrides, theme }
   )
 }

@@ -7,13 +7,22 @@ export const WIDGET_IDS = ["time", "hardware", "calendar", "motivation", "notes"
 export type WidgetId = (typeof WIDGET_IDS)[number]
 export type WidgetLayout = { cols: number; rows: number }
 
+export const DEFAULT_WIDGET_ORDER: WidgetId[] = [
+  "time",
+  "motivation",
+  "notes",
+  "calendar",
+  "hardware",
+  "music",
+]
+
 export const DEFAULT_WIDGET_LAYOUTS: Record<WidgetId, WidgetLayout> = {
   time: { cols: 4, rows: 9 },
   hardware: { cols: 4, rows: 16 },
-  calendar: { cols: 2, rows: 9 },
+  calendar: { cols: 4, rows: 14 },
   motivation: { cols: 2, rows: 7 },
   notes: { cols: 2, rows: 10 },
-  music: { cols: 4, rows: 16 },
+  music: { cols: 4, rows: 12 },
 }
 
 export interface Settings {
@@ -42,7 +51,7 @@ const defaultSettings: Settings = {
   timeFormat: "24",
   theme: "dark",
   calendarIcalUrl: "",
-  widgetOrder: [...WIDGET_IDS],
+  widgetOrder: [...DEFAULT_WIDGET_ORDER],
   widgetLayouts: { ...DEFAULT_WIDGET_LAYOUTS },
   showCalendar: true,
   showMotivation: true,

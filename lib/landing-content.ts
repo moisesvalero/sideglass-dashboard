@@ -46,7 +46,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
     eyebrow: "Escritorio · Windows · Open source",
     heroTitle: ["Tu monitor secundario,", "siempre a la vista"],
     heroSubtitle:
-      "Clima, agenda, hardware, notas, YouTube y acceso a tus IAs favoritas. Ordena y redimensiona cada widget a tu gusto.",
+      "Clima, agenda, hardware, notas, YouTube y acceso a tus IAs favoritas. Ordena y redimensiona cada widget libremente; el contenido se adapta a la tarjeta.",
     ctaDownload: "Descargar para Windows",
     ctaGithub: "Ver en GitHub",
     heroNote: "Open source (MIT)",
@@ -89,7 +89,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
         items: [
           {
             label: "Layout personalizable",
-            desc: "Activa el modo editar, arrastra los widgets y redimensiona cada tarjeta desde la esquina.",
+            desc: "Activa el modo editar, arrastra los widgets y redimensiona cada tarjeta libremente desde la esquina.",
           },
           {
             label: "YouTube integrado",
@@ -141,7 +141,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
       },
       {
         q: "¿Puedo cambiar el tamaño de los widgets?",
-        a: "Sí. Pulsa el botón de personalización en la barra superior, arrastra los widgets para ordenarlos y usa la esquina inferior de cada tarjeta para redimensionarla. Sideglass guarda el layout en tu PC.",
+        a: "Sí. Pulsa el botón de personalización en la barra superior, arrastra los widgets para ordenarlos y usa la esquina inferior de cada tarjeta para redimensionarla libremente. Reloj, clima, agenda y YouTube adaptan su contenido al tamaño disponible. Sideglass guarda el layout en tu PC.",
       },
       {
         q: "¿Cómo veo YouTube?",
@@ -176,7 +176,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
     eyebrow: "Desktop · Windows · Open source",
     heroTitle: ["Your second monitor,", "always in view"],
     heroSubtitle:
-      "Weather, agenda, hardware, notes, YouTube and access to your favorite AIs. Arrange and resize every widget your way.",
+      "Weather, agenda, hardware, notes, YouTube and access to your favorite AIs. Arrange and freely resize every widget; content adapts to the card.",
     ctaDownload: "Download for Windows",
     ctaGithub: "View on GitHub",
     heroNote: "Open source (MIT)",
@@ -219,7 +219,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
         items: [
           {
             label: "Customizable layout",
-            desc: "Turn on edit mode, drag widgets around, and resize every card from the corner.",
+            desc: "Turn on edit mode, drag widgets around, and freely resize every card from the corner.",
           },
           {
             label: "Built-in YouTube",
@@ -271,7 +271,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
       },
       {
         q: "Can I resize the widgets?",
-        a: "Yes. Click the customization button in the title bar, drag widgets to reorder them, and use the bottom corner of each card to resize it. Sideglass saves the layout on your PC.",
+        a: "Yes. Click the customization button in the title bar, drag widgets to reorder them, and use the bottom corner of each card to resize it freely. Clock, weather, agenda, and YouTube adapt their content to the available size. Sideglass saves the layout on your PC.",
       },
       {
         q: "How do I watch YouTube?",

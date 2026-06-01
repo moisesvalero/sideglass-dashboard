@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState, useCallback } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { Calendar, Loader2 } from "lucide-react"
 import { useI18n } from "@/lib/i18n"
 import { useSettings } from "@/lib/settings"
@@ -14,6 +14,8 @@ interface CalendarEvent {
   date: string
   color: string
 }
+
+const MAX_EVENTS = 4
 
 const eventColors = [
   "bg-red-500",
@@ -63,7 +65,7 @@ export function CalendarWidget() {
         text = await res.text()
       }
 
-      const parsed = parseIcalEvents(text, 5).map((e, i) => ({
+      const parsed = parseIcalEvents(text, MAX_EVENTS).map((e, i) => ({
         id: e.id,
         title: e.title,
         time: e.start.toLocaleTimeString(locale, {
@@ -91,15 +93,17 @@ export function CalendarWidget() {
 
   if (!icalUrl) {
     return (
-      <div className="glass-tile p-5">
+      <div className="glass-tile calendar-widget p-5">
         <div className="dashboard-widget-header mb-3">
           <div className="dashboard-widget-title">
             <Calendar className="h-4 w-4 text-muted-foreground" />
             <span>{t("calendar.schedule")}</span>
           </div>
         </div>
-        <p className="py-3 text-center text-sm text-muted-foreground">{t("calendar.setup")}</p>
-        <p className="text-center text-xs text-muted-foreground/60">{t("calendar.icalHint")}</p>
+        <div className="calendar-empty">
+          <p className="text-center text-sm text-muted-foreground">{t("calendar.setup")}</p>
+          <p className="text-center text-xs text-muted-foreground/60">{t("calendar.icalHint")}</p>
+        </div>
       </div>
     )
   }
@@ -109,8 +113,8 @@ export function CalendarWidget() {
   const [next, ...rest] = events
 
   return (
-    <div className="glass-tile p-5">
-      <div className="dashboard-widget-header mb-4">
+    <div className="glass-tile calendar-widget p-5">
+      <div className="dashboard-widget-header mb-3">
         <div className="dashboard-widget-title">
           <Calendar className="h-4 w-4 text-muted-foreground" />
           <span>{t("calendar.schedule")}</span>
@@ -124,15 +128,17 @@ export function CalendarWidget() {
       </div>
 
       {loading ? (
-        <div className="flex justify-center py-6">
+        <div className="flex flex-1 justify-center py-6">
           <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
         </div>
       ) : count === 0 ? (
-        <p className="py-4 text-center text-sm text-muted-foreground">{t("calendar.noEvents")}</p>
+        <p className="flex flex-1 items-center justify-center text-center text-sm text-muted-foreground">
+          {t("calendar.noEvents")}
+        </p>
       ) : (
-        <div className="space-y-0">
+        <div className="calendar-events custom-scrollbar">
           {next ? (
-            <div className="dashboard-selection mb-3 px-3 py-3">
+            <div className="dashboard-selection calendar-next-event">
               <p className="metric-label">{t("calendar.nextUp")}</p>
               <p className="mt-1 truncate text-base font-medium text-foreground">{next.title}</p>
               <p className="mt-0.5 text-xs text-muted-foreground">
@@ -141,14 +147,11 @@ export function CalendarWidget() {
             </div>
           ) : null}
           {rest.map((event) => (
-            <div
-              key={event.id}
-              className="hairline flex items-center gap-3 border-t border-border/40 py-2.5"
-            >
+            <div key={event.id} className="calendar-event-row">
               <div className={`h-2.5 w-2.5 shrink-0 rounded-full ${event.color}`} />
               <div className="min-w-0 flex-1">
                 <p className="truncate text-sm font-medium text-foreground">{event.title}</p>
-                <p className="text-xs text-muted-foreground">
+                <p className="truncate text-xs text-muted-foreground">
                   {event.date} · {event.time}
                 </p>
               </div>

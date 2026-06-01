@@ -20,32 +20,32 @@ function demoSettings(theme, { compact = false, showcase = false } = {}) {
     calendarIcalUrl: showcase ? demoIcalUrl() : "",
     widgetLayouts: showcase
       ? {
-          time: { cols: 2, rows: 10 },
-          hardware: { cols: 2, rows: 10 },
-          calendar: { cols: 2, rows: 10 },
-          notes: { cols: 2, rows: 10 },
-          motivation: { cols: 4, rows: 10 },
-          music: { cols: 2, rows: 12 },
+          time: { cols: 2, rows: 9 },
+          hardware: { cols: 2, rows: 9 },
+          calendar: { cols: 2, rows: 8 },
+          notes: { cols: 2, rows: 8 },
+          motivation: { cols: 2, rows: 8 },
+          music: { cols: 2, rows: 8 },
         }
       : compact
         ? {
             time: { cols: 4, rows: 9 },
-            calendar: { cols: 2, rows: 10 },
+            calendar: { cols: 4, rows: 14 },
             motivation: { cols: 2, rows: 8 },
             hardware: { cols: 4, rows: 16 },
             notes: { cols: 2, rows: 10 },
-            music: { cols: 4, rows: 16 },
+            music: { cols: 4, rows: 12 },
           }
         : {
             time: { cols: 4, rows: 9 },
-            calendar: { cols: 2, rows: 10 },
+            calendar: { cols: 4, rows: 14 },
             motivation: { cols: 2, rows: 8 },
             hardware: { cols: 2, rows: 16 },
             notes: { cols: 2, rows: 10 },
-            music: { cols: 4, rows: 16 },
+            music: { cols: 4, rows: 12 },
           },
     widgetOrder: showcase
-      ? ["time", "hardware", "calendar", "notes", "motivation"]
+      ? ["time", "hardware", "calendar", "notes", "motivation", "music"]
       : compact
         ? ["time", "calendar", "motivation", "hardware"]
         : ["time", "calendar", "motivation", "hardware", "notes", "music"],
@@ -53,7 +53,7 @@ function demoSettings(theme, { compact = false, showcase = false } = {}) {
     showMotivation: true,
     showHardware: true,
     showNotes: !compact,
-    showMusic: !compact && !showcase,
+    showMusic: !compact,
     autostart: false,
     globalHotkey: "CommandOrControl+Shift+D",
     calendarNotifications: true,
@@ -62,7 +62,7 @@ function demoSettings(theme, { compact = false, showcase = false } = {}) {
 
 const demoNotes = JSON.stringify([
   { id: "a1", text: "Tune the studio monitor layout", createdAt: Date.now() },
-  { id: "a2", text: "Ship Sideglass 0.2.18", createdAt: Date.now() },
+  { id: "a2", text: "Ship Sideglass 0.2.20", createdAt: Date.now() },
 ])
 
 const today = new Date()
