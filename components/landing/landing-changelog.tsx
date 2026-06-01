@@ -5,6 +5,7 @@ type Copy = {
   changelogTitle: string
   changelogHint: string
   changelogLink: string
+  changelogEmpty: string
 }
 
 export function LandingChangelog({
@@ -16,15 +17,21 @@ export function LandingChangelog({
   copy: Copy
   sourceFile: string
 }) {
-  if (entries.length === 0) return null
-
   return (
-    <section className="relative z-10 mx-auto max-w-2xl px-6 py-12 pb-20">
+    <section
+      id="changelog"
+      className="relative z-10 mx-auto max-w-2xl scroll-mt-20 px-6 py-12 pb-8"
+    >
       <h2 className="mb-2 text-center text-sm font-medium uppercase tracking-widest text-white/40">
         {copy.changelogTitle}
       </h2>
       <p className="mb-8 text-center text-xs text-white/35">{copy.changelogHint}</p>
 
+      {entries.length === 0 ? (
+        <p className="rounded-xl border border-amber-500/20 bg-amber-500/10 px-4 py-3 text-center text-sm text-amber-200/80">
+          {copy.changelogEmpty}
+        </p>
+      ) : (
       <div className="space-y-3">
         {entries.map((entry, index) => (
           <details
@@ -55,6 +62,7 @@ export function LandingChangelog({
           </details>
         ))}
       </div>
+      )}
 
       <p className="mt-6 text-center text-sm">
         <a

@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { Briefcase, Github, Linkedin } from "lucide-react"
 import { BrandMark } from "@/components/landing/brand-mark"
-import type { LandingLang } from "@/lib/landing-content"
+import { landingContent, type LandingLang } from "@/lib/landing-content"
 import { APP_NAME, AUTHOR_GITHUB, AUTHOR_LINKEDIN, AUTHOR_SITE } from "@/lib/site"
 
 const social = [
@@ -23,6 +23,8 @@ const social = [
 ] as const
 
 export function LandingHeader({ lang }: { lang: LandingLang }) {
+  const copy = landingContent[lang]
+
   return (
     <header className="sticky top-0 z-50 border-b border-white/[0.08] bg-[#0c0c10]/85 backdrop-blur-xl supports-[backdrop-filter]:bg-[#0c0c10]/70">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
@@ -35,6 +37,26 @@ export function LandingHeader({ lang }: { lang: LandingLang }) {
         </Link>
 
         <div className="flex items-center gap-1 sm:gap-2">
+          <nav
+            className="hidden items-center gap-1 sm:flex"
+            aria-label={lang === "es" ? "Secciones" : "Sections"}
+          >
+            <a
+              href="#changelog"
+              className="px-2.5 py-1 text-xs font-medium text-white/50 transition-colors hover:text-white"
+            >
+              {copy.navChangelog}
+            </a>
+            <a
+              href="#faq"
+              className="px-2.5 py-1 text-xs font-medium text-white/50 transition-colors hover:text-white"
+            >
+              FAQ
+            </a>
+          </nav>
+
+          <span className="hidden sm:block w-px h-5 bg-white/10" />
+
           <nav
             className="flex items-center rounded-lg border border-white/10 p-0.5"
             aria-label="Language"

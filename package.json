@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "sync:changelog": "node scripts/sync-changelog.mjs",
+    "build": "npm run sync:changelog && next build",
     "start": "next start",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",

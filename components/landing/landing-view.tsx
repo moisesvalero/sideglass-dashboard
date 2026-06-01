@@ -104,14 +104,22 @@ export function LandingView({ lang }: { lang: LandingLang }) {
           >
             {copy.ctaDownload}
           </a>
-          <a
-            href={GITHUB_RELEASES}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-xs text-white/45 underline-offset-2 hover:text-white/70 hover:underline"
-          >
-            {copy.ctaReleaseNotes}
-          </a>
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
+            <a
+              href="#changelog"
+              className="text-xs text-white/45 underline-offset-2 hover:text-white/70 hover:underline"
+            >
+              {copy.navChangelog}
+            </a>
+            <a
+              href={GITHUB_RELEASES}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-white/45 underline-offset-2 hover:text-white/70 hover:underline"
+            >
+              {copy.ctaReleaseNotes}
+            </a>
+          </div>
         </div>
         <p className="text-white/30 text-xs mt-4">
           v{version} · {copy.heroNote}
@@ -186,6 +194,17 @@ export function LandingView({ lang }: { lang: LandingLang }) {
         </ol>
       </section>
 
+      <LandingChangelog
+        entries={changelog}
+        copy={{
+          changelogTitle: copy.changelogTitle,
+          changelogHint: copy.changelogHint,
+          changelogLink: copy.changelogLink,
+          changelogEmpty: copy.changelogEmpty,
+        }}
+        sourceFile={getChangelogSourcePath(lang)}
+      />
+
       <section id="faq" className="relative z-10 max-w-2xl mx-auto px-6 py-12 scroll-mt-20">
         <h2 className="text-sm font-medium text-white/40 uppercase tracking-widest mb-8 text-center">
           {copy.faqTitle}
@@ -216,16 +235,6 @@ export function LandingView({ lang }: { lang: LandingLang }) {
           ))}
         </div>
       </section>
-
-      <LandingChangelog
-        entries={changelog}
-        copy={{
-          changelogTitle: copy.changelogTitle,
-          changelogHint: copy.changelogHint,
-          changelogLink: copy.changelogLink,
-        }}
-        sourceFile={getChangelogSourcePath(lang)}
-      />
 
       <LandingFooter lang={lang} />
     </div>

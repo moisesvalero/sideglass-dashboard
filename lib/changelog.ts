@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs"
 import { join } from "node:path"
 import type { LandingLang } from "@/lib/landing-content"
+import generated from "./changelog.generated.json"
 
 export type ChangelogGroup = {
   category: string
@@ -15,11 +16,6 @@ export type ChangelogEntry = {
 
 const CHANGELOG_EN = join(process.cwd(), "CHANGELOG.md")
 const CHANGELOG_ES = join(process.cwd(), "CHANGELOG.es.md")
-
-function readChangelogRaw(lang: LandingLang): string {
-  const path = lang === "es" ? CHANGELOG_ES : CHANGELOG_EN
-  return readFileSync(path, "utf8")
-}
 
 function parseChangelog(raw: string): ChangelogEntry[] {
   const entries: ChangelogEntry[] = []
@@ -55,13 +51,10 @@ function parseChangelog(raw: string): ChangelogEntry[] {
   return entries
 }
 
-/**
- * Parses CHANGELOG.md (EN) or CHANGELOG.es.md (ES) at build time.
- * Add a matching `## [x.y.z] - date` section to both files on each release.
- */
-export function getChangelog(lang: LandingLang = "en"): ChangelogEntry[] {
+function readFromMarkdown(lang: LandingLang): ChangelogEntry[] {
   try {
-    return parseChangelog(readChangelogRaw(lang))
+    const path = lang === "es" ? CHANGELOG_ES : CHANGELOG_EN
+    return parseChangelog(readFileSync(path, "utf8"))
   } catch {
     try {
       return parseChangelog(readFileSync(CHANGELOG_EN, "utf8"))
@@ -69,6 +62,18 @@ export function getChangelog(lang: LandingLang = "en"): ChangelogEntry[] {
       return []
     }
   }
+}
+
+/**
+ * Changelog for the landing: baked JSON from `npm run sync:changelog` (runs before build).
+ * Edit CHANGELOG.md / CHANGELOG.es.md, then build or run `npm run sync:changelog`.
+ */
+export function getChangelog(lang: LandingLang = "en"): ChangelogEntry[] {
+  const baked = generated[lang]
+  if (Array.isArray(baked) && baked.length > 0) {
+    return baked as ChangelogEntry[]
+  }
+  return readFromMarkdown(lang)
 }
 
 export function getLatestVersion(fallback: string, lang: LandingLang = "en"): string {

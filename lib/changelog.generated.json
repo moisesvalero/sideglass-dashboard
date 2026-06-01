@@ -1,0 +1,314 @@
+{
+  "es": [
+    {
+      "version": "0.2.5",
+      "date": "2026-06-01",
+      "groups": [
+        {
+          "category": "Añadido",
+          "items": [
+            "Pantalla completa con **F11** cuando la ventana del dashboard tiene el foco"
+          ]
+        },
+        {
+          "category": "Cambiado",
+          "items": [
+            "Barra de título al estilo Windows: icono y nombre a la izquierda, controles a la derecha"
+          ]
+        }
+      ]
+    },
+    {
+      "version": "0.2.4",
+      "date": "2026-06-01",
+      "groups": [
+        {
+          "category": "Añadido",
+          "items": [
+            "Buscador de YouTube integrado en el panel (ya no hace falta pegar enlaces)",
+            "Botón de ayuda en la barra de título que abre el FAQ de la web",
+            "Sección «Acerca de» en Ajustes con la versión y enlace al código",
+            "Entrada manual de ciudad para el clima (escribe cualquier ubicación)",
+            "Guía paso a paso de la dirección secreta iCal de Google Calendar en la web"
+          ]
+        },
+        {
+          "category": "Cambiado",
+          "items": [
+            "Las frases del día usan una lista local curada (corrige erratas, sin API externa)",
+            "Correcciones de ortografía en la interfaz en español (tildes y ñ)"
+          ]
+        },
+        {
+          "category": "Corregido",
+          "items": [
+            "La temperatura de la CPU se lee correctamente (el servicio de sensores arranca con permisos de administrador)",
+            "«Buscar actualizaciones» ya no se queda colgado para siempre (timeout de red)"
+          ]
+        }
+      ]
+    },
+    {
+      "version": "0.2.3",
+      "date": "2026-06-01",
+      "groups": [
+        {
+          "category": "Añadido",
+          "items": [
+            "Botón **Buscar actualizaciones** en Ajustes"
+          ]
+        },
+        {
+          "category": "Cambiado",
+          "items": [
+            "Barra de título estilo Windows (controles a la derecha)",
+            "YouTube solo dentro del widget (sin ventana aparte)",
+            "La app abre maximizada por defecto"
+          ]
+        },
+        {
+          "category": "Corregido",
+          "items": [
+            "Mensajes confusos de «sin sensor» en CPU/GPU; arranque LHM más fiable",
+            "README actualizado con capturas reales"
+          ]
+        }
+      ]
+    },
+    {
+      "version": "0.2.2",
+      "date": "2026-06-01",
+      "groups": [
+        {
+          "category": "Añadido",
+          "items": [
+            "Iconos OpenAI claros/oscuro según tema en el dock de IAs",
+            "Capturas de landing actualizadas (vertical y horizontal)"
+          ]
+        },
+        {
+          "category": "Cambiado",
+          "items": [
+            "Marca unificada como **Sideglass**",
+            "Dock de IAs en fila inferior del layout (ya no flota encima de los widgets)",
+            "Script de capturas: solo viewport y demo compacto en vertical"
+          ]
+        },
+        {
+          "category": "Corregido",
+          "items": [
+            "Solapamiento del dock con Notas y demás widgets al hacer scroll",
+            "CI/release: glob de recursos Tauri `bin/*` para LibreHardwareMonitor",
+            "Icono ChatGPT invisible en modo oscuro",
+            "Texto FAQ sin rayas largas"
+          ]
+        }
+      ]
+    },
+    {
+      "version": "0.2.0",
+      "date": "2026-06-01",
+      "groups": [
+        {
+          "category": "Añadido",
+          "items": [
+            "Diseño premium estilo macOS (cristal, temas claro/oscuro)",
+            "Layout adaptable a monitor vertical u horizontal",
+            "Google Calendar vía URL iCal (sin Apps Script)",
+            "YouTube embebido en el panel (pegar enlace)",
+            "Dock de IAs con iconos oficiales (ChatGPT, Gemini, Claude, Perplexity, Copilot)",
+            "Clima Open-Meteo (sin API key) y ubicación automática opcional",
+            "Temperaturas reales vía LibreHardwareMonitor (WMI)",
+            "Reordenar widgets arrastrando",
+            "Inicio con Windows, atajo global, notificaciones de calendario",
+            "Interfaz en español e inglés y formato de hora 12/24h",
+            "Landing con FAQ, guía de instalación y changelog"
+          ]
+        },
+        {
+          "category": "Cambiado",
+          "items": [
+            "Ventana más grande, maximizable, recuerda tamaño y posición",
+            "Notas locales con estilo premium"
+          ]
+        },
+        {
+          "category": "Corregido",
+          "items": [
+            "Texto legible en modo claro (tokens semánticos)",
+            "Eliminado fallback falso de temperatura CPU sin sensor"
+          ]
+        }
+      ]
+    },
+    {
+      "version": "0.1.0",
+      "date": "2025-05-31",
+      "groups": [
+        {
+          "category": "Añadido",
+          "items": [
+            "Primera versión Tauri + Next.js",
+            "Monitor de hardware, clima, calendario, dock de IAs, notas y YouTube"
+          ]
+        }
+      ]
+    }
+  ],
+  "en": [
+    {
+      "version": "0.2.5",
+      "date": "2026-06-01",
+      "groups": [
+        {
+          "category": "Added",
+          "items": [
+            "Fullscreen toggle with **F11** when the dashboard window is focused"
+          ]
+        },
+        {
+          "category": "Changed",
+          "items": [
+            "Title bar follows Windows layout: app icon and name on the left, controls on the right"
+          ]
+        }
+      ]
+    },
+    {
+      "version": "0.2.4",
+      "date": "2026-06-01",
+      "groups": [
+        {
+          "category": "Added",
+          "items": [
+            "Integrated YouTube search in the panel (no more pasting links)",
+            "Help button in the title bar that opens the web FAQ",
+            "About section in Settings with app version and source link",
+            "Manual city entry for weather (type any location)",
+            "Detailed step-by-step guide for the Google Calendar secret iCal address on the website"
+          ]
+        },
+        {
+          "category": "Changed",
+          "items": [
+            "Daily quotes now use a curated local list (fixes spelling, no external API)",
+            "Spanish UI spelling fixes (accents and ñ)"
+          ]
+        },
+        {
+          "category": "Fixed",
+          "items": [
+            "CPU temperature now reads correctly (sensor service launches elevated)",
+            "\"Check for updates\" no longer hangs forever (request timeout)"
+          ]
+        }
+      ]
+    },
+    {
+      "version": "0.2.3",
+      "date": "2026-06-01",
+      "groups": [
+        {
+          "category": "Added",
+          "items": [
+            "**Check for updates** button in Settings"
+          ]
+        },
+        {
+          "category": "Changed",
+          "items": [
+            "Windows-style title bar (controls on the right)",
+            "YouTube plays inside the widget only (no separate window)",
+            "App opens maximized by default"
+          ]
+        },
+        {
+          "category": "Fixed",
+          "items": [
+            "Confusing “no sensor” CPU/GPU messages; more reliable LHM startup",
+            "README updated with real screenshots"
+          ]
+        }
+      ]
+    },
+    {
+      "version": "0.2.2",
+      "date": "2026-06-01",
+      "groups": [
+        {
+          "category": "Added",
+          "items": [
+            "Light/dark OpenAI icons in the AI dock",
+            "Updated landing screenshots (portrait and landscape)"
+          ]
+        },
+        {
+          "category": "Changed",
+          "items": [
+            "Unified branding as **Sideglass**",
+            "AI dock in a bottom layout row (no longer overlapping widgets)",
+            "Screenshot script: viewport-only, compact demo on portrait"
+          ]
+        },
+        {
+          "category": "Fixed",
+          "items": [
+            "Dock overlapping Notes and other widgets when scrolling",
+            "CI/release: Tauri resource glob `bin/*` for bundled LibreHardwareMonitor",
+            "ChatGPT icon invisible in dark mode",
+            "FAQ copy without long em-dash phrasing"
+          ]
+        }
+      ]
+    },
+    {
+      "version": "0.2.0",
+      "date": "2026-06-01",
+      "groups": [
+        {
+          "category": "Added",
+          "items": [
+            "Premium macOS-style UI (glass materials, semantic light/dark themes)",
+            "Responsive layout for vertical and horizontal monitors",
+            "Google Calendar via iCal URL (no Apps Script)",
+            "YouTube embedded in the dashboard (paste a link)",
+            "AI dock with official brand icons (ChatGPT, Gemini, Claude, Perplexity, Copilot)",
+            "Open-Meteo weather (no API key) with optional auto-location",
+            "Real hardware temperatures via LibreHardwareMonitor (WMI)",
+            "Widget reordering by drag and drop",
+            "Autostart with Windows, global hotkey, calendar notifications",
+            "Spanish/English UI and 12/24h time format",
+            "Landing page with FAQ, install guide, and changelog"
+          ]
+        },
+        {
+          "category": "Changed",
+          "items": [
+            "Window opens larger, maximizable, remembers size/position",
+            "Notes stay local with premium styling"
+          ]
+        },
+        {
+          "category": "Fixed",
+          "items": [
+            "Light mode text visibility (semantic color tokens)",
+            "Removed fake CPU temperature fallback when no sensor is available"
+          ]
+        }
+      ]
+    },
+    {
+      "version": "0.1.0",
+      "date": "2025-05-31",
+      "groups": [
+        {
+          "category": "Added",
+          "items": [
+            "Initial Tauri + Next.js dashboard",
+            "Hardware monitor (CPU/RAM/GPU), weather, calendar, AI dock, notes, YouTube embed"
+          ]
+        }
+      ]
+    }
+  ]
+}

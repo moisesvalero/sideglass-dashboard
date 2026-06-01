@@ -24,9 +24,11 @@ export type LandingCopy = {
   install: string[]
   faqTitle: string
   faq: Faq[]
+  navChangelog: string
   changelogTitle: string
   changelogHint: string
   changelogLink: string
+  changelogEmpty: string
   footerDeveloped: string
   footerSource: string
   keywords: string[]
@@ -128,9 +130,12 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
         a: "Sí. Código en GitHub con licencia MIT: puedes usarlo, estudiarlo, modificarlo y compartirlo. Si te sirve, una estrella o un PR ayuda mucho a dar visibilidad al proyecto.",
       },
     ],
+    navChangelog: "Novedades",
     changelogTitle: "Novedades",
-    changelogHint: "Se actualiza solo al editar CHANGELOG.es.md y desplegar.",
+    changelogHint: "Se genera al compilar desde CHANGELOG.es.md (mismo contenido que el repo).",
     changelogLink: "Ver CHANGELOG.es.md en GitHub",
+    changelogEmpty:
+      "No hay entradas de changelog en este despliegue. Edita CHANGELOG.es.md y vuelve a desplegar la web.",
     footerDeveloped: "Desarrollado por",
     footerSource: "Código en GitHub (open source)",
     keywords: [
@@ -233,9 +238,12 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
         a: "Yes. Source on GitHub under the MIT license: use, study, modify and share freely. A star or pull request helps the project get seen.",
       },
     ],
+    navChangelog: "What's new",
     changelogTitle: "What's new",
-    changelogHint: "Updates automatically when you edit CHANGELOG.md and deploy.",
+    changelogHint: "Generated at build time from CHANGELOG.md (same as the repo).",
     changelogLink: "View CHANGELOG.md on GitHub",
+    changelogEmpty:
+      "No changelog entries in this deployment. Edit CHANGELOG.md and redeploy the site.",
     footerDeveloped: "Developed by",
     footerSource: "Source on GitHub (open source)",
     keywords: [
