@@ -236,25 +236,93 @@ fn run_elevated(exe: &std::path::Path, args: &str) -> Result<(), String> {
     }
 }
 
-/// Launches LibreHardwareMonitor (elevated, required for the CPU package
-/// sensor over WMI) and waits until temperatures are exposed. Returns true if
-/// sensors became available. When `force` is false it skips work if already
-/// started or already exposing sensors. When `force` is true it always tears
-/// down any existing instance first (a non-elevated instance left running
-/// would block elevation because LHM refuses a second instance).
 #[cfg(windows)]
-fn try_start_lhm(app: &tauri::AppHandle, force: bool) -> bool {
+const CREATE_NO_WINDOW: u32 = 0x0800_0000;
+
+/// True when the PawnIO kernel driver service is present (required for CPU
+/// package temperature via LibreHardwareMonitor on recent Windows builds).
+#[cfg(windows)]
+fn is_pawnio_installed() -> bool {
+    std::process::Command::new("sc")
+        .args(["query", "PawnIO"])
+        .creation_flags(CREATE_NO_WINDOW)
+        .output()
+        .map(|o| o.status.success())
+        .unwrap_or(false)
+}
+
+#[cfg(windows)]
+fn find_pawnio_setup(lhm_exe: &std::path::Path, resource_dir: &std::path::Path) -> Option<std::path::PathBuf> {
+    let lhm_dir = lhm_exe.parent()?;
+    [
+        resource_dir.join("bin").join("PawnIO_setup.exe"),
+        resource_dir.join("PawnIO_setup.exe"),
+        lhm_dir.join("PawnIO_setup.exe"),
+        lhm_dir.join("Resources").join("PawnIO_setup.exe"),
+    ]
+    .into_iter()
+    .find(|p| p.exists())
+}
+
+/// Installs PawnIO before LibreHardwareMonitor so LHM does not spawn its own
+/// embedded installer (which can fail with STATUS_IMAGE_MACHINE_TYPE_MISMATCH
+/// when an old bundled setup runs against a running LHM instance).
+#[cfg(windows)]
+fn ensure_pawnio_installed(
+    lhm_exe: &std::path::Path,
+    resource_dir: &std::path::Path,
+) -> Result<(), String> {
+    if is_pawnio_installed() {
+        return Ok(());
+    }
+
+    let Some(setup) = find_pawnio_setup(lhm_exe, resource_dir) else {
+        return Err("pawnio_setup_missing".into());
+    };
+
+    stop_lhm();
+    eprintln!("[pawnio] installing via {}", setup.display());
+
+    // PawnIO 2.2+ supports `-install -silent` (see PawnIO.Setup releases).
+    let elevated = run_elevated(&setup, "-install -silent")
+        .or_else(|_| run_elevated(&setup, "-install"));
+
+    if let Err(e) = elevated {
+        if e == "user_cancelled_uac" {
+            return Err(e);
+        }
+        eprintln!("[pawnio] elevated setup launch failed: {e}");
+    }
+
+    for attempt in 0..45 {
+        if is_pawnio_installed() {
+            eprintln!("[pawnio] driver available after {}s", attempt + 1);
+            return Ok(());
+        }
+        std::thread::sleep(std::time::Duration::from_secs(1));
+    }
+
+    Err("pawnio_not_installed".into())
+}
+
+/// Launches LibreHardwareMonitor (elevated, required for the CPU package
+/// sensor over WMI) and waits until temperatures are exposed. When `force` is
+/// true it always tears down any existing instance first (a non-elevated
+/// instance left running would block elevation because LHM refuses a second
+/// instance).
+#[cfg(windows)]
+fn try_start_lhm(app: &tauri::AppHandle, force: bool) -> Result<bool, String> {
     if !force && read_lhm_temperatures().2 {
         let state = app.state::<AppState>();
         *state.lhm_started.lock().unwrap() = true;
-        return true;
+        return Ok(true);
     }
 
     if !force {
         let state = app.state::<AppState>();
         let guard = state.lhm_started.lock().unwrap();
         if *guard {
-            return read_lhm_temperatures().2;
+            return Ok(read_lhm_temperatures().2);
         }
     }
 
@@ -262,7 +330,7 @@ fn try_start_lhm(app: &tauri::AppHandle, force: bool) -> bool {
         Ok(d) => d,
         Err(e) => {
             eprintln!("[lhm] resource_dir error: {e}");
-            return false;
+            return Err(format!("resource_dir: {e}"));
         }
     };
 
@@ -275,7 +343,7 @@ fn try_start_lhm(app: &tauri::AppHandle, force: bool) -> bool {
 
     let Some(path) = path else {
         eprintln!("[lhm] LibreHardwareMonitor.exe not found in resource dir");
-        return false;
+        return Err("lhm_exe_missing".into());
     };
 
     // Force=true: a stale non-elevated instance would block the elevated one
@@ -283,6 +351,8 @@ fn try_start_lhm(app: &tauri::AppHandle, force: bool) -> bool {
     if force {
         stop_lhm();
     }
+
+    ensure_pawnio_installed(&path, &resource_dir)?;
 
     // ShellExecuteW with verb "runas" is the only reliable way to trigger the
     // Windows UAC prompt from a non-elevated process. PowerShell's
@@ -293,6 +363,9 @@ fn try_start_lhm(app: &tauri::AppHandle, force: bool) -> bool {
         Ok(()) => eprintln!("[lhm] UAC accepted, LHM launching"),
         Err(e) => {
             eprintln!("[lhm] elevation failed: {e}");
+            if e == "user_cancelled_uac" {
+                return Err(e);
+            }
             // Best effort: try non-elevated. CPU package temperature won't be
             // exposed, but GPU/board temps may still appear so the UI gets
             // some feedback instead of total silence.
@@ -300,7 +373,7 @@ fn try_start_lhm(app: &tauri::AppHandle, force: bool) -> bool {
             let _ = std::process::Command::new(&path)
                 .current_dir(work_dir)
                 .arg("--minimize")
-                .creation_flags(0x08000000)
+                .creation_flags(CREATE_NO_WINDOW)
                 .spawn();
         }
     }
@@ -313,12 +386,12 @@ fn try_start_lhm(app: &tauri::AppHandle, force: bool) -> bool {
             let state = app.state::<AppState>();
             *state.lhm_started.lock().unwrap() = true;
             eprintln!("[lhm] sensors available after {}s", attempt + 1);
-            return true;
+            return Ok(true);
         }
     }
 
     eprintln!("[lhm] timed out waiting for sensors (user may have cancelled UAC)");
-    false
+    Err("lhm_timeout".into())
 }
 
 /// Stops LibreHardwareMonitor so its executable is not locked while the
@@ -356,10 +429,9 @@ async fn start_sensor_service(app: tauri::AppHandle) -> Result<bool, String> {
     #[cfg(windows)]
     {
         let handle = app.clone();
-        let ok = tauri::async_runtime::spawn_blocking(move || try_start_lhm(&handle, true))
+        tauri::async_runtime::spawn_blocking(move || try_start_lhm(&handle, true))
             .await
-            .map_err(|e| e.to_string())?;
-        Ok(ok)
+            .map_err(|e| e.to_string())?
     }
     #[cfg(not(windows))]
     {
@@ -1197,15 +1269,8 @@ fn main() {
             is_immersive_fullscreen,
         ])
         .setup(|app| {
-            // Start the sensor service in the background so the window shows
-            // immediately and the elevation prompt does not block startup.
-            #[cfg(windows)]
-            {
-                let handle = app.handle().clone();
-                std::thread::spawn(move || {
-                    try_start_lhm(&handle, false);
-                });
-            }
+            // LHM/PawnIO are started only when the user taps «Activar °C» so
+            // opening Sideglass does not trigger PawnIO/LHM installers or UAC.
 
             if let Some(window) = app.get_webview_window("main") {
                 let _ = window.maximize();

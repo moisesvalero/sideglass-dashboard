@@ -1,6 +1,19 @@
 {
   "es": [
     {
+      "version": "0.2.13",
+      "date": "2026-06-01",
+      "groups": [
+        {
+          "category": "Corregido",
+          "items": [
+            "**Temperatura de la CPU sin instaladores raros**: al abrir Sideglass ya no se lanza LibreHardwareMonitor en segundo plano, así que desaparece el popup de PawnIO y el error `failed to open current executable 0xc0000033`. El driver PawnIO (2.2.0) se instala ahora de forma silenciosa dentro del propio instalador de Sideglass (mismo UAC), y al pulsar «Activar °C» se instala primero PawnIO si falta y luego se lanza LHM elevado",
+            "**Mensajes claros**: si PawnIO no se instala o cancelas el aviso de Windows, el panel lo indica con instrucciones concretas"
+          ]
+        }
+      ]
+    },
+    {
       "version": "0.2.12",
       "date": "2026-06-01",
       "groups": [
@@ -262,6 +275,19 @@
     }
   ],
   "en": [
+    {
+      "version": "0.2.13",
+      "date": "2026-06-01",
+      "groups": [
+        {
+          "category": "Fixed",
+          "items": [
+            "**CPU temperature without weird installers**: opening Sideglass no longer launches LibreHardwareMonitor in the background, so the PawnIO popup and the `failed to open current executable 0xc0000033` error are gone. The PawnIO driver (2.2.0) is now installed silently inside Sideglass's own installer (same UAC), and tapping «Enable °C» installs PawnIO first if missing, then launches LHM elevated",
+            "**Clear messages**: if PawnIO fails to install or you cancel the Windows prompt, the panel explains exactly what to do"
+          ]
+        }
+      ]
+    },
     {
       "version": "0.2.12",
       "date": "2026-06-01",

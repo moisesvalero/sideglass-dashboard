@@ -55,7 +55,7 @@ function systemInfoToSensors(info: SystemInfo): SensorData[] {
   return sensors
 }
 
-const SENSOR_WARMUP_MS = 8_000
+const SENSOR_WARMUP_MS = 2_000
 
 export function HardwareMonitor() {
   const [isRunningInTauri] = useState(() => (typeof window !== "undefined" ? isTauri() : false))
@@ -63,6 +63,7 @@ export function HardwareMonitor() {
   const [sensorWarmup, setSensorWarmup] = useState(true)
   const [activating, setActivating] = useState(false)
   const [activationFailed, setActivationFailed] = useState(false)
+  const [activationError, setActivationError] = useState<string | null>(null)
   const [sensors, setSensors] = useState<SensorData[]>([
     { label: "CPU", value: 42, temp: null, icon: <Cpu className="h-4 w-4" />, subtitle: "CPU" },
     {
@@ -120,6 +121,7 @@ export function HardwareMonitor() {
   const handleEnableSensors = useCallback(async () => {
     setActivating(true)
     setActivationFailed(false)
+    setActivationError(null)
     try {
       await startSensorService()
       const info = await getSystemInfo()
@@ -128,13 +130,31 @@ export function HardwareMonitor() {
       const cpuOk =
         info.cpu.temperature != null && info.cpu.temperature > 0
       setCpuTempReady(cpuOk)
-      if (!cpuOk) setActivationFailed(true)
-    } catch {
+      if (!cpuOk) {
+        setActivationFailed(true)
+        setActivationError("lhm_timeout")
+      }
+    } catch (error) {
       setActivationFailed(true)
+      const raw =
+        error instanceof Error
+          ? error.message
+          : typeof error === "string"
+            ? error
+            : String(error)
+      setActivationError(raw)
     } finally {
       setActivating(false)
     }
   }, [])
+
+  const activationHint = (() => {
+    if (!activationFailed) return t("hardware.cpuTempHint")
+    const code = activationError ?? ""
+    if (code.includes("user_cancelled_uac")) return t("hardware.pawnioUacCancelled")
+    if (code.includes("pawnio")) return t("hardware.pawnioFailed")
+    return t("hardware.sensorsFailed")
+  })()
 
   const renderTemp = (sensor: SensorData) => {
     if (sensor.temp !== null && sensor.temp > 0) {
@@ -222,7 +242,7 @@ export function HardwareMonitor() {
       )}
       {cpuMissingTemp && (
         <p className="mt-3 text-center text-xs leading-relaxed text-muted-foreground">
-          {activationFailed ? t("hardware.sensorsFailed") : t("hardware.cpuTempHint")}
+          {activationHint}
         </p>
       )}
       {!isRunningInTauri && (

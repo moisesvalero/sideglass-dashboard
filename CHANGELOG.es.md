@@ -6,6 +6,13 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es/1.1.0/) y el p
 
 **Versión en inglés:** [CHANGELOG.md](./CHANGELOG.md) — mantén ambos archivos sincronizados al publicar una release.
 
+## [0.2.13] - 2026-06-01
+
+### Corregido
+
+- **Temperatura de la CPU sin instaladores raros**: al abrir Sideglass ya no se lanza LibreHardwareMonitor en segundo plano, así que desaparece el popup de PawnIO y el error `failed to open current executable 0xc0000033`. El driver PawnIO (2.2.0) se instala ahora de forma silenciosa dentro del propio instalador de Sideglass (mismo UAC), y al pulsar «Activar °C» se instala primero PawnIO si falta y luego se lanza LHM elevado
+- **Mensajes claros**: si PawnIO no se instala o cancelas el aviso de Windows, el panel lo indica con instrucciones concretas
+
 ## [0.2.12] - 2026-06-01
 
 ### Corregido

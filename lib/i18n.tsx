@@ -26,7 +26,7 @@ const translations: Record<Lang, Record<string, string>> = {
     "hardware.tauriHint": "Ejecuta con Tauri para datos reales",
     "hardware.sensorsLoading": "Conectando sensores de temperatura…",
     "hardware.lhmHint":
-      "Uso de CPU/GPU en tiempo real. Si no ves °C, ejecuta Sideglass como administrador o espera unos segundos tras abrir.",
+      "Uso de CPU/GPU en tiempo real. Para °C de CPU, pulsa «Activar °C» y acepta los avisos de Windows (PawnIO + sensores).",
     "notes.title": "Notas",
     "notes.empty": "Sin notas. Pulsa + para añadir.",
     "notes.placeholder": "Escribe algo...",
@@ -91,6 +91,9 @@ const translations: Record<Lang, Record<string, string>> = {
     "hardware.sensorsHint":
       "Las temperaturas necesitan permisos de administrador. Pulsa para activarlas (acepta el aviso de Windows).",
     "hardware.sensorsFailed": "No se pudieron activar los sensores. Acepta el aviso de Windows e inténtalo de nuevo.",
+    "hardware.pawnioFailed":
+      "PawnIO (driver de sensores) no se instaló. Reinicia el PC, vuelve a pulsar «Activar °C» o instala PawnIO 2.2 desde pawnio.eu como administrador.",
+    "hardware.pawnioUacCancelled": "Instalación cancelada. Acepta el aviso de administrador de Windows para instalar PawnIO.",
     "settings.help": "Ayuda",
     "settings.helpFaq": "Centro de ayuda y preguntas frecuentes",
     "settings.about": "Acerca de",
@@ -124,7 +127,7 @@ const translations: Record<Lang, Record<string, string>> = {
     "hardware.tauriHint": "Run with Tauri for real data",
     "hardware.sensorsLoading": "Connecting temperature sensors…",
     "hardware.lhmHint":
-      "Live CPU/GPU usage. If °C is missing, run Sideglass as administrator or wait a few seconds after launch.",
+      "Live CPU/GPU usage. For CPU °C, tap «Enable °C» and accept the Windows prompts (PawnIO + sensors).",
     "notes.title": "Notes",
     "notes.empty": "No notes yet. Tap + to add.",
     "notes.placeholder": "Write something...",
@@ -189,6 +192,9 @@ const translations: Record<Lang, Record<string, string>> = {
     "hardware.sensorsHint":
       "Temperatures require administrator rights. Click to enable them (accept the Windows prompt).",
     "hardware.sensorsFailed": "Could not enable sensors. Accept the Windows prompt and try again.",
+    "hardware.pawnioFailed":
+      "PawnIO (sensor driver) did not install. Reboot, tap «Enable °C» again, or install PawnIO 2.2 from pawnio.eu as administrator.",
+    "hardware.pawnioUacCancelled": "Installation cancelled. Accept the Windows administrator prompt to install PawnIO.",
     "settings.help": "Help",
     "settings.helpFaq": "Help center and FAQ",
     "settings.about": "About",

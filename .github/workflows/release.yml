@@ -44,6 +44,15 @@ jobs:
           }
           Write-Host "Bundled LHM from $($asset.name) into $dest ($($bundled.Count) files)"
 
+      - name: Bundle PawnIO setup (CPU temperature driver)
+        shell: pwsh
+        run: |
+          $dest = "src-tauri/bin"
+          $pawnio = "$env:RUNNER_TEMP/PawnIO_setup.exe"
+          Invoke-WebRequest -Uri "https://github.com/namazso/PawnIO.Setup/releases/download/2.2.0/PawnIO_setup.exe" -OutFile $pawnio
+          Copy-Item -Path $pawnio -Destination "$dest/PawnIO_setup.exe" -Force
+          Write-Host "Bundled PawnIO_setup.exe 2.2.0 into $dest"
+
       - name: Prepare signing key
         shell: bash
         env:
