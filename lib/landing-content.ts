@@ -15,6 +15,7 @@ export type LandingCopy = {
   ctaDownload: string
   ctaGithub: string
   heroNote: string
+  heroVideoPlayLabel: string
   navFaq: string
   screenshotsTitle: string
   screenshotsSubtitle: string
@@ -49,6 +50,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
     ctaDownload: "Descargar para Windows",
     ctaGithub: "Ver en GitHub",
     heroNote: "Open source (MIT)",
+    heroVideoPlayLabel: "Reproducir video de Sideglass",
     navFaq: "Ayuda",
     screenshotsTitle: "Capturas reales",
     screenshotsSubtitle:
@@ -178,6 +180,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
     ctaDownload: "Download for Windows",
     ctaGithub: "View on GitHub",
     heroNote: "Open source (MIT)",
+    heroVideoPlayLabel: "Play Sideglass video",
     navFaq: "Help",
     screenshotsTitle: "Real screenshots",
     screenshotsSubtitle:

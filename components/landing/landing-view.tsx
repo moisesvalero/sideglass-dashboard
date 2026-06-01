@@ -4,6 +4,7 @@ import { LandingChangelog } from "@/components/landing/landing-changelog"
 import { LandingFeatures } from "@/components/landing/landing-features"
 import { LandingFooter } from "@/components/landing/landing-footer"
 import { LandingHeader } from "@/components/landing/landing-header"
+import { LandingHeroMedia } from "@/components/landing/landing-hero-media"
 import { landingContent, type LandingLang } from "@/lib/landing-content"
 import {
   APP_NAME,
@@ -119,16 +120,10 @@ export function LandingView({ lang }: { lang: LandingLang }) {
         </p>
 
         <div className="landing-reveal landing-reveal-d5 mx-auto mt-[var(--landing-space-2xl)] w-full max-w-5xl">
-          <div className="landing-shot-frame">
-            <Image
-              src="/screenshots/landscape-dark.png"
-              alt={copy.screenshotAlts.landscapeDark}
-              width={1120}
-              height={780}
-              className="h-auto w-full"
-              priority
-            />
-          </div>
+          <LandingHeroMedia
+            alt={copy.screenshotAlts.landscapeDark}
+            playLabel={copy.heroVideoPlayLabel}
+          />
         </div>
       </header>
 
