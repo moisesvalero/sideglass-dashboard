@@ -1,4 +1,5 @@
 import { chromium } from "playwright"
+import { spawn } from "node:child_process"
 import { mkdir } from "fs/promises"
 import path from "path"
 import { fileURLToPath } from "url"
@@ -6,11 +7,13 @@ import { fileURLToPath } from "url"
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const root = path.join(__dirname, "..")
 const outDir = path.join(root, "public", "screenshots")
-const baseURL = process.env.SCREENSHOT_URL || "http://localhost:3000/dashboard"
+const staticPort = Number(process.env.SCREENSHOT_PORT || 3456)
+const baseURL =
+  process.env.SCREENSHOT_URL || `http://127.0.0.1:${staticPort}/dashboard`
 
 function demoSettings(theme) {
   return {
-    weatherCity: "Madrid",
+    weatherCity: "London",
     useAutoLocation: false,
     tempUnit: "celsius",
     timeFormat: "24",
@@ -29,8 +32,8 @@ function demoSettings(theme) {
 }
 
 const demoNotes = JSON.stringify([
-  { id: "a1", text: "Revisar el PR del dashboard", createdAt: Date.now() },
-  { id: "a2", text: "Monitor secundario en vertical", createdAt: Date.now() },
+  { id: "a1", text: "Review the dashboard PR", createdAt: Date.now() },
+  { id: "a2", text: "Secondary monitor in portrait", createdAt: Date.now() },
 ])
 
 const today = new Date()
@@ -38,10 +41,30 @@ const todayKey = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate
 const demoQuote = JSON.stringify({
   date: todayKey,
   quote: {
-    text: "La disciplina es el puente entre las metas y los logros.",
+    text: "Discipline is the bridge between goals and accomplishment.",
     author: "Jim Rohn",
   },
 })
+
+async function waitForServer(url, attempts = 40) {
+  for (let i = 0; i < attempts; i++) {
+    try {
+      const res = await fetch(url, { signal: AbortSignal.timeout(2000) })
+      if (res.ok) return
+    } catch {
+      await new Promise((r) => setTimeout(r, 500))
+    }
+  }
+  throw new Error(`Server not ready at ${url}`)
+}
+
+function startStaticServer() {
+  return spawn("npx", ["serve", "out", "-l", String(staticPort), "--no-clipboard"], {
+    cwd: root,
+    shell: true,
+    stdio: "ignore",
+  })
+}
 
 async function seedPage(page, theme) {
   await page.addInitScript(
@@ -55,14 +78,14 @@ async function seedPage(page, theme) {
       settings: demoSettings(theme),
       notes: demoNotes,
       quote: demoQuote,
-      lang: "es",
+      lang: "en",
     }
   )
 }
 
 async function capture(page, fileName, viewport, options = {}) {
   await page.setViewportSize(viewport)
-  await page.waitForTimeout(2000)
+  await page.waitForTimeout(2500)
   await page.screenshot({
     path: path.join(outDir, fileName),
     fullPage: options.fullPage ?? true,
@@ -73,30 +96,42 @@ async function capture(page, fileName, viewport, options = {}) {
 
 async function main() {
   await mkdir(outDir, { recursive: true })
-  const browser = await chromium.launch()
 
-  for (const theme of ["dark", "light"]) {
-    const page = await browser.newPage({ deviceScaleFactor: 2 })
-    await seedPage(page, theme)
-    await page.goto(baseURL, { waitUntil: "networkidle", timeout: 60_000 })
-
-    await capture(page, `portrait-${theme}.png`, { width: 480, height: 980 })
-
-    if (theme === "dark") {
-      await capture(page, "landscape-dark.png", { width: 1120, height: 780 })
-      await page.setViewportSize({ width: 480, height: 980 })
-      await page.waitForTimeout(800)
-      await page.screenshot({
-        path: path.join(outDir, "hero.png"),
-        clip: { x: 0, y: 0, width: 480, height: 820 },
-      })
-      console.log("Saved hero.png")
-    }
-
-    await page.close()
+  let server
+  if (!process.env.SCREENSHOT_URL) {
+    server = startStaticServer()
+    await waitForServer(baseURL)
+    console.log("Serving static export at", baseURL)
   }
 
-  await browser.close()
+  const browser = await chromium.launch()
+
+  try {
+    for (const theme of ["dark", "light"]) {
+      const page = await browser.newPage({ deviceScaleFactor: 2 })
+      await seedPage(page, theme)
+      await page.goto(baseURL, { waitUntil: "networkidle", timeout: 60_000 })
+
+      await capture(page, `portrait-${theme}.png`, { width: 480, height: 980 })
+
+      if (theme === "dark") {
+        await capture(page, "landscape-dark.png", { width: 1120, height: 780 })
+        await page.setViewportSize({ width: 480, height: 980 })
+        await page.waitForTimeout(800)
+        await page.screenshot({
+          path: path.join(outDir, "hero.png"),
+          clip: { x: 0, y: 0, width: 480, height: 820 },
+        })
+        console.log("Saved hero.png")
+      }
+
+      await page.close()
+    }
+  } finally {
+    await browser.close()
+    server?.kill("SIGTERM")
+  }
+
   console.log("Done. Output:", outDir)
 }
 
