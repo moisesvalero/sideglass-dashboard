@@ -9,17 +9,17 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/moisesvalero/personal-dashboard/releases/latest">Descargar .exe</a>
+  <a href="https://github.com/moisesvalero/sideglass-dashboard/releases/latest">Descargar .exe</a>
   ·
   <a href="https://personal-dashboard.vercel.app">Landing</a>
   ·
-  <a href="https://github.com/moisesvalero/personal-dashboard">GitHub</a>
+  <a href="https://github.com/moisesvalero/sideglass-dashboard">GitHub</a>
   ·
   <a href="./CHANGELOG.md">Changelog</a>
 </p>
 
 <p align="center">
-  Si te gusta el proyecto, <a href="https://github.com/moisesvalero/personal-dashboard">una estrella en GitHub</a> o un issue/PR ayuda a darlo a conocer.
+  Si te gusta el proyecto, <a href="https://github.com/moisesvalero/sideglass-dashboard">una estrella en GitHub</a> o un issue/PR ayuda a darlo a conocer.
 </p>
 
 ---
@@ -98,7 +98,7 @@ Secrets en GitHub: ver [docs/UPDATER.md](docs/UPDATER.md).
 
 Este proyecto es **open source** bajo licencia [MIT](LICENSE): puedes usarlo, modificarlo y distribuirlo con libertad (manteniendo el aviso de copyright).
 
-- ¿Bug o idea? [Abre un issue](https://github.com/moisesvalero/personal-dashboard/issues)
+- ¿Bug o idea? [Abre un issue](https://github.com/moisesvalero/sideglass-dashboard/issues)
 - ¿Mejora de código? Pull requests bienvenidos
 - ¿Te sirve en tu portfolio o lo usas? Mencionar el repo o poner una estrella ayuda mucho
 

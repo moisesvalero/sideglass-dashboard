@@ -5,7 +5,7 @@ export const SITE_URL = (
 export const APP_NAME = "Sideglass"
 export const APP_TAGLINE = "Premium panel for your second monitor"
 
-export const GITHUB_REPO = "https://github.com/moisesvalero/personal-dashboard"
+export const GITHUB_REPO = "https://github.com/moisesvalero/sideglass-dashboard"
 export const GITHUB_RELEASES = `${GITHUB_REPO}/releases/latest`
 export const LICENSE_URL = `${GITHUB_REPO}/blob/main/LICENSE`
 export const APP_VERSION = "0.2.3"
