@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.2] - 2026-06-01
+
+### Added
+
+- Iconos OpenAI claros/oscuro según tema en el dock de IAs
+- Landing Sideglass con capturas verticales/horizontales actualizadas
+
+### Changed
+
+- Marca unificada como **Sideglass** (ventana, landing, metadatos)
+- Dock de IAs en fila inferior del layout (ya no flota encima de los widgets)
+- Script de capturas: solo viewport y demo compacto en vertical
+
+### Fixed
+
+- Solapamiento del dock con Notas y demás widgets al hacer scroll
+- CI/release: glob de recursos Tauri `bin/*` para empaquetar LibreHardwareMonitor
+- Icono ChatGPT invisible en modo oscuro
+- Texto FAQ sin rayas largas estilo IA
+
 ## [0.2.0] - 2026-06-01
 
 ### Added
