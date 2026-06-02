@@ -5,6 +5,7 @@ import { LandingFeatures } from "@/components/landing/landing-features"
 import { LandingFooter } from "@/components/landing/landing-footer"
 import { LandingHeader } from "@/components/landing/landing-header"
 import { LandingHeroMedia } from "@/components/landing/landing-hero-media"
+import { LandingTypewriter } from "@/components/landing/landing-typewriter"
 import { landingContent, type LandingLang } from "@/lib/landing-content"
 import {
   APP_NAME,
@@ -90,7 +91,7 @@ export function LandingView({ lang }: { lang: LandingLang }) {
         <h1 className="landing-display landing-hero-title landing-reveal landing-reveal-d1 mb-[var(--landing-space-lg)]">
           {copy.heroTitle[0]}
           <br />
-          <span className="text-[var(--landing-text)]">{copy.heroTitle[1]}</span>
+          <LandingTypewriter words={copy.heroTypewriter} fallback={copy.heroTitle[1]} />
         </h1>
         <p className="landing-hero-lead landing-reveal landing-reveal-d2 mb-[var(--landing-space-xl)]">
           {copy.heroSubtitle}
