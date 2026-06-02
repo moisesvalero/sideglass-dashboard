@@ -83,45 +83,43 @@ export function LandingView({ lang }: { lang: LandingLang }) {
 
       <LandingHeader lang={lang} faqLabel={copy.navFaq} />
 
-      <header className="relative z-10 mx-auto max-w-6xl px-4 pb-[var(--landing-space-xl)] pt-[var(--landing-space-hero-top)] text-center sm:px-6">
-        <div className="mx-auto max-w-4xl">
-          <p className="landing-display landing-eyebrow landing-reveal mb-[var(--landing-space-lg)]">
-            {copy.eyebrow}
-          </p>
-          <h1 className="landing-display landing-hero-title landing-reveal landing-reveal-d1 mb-[var(--landing-space-lg)]">
-            {copy.heroTitle[0]}
-            <br />
-            <span className="text-[var(--landing-text)]">{copy.heroTitle[1]}</span>
-          </h1>
-          <p className="landing-hero-lead landing-reveal landing-reveal-d2 mb-[var(--landing-space-xl)]">
-            {copy.heroSubtitle}
-          </p>
-          <div
-            id="download"
-            className="landing-reveal landing-reveal-d3 flex scroll-mt-28 flex-col items-stretch gap-3 sm:items-center"
+      <header className="relative z-10 mx-auto max-w-4xl px-4 pb-[var(--landing-space-xl)] pt-[var(--landing-space-hero-top)] text-center sm:px-6">
+        <p className="landing-display landing-eyebrow landing-reveal mb-[var(--landing-space-lg)]">
+          {copy.eyebrow}
+        </p>
+        <h1 className="landing-display landing-hero-title landing-reveal landing-reveal-d1 mb-[var(--landing-space-lg)]">
+          {copy.heroTitle[0]}
+          <br />
+          <span className="text-[var(--landing-text)]">{copy.heroTitle[1]}</span>
+        </h1>
+        <p className="landing-hero-lead landing-reveal landing-reveal-d2 mb-[var(--landing-space-xl)]">
+          {copy.heroSubtitle}
+        </p>
+        <div
+          id="download"
+          className="landing-reveal landing-reveal-d3 flex scroll-mt-28 flex-col items-stretch gap-3 sm:items-center"
+        >
+          <a
+            href={WINDOWS_INSTALLER_URL}
+            download={WINDOWS_INSTALLER_NAME}
+            className="landing-cta-primary inline-flex items-center justify-center gap-2 rounded-xl bg-[var(--landing-accent)] text-[var(--landing-accent-fg)]"
           >
-            <a
-              href={WINDOWS_INSTALLER_URL}
-              download={WINDOWS_INSTALLER_NAME}
-              className="landing-cta-primary inline-flex items-center justify-center gap-2 rounded-xl bg-[var(--landing-accent)] text-[var(--landing-accent-fg)]"
-            >
-              {copy.ctaDownload}
-            </a>
-            <a
-              href={GITHUB_RELEASES}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="landing-cta-secondary inline-flex items-center justify-center underline-offset-2 hover:underline"
-            >
-              {copy.ctaGithub}
-            </a>
-          </div>
-          <p className="landing-caption landing-reveal landing-reveal-d4 mt-[var(--landing-space-md)]">
-            v{version} · {copy.heroNote}
-          </p>
+            {copy.ctaDownload}
+          </a>
+          <a
+            href={GITHUB_RELEASES}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="landing-cta-secondary inline-flex items-center justify-center underline-offset-2 hover:underline"
+          >
+            {copy.ctaGithub}
+          </a>
         </div>
+        <p className="landing-caption landing-reveal landing-reveal-d4 mt-[var(--landing-space-md)]">
+          v{version} · {copy.heroNote}
+        </p>
 
-        <div className="landing-reveal landing-reveal-d5 mx-auto mt-[var(--landing-space-2xl)] w-full">
+        <div className="landing-reveal landing-reveal-d5 mx-auto mt-[var(--landing-space-2xl)] w-full max-w-5xl">
           <LandingHeroMedia
             alt={copy.screenshotAlts.landscapeDark}
             playLabel={copy.heroVideoPlayLabel}
