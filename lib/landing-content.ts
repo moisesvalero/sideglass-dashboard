@@ -72,7 +72,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
         items: [
           {
             label: "Hardware nativo",
-            desc: "CPU, RAM y GPU en tiempo real, con temperaturas reales en el instalador.",
+            desc: "CPU, RAM, GPU y disco en tiempo real, con temperaturas reales cuando activas los sensores.",
           },
           {
             label: "Calendario Google",
@@ -101,7 +101,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
           },
           {
             label: "Notas locales",
-            desc: "Bloc rápido y frases del día bilingües, cortas y curadas, sin depender de internet.",
+            desc: "Bloc rápido guardado en tu PC, pensado para apuntes breves sin depender de internet.",
           },
         ],
       },
@@ -202,7 +202,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
         items: [
           {
             label: "Native hardware",
-            desc: "Real-time CPU, RAM and GPU, with real temperatures in the installer.",
+            desc: "Real-time CPU, RAM, GPU and disk usage, with real temperatures when sensors are enabled.",
           },
           {
             label: "Google Calendar",
@@ -231,7 +231,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
           },
           {
             label: "Local notes",
-            desc: "Quick notepad plus short, curated bilingual daily quotes without internet dependency.",
+            desc: "A quick notepad saved on your PC, built for short notes without relying on the internet.",
           },
         ],
       },
