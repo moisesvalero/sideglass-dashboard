@@ -6,6 +6,18 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es/1.1.0/) y el p
 
 **Versión en inglés:** [CHANGELOG.md](./CHANGELOG.md) — mantén ambos archivos sincronizados al publicar una release.
 
+## [0.2.21] - 2026-06-02
+
+### Añadido
+
+- **500 frases del día bilingües**: el widget de frase diaria usa ahora un dataset local offline con texto en español e inglés según el idioma de la app
+- **Metadatos de origen**: las frases importadas incluyen autor, etiquetas, fuente y licencia MIT del proyecto Quotable Data
+
+### Cambiado
+
+- **Tipografía estilo Apple en Windows**: el dashboard usa Inter como fuente real empaquetada, con fallbacks nativos de Windows
+- **Tarjetas de frase y notas responsivas**: la frase diaria escala o hace scroll dentro de tarjetas pequeñas, y el botón `+` de notas ya no se solapa con el arrastre en modo edición
+
 ## [0.2.20] - 2026-06-01
 
 ### Cambiado

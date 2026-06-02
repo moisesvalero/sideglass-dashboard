@@ -1,6 +1,26 @@
 {
   "es": [
     {
+      "version": "0.2.21",
+      "date": "2026-06-02",
+      "groups": [
+        {
+          "category": "Añadido",
+          "items": [
+            "**500 frases del día bilingües**: el widget de frase diaria usa ahora un dataset local offline con texto en español e inglés según el idioma de la app",
+            "**Metadatos de origen**: las frases importadas incluyen autor, etiquetas, fuente y licencia MIT del proyecto Quotable Data"
+          ]
+        },
+        {
+          "category": "Cambiado",
+          "items": [
+            "**Tipografía estilo Apple en Windows**: el dashboard usa Inter como fuente real empaquetada, con fallbacks nativos de Windows",
+            "**Tarjetas de frase y notas responsivas**: la frase diaria escala o hace scroll dentro de tarjetas pequeñas, y el botón `+` de notas ya no se solapa con el arrastre en modo edición"
+          ]
+        }
+      ]
+    },
+    {
       "version": "0.2.20",
       "date": "2026-06-01",
       "groups": [
@@ -375,6 +395,26 @@
     }
   ],
   "en": [
+    {
+      "version": "0.2.21",
+      "date": "2026-06-02",
+      "groups": [
+        {
+          "category": "Added",
+          "items": [
+            "**500 bilingual daily quotes**: the daily quote widget now uses a local offline dataset with English and Spanish text, selected according to the app language",
+            "**Quote source metadata**: imported quote entries include author, tags, source, and MIT license metadata from the Quotable Data project"
+          ]
+        },
+        {
+          "category": "Changed",
+          "items": [
+            "**Apple-like typography on Windows**: dashboard typography now uses Inter as the real bundled font, with Windows-native fallbacks only",
+            "**Responsive quote and notes cards**: daily quote content scales/scrolls inside small cards, and the notes `+` button no longer overlaps the drag handle in edit mode"
+          ]
+        }
+      ]
+    },
     {
       "version": "0.2.20",
       "date": "2026-06-01",

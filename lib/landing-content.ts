@@ -101,7 +101,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
           },
           {
             label: "Notas locales",
-            desc: "Bloc rápido con diseño cuidado. Tus datos solo en tu PC.",
+            desc: "Bloc rápido y 500 frases del día bilingües sin depender de internet.",
           },
         ],
       },
@@ -231,7 +231,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
           },
           {
             label: "Local notes",
-            desc: "Quick notepad with a polished layout. Data stays on your PC.",
+            desc: "Quick notepad plus 500 bilingual daily quotes without internet dependency.",
           },
         ],
       },

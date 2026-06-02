@@ -48,7 +48,7 @@
 - **Resizable responsive widgets**: drag the corner to any saved size; contents scale inside the card
 - **YouTube inside the panel** with real search in the Tauri app
 - AI dock (ChatGPT, Gemini, Claude, Perplexity, Microsoft Copilot)
-- Local notes, daily quote, reorderable widgets
+- Local notes, 500 bilingual offline daily quotes, reorderable widgets
 - **Windows-style** title bar (minimize / maximize / close on the right)
 - Auto-update: **Settings → Check for updates**
 - Start with Windows, global hotkey, system tray

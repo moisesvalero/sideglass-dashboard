@@ -102,13 +102,31 @@ test.describe("dashboard layout width", () => {
     const overflow = await page.evaluate(() => {
       const calendar = document.querySelector<HTMLElement>(".calendar-widget")
       const music = document.querySelector<HTMLElement>(".music-widget")
+      const motivation = document.querySelector<HTMLElement>(".motivation-card")
+      const notes = document.querySelector<HTMLElement>(".notes-widget")
       return {
         calendar: calendar ? calendar.scrollHeight - calendar.clientHeight : 0,
         music: music ? music.scrollHeight - music.clientHeight : 0,
+        motivation: motivation ? motivation.scrollHeight - motivation.clientHeight : 0,
+        notes: notes ? notes.scrollHeight - notes.clientHeight : 0,
       }
     })
 
     expect(overflow.calendar).toBeLessThanOrEqual(2)
     expect(overflow.music).toBeLessThanOrEqual(2)
+    expect(overflow.motivation).toBeLessThanOrEqual(2)
+    expect(overflow.notes).toBeLessThanOrEqual(2)
+
+    const notesControlsOverlap = await page.evaluate(() => {
+      const shell = document.querySelector<HTMLElement>('[data-widget-id="notes"]')
+      const add = shell?.querySelector<HTMLElement>(".notes-add-button")
+      const drag = shell?.querySelector<HTMLElement>('[aria-label="Reordenar widget"]')
+      if (!add || !drag) return false
+      const a = add.getBoundingClientRect()
+      const b = drag.getBoundingClientRect()
+      return a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top
+    })
+
+    expect(notesControlsOverlap).toBe(false)
   })
 })

@@ -3,43 +3,38 @@
 import { useEffect, useState } from "react"
 import { Loader2, Sparkles } from "lucide-react"
 import { useI18n } from "@/lib/i18n"
+import dailyQuotes from "@/data/daily-quotes.json"
 
 interface QuoteData {
   text: string
   author: string
 }
 
-const localQuotes: QuoteData[] = [
-  { text: "El único modo de hacer un gran trabajo es amar lo que haces.", author: "Steve Jobs" },
-  { text: "La mejor manera de predecir el futuro es crearlo.", author: "Peter Drucker" },
-  { text: "En medio de la dificultad reside la oportunidad.", author: "Albert Einstein" },
-  { text: "La disciplina es el puente entre las metas y los logros.", author: "Jim Rohn" },
-  { text: "Si puedes soñarlo, puedes hacerlo.", author: "Walt Disney" },
-  {
-    text: "El éxito es la suma de pequeños esfuerzos repetidos cada día.",
-    author: "Robert Collier",
-  },
-  { text: "No cuentes los días, haz que los días cuenten.", author: "Muhammad Ali" },
-  { text: "La mente lo es todo. En lo que piensas, te conviertes.", author: "Buda" },
-  { text: "Cae siete veces y levántate ocho.", author: "Proverbio japonés" },
-  { text: "Lo que no te desafía, no te cambia.", author: "Fred DeVito" },
-  { text: "Empieza donde estás, usa lo que tienes, haz lo que puedas.", author: "Arthur Ashe" },
-  { text: "La calidad no es un acto, es un hábito.", author: "Aristóteles" },
-]
+type DailyQuote = {
+  author: string
+  text: Record<"es" | "en", string>
+}
 
-function pickDailyQuote(key: string): QuoteData {
+function pickDailyQuote(key: string, lang: "es" | "en"): QuoteData {
   let hash = 0
   for (let i = 0; i < key.length; i++) {
     hash = (hash * 31 + key.charCodeAt(i)) >>> 0
   }
-  return localQuotes[hash % localQuotes.length]
+
+  const quotes = dailyQuotes as DailyQuote[]
+  const quote = quotes[hash % quotes.length]
+
+  return {
+    text: quote.text[lang] || quote.text.es || quote.text.en,
+    author: quote.author,
+  }
 }
 
 export function MotivationWidget() {
   const [mounted, setMounted] = useState(false)
   const [quote, setQuote] = useState<QuoteData | null>(null)
   const [loading, setLoading] = useState(true)
-  const { t } = useI18n()
+  const { t, lang } = useI18n()
 
   const getTodayKey = () => {
     const d = new Date()
@@ -47,10 +42,10 @@ export function MotivationWidget() {
   }
 
   useEffect(() => {
-    setQuote(pickDailyQuote(getTodayKey()))
+    setQuote(pickDailyQuote(getTodayKey(), lang))
     setLoading(false)
     setMounted(true)
-  }, [])
+  }, [lang])
 
   if (!mounted || loading) {
     return (
@@ -72,10 +67,10 @@ export function MotivationWidget() {
       {quote && (
         <blockquote className="motivation-note">
           <span className="motivation-quote-mark" aria-hidden>
-            “
+            &quot;
           </span>
           <p className="motivation-quote">{quote.text}</p>
-          <footer className="motivation-author">— {quote.author}</footer>
+          <footer className="motivation-author">- {quote.author}</footer>
         </blockquote>
       )}
     </div>

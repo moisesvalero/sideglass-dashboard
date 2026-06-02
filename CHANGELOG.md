@@ -6,6 +6,18 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 **Spanish version:** [CHANGELOG.es.md](./CHANGELOG.es.md) — keep both files in sync when you add a release.
 
+## [0.2.21] - 2026-06-02
+
+### Added
+
+- **500 bilingual daily quotes**: the daily quote widget now uses a local offline dataset with English and Spanish text, selected according to the app language
+- **Quote source metadata**: imported quote entries include author, tags, source, and MIT license metadata from the Quotable Data project
+
+### Changed
+
+- **Apple-like typography on Windows**: dashboard typography now uses Inter as the real bundled font, with Windows-native fallbacks only
+- **Responsive quote and notes cards**: daily quote content scales/scrolls inside small cards, and the notes `+` button no longer overlaps the drag handle in edit mode
+
 ## [0.2.20] - 2026-06-01
 
 ### Changed

@@ -1,11 +1,15 @@
 import type { Metadata } from "next"
-import { Caveat, Geist } from "next/font/google"
+import { Caveat, Inter } from "next/font/google"
 import { SettingsProvider } from "@/lib/settings"
 import { I18nProvider } from "@/lib/i18n"
 import { APP_NAME, SITE_URL } from "@/lib/site"
 import "./globals.css"
 
-const geist = Geist({ subsets: ["latin"] })
+const inter = Inter({
+  subsets: ["latin", "latin-ext"],
+  variable: "--font-inter",
+  display: "swap",
+})
 const caveat = Caveat({
   subsets: ["latin", "latin-ext"],
   variable: "--font-hand",
@@ -38,7 +42,7 @@ export default function RootLayout({
   return (
     <html lang="es" suppressHydrationWarning>
       <body
-        className={`${geist.className} ${caveat.variable} font-sans antialiased`}
+        className={`${inter.variable} ${caveat.variable} font-sans antialiased`}
         style={{ background: "transparent" }}
       >
         <I18nProvider>

@@ -47,25 +47,27 @@ export function NotesWidget() {
   if (!mounted) return null
 
   return (
-    <div className="glass-tile p-5">
+    <div className="glass-tile notes-widget p-5">
       <div className="dashboard-widget-header mb-3">
         <div className="dashboard-widget-title">
           <StickyNote className="h-4 w-4 text-amber-500/90" />
           <span>{t("notes.title")}</span>
+          <button
+            type="button"
+            onClick={addNote}
+            className="notes-add-button dashboard-control flex h-7 w-7 items-center justify-center transition-colors hover:bg-muted/70"
+            aria-label={t("notes.title")}
+          >
+            <Plus className="h-3.5 w-3.5 text-muted-foreground" />
+          </button>
         </div>
-        <button
-          type="button"
-          onClick={addNote}
-          className="dashboard-control flex h-7 w-7 items-center justify-center transition-colors hover:bg-muted/70"
-          aria-label={t("notes.title")}
-        >
-          <Plus className="w-3.5 h-3.5 text-muted-foreground" />
-        </button>
       </div>
 
-      <div className="space-y-2 max-h-52 overflow-y-auto custom-scrollbar">
+      <div className="notes-list custom-scrollbar space-y-2 overflow-y-auto">
         {notes.length === 0 ? (
-          <p className="text-muted-foreground text-sm text-center py-4">{t("notes.empty")}</p>
+          <p className="flex min-h-0 flex-1 items-center justify-center py-4 text-center text-sm text-muted-foreground">
+            {t("notes.empty")}
+          </p>
         ) : (
           notes.map((note) => (
             <div key={note.id} className="dashboard-control group flex items-start gap-2 px-3 py-2">
@@ -85,10 +87,10 @@ export function NotesWidget() {
               <button
                 type="button"
                 onClick={() => deleteNote(note.id)}
-                className="opacity-0 group-hover:opacity-100 mt-0.5 transition-opacity"
+                className="mt-0.5 opacity-0 transition-opacity group-hover:opacity-100"
                 aria-label="Eliminar"
               >
-                <Trash2 className="w-3.5 h-3.5 text-destructive/70 hover:text-destructive" />
+                <Trash2 className="h-3.5 w-3.5 text-destructive/70 hover:text-destructive" />
               </button>
             </div>
           ))
