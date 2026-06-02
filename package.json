@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "next dev",
     "sync:changelog": "node scripts/sync-changelog.mjs",
+    "winget:manifest": "node scripts/generate-winget-manifest.mjs",
     "build": "npm run sync:changelog && next build",
     "start": "next start",
     "lint": "eslint .",

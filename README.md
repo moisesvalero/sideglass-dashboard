@@ -80,6 +80,14 @@ Regenerate marketing screenshots:
 npm run screenshots
 ```
 
+Generate WinGet manifests for a release:
+
+```bash
+npm run winget:manifest -- --installer ./path/to/Sideglass_x64-setup.exe
+```
+
+See [docs/WINGET.md](docs/WINGET.md).
+
 ## Quick setup
 
 | Feature            | Where                                                       |

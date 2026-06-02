@@ -80,6 +80,14 @@ Regenerar capturas:
 npm run screenshots
 ```
 
+Generar manifiestos de WinGet para una release:
+
+```bash
+npm run winget:manifest -- --installer ./ruta/Sideglass_x64-setup.exe
+```
+
+Ver [docs/WINGET.md](docs/WINGET.md).
+
 ## Configuración rápida
 
 | Función           | Dónde                                                                |
