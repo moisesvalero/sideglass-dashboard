@@ -1,6 +1,26 @@
 {
   "es": [
     {
+      "version": "0.2.24",
+      "date": "2026-06-02",
+      "groups": [
+        {
+          "category": "Cambiado",
+          "items": [
+            "**Arranque en el monitor correcto**: Sideglass guarda posicion, tamano, maximizado y monitor usado, y al iniciar con Windows reintenta restaurar la ventana en el monitor secundario cuando este vuelve a estar disponible",
+            "**Estado clicable mas claro**: los accesos externos de Clima, Agenda y YouTube muestran cursor de mano y hover/focus visible para que se entienda que abren detalle fuera de la app"
+          ]
+        },
+        {
+          "category": "Corregido",
+          "items": [
+            "**Restauracion de ventana mas robusta**: se valida que la posicion guardada siga dentro de un monitor disponible y se recoloca de forma segura si Windows cambio la configuracion de pantallas",
+            "**Estado de ventana completo**: Tauri ahora guarda tambien el tamano de ventana, no solo posicion y maximizado"
+          ]
+        }
+      ]
+    },
+    {
       "version": "0.2.23",
       "date": "2026-06-02",
       "groups": [
@@ -445,6 +465,26 @@
     }
   ],
   "en": [
+    {
+      "version": "0.2.24",
+      "date": "2026-06-02",
+      "groups": [
+        {
+          "category": "Changed",
+          "items": [
+            "**Starts on the right monitor**: Sideglass now saves position, size, maximized state and the monitor in use, then retries restoring the window on the secondary monitor when Windows finishes detecting it at login",
+            "**Clearer clickable state**: external shortcuts for Weather, Agenda and YouTube now show the hand cursor plus visible hover/focus feedback so they read as detail links"
+          ]
+        },
+        {
+          "category": "Fixed",
+          "items": [
+            "**More robust window restore**: saved positions are validated against currently available monitors and safely clamped if Windows changed the display setup",
+            "**Complete window state**: Tauri now saves window size as well as position and maximized state"
+          ]
+        }
+      ]
+    },
     {
       "version": "0.2.23",
       "date": "2026-06-02",

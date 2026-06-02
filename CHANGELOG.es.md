@@ -6,6 +6,18 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es/1.1.0/) y el p
 
 **Versión en inglés:** [CHANGELOG.md](./CHANGELOG.md) — mantén ambos archivos sincronizados al publicar una release.
 
+## [0.2.24] - 2026-06-02
+
+### Cambiado
+
+- **Arranque en el monitor correcto**: Sideglass guarda posicion, tamano, maximizado y monitor usado, y al iniciar con Windows reintenta restaurar la ventana en el monitor secundario cuando este vuelve a estar disponible
+- **Estado clicable mas claro**: los accesos externos de Clima, Agenda y YouTube muestran cursor de mano y hover/focus visible para que se entienda que abren detalle fuera de la app
+
+### Corregido
+
+- **Restauracion de ventana mas robusta**: se valida que la posicion guardada siga dentro de un monitor disponible y se recoloca de forma segura si Windows cambio la configuracion de pantallas
+- **Estado de ventana completo**: Tauri ahora guarda tambien el tamano de ventana, no solo posicion y maximizado
+
 ## [0.2.23] - 2026-06-02
 
 ### Cambiado

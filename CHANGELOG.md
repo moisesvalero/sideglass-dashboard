@@ -6,6 +6,18 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 **Spanish version:** [CHANGELOG.es.md](./CHANGELOG.es.md) — keep both files in sync when you add a release.
 
+## [0.2.24] - 2026-06-02
+
+### Changed
+
+- **Starts on the right monitor**: Sideglass now saves position, size, maximized state and the monitor in use, then retries restoring the window on the secondary monitor when Windows finishes detecting it at login
+- **Clearer clickable state**: external shortcuts for Weather, Agenda and YouTube now show the hand cursor plus visible hover/focus feedback so they read as detail links
+
+### Fixed
+
+- **More robust window restore**: saved positions are validated against currently available monitors and safely clamped if Windows changed the display setup
+- **Complete window state**: Tauri now saves window size as well as position and maximized state
+
 ## [0.2.23] - 2026-06-02
 
 ### Changed

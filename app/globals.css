@@ -327,13 +327,17 @@
 
 .dashboard-widget-title-link {
   border-radius: 0.6rem;
+  cursor: pointer;
   outline: none;
+  padding: 0.15rem 0.25rem;
+  margin: -0.15rem -0.25rem;
   transition:
     color 0.18s ease,
     background-color 0.18s ease;
 }
 
 .dashboard-widget-title-link:hover {
+  background: color-mix(in oklch, var(--foreground) 7%, transparent);
   color: var(--foreground);
 }
 

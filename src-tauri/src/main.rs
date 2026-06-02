@@ -1,13 +1,14 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
+use std::path::PathBuf;
 use std::sync::Mutex;
 use sysinfo::{Components, CpuRefreshKind, Disks, MemoryRefreshKind, RefreshKind, System};
 use tauri::{
     image::Image,
     menu::{MenuBuilder, MenuItemBuilder},
     tray::{MouseButton, MouseButtonState, TrayIconBuilder, TrayIconEvent},
-    Manager, State,
+    AppHandle, Manager, State, WindowEvent,
 };
 
 #[cfg(target_os = "windows")]
@@ -67,6 +68,22 @@ struct ImmersiveBackup {
     maximized: bool,
 }
 
+#[derive(Serialize, Deserialize, Clone)]
+struct StoredMonitorPlacement {
+    x: i32,
+    y: i32,
+    width: u32,
+    height: u32,
+}
+
+#[derive(Serialize, Deserialize, Clone)]
+struct StoredWindowPlacement {
+    position: tauri::PhysicalPosition<i32>,
+    size: tauri::PhysicalSize<u32>,
+    maximized: bool,
+    monitor: Option<StoredMonitorPlacement>,
+}
+
 struct AppState {
     sys: Mutex<System>,
     #[cfg(target_os = "windows")]
@@ -76,6 +93,188 @@ struct AppState {
     /// Cached result of the last successful `check()` so install does not re-fetch.
     #[cfg(not(any(target_os = "android", target_os = "ios")))]
     pending_update: Mutex<Option<tauri_plugin_updater::Update>>,
+}
+
+fn window_placement_path(app: &AppHandle) -> Result<PathBuf, String> {
+    let dir = app.path().app_config_dir().map_err(|e| e.to_string())?;
+    std::fs::create_dir_all(&dir).map_err(|e| e.to_string())?;
+    Ok(dir.join("window-placement.json"))
+}
+
+fn monitor_to_stored(monitor: &tauri::Monitor) -> StoredMonitorPlacement {
+    StoredMonitorPlacement {
+        x: monitor.position().x,
+        y: monitor.position().y,
+        width: monitor.size().width,
+        height: monitor.size().height,
+    }
+}
+
+fn save_window_placement(app: &AppHandle, window: &tauri::WebviewWindow) -> Result<(), String> {
+    let position = window.outer_position().map_err(|e| e.to_string())?;
+    let size = window.outer_size().map_err(|e| e.to_string())?;
+    let maximized = window.is_maximized().unwrap_or(false);
+    let monitor = window
+        .current_monitor()
+        .ok()
+        .flatten()
+        .map(|m| monitor_to_stored(&m));
+    let placement = StoredWindowPlacement {
+        position,
+        size,
+        maximized,
+        monitor,
+    };
+    let json = serde_json::to_string_pretty(&placement).map_err(|e| e.to_string())?;
+    std::fs::write(window_placement_path(app)?, json).map_err(|e| e.to_string())
+}
+
+fn load_window_placement(app: &AppHandle) -> Option<StoredWindowPlacement> {
+    let path = window_placement_path(app).ok()?;
+    let json = std::fs::read_to_string(path).ok()?;
+    serde_json::from_str(&json).ok()
+}
+
+fn monitor_matches(stored: &StoredMonitorPlacement, monitor: &tauri::Monitor) -> bool {
+    stored.x == monitor.position().x
+        && stored.y == monitor.position().y
+        && stored.width == monitor.size().width
+        && stored.height == monitor.size().height
+}
+
+fn point_in_monitor(point: tauri::PhysicalPosition<i32>, monitor: &tauri::Monitor) -> bool {
+    let pos = monitor.position();
+    let size = monitor.size();
+    point.x >= pos.x
+        && point.y >= pos.y
+        && point.x < pos.x + size.width as i32
+        && point.y < pos.y + size.height as i32
+}
+
+fn clamp_window_to_monitor(
+    position: tauri::PhysicalPosition<i32>,
+    size: tauri::PhysicalSize<u32>,
+    monitor: &tauri::Monitor,
+) -> tauri::PhysicalPosition<i32> {
+    let mon_pos = monitor.position();
+    let mon_size = monitor.size();
+    let visible_width = size.width.min(mon_size.width) as i32;
+    let visible_height = size.height.min(mon_size.height) as i32;
+    let max_x = mon_pos.x + mon_size.width as i32 - visible_width;
+    let max_y = mon_pos.y + mon_size.height as i32 - visible_height;
+    tauri::PhysicalPosition {
+        x: position.x.clamp(mon_pos.x, max_x.max(mon_pos.x)),
+        y: position.y.clamp(mon_pos.y, max_y.max(mon_pos.y)),
+    }
+}
+
+fn ensure_window_visible(window: &tauri::WebviewWindow) -> Result<(), String> {
+    let position = window.outer_position().map_err(|e| e.to_string())?;
+    let monitors = window.available_monitors().map_err(|e| e.to_string())?;
+    if monitors
+        .iter()
+        .any(|monitor| point_in_monitor(position, monitor))
+    {
+        return Ok(());
+    }
+
+    if let Some(monitor) = window
+        .current_monitor()
+        .ok()
+        .flatten()
+        .or_else(|| monitors.first().cloned())
+    {
+        window
+            .set_position(clamp_window_to_monitor(
+                position,
+                window.outer_size().map_err(|e| e.to_string())?,
+                &monitor,
+            ))
+            .map_err(|e| e.to_string())?;
+    }
+    Ok(())
+}
+
+enum RestorePlacementResult {
+    Restored,
+    WaitingForMonitor,
+}
+
+fn restore_window_placement_once(
+    app: &AppHandle,
+    window: &tauri::WebviewWindow,
+) -> Result<RestorePlacementResult, String> {
+    let Some(placement) = load_window_placement(app) else {
+        ensure_window_visible(window)?;
+        return Ok(RestorePlacementResult::Restored);
+    };
+
+    let monitors = window.available_monitors().map_err(|e| e.to_string())?;
+    let target_monitor = placement
+        .monitor
+        .as_ref()
+        .and_then(|stored| {
+            monitors
+                .iter()
+                .find(|monitor| monitor_matches(stored, monitor))
+                .cloned()
+        })
+        .or_else(|| {
+            monitors
+                .iter()
+                .find(|monitor| point_in_monitor(placement.position, monitor))
+                .cloned()
+        });
+
+    let Some(monitor) = target_monitor else {
+        return Ok(RestorePlacementResult::WaitingForMonitor);
+    };
+
+    if window.is_maximized().unwrap_or(false) {
+        let _ = window.unmaximize();
+        std::thread::sleep(std::time::Duration::from_millis(80));
+    }
+
+    let mon_size = monitor.size();
+    let target_size = tauri::PhysicalSize {
+        width: placement.size.width.min(mon_size.width).max(360),
+        height: placement.size.height.min(mon_size.height).max(600),
+    };
+    let target_position = clamp_window_to_monitor(placement.position, target_size, &monitor);
+
+    window
+        .set_size(target_size)
+        .map_err(|e| format!("restore size: {e}"))?;
+    window
+        .set_position(target_position)
+        .map_err(|e| format!("restore position: {e}"))?;
+
+    if placement.maximized {
+        std::thread::sleep(std::time::Duration::from_millis(80));
+        let _ = window.maximize();
+    }
+
+    Ok(RestorePlacementResult::Restored)
+}
+
+fn schedule_startup_window_restore(app: &AppHandle, window: &tauri::WebviewWindow) {
+    let app = app.clone();
+    let window = window.clone();
+    std::thread::spawn(move || {
+        let delays = [250_u64, 800, 1_600, 3_000, 5_000, 8_000];
+        for delay in delays {
+            std::thread::sleep(std::time::Duration::from_millis(delay));
+            match restore_window_placement_once(&app, &window) {
+                Ok(RestorePlacementResult::Restored) => {
+                    let _ = save_window_placement(&app, &window);
+                    return;
+                }
+                Ok(RestorePlacementResult::WaitingForMonitor) => continue,
+                Err(_) => continue,
+            }
+        }
+        let _ = ensure_window_visible(&window);
+    });
 }
 
 #[cfg(windows)]
@@ -91,12 +290,7 @@ fn win_cover_current_monitor(window: &tauri::WebviewWindow) -> Result<(), String
         SetWindowPos, HWND_TOP, SWP_FRAMECHANGED, SWP_SHOWWINDOW,
     };
 
-    let hwnd = HWND(
-        window
-            .hwnd()
-            .map_err(|e| format!("hwnd: {e}"))?
-            .0 as *mut _,
-    );
+    let hwnd = HWND(window.hwnd().map_err(|e| format!("hwnd: {e}"))?.0 as *mut _);
 
     unsafe {
         let monitor = MonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST);
@@ -155,9 +349,7 @@ fn exit_immersive_windows(
     let _ = window.set_fullscreen(false);
     let backup = state.immersive_backup.lock().unwrap().take();
     if let Some(b) = backup {
-        window
-            .set_position(b.position)
-            .map_err(|e| e.to_string())?;
+        window.set_position(b.position).map_err(|e| e.to_string())?;
         window.set_size(b.size).map_err(|e| e.to_string())?;
         if b.maximized {
             let _ = window.maximize();
@@ -261,10 +453,7 @@ fn shell_escape(s: &str) -> String {
 
 #[cfg(windows)]
 fn find_bin_file(resource_dir: &std::path::Path, name: &str) -> Option<std::path::PathBuf> {
-    let mut candidates = vec![
-        resource_dir.join("bin").join(name),
-        resource_dir.join(name),
-    ];
+    let mut candidates = vec![resource_dir.join("bin").join(name), resource_dir.join(name)];
     if let Ok(exe) = std::env::current_exe() {
         if let Some(dir) = exe.parent() {
             candidates.push(dir.join("resources").join("bin").join(name));
@@ -329,10 +518,7 @@ fn read_helper_error() -> Option<String> {
     if now.saturating_sub(ts) > 30 {
         return None;
     }
-    value
-        .get("error")?
-        .as_str()
-        .map(|s| s.to_string())
+    value.get("error")?.as_str().map(|s| s.to_string())
 }
 
 #[cfg(not(windows))]
@@ -498,17 +684,14 @@ fn start_sensor_helper(app: &tauri::AppHandle) -> Result<bool, String> {
 
     let exe = std::env::current_exe().map_err(|e| e.to_string())?;
     let pid = std::process::id();
-    let cpu_name = shell_escape(
-        &{
-            let sys = System::new_with_specifics(
-                RefreshKind::new().with_cpu(CpuRefreshKind::everything()),
-            );
-            sys.cpus()
-                .first()
-                .map(|c| c.brand().to_string())
-                .unwrap_or_default()
-        },
-    );
+    let cpu_name = shell_escape(&{
+        let sys =
+            System::new_with_specifics(RefreshKind::new().with_cpu(CpuRefreshKind::everything()));
+        sys.cpus()
+            .first()
+            .map(|c| c.brand().to_string())
+            .unwrap_or_default()
+    });
 
     let args = format!(
         "--sensor-helper --parent {pid} --intel \"{}\" --amd \"{}\" --pawnio \"{}\" --cpu-name \"{cpu_name}\"",
@@ -1304,7 +1487,10 @@ fn emit_update_progress(app: &tauri::AppHandle, downloaded: u64, total: u64) {
 }
 
 #[tauri::command]
-async fn install_update(app: tauri::AppHandle, state: State<'_, AppState>) -> Result<String, String> {
+async fn install_update(
+    app: tauri::AppHandle,
+    state: State<'_, AppState>,
+) -> Result<String, String> {
     use tauri::Emitter;
 
     let update = {
@@ -1428,6 +1614,7 @@ fn main() {
             tauri_plugin_window_state::Builder::new()
                 .with_state_flags(
                     tauri_plugin_window_state::StateFlags::POSITION
+                        | tauri_plugin_window_state::StateFlags::SIZE
                         | tauri_plugin_window_state::StateFlags::MAXIMIZED,
                 )
                 .build(),
@@ -1462,7 +1649,18 @@ fn main() {
             // opening Sideglass does not trigger PawnIO/LHM installers or UAC.
 
             if let Some(window) = app.get_webview_window("main") {
-                let _ = window.maximize();
+                schedule_startup_window_restore(app.handle(), &window);
+
+                let app_handle = app.handle().clone();
+                let tracked_window = window.clone();
+                window.on_window_event(move |event| match event {
+                    WindowEvent::Moved(_)
+                    | WindowEvent::Resized(_)
+                    | WindowEvent::CloseRequested { .. } => {
+                        let _ = save_window_placement(&app_handle, &tracked_window);
+                    }
+                    _ => {}
+                });
             }
 
             let show = MenuItemBuilder::with_id("show", "Mostrar").build(app)?;
