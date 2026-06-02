@@ -44,9 +44,9 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
       "Sideglass: aplicación de escritorio gratuita y de código abierto, con estética macOS, para tu monitor secundario: clima, calendario, hardware con temperaturas reales, YouTube y acceso rápido a tus IAs. Sin API keys obligatorias.",
     ogDescription: "Sideglass: panel para monitor secundario en Windows. Licencia MIT.",
     eyebrow: "Escritorio · Windows · Open source",
-    heroTitle: ["Tu monitor secundario,", "siempre a la vista"],
+    heroTitle: ["Transforma tu monitor secundario", "en tu centro de mandos"],
     heroSubtitle:
-      "Clima, agenda, hardware, notas, YouTube y acceso a tus IAs favoritas. Ordena y redimensiona cada widget libremente; el contenido se adapta a la tarjeta.",
+      "Clima, agenda, rendimiento de hardware, notas y accesos rápidos en un único dashboard optimizado. Mantén el foco en tu pantalla principal mientras controlas todo lo demás de un vistazo.",
     ctaDownload: "Descargar para Windows",
     ctaGithub: "Ver en GitHub",
     heroNote: "Open source (MIT)",
