@@ -44,9 +44,9 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
       "Sideglass: aplicación de escritorio gratuita y de código abierto, con estética macOS, para tu monitor secundario: clima, calendario, hardware con temperaturas reales, YouTube y acceso rápido a tus IAs. Sin API keys obligatorias.",
     ogDescription: "Sideglass: panel para monitor secundario en Windows. Licencia MIT.",
     eyebrow: "Escritorio · Windows · Open source",
-    heroTitle: ["Transforma tu monitor secundario", "en tu centro de mandos"],
+    heroTitle: ["Todo lo importante,", "siempre a la vista"],
     heroSubtitle:
-      "Clima, agenda, rendimiento de hardware, notas y accesos rápidos en un único dashboard optimizado. Mantén el foco en tu pantalla principal mientras controlas todo lo demás de un vistazo.",
+      "Sideglass reúne clima, agenda, hardware, notas y accesos rápidos en un dashboard limpio para tu monitor secundario, sin apartarte de lo que estás haciendo.",
     ctaDownload: "Descargar para Windows",
     ctaGithub: "Ver en GitHub",
     heroNote: "Open source (MIT)",
@@ -174,9 +174,9 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
       "Sideglass: free, open-source macOS-style desktop app for your secondary monitor: weather, calendar, hardware with real temperatures, YouTube and AI dock. No required API keys.",
     ogDescription: "Sideglass: open-source second-monitor panel for Windows (MIT).",
     eyebrow: "Desktop · Windows · Open source",
-    heroTitle: ["Your second monitor,", "always in view"],
+    heroTitle: ["Everything that matters,", "always in view"],
     heroSubtitle:
-      "Weather, agenda, hardware, notes, YouTube and access to your favorite AIs. Arrange and freely resize every widget; content adapts to the card.",
+      "Sideglass keeps weather, agenda, hardware, notes, YouTube and AI shortcuts in a clean dashboard for your second monitor, without pulling you away from your main screen.",
     ctaDownload: "Download for Windows",
     ctaGithub: "View on GitHub",
     heroNote: "Open source (MIT)",
