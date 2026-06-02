@@ -6,6 +6,20 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es/1.1.0/) y el p
 
 **Versión en inglés:** [CHANGELOG.md](./CHANGELOG.md) — mantén ambos archivos sincronizados al publicar una release.
 
+## [0.2.23] - 2026-06-02
+
+### Cambiado
+
+- **Layout por defecto responsive**: la primera instalacion y `Restablecer layout` usan composiciones distintas para monitores verticales y horizontales, evitando tarjetas aplastadas
+- **Reloj y clima sin solapes**: la hora reserva espacio real para el panel meteorologico y ya no queda tapada por la temperatura en tarjetas grandes
+- **Accesos de detalle**: al pulsar el clima se abre una vista meteorologica detallada, Agenda abre Google Calendar y el titulo de YouTube abre YouTube
+
+### Corregido
+
+- **Autoubicacion del clima**: Sideglass ya no cae a Madrid como fallback falso cuando la geolocalizacion no esta disponible o es demasiado imprecisa
+- **Selector manual de ciudad**: al elegir una sugerencia, el campo se rellena con la ciudad seleccionada completa
+- **Tests visuales del dashboard**: los e2e ahora comprueban geometria real para impedir solapes, texto recortado y widgets planos en vertical/horizontal
+
 ## [0.2.22] - 2026-06-02
 
 ### Añadido

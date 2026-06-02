@@ -1,6 +1,28 @@
 {
   "es": [
     {
+      "version": "0.2.23",
+      "date": "2026-06-02",
+      "groups": [
+        {
+          "category": "Cambiado",
+          "items": [
+            "**Layout por defecto responsive**: la primera instalacion y `Restablecer layout` usan composiciones distintas para monitores verticales y horizontales, evitando tarjetas aplastadas",
+            "**Reloj y clima sin solapes**: la hora reserva espacio real para el panel meteorologico y ya no queda tapada por la temperatura en tarjetas grandes",
+            "**Accesos de detalle**: al pulsar el clima se abre una vista meteorologica detallada, Agenda abre Google Calendar y el titulo de YouTube abre YouTube"
+          ]
+        },
+        {
+          "category": "Corregido",
+          "items": [
+            "**Autoubicacion del clima**: Sideglass ya no cae a Madrid como fallback falso cuando la geolocalizacion no esta disponible o es demasiado imprecisa",
+            "**Selector manual de ciudad**: al elegir una sugerencia, el campo se rellena con la ciudad seleccionada completa",
+            "**Tests visuales del dashboard**: los e2e ahora comprueban geometria real para impedir solapes, texto recortado y widgets planos en vertical/horizontal"
+          ]
+        }
+      ]
+    },
+    {
       "version": "0.2.22",
       "date": "2026-06-02",
       "groups": [
@@ -423,6 +445,28 @@
     }
   ],
   "en": [
+    {
+      "version": "0.2.23",
+      "date": "2026-06-02",
+      "groups": [
+        {
+          "category": "Changed",
+          "items": [
+            "**Responsive default layout**: first run and `Reset layout` now use different compositions for portrait and landscape monitors, avoiding flattened cards",
+            "**Clock and weather no longer overlap**: the clock reserves real space for the weather panel, so the temperature no longer covers the time in large cards",
+            "**Detail shortcuts**: clicking weather opens a detailed weather view, Agenda opens Google Calendar, and the YouTube title opens YouTube"
+          ]
+        },
+        {
+          "category": "Fixed",
+          "items": [
+            "**Weather auto-location**: Sideglass no longer falls back to Madrid as a fake location when geolocation is unavailable or too imprecise",
+            "**Manual city picker**: selecting an autocomplete suggestion now fills the input with the full selected city",
+            "**Dashboard visual tests**: e2e coverage now checks real geometry to prevent overlaps, clipped clock text, and flattened widgets in portrait/landscape layouts"
+          ]
+        }
+      ]
+    },
     {
       "version": "0.2.22",
       "date": "2026-06-02",

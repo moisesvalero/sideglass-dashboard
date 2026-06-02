@@ -1,6 +1,6 @@
 [package]
 name = "desk-dashboard"
-version = "0.2.22"
+version = "0.2.23"
 description = "Premium macOS-style dashboard for Windows"
 authors = ["you"]
 edition = "2021"

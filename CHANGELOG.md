@@ -6,6 +6,20 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 **Spanish version:** [CHANGELOG.es.md](./CHANGELOG.es.md) — keep both files in sync when you add a release.
 
+## [0.2.23] - 2026-06-02
+
+### Changed
+
+- **Responsive default layout**: first run and `Reset layout` now use different compositions for portrait and landscape monitors, avoiding flattened cards
+- **Clock and weather no longer overlap**: the clock reserves real space for the weather panel, so the temperature no longer covers the time in large cards
+- **Detail shortcuts**: clicking weather opens a detailed weather view, Agenda opens Google Calendar, and the YouTube title opens YouTube
+
+### Fixed
+
+- **Weather auto-location**: Sideglass no longer falls back to Madrid as a fake location when geolocation is unavailable or too imprecise
+- **Manual city picker**: selecting an autocomplete suggestion now fills the input with the full selected city
+- **Dashboard visual tests**: e2e coverage now checks real geometry to prevent overlaps, clipped clock text, and flattened widgets in portrait/landscape layouts
+
 ## [0.2.22] - 2026-06-02
 
 ### Added
