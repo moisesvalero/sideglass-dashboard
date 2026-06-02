@@ -31,6 +31,7 @@ import { SortableWidget } from "@/components/dashboard/widget-sortable"
 import {
   DEFAULT_WIDGET_LAYOUTS,
   DEFAULT_WIDGET_ORDER,
+  getDefaultWidgetLayouts,
   useSettings,
   type WidgetId,
   type WidgetLayout,
@@ -103,7 +104,7 @@ function DashboardContent() {
   const resetLayout = () => {
     updateSettings({
       widgetOrder: [...DEFAULT_WIDGET_ORDER],
-      widgetLayouts: { ...DEFAULT_WIDGET_LAYOUTS },
+      widgetLayouts: getDefaultWidgetLayouts(),
     })
   }
 

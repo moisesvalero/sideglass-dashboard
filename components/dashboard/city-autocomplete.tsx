@@ -63,8 +63,8 @@ export function CityAutocomplete({ value, onChange, disabled, placeholder, lang 
 
   const handleSelect = (s: CitySuggestion) => {
     justSelected.current = true
-    setQuery(s.name)
-    onChange(s.name)
+    setQuery(s.label)
+    onChange(s.label)
     setSuggestions([])
     setOpen(false)
   }

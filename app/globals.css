@@ -325,6 +325,47 @@
   @apply text-xs font-semibold uppercase tracking-widest text-muted-foreground;
 }
 
+.dashboard-widget-title-link {
+  border-radius: 0.6rem;
+  outline: none;
+  transition:
+    color 0.18s ease,
+    background-color 0.18s ease;
+}
+
+.dashboard-widget-title-link:hover {
+  color: var(--foreground);
+}
+
+.dashboard-widget-title-link:focus-visible,
+.dashboard-widget-link:focus-visible {
+  box-shadow: 0 0 0 2px color-mix(in oklch, var(--ring) 45%, transparent);
+}
+
+.dashboard-widget-link {
+  cursor: pointer;
+  text-align: left;
+  outline: none;
+  transition:
+    border-color 0.18s ease,
+    background-color 0.18s ease,
+    transform 0.18s ease;
+}
+
+.dashboard-widget-link:hover {
+  border-color: color-mix(in oklch, var(--ring) 35%, var(--dashboard-border));
+  background: color-mix(in oklch, var(--dashboard-control) 86%, var(--foreground) 8%);
+}
+
+.dashboard-widget-link:active {
+  transform: scale(0.995);
+}
+
+.dashboard-widget-link:disabled {
+  cursor: default;
+  opacity: 0.85;
+}
+
 .weather-glow {
   filter: drop-shadow(0 0 10px oklch(0.78 0.13 85 / 0.28));
 }
@@ -342,7 +383,7 @@
   height: 100%;
   min-height: 0;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   gap: clamp(0.75rem, 4cqh, 2.25rem);
 }
 
@@ -352,10 +393,10 @@
 }
 
 .time-weather-time {
-  font-size: clamp(3.25rem, min(18cqw, 58cqh), 17rem);
+  font-size: clamp(3rem, min(15cqw, 44cqh), 13rem);
   font-weight: 200;
-  line-height: 0.9;
-  letter-spacing: -0.05cap;
+  line-height: 0.92;
+  letter-spacing: -0.035cap;
   color: var(--foreground);
   font-variant-numeric: tabular-nums;
 }
@@ -419,11 +460,22 @@
 @container (min-width: 560px) and (min-height: 170px) {
   .time-weather-layout {
     flex-direction: row;
-    align-items: end;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .time-weather-clock {
+    flex: 1 1 48%;
+  }
+
+  .time-weather-time {
+    font-size: clamp(3.25rem, min(11cqw, 48cqh), 11.5rem);
   }
 
   .time-weather-panel {
-    max-width: min(48cqw, 42rem);
+    flex: 0 1 min(48cqw, 34rem);
+    max-width: min(48cqw, 34rem);
+    justify-content: center;
   }
 }
 

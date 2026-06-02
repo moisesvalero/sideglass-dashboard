@@ -16,13 +16,56 @@ export const DEFAULT_WIDGET_ORDER: WidgetId[] = [
   "music",
 ]
 
-export const DEFAULT_WIDGET_LAYOUTS: Record<WidgetId, WidgetLayout> = {
+const LEGACY_DEFAULT_WIDGET_LAYOUTS: Record<WidgetId, WidgetLayout> = {
   time: { cols: 4, rows: 12 },
   hardware: { cols: 4, rows: 9 },
   calendar: { cols: 4, rows: 10 },
   motivation: { cols: 2, rows: 6 },
   notes: { cols: 2, rows: 6 },
   music: { cols: 4, rows: 9 },
+}
+
+export const DEFAULT_WIDGET_LAYOUTS: Record<WidgetId, WidgetLayout> = {
+  time: { cols: 4, rows: 10 },
+  hardware: { cols: 4, rows: 8 },
+  calendar: { cols: 4, rows: 10 },
+  motivation: { cols: 2, rows: 6 },
+  notes: { cols: 2, rows: 6 },
+  music: { cols: 4, rows: 9 },
+}
+
+export const LANDSCAPE_WIDGET_LAYOUTS: Record<WidgetId, WidgetLayout> = {
+  time: { cols: 3, rows: 13 },
+  motivation: { cols: 1, rows: 6 },
+  notes: { cols: 1, rows: 7 },
+  calendar: { cols: 2, rows: 13 },
+  hardware: { cols: 2, rows: 9 },
+  music: { cols: 2, rows: 9 },
+}
+
+function cloneLayouts(layouts: Record<WidgetId, WidgetLayout>) {
+  return Object.fromEntries(WIDGET_IDS.map((id) => [id, { ...layouts[id] }])) as Record<
+    WidgetId,
+    WidgetLayout
+  >
+}
+
+function shouldUseLandscapeDefaults() {
+  if (typeof window === "undefined") return false
+  return window.innerWidth >= 1280 && window.innerWidth / Math.max(1, window.innerHeight) >= 1.35
+}
+
+export function getDefaultWidgetLayouts() {
+  return cloneLayouts(
+    shouldUseLandscapeDefaults() ? LANDSCAPE_WIDGET_LAYOUTS : DEFAULT_WIDGET_LAYOUTS
+  )
+}
+
+function layoutMatches(a: Record<string, unknown>, b: Record<WidgetId, WidgetLayout>) {
+  return WIDGET_IDS.every((id) => {
+    const value = a[id] as Partial<WidgetLayout> | undefined
+    return value?.cols === b[id].cols && value?.rows === b[id].rows
+  })
 }
 
 export interface Settings {
@@ -101,7 +144,10 @@ function migrateStored(raw: Record<string, unknown>): Settings {
       : typeof raw.widgetSizes === "object" && raw.widgetSizes
         ? raw.widgetSizes
         : {}
-  next.widgetLayouts = { ...DEFAULT_WIDGET_LAYOUTS }
+  next.widgetLayouts = getDefaultWidgetLayouts()
+  if (layoutMatches(rawLayouts as Record<string, unknown>, LEGACY_DEFAULT_WIDGET_LAYOUTS)) {
+    return next
+  }
   for (const id of WIDGET_IDS) {
     const value = (rawLayouts as Record<string, unknown>)[id]
     if (
@@ -131,6 +177,12 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
       } catch {
         /* ignore */
       }
+    } else {
+      setSettings((prev) => ({
+        ...prev,
+        widgetOrder: [...DEFAULT_WIDGET_ORDER],
+        widgetLayouts: getDefaultWidgetLayouts(),
+      }))
     }
     setMounted(true)
   }, [])

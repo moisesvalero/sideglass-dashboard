@@ -14,6 +14,7 @@ import {
 import { useSettings } from "@/lib/settings"
 import { useI18n } from "@/lib/i18n"
 import { fetchWeather, wmoToOpenWeatherIcon } from "@/lib/open-meteo"
+import { openExternalUrl } from "@/lib/tauri"
 
 interface WeatherData {
   temp: number
@@ -22,6 +23,8 @@ interface WeatherData {
   city: string
   humidity: number
   feelsLike: number
+  latitude: number
+  longitude: number
 }
 
 const iconClass = "time-weather-icon"
@@ -104,6 +107,15 @@ export function TimeWeatherWidget() {
     })
 
   const tempSuffix = settings.tempUnit === "celsius" ? "°C" : "°F"
+  const openWeatherDetails = async () => {
+    if (!weather) return
+    const target = settings.useAutoLocation
+      ? `${weather.latitude.toFixed(4)},${weather.longitude.toFixed(4)}`
+      : weather.city
+    await openExternalUrl(
+      `https://www.google.com/search?q=${encodeURIComponent(`weather ${target}`)}`
+    )
+  }
 
   return (
     <div className="glass-hero time-weather-widget widget-span-2 p-5 sm:p-6">
@@ -115,7 +127,13 @@ export function TimeWeatherWidget() {
           </p>
         </div>
 
-        <div className="dashboard-control time-weather-panel">
+        <button
+          type="button"
+          onClick={() => void openWeatherDetails()}
+          disabled={!weather}
+          className="dashboard-control time-weather-panel dashboard-widget-link"
+          title={weather ? `${weather.condition}, ${weather.city}` : t("weather.loading")}
+        >
           {weatherLoading ? (
             <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
           ) : weather ? (
@@ -135,7 +153,7 @@ export function TimeWeatherWidget() {
           ) : weatherError ? (
             <p className="max-w-[8rem] text-xs text-muted-foreground">{t("weather.setKey")}</p>
           ) : null}
-        </div>
+        </button>
       </div>
     </div>
   )

@@ -5,6 +5,8 @@ export interface WeatherResult {
   city: string
   humidity: number
   feelsLike: number
+  latitude: number
+  longitude: number
 }
 
 const WMO_LABELS: Record<number, string> = {
@@ -112,6 +114,20 @@ async function reverseGeocode(lat: number, lon: number): Promise<string | null> 
   return data.results?.[0]?.name ?? null
 }
 
+async function getBrowserPosition(): Promise<GeolocationPosition> {
+  if (typeof navigator === "undefined" || !navigator.geolocation) {
+    throw new Error("Geolocation unavailable")
+  }
+
+  return new Promise<GeolocationPosition>((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(resolve, reject, {
+      enableHighAccuracy: true,
+      timeout: 15_000,
+      maximumAge: 120_000,
+    })
+  })
+}
+
 export async function fetchWeather(options: {
   city: string
   useAutoLocation: boolean
@@ -121,25 +137,15 @@ export async function fetchWeather(options: {
   let lon: number
   let cityName = options.city
 
-  if (options.useAutoLocation && typeof navigator !== "undefined" && navigator.geolocation) {
-    try {
-      const pos = await new Promise<GeolocationPosition>((resolve, reject) => {
-        navigator.geolocation.getCurrentPosition(resolve, reject, {
-          timeout: 8000,
-          maximumAge: 600_000,
-        })
-      })
-      lat = pos.coords.latitude
-      lon = pos.coords.longitude
-      const rev = await reverseGeocode(lat, lon)
-      if (rev) cityName = rev
-    } catch {
-      const geo = await geocode(options.city)
-      if (!geo) throw new Error("Geocoding failed")
-      lat = geo.lat
-      lon = geo.lon
-      cityName = geo.name
+  if (options.useAutoLocation) {
+    const pos = await getBrowserPosition()
+    if (pos.coords.accuracy && pos.coords.accuracy > 100_000) {
+      throw new Error("Geolocation accuracy too low")
     }
+    lat = pos.coords.latitude
+    lon = pos.coords.longitude
+    const rev = await reverseGeocode(lat, lon)
+    if (rev) cityName = rev
   } else {
     const geo = await geocode(options.city)
     if (!geo) throw new Error("Geocoding failed")
@@ -166,5 +172,7 @@ export async function fetchWeather(options: {
     city: cityName,
     humidity: c.relative_humidity_2m,
     feelsLike: Math.round(c.apparent_temperature),
+    latitude: lat,
+    longitude: lon,
   }
 }

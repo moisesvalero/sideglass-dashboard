@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { Youtube, X, Search, Loader2 } from "lucide-react"
 import { useI18n } from "@/lib/i18n"
-import { isTauri, youtubeSearch, type YoutubeResult } from "@/lib/tauri"
+import { isTauri, openExternalUrl, youtubeSearch, type YoutubeResult } from "@/lib/tauri"
 
 function extractVideoId(url: string): string | null {
   const patterns = [
@@ -65,10 +65,15 @@ export function MusicWidget() {
   return (
     <div className="glass-tile music-widget widget-span-2 overflow-hidden p-0">
       <div className="music-widget-header flex items-center justify-between gap-2 px-5 pb-3 pr-14 pt-5">
-        <div className="dashboard-widget-title">
+        <button
+          type="button"
+          onClick={() => void openExternalUrl("https://www.youtube.com/")}
+          className="dashboard-widget-title dashboard-widget-title-link"
+          title="YouTube"
+        >
           <Youtube className="h-4 w-4 text-red-500" />
           <span>{t("music.title")}</span>
-        </div>
+        </button>
         {(videoId || results.length > 0) && (
           <button
             type="button"

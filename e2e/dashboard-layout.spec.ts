@@ -35,6 +35,95 @@ ${events}
 END:VCALENDAR`
 }
 
+async function mockWeather(page: import("@playwright/test").Page) {
+  await page.route("**/v1/search**", (route) =>
+    route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({
+        results: [
+          {
+            id: 2521582,
+            name: "Alcoy",
+            admin1: "Comunitat Valenciana",
+            country: "España",
+            latitude: 38.3452,
+            longitude: -0.4815,
+          },
+        ],
+      }),
+    })
+  )
+  await page.route("**/v1/forecast**", (route) =>
+    route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({
+        current: {
+          temperature_2m: 30,
+          relative_humidity_2m: 26,
+          apparent_temperature: 30,
+          weather_code: 0,
+        },
+      }),
+    })
+  )
+  await page.route("**/v1/reverse**", (route) =>
+    route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({ results: [{ name: "Alcoy" }] }),
+    })
+  )
+}
+
+async function layoutGeometry(page: import("@playwright/test").Page) {
+  return page.evaluate(() => {
+    const rect = (selector: string) => {
+      const el = document.querySelector<HTMLElement>(selector)
+      if (!el) return null
+      const r = el.getBoundingClientRect()
+      return {
+        x: r.x,
+        y: r.y,
+        w: r.width,
+        h: r.height,
+        right: r.right,
+        bottom: r.bottom,
+        scrollW: el.scrollWidth,
+        clientW: el.clientWidth,
+        scrollH: el.scrollHeight,
+        clientH: el.clientHeight,
+      }
+    }
+    const time = rect(".time-weather-time")
+    const panel = rect(".time-weather-panel")
+    const clock = document.querySelector<HTMLElement>(".time-weather-time")
+    return {
+      viewport: { w: window.innerWidth, h: window.innerHeight },
+      time,
+      panel,
+      timeShell: rect('[data-widget-id="time"]'),
+      motivation: rect('[data-widget-id="motivation"]'),
+      notes: rect('[data-widget-id="notes"]'),
+      calendar: rect('[data-widget-id="calendar"]'),
+      hardware: rect('[data-widget-id="hardware"]'),
+      music: rect('[data-widget-id="music"]'),
+      clockClip: clock ? clock.scrollWidth - clock.clientWidth : 0,
+      timePanelOverlap: Boolean(
+        time &&
+        panel &&
+        !(
+          time.right <= panel.x ||
+          time.x >= panel.right ||
+          time.bottom <= panel.y ||
+          time.y >= panel.bottom
+        )
+      ),
+    }
+  })
+}
+
 const resetLayoutSettings = {
   calendarIcalUrl: "/demo-calendar.ics",
   widgetOrder: ["time", "motivation", "notes", "calendar", "music", "hardware"],
@@ -61,6 +150,7 @@ async function gridWidthRatio(page: import("@playwright/test").Page) {
 
 test.describe("dashboard layout width", () => {
   test.beforeEach(async ({ page }, testInfo) => {
+    await mockWeather(page)
     const isResetLayoutTest = testInfo.title.includes("reset layout")
     if (isResetLayoutTest) {
       await page.route("**/demo-calendar.ics", (route) =>
@@ -99,6 +189,18 @@ test.describe("dashboard layout width", () => {
     expect(overflow.body).toBeLessThanOrEqual(2)
     expect(overflow.document).toBeLessThanOrEqual(2)
     expect(overflow.dashboard - overflow.viewport).toBeLessThanOrEqual(2)
+  })
+
+  test("default dashboard geometry does not overlap or flatten widgets", async ({ page }) => {
+    await page.waitForTimeout(1000)
+    const g = await layoutGeometry(page)
+
+    expect(g.timePanelOverlap).toBe(false)
+    expect(g.clockClip).toBeLessThanOrEqual(2)
+    expect(g.timeShell?.h ?? 0).toBeGreaterThan(170)
+    expect(g.calendar?.h ?? 0).toBeGreaterThan(160)
+    expect(g.hardware?.h ?? 0).toBeGreaterThan(120)
+    expect(g.music?.h ?? 0).toBeGreaterThan(120)
   })
 
   test("customize mode exposes resize handles", async ({ page }) => {
@@ -143,6 +245,69 @@ test.describe("dashboard layout width", () => {
     })
 
     expect(notesControlsOverlap).toBe(false)
+  })
+})
+
+test.describe("first-run responsive defaults", () => {
+  test.beforeEach(async ({ page }) => {
+    await mockWeather(page)
+    await page.context().grantPermissions(["geolocation"])
+    await page.context().setGeolocation({ latitude: 38.3452, longitude: -0.4815 })
+    await page.addInitScript(() => {
+      localStorage.clear()
+      localStorage.setItem("dashboard-lang", "es")
+    })
+    await page.goto("/dashboard", { waitUntil: "networkidle" })
+    await expect(page.locator(".dashboard-grid")).toBeVisible()
+  })
+
+  test("real default layout is attractive in each monitor orientation", async ({ page }) => {
+    await page.waitForTimeout(1000)
+    const g = await layoutGeometry(page)
+
+    expect(g.timePanelOverlap).toBe(false)
+    expect(g.clockClip).toBeLessThanOrEqual(2)
+    expect(g.timeShell?.h ?? 0).toBeGreaterThan(260)
+    expect(g.motivation?.h ?? 0).toBeGreaterThan(130)
+    expect(g.notes?.h ?? 0).toBeGreaterThan(130)
+    expect(g.calendar?.h ?? 0).toBeGreaterThan(240)
+    expect(g.hardware?.h ?? 0).toBeGreaterThan(190)
+    expect(g.music?.h ?? 0).toBeGreaterThan(190)
+  })
+
+  test("weather, calendar and YouTube open their detailed pages", async ({ page }) => {
+    await page.addInitScript(() => {
+      window.open = ((url: string) => {
+        ;(window as unknown as { __openedUrls: string[] }).__openedUrls ??= []
+        ;(window as unknown as { __openedUrls: string[] }).__openedUrls.push(String(url))
+        return null
+      }) as typeof window.open
+    })
+    await page.reload({ waitUntil: "networkidle" })
+    await page.waitForTimeout(1000)
+
+    await page.locator(".time-weather-panel").click()
+    await page.getByTitle("Google Calendar").click()
+    await page.getByTitle("YouTube").click()
+
+    const urls = await page.evaluate(
+      () => (window as unknown as { __openedUrls?: string[] }).__openedUrls ?? []
+    )
+    expect(urls.some((url) => url.includes("google.com/search") && url.includes("weather"))).toBe(
+      true
+    )
+    expect(urls).toContain("https://calendar.google.com/calendar/u/0/r")
+    expect(urls).toContain("https://www.youtube.com/")
+  })
+
+  test("manual weather city selection fills the input", async ({ page }) => {
+    await page.getByTitle("Ajustes").click()
+    await page.getByLabel("Detectar ubicación automáticamente").uncheck()
+    const input = page.getByPlaceholder("Escribe una ciudad (ej. Valencia)")
+    await input.fill("Alc")
+    await page.getByRole("button", { name: /Alcoy, Comunitat Valenciana, España/ }).click()
+
+    await expect(input).toHaveValue("Alcoy, Comunitat Valenciana, España")
   })
 })
 

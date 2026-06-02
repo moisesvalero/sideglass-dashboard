@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react"
 import { Calendar, Loader2 } from "lucide-react"
 import { useI18n } from "@/lib/i18n"
 import { useSettings } from "@/lib/settings"
-import { fetchIcal, isTauri } from "@/lib/tauri"
+import { fetchIcal, isTauri, openExternalUrl } from "@/lib/tauri"
 import { parseIcalEvents } from "@/lib/ical"
 
 interface CalendarEvent {
@@ -26,6 +26,8 @@ const eventColors = [
   "bg-cyan-500",
   "bg-pink-500",
 ]
+
+const GOOGLE_CALENDAR_URL = "https://calendar.google.com/calendar/u/0/r"
 
 export function CalendarWidget() {
   const [events, setEvents] = useState<CalendarEvent[]>([])
@@ -95,10 +97,15 @@ export function CalendarWidget() {
     return (
       <div className="glass-tile calendar-widget p-5">
         <div className="dashboard-widget-header mb-3">
-          <div className="dashboard-widget-title">
+          <button
+            type="button"
+            onClick={() => void openExternalUrl(GOOGLE_CALENDAR_URL)}
+            className="dashboard-widget-title dashboard-widget-title-link"
+            title="Google Calendar"
+          >
             <Calendar className="h-4 w-4 text-muted-foreground" />
             <span>{t("calendar.schedule")}</span>
-          </div>
+          </button>
         </div>
         <div className="calendar-empty">
           <p className="text-center text-sm text-muted-foreground">{t("calendar.setup")}</p>
@@ -115,10 +122,15 @@ export function CalendarWidget() {
   return (
     <div className="glass-tile calendar-widget p-5">
       <div className="dashboard-widget-header mb-3">
-        <div className="dashboard-widget-title">
+        <button
+          type="button"
+          onClick={() => void openExternalUrl(GOOGLE_CALENDAR_URL)}
+          className="dashboard-widget-title dashboard-widget-title-link"
+          title="Google Calendar"
+        >
           <Calendar className="h-4 w-4 text-muted-foreground" />
           <span>{t("calendar.schedule")}</span>
-        </div>
+        </button>
         <div className="flex items-center gap-1.5">
           {isLive && <span className="pulse-soft h-1.5 w-1.5 rounded-full bg-emerald-500" />}
           <span className="text-xs text-muted-foreground">
