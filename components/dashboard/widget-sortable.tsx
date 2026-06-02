@@ -60,7 +60,7 @@ export function SortableWidget({
         Math.max(1, Math.round(start.cols + (move.clientX - startX) / (columnSize + gap)))
       )
       const rows = Math.min(
-        34,
+        24,
         Math.max(5, Math.round(start.rows + (move.clientY - startY) / (rowSize + gap)))
       )
       onLayoutChange(id, { cols, rows })

@@ -26,7 +26,7 @@ type TileProps = {
 
 function MetricTile({ sensor, primary, secondary, footer }: TileProps) {
   return (
-    <div className="dashboard-surface dashboard-card-hover flex min-h-[7.25rem] flex-col p-4">
+    <div className="dashboard-surface dashboard-card-hover flex min-h-0 flex-col p-4">
       <div className="flex items-start justify-between gap-3">
         <div className="flex min-w-0 items-center gap-2 text-muted-foreground">
           {sensor.icon}
@@ -35,7 +35,7 @@ function MetricTile({ sensor, primary, secondary, footer }: TileProps) {
         {secondary ? <div className="shrink-0">{secondary}</div> : null}
       </div>
       <p className="metric-value mt-1">{primary}</p>
-      <p className="metric-sublabel mt-auto pt-2">{sensor.subtitle}</p>
+      <p className="metric-sublabel mt-auto truncate pt-2">{sensor.subtitle}</p>
       <div className="capsule-bar mt-2">
         <div
           className={`capsule-bar-fill ${barClass(sensor.value)}`}
@@ -67,6 +67,7 @@ export function HardwareControlGrid({
   const cpu = sensors.find((s) => s.label === "CPU")
   const ram = sensors.find((s) => s.label === "RAM")
   const gpu = sensors.find((s) => s.label === "GPU")
+  const disk = sensors.find((s) => s.label === "DISK")
 
   const cpuTempFooter =
     cpu && cpu.temp != null && cpu.temp > 0 ? (
@@ -87,7 +88,7 @@ export function HardwareControlGrid({
     ) : null
 
   return (
-    <div className="widget-span-2 space-y-2">
+    <div className="widget-span-2 flex min-h-0 flex-col gap-2">
       <div className="dashboard-widget-header px-0.5">
         <div className="dashboard-widget-title">
           <Cpu className="h-4 w-4 text-muted-foreground" />
@@ -101,7 +102,7 @@ export function HardwareControlGrid({
         </div>
       </div>
 
-      <div className="hardware-control-grid">
+      <div className="hardware-control-grid min-h-0 flex-1">
         {cpu ? (
           <MetricTile
             sensor={cpu}
@@ -125,13 +126,7 @@ export function HardwareControlGrid({
             }
           />
         ) : null}
-        <div className="dashboard-surface dashboard-card-hover flex min-h-[7.25rem] flex-col justify-between p-4">
-          <div>
-            <p className="metric-label">{t("hardware.statusTile")}</p>
-            <p className="metric-value mt-1 text-lg">OK</p>
-          </div>
-          <p className="metric-sublabel">{t("hardware.statusTileHint")}</p>
-        </div>
+        {disk ? <MetricTile sensor={disk} primary={`${Math.round(disk.value)}%`} /> : null}
       </div>
     </div>
   )

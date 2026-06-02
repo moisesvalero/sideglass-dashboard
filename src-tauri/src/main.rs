@@ -2,7 +2,7 @@
 
 use serde::Serialize;
 use std::sync::Mutex;
-use sysinfo::{Components, CpuRefreshKind, MemoryRefreshKind, RefreshKind, System};
+use sysinfo::{Components, CpuRefreshKind, Disks, MemoryRefreshKind, RefreshKind, System};
 use tauri::{
     image::Image,
     menu::{MenuBuilder, MenuItemBuilder},
@@ -44,10 +44,20 @@ pub struct GpuInfo {
 }
 
 #[derive(Serialize, Clone)]
+pub struct DiskInfo {
+    pub name: String,
+    pub mount_point: String,
+    pub total_gb: f32,
+    pub used_gb: f32,
+    pub usage_percent: f32,
+}
+
+#[derive(Serialize, Clone)]
 pub struct SystemInfo {
     pub cpu: CpuInfo,
     pub memory: MemoryInfo,
     pub gpu: Option<GpuInfo>,
+    pub disk: Option<DiskInfo>,
     pub sensors_available: bool,
 }
 
@@ -766,6 +776,45 @@ fn cpu_temp_from_components() -> Option<f32> {
     None
 }
 
+fn get_primary_disk_info() -> Option<DiskInfo> {
+    let disks = Disks::new_with_refreshed_list();
+    let list = disks.list();
+    if list.is_empty() {
+        return None;
+    }
+
+    let system_drive = std::env::var("SystemDrive")
+        .unwrap_or_else(|_| "C:".to_string())
+        .to_ascii_lowercase();
+
+    let disk = list
+        .iter()
+        .find(|disk| {
+            disk.mount_point()
+                .to_string_lossy()
+                .to_ascii_lowercase()
+                .starts_with(&system_drive)
+        })
+        .or_else(|| list.iter().max_by_key(|disk| disk.total_space()))?;
+
+    let total = disk.total_space() as f32;
+    if total <= 0.0 {
+        return None;
+    }
+
+    let available = disk.available_space() as f32;
+    let used = (total - available).max(0.0);
+    let to_gb = |bytes: f32| bytes / 1_073_741_824.0;
+
+    Some(DiskInfo {
+        name: disk.name().to_string_lossy().to_string(),
+        mount_point: disk.mount_point().to_string_lossy().to_string(),
+        total_gb: to_gb(total),
+        used_gb: to_gb(used),
+        usage_percent: (used / total) * 100.0,
+    })
+}
+
 #[cfg(not(windows))]
 fn read_lhm_temperatures() -> (Option<f32>, Option<f32>, bool) {
     (None, None, false)
@@ -817,11 +866,13 @@ fn get_system_info(state: State<AppState>) -> SystemInfo {
     };
 
     let gpu_info = get_gpu_info(&state, lhm_gpu_temp);
+    let disk_info = get_primary_disk_info();
 
     SystemInfo {
         cpu: cpu_info,
         memory: memory_info,
         gpu: gpu_info,
+        disk: disk_info,
         sensors_available,
     }
 }

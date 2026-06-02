@@ -17,12 +17,12 @@ export const DEFAULT_WIDGET_ORDER: WidgetId[] = [
 ]
 
 export const DEFAULT_WIDGET_LAYOUTS: Record<WidgetId, WidgetLayout> = {
-  time: { cols: 4, rows: 9 },
-  hardware: { cols: 4, rows: 16 },
-  calendar: { cols: 4, rows: 14 },
-  motivation: { cols: 2, rows: 7 },
-  notes: { cols: 2, rows: 10 },
-  music: { cols: 4, rows: 12 },
+  time: { cols: 4, rows: 12 },
+  hardware: { cols: 4, rows: 9 },
+  calendar: { cols: 4, rows: 10 },
+  motivation: { cols: 2, rows: 6 },
+  notes: { cols: 2, rows: 6 },
+  music: { cols: 4, rows: 9 },
 }
 
 export interface Settings {
@@ -112,7 +112,7 @@ function migrateStored(raw: Record<string, unknown>): Settings {
     ) {
       next.widgetLayouts[id] = {
         cols: Math.min(4, Math.max(1, Math.round((value as WidgetLayout).cols))),
-        rows: Math.min(28, Math.max(5, Math.round((value as WidgetLayout).rows))),
+        rows: Math.min(24, Math.max(5, Math.round((value as WidgetLayout).rows))),
       }
     }
   }

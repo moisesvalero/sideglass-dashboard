@@ -149,7 +149,7 @@ function DashboardContent() {
           </p>
         )}
 
-        <div className="dashboard-scroll custom-scrollbar">
+        <div className={`dashboard-scroll ${editMode ? "dashboard-scroll--editing" : ""}`}>
           {editMode && (
             <div className="dashboard-edit-toolbar">
               <span>{t("dashboard.customizeHint")}</span>

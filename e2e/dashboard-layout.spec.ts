@@ -1,5 +1,6 @@
 import { test, expect } from "@playwright/test"
 import { seedDashboard } from "./helpers/dashboard-seed"
+import dailyQuotes from "../data/daily-quotes.json"
 
 function icalDate(offsetDays: number, hour: number) {
   const d = new Date()
@@ -38,12 +39,12 @@ const resetLayoutSettings = {
   calendarIcalUrl: "/demo-calendar.ics",
   widgetOrder: ["time", "motivation", "notes", "calendar", "music", "hardware"],
   widgetLayouts: {
-    time: { cols: 4, rows: 9 },
-    motivation: { cols: 2, rows: 7 },
-    notes: { cols: 2, rows: 7 },
-    calendar: { cols: 4, rows: 8 },
-    music: { cols: 3, rows: 8 },
-    hardware: { cols: 4, rows: 14 },
+    time: { cols: 4, rows: 12 },
+    motivation: { cols: 2, rows: 6 },
+    notes: { cols: 2, rows: 6 },
+    calendar: { cols: 4, rows: 10 },
+    music: { cols: 3, rows: 9 },
+    hardware: { cols: 4, rows: 9 },
   },
 }
 
@@ -84,6 +85,20 @@ test.describe("dashboard layout width", () => {
   test("hero and hardware widgets are visible", async ({ page }) => {
     await expect(page.locator(".glass-hero")).toBeVisible()
     await expect(page.locator(".hardware-control-grid")).toBeVisible()
+    await expect(page.getByText("DISK")).toBeVisible()
+  })
+
+  test("dashboard fits the viewport without page scroll", async ({ page }) => {
+    const overflow = await page.evaluate(() => ({
+      body: document.body.scrollHeight - window.innerHeight,
+      document: document.documentElement.scrollHeight - window.innerHeight,
+      dashboard: document.querySelector(".dashboard-scroll")?.scrollHeight ?? 0,
+      viewport: document.querySelector(".dashboard-scroll")?.clientHeight ?? 0,
+    }))
+
+    expect(overflow.body).toBeLessThanOrEqual(2)
+    expect(overflow.document).toBeLessThanOrEqual(2)
+    expect(overflow.dashboard - overflow.viewport).toBeLessThanOrEqual(2)
   })
 
   test("customize mode exposes resize handles", async ({ page }) => {
@@ -129,4 +144,18 @@ test.describe("dashboard layout width", () => {
 
     expect(notesControlsOverlap).toBe(false)
   })
+})
+
+test("daily quote dataset stays short, known and bilingual", () => {
+  expect(dailyQuotes.length).toBeGreaterThanOrEqual(100)
+
+  for (const quote of dailyQuotes) {
+    expect(quote.author.length).toBeGreaterThan(2)
+    expect(quote.text.en.length).toBeLessThanOrEqual(115)
+    expect(quote.text.es.length).toBeLessThanOrEqual(125)
+    expect(quote.text.en.split(/\s+/).length).toBeLessThanOrEqual(18)
+    expect(quote.text.es.split(/\s+/).length).toBeLessThanOrEqual(18)
+    expect(/[?�]/.test(quote.text.en)).toBe(false)
+    expect(/[?�]/.test(quote.text.es)).toBe(false)
+  }
 })

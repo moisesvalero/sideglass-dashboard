@@ -64,7 +64,7 @@ export function MusicWidget() {
 
   return (
     <div className="glass-tile music-widget widget-span-2 overflow-hidden p-0">
-      <div className="music-widget-header flex items-center justify-between gap-2 px-5 pb-3 pt-5">
+      <div className="music-widget-header flex items-center justify-between gap-2 px-5 pb-3 pr-14 pt-5">
         <div className="dashboard-widget-title">
           <Youtube className="h-4 w-4 text-red-500" />
           <span>{t("music.title")}</span>
@@ -73,7 +73,7 @@ export function MusicWidget() {
           <button
             type="button"
             onClick={reset}
-            className="flex h-7 w-7 items-center justify-center rounded-lg bg-muted"
+            className="music-close-button flex h-7 w-7 items-center justify-center rounded-lg bg-muted"
             aria-label={t("music.close")}
           >
             <X className="h-3.5 w-3.5 text-muted-foreground" />

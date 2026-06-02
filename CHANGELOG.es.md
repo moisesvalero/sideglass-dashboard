@@ -6,16 +6,34 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es/1.1.0/) y el p
 
 **Versión en inglés:** [CHANGELOG.md](./CHANGELOG.md) — mantén ambos archivos sincronizados al publicar una release.
 
+## [0.2.22] - 2026-06-02
+
+### Añadido
+
+- **Métrica útil de disco**: el estado del sistema muestra el uso real del disco principal desde Tauri, con porcentaje y GB usados/totales
+
+### Cambiado
+
+- **Dashboard sin scroll de página**: el grid se ajusta al alto disponible de la ventana y comprime las filas en vez de crear scroll vertical
+- **Frases del día curadas**: sustituido el volcado grande de frases por una colección bilingüe corta de autores clásicos conocidos
+- **Tipografía de frase diaria**: el texto de la frase usa Architects Daughter para un aspecto manuscrito más limpio
+- **Tipografía Satoshi**: sustituido Inter por Satoshi empaquetada localmente como fuente principal de la app
+- **Clima más escalable**: el icono y la temperatura crecen mejor cuando la tarjeta del reloj es grande
+
+### Corregido
+
+- **Controles de YouTube**: la X de cerrar ya no choca con el asa de arrastrar el widget en modo edición
+- **Unidades del clima**: Celsius/Fahrenheit se muestran como `°C` y `°F` en vez de caracteres rotos
+
 ## [0.2.21] - 2026-06-02
 
 ### Añadido
 
-- **500 frases del día bilingües**: el widget de frase diaria usa ahora un dataset local offline con texto en español e inglés según el idioma de la app
-- **Metadatos de origen**: las frases importadas incluyen autor, etiquetas, fuente y licencia MIT del proyecto Quotable Data
+- **Frases del día offline**: el widget de frase diaria usa un dataset local bilingüe con texto en español e inglés según el idioma de la app
 
 ### Cambiado
 
-- **Tipografía estilo Apple en Windows**: el dashboard usa Inter como fuente real empaquetada, con fallbacks nativos de Windows
+- **Tipografía estilo Apple en Windows**: el dashboard usa una fuente real empaquetada, con fallbacks nativos de Windows
 - **Tarjetas de frase y notas responsivas**: la frase diaria escala o hace scroll dentro de tarjetas pequeñas, y el botón `+` de notas ya no se solapa con el arrastre en modo edición
 
 ## [0.2.20] - 2026-06-01

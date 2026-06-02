@@ -4,6 +4,38 @@
 @custom-variant dark (&:is(.dark *));
 @custom-variant light (&:is(.light *));
 
+@font-face {
+  font-family: "Satoshi";
+  src: url("/fonts/satoshi/Satoshi-Light.woff") format("woff");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Satoshi";
+  src: url("/fonts/satoshi/Satoshi-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Satoshi";
+  src: url("/fonts/satoshi/Satoshi-Medium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Satoshi";
+  src: url("/fonts/satoshi/Satoshi-Bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --radius: 14px;
   --mac-blur: 48px;
@@ -108,7 +140,7 @@
 }
 
 @theme inline {
-  --font-sans: var(--font-inter), "Segoe UI Variable", "Segoe UI", system-ui, sans-serif;
+  --font-sans: "Satoshi", "Segoe UI Variable", "Segoe UI", system-ui, sans-serif;
   --font-mono: "SF Mono", "Cascadia Code", ui-monospace, monospace;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -311,11 +343,16 @@
   min-height: 0;
   flex-direction: column;
   justify-content: space-between;
-  gap: clamp(0.75rem, 4cqh, 1.5rem);
+  gap: clamp(0.75rem, 4cqh, 2.25rem);
+}
+
+.time-weather-clock {
+  min-width: 0;
+  overflow: hidden;
 }
 
 .time-weather-time {
-  font-size: clamp(3.25rem, min(30cqw, 58cqh), 17rem);
+  font-size: clamp(3.25rem, min(18cqw, 58cqh), 17rem);
   font-weight: 200;
   line-height: 0.9;
   letter-spacing: -0.05cap;
@@ -339,17 +376,17 @@
   flex-shrink: 0;
   flex-wrap: wrap;
   align-items: center;
-  gap: clamp(0.45rem, 2cqw, 0.85rem);
-  padding: clamp(0.65rem, 3cqh, 1rem) clamp(0.75rem, 2cqw, 1rem);
+  gap: clamp(0.55rem, min(3cqw, 4cqh), 2.4rem);
+  padding: clamp(0.8rem, 4cqh, 2.2rem) clamp(0.95rem, 3.8cqw, 2.8rem);
 }
 
 .time-weather-icon {
-  height: clamp(2rem, min(10cqw, 15cqh), 6.5rem);
-  width: clamp(2rem, min(10cqw, 15cqh), 6.5rem);
+  height: clamp(2rem, min(13cqw, 19cqh), 10rem);
+  width: clamp(2rem, min(13cqw, 19cqh), 10rem);
 }
 
 .time-weather-temp {
-  font-size: clamp(1.6rem, min(9cqw, 13cqh), 6.5rem);
+  font-size: clamp(1.7rem, min(13cqw, 24cqh), 10.5rem);
   font-weight: 300;
   line-height: 1;
   letter-spacing: -0.045cap;
@@ -360,7 +397,7 @@
 .time-weather-condition,
 .time-weather-city {
   display: block;
-  max-width: min(13rem, 46cqw);
+  max-width: min(24rem, 54cqw);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -368,14 +405,14 @@
 }
 
 .time-weather-condition {
-  font-size: clamp(0.72rem, min(3cqw, 3.2cqh), 1rem);
+  font-size: clamp(0.76rem, min(3.8cqw, 4.8cqh), 1.8rem);
   line-height: 1.15;
   text-transform: capitalize;
 }
 
 .time-weather-city {
-  margin-top: 0.15rem;
-  font-size: clamp(0.68rem, min(2.7cqw, 3cqh), 0.9rem);
+  margin-top: clamp(0.12rem, 0.8cqh, 0.45rem);
+  font-size: clamp(0.7rem, min(3.2cqw, 4cqh), 1.35rem);
   color: color-mix(in oklch, var(--muted-foreground) 76%, transparent);
 }
 
@@ -386,7 +423,7 @@
   }
 
   .time-weather-panel {
-    max-width: min(42cqw, 24rem);
+    max-width: min(48cqw, 42rem);
   }
 }
 
@@ -513,7 +550,7 @@
 
 @container (max-height: 205px) {
   .music-widget-header {
-    padding: 0.8rem 1rem 0.55rem;
+    padding: 0.8rem 3.25rem 0.55rem 1rem;
   }
 
   .music-search-row {
@@ -562,7 +599,7 @@
   flex-direction: column;
   justify-content: center;
   gap: 0.35rem;
-  overflow: auto;
+  overflow: hidden;
   padding: 0.45rem 0.15rem 0.1rem;
 }
 
@@ -573,7 +610,7 @@
   z-index: -1;
   font-family: var(--font-hand), "Segoe Print", "Bradley Hand ITC", cursive;
   font-size: clamp(2.4rem, min(9cqw, 18cqh), 4.25rem);
-  font-weight: 700;
+  font-weight: 400;
   line-height: 1;
   color: oklch(0.74 0.16 82 / 0.18);
 }
@@ -582,7 +619,7 @@
   max-width: min(34ch, 100%);
   font-family: var(--font-hand), "Segoe Print", "Bradley Hand ITC", cursive;
   font-size: clamp(1.12rem, min(7cqw, 18cqh), 2.35rem);
-  font-weight: 600;
+  font-weight: 400;
   line-height: 1.08;
   color: color-mix(in oklch, var(--foreground) 92%, oklch(0.78 0.14 82) 8%);
   text-wrap: balance;
@@ -592,7 +629,7 @@
   margin-top: 0.25rem;
   font-family: var(--font-hand), "Segoe Print", "Bradley Hand ITC", cursive;
   font-size: clamp(0.9rem, min(3.8cqw, 8cqh), 1.25rem);
-  font-weight: 600;
+  font-weight: 400;
   color: color-mix(in oklch, var(--muted-foreground) 82%, oklch(0.78 0.14 82) 18%);
 }
 
@@ -718,10 +755,15 @@
 }
 
 .dashboard-scroll {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr);
   min-height: 0;
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow: hidden;
   overscroll-behavior: contain;
+}
+
+.dashboard-scroll--editing {
+  grid-template-rows: auto minmax(0, 1fr);
 }
 
 .dashboard-dock-row {
@@ -730,13 +772,15 @@
 
 .dashboard-grid {
   display: grid;
-  gap: 1rem;
+  gap: clamp(0.25rem, 0.45vmin, 0.5rem);
+  min-height: 0;
+  height: 100%;
   width: 100%;
   max-width: 100%;
   margin-inline: auto;
-  padding: 0.9rem clamp(0.75rem, 2.4vw, 1.8rem) 1.25rem;
+  padding: clamp(0.45rem, 1.3vmin, 0.9rem) clamp(0.6rem, 2vw, 1.5rem);
   grid-auto-flow: dense;
-  grid-auto-rows: 8px;
+  grid-auto-rows: minmax(0, 1fr);
   grid-template-columns: repeat(4, minmax(0, 1fr));
   box-sizing: border-box;
 }
@@ -814,13 +858,13 @@
 .hardware-control-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.75rem;
+  gap: clamp(0.35rem, 0.7vmin, 0.75rem);
 }
 
 /* Monitor secundario vertical: ancho completo, 2 columnas cuando cabe */
 @media (min-width: 560px) {
   .dashboard-grid {
-    gap: 1rem;
+    gap: clamp(0.3rem, 0.5vmin, 0.65rem);
   }
 }
 
@@ -834,8 +878,8 @@
 @media (min-width: 1100px) {
   .dashboard-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 1.15rem;
-    padding: 1.15rem clamp(1.25rem, 3vw, 2.5rem) 1.5rem;
+    gap: clamp(0.35rem, 0.55vmin, 0.75rem);
+    padding: clamp(0.6rem, 1vmin, 1rem) clamp(0.9rem, 2vw, 2rem);
   }
 }
 

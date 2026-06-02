@@ -44,11 +44,11 @@
 
 - Reloj y clima (Open-Meteo, sin API key)
 - Google Calendar vía URL iCal
-- CPU, RAM y GPU en vivo; temperaturas con LibreHardwareMonitor / NVML
+- CPU, RAM, GPU y uso del disco principal en vivo; temperaturas con sensores / NVML
 - **Widgets redimensionables y responsivos**: arrastra la esquina al tamaño que quieras; el contenido escala dentro de la tarjeta
 - **YouTube dentro del panel** con búsqueda real en la app Tauri
 - Dock de IAs (ChatGPT, Gemini, Claude, Perplexity, Microsoft Copilot)
-- Notas locales, 500 frases del día bilingües offline, widgets reordenables
+- Tipografía Satoshi, notas locales, frases del día bilingües curadas, widgets reordenables
 - Barra de título estilo **Windows** (controles a la derecha)
 - Auto-actualización: **Ajustes → Buscar actualizaciones**
 - Inicio con Windows, atajo global, bandeja del sistema

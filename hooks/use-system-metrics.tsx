@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState, useCallback } from "react"
-import { Cpu, MemoryStick, Monitor } from "lucide-react"
+import { Cpu, HardDrive, MemoryStick, Monitor } from "lucide-react"
 import { isTauri, getSystemInfo, startSensorService, type SystemInfo } from "@/lib/tauri"
 
 export interface MetricSensor {
@@ -51,6 +51,16 @@ export function systemInfoToMetrics(info: SystemInfo): MetricSensor[] {
     })
   }
 
+  if (info.disk) {
+    sensors.push({
+      label: "DISK",
+      value: info.disk.usage_percent,
+      temp: null,
+      icon: <HardDrive className="h-4 w-4" />,
+      subtitle: `${info.disk.used_gb.toFixed(0)} / ${info.disk.total_gb.toFixed(0)} GB`,
+    })
+  }
+
   return sensors
 }
 
@@ -78,6 +88,13 @@ export function useSystemMetrics() {
       temp: null,
       icon: <Monitor className="h-4 w-4" />,
       subtitle: "GPU",
+    },
+    {
+      label: "DISK",
+      value: 54,
+      temp: null,
+      icon: <HardDrive className="h-4 w-4" />,
+      subtitle: "512 / 953 GB",
     },
   ])
 

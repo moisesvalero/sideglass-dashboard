@@ -1,20 +1,48 @@
 {
   "es": [
     {
+      "version": "0.2.22",
+      "date": "2026-06-02",
+      "groups": [
+        {
+          "category": "Añadido",
+          "items": [
+            "**Métrica útil de disco**: el estado del sistema muestra el uso real del disco principal desde Tauri, con porcentaje y GB usados/totales"
+          ]
+        },
+        {
+          "category": "Cambiado",
+          "items": [
+            "**Dashboard sin scroll de página**: el grid se ajusta al alto disponible de la ventana y comprime las filas en vez de crear scroll vertical",
+            "**Frases del día curadas**: sustituido el volcado grande de frases por una colección bilingüe corta de autores clásicos conocidos",
+            "**Tipografía de frase diaria**: el texto de la frase usa Architects Daughter para un aspecto manuscrito más limpio",
+            "**Tipografía Satoshi**: sustituido Inter por Satoshi empaquetada localmente como fuente principal de la app",
+            "**Clima más escalable**: el icono y la temperatura crecen mejor cuando la tarjeta del reloj es grande"
+          ]
+        },
+        {
+          "category": "Corregido",
+          "items": [
+            "**Controles de YouTube**: la X de cerrar ya no choca con el asa de arrastrar el widget en modo edición",
+            "**Unidades del clima**: Celsius/Fahrenheit se muestran como `°C` y `°F` en vez de caracteres rotos"
+          ]
+        }
+      ]
+    },
+    {
       "version": "0.2.21",
       "date": "2026-06-02",
       "groups": [
         {
           "category": "Añadido",
           "items": [
-            "**500 frases del día bilingües**: el widget de frase diaria usa ahora un dataset local offline con texto en español e inglés según el idioma de la app",
-            "**Metadatos de origen**: las frases importadas incluyen autor, etiquetas, fuente y licencia MIT del proyecto Quotable Data"
+            "**Frases del día offline**: el widget de frase diaria usa un dataset local bilingüe con texto en español e inglés según el idioma de la app"
           ]
         },
         {
           "category": "Cambiado",
           "items": [
-            "**Tipografía estilo Apple en Windows**: el dashboard usa Inter como fuente real empaquetada, con fallbacks nativos de Windows",
+            "**Tipografía estilo Apple en Windows**: el dashboard usa una fuente real empaquetada, con fallbacks nativos de Windows",
             "**Tarjetas de frase y notas responsivas**: la frase diaria escala o hace scroll dentro de tarjetas pequeñas, y el botón `+` de notas ya no se solapa con el arrastre en modo edición"
           ]
         }
@@ -396,20 +424,48 @@
   ],
   "en": [
     {
+      "version": "0.2.22",
+      "date": "2026-06-02",
+      "groups": [
+        {
+          "category": "Added",
+          "items": [
+            "**Useful disk metric**: hardware status now includes real primary disk usage from Tauri, shown as percent plus used/total GB"
+          ]
+        },
+        {
+          "category": "Changed",
+          "items": [
+            "**No page scroll dashboard**: the dashboard grid now fits the available window height and compresses widget rows instead of creating vertical page scroll",
+            "**Daily quote quality pass**: replaced the large imported quote dump with a short curated bilingual set from well-known classic authors",
+            "**Daily quote typography**: the quote text now uses Architects Daughter for a cleaner handwritten look",
+            "**Satoshi app typography**: replaced Inter with locally bundled Satoshi as the main app font",
+            "**Weather scaling**: the weather icon and temperature scale more aggressively with large clock cards"
+          ]
+        },
+        {
+          "category": "Fixed",
+          "items": [
+            "**YouTube controls**: the close button no longer collides with the widget drag handle in edit mode",
+            "**Weather unit rendering**: Celsius/Fahrenheit suffixes render as `°C` and `°F` instead of broken characters"
+          ]
+        }
+      ]
+    },
+    {
       "version": "0.2.21",
       "date": "2026-06-02",
       "groups": [
         {
           "category": "Added",
           "items": [
-            "**500 bilingual daily quotes**: the daily quote widget now uses a local offline dataset with English and Spanish text, selected according to the app language",
-            "**Quote source metadata**: imported quote entries include author, tags, source, and MIT license metadata from the Quotable Data project"
+            "**Offline daily quotes**: the daily quote widget uses a local bilingual dataset with English and Spanish text, selected according to the app language"
           ]
         },
         {
           "category": "Changed",
           "items": [
-            "**Apple-like typography on Windows**: dashboard typography now uses Inter as the real bundled font, with Windows-native fallbacks only",
+            "**Apple-like typography on Windows**: dashboard typography uses a real bundled font, with Windows-native fallbacks only",
             "**Responsive quote and notes cards**: daily quote content scales/scrolls inside small cards, and the notes `+` button no longer overlaps the drag handle in edit mode"
           ]
         }

@@ -6,16 +6,34 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 **Spanish version:** [CHANGELOG.es.md](./CHANGELOG.es.md) — keep both files in sync when you add a release.
 
+## [0.2.22] - 2026-06-02
+
+### Added
+
+- **Useful disk metric**: hardware status now includes real primary disk usage from Tauri, shown as percent plus used/total GB
+
+### Changed
+
+- **No page scroll dashboard**: the dashboard grid now fits the available window height and compresses widget rows instead of creating vertical page scroll
+- **Daily quote quality pass**: replaced the large imported quote dump with a short curated bilingual set from well-known classic authors
+- **Daily quote typography**: the quote text now uses Architects Daughter for a cleaner handwritten look
+- **Satoshi app typography**: replaced Inter with locally bundled Satoshi as the main app font
+- **Weather scaling**: the weather icon and temperature scale more aggressively with large clock cards
+
+### Fixed
+
+- **YouTube controls**: the close button no longer collides with the widget drag handle in edit mode
+- **Weather unit rendering**: Celsius/Fahrenheit suffixes render as `°C` and `°F` instead of broken characters
+
 ## [0.2.21] - 2026-06-02
 
 ### Added
 
-- **500 bilingual daily quotes**: the daily quote widget now uses a local offline dataset with English and Spanish text, selected according to the app language
-- **Quote source metadata**: imported quote entries include author, tags, source, and MIT license metadata from the Quotable Data project
+- **Offline daily quotes**: the daily quote widget uses a local bilingual dataset with English and Spanish text, selected according to the app language
 
 ### Changed
 
-- **Apple-like typography on Windows**: dashboard typography now uses Inter as the real bundled font, with Windows-native fallbacks only
+- **Apple-like typography on Windows**: dashboard typography uses a real bundled font, with Windows-native fallbacks only
 - **Responsive quote and notes cards**: daily quote content scales/scrolls inside small cards, and the notes `+` button no longer overlaps the drag handle in edit mode
 
 ## [0.2.20] - 2026-06-01

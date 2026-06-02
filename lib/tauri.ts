@@ -22,10 +22,19 @@ export interface GpuInfo {
   memory_percent: number
 }
 
+export interface DiskInfo {
+  name: string
+  mount_point: string
+  total_gb: number
+  used_gb: number
+  usage_percent: number
+}
+
 export interface SystemInfo {
   cpu: CpuInfo
   memory: MemoryInfo
   gpu: GpuInfo | null
+  disk: DiskInfo | null
   sensors_available: boolean
 }
 
