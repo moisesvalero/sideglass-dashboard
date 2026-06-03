@@ -1,66 +1,136 @@
-# Cursor Rules for iOS Dashboard Project
+# Cursor Rules for Sideglass
 
 ## Project Context
-This is a premium iOS/visionOS-style vertical dashboard built with Next.js + Tauri for Windows desktop.
-It features glassmorphism UI, real-time hardware monitoring via Rust backend, and an AI assistant dock.
+
+Sideglass is a source-available desktop dashboard for Windows, built with Next.js static export, Tauri v2, and Rust. It is designed for a secondary monitor in portrait or landscape, with resizable dashboard widgets, light/dark mode, hardware monitoring, calendar, weather, YouTube, notes, and an AI dock.
+
+The project is licensed under the PolyForm Noncommercial License 1.0.0. Do not describe current versions as MIT or open source. Use "source available" unless referring specifically to older versions that were previously published under MIT.
 
 ## Tech Stack
-- Frontend: Next.js 15, React 19, TypeScript, Tailwind CSS v4
+
+- Frontend: Next.js 16, React 19, TypeScript, Tailwind CSS v4
 - Desktop: Tauri v2 with Rust backend
-- UI: shadcn/ui components + custom glassmorphism design system
+- Native: Rust, sysinfo, WMI/LibreHardwareMonitor, NVML
+- Distribution: GitHub Releases, Tauri updater, WinGet manifests
+- UI: Tailwind v4 tokens, shadcn-style primitives, custom dashboard components
 
-## Code Style
+## Core Rules
 
-### TypeScript/React
-- Use "use client" directive for components with hooks or browser APIs
-- Prefer functional components with hooks
-- Use `cn()` from `lib/utils` for conditional class merging
-- Always handle hydration: use `mounted` state for time/date displays
+- Preserve light and dark mode.
+- Use semantic tokens from `app/globals.css`.
+- Do not hardcode widget colors such as `text-white`.
+- Check `isTauri()` before calling Tauri APIs.
+- Provide safe web-preview/demo fallbacks when native data is unavailable.
+- Dashboard widgets must remain responsive inside freely resizable cards.
+- Avoid app-level vertical scroll in the desktop dashboard where possible.
+- Do not touch the AI dock design unless explicitly requested.
+- Do not change release/version/changelog files unless the task is part of a release.
 
-### Tailwind CSS v4
-- NO tailwind.config.ts - all config in `app/globals.css` under `@theme inline`
-- Use semantic tokens: `bg-background`, `text-foreground`, `bg-card`
-- Custom classes: `.glass-card`, `.dock-glass`, `.neon-progress`
-- Prefer gap over margin for spacing in flex/grid
+## TypeScript and React
 
-### Tauri Integration
-- All system commands defined in `src-tauri/src/main.rs`
-- Frontend uses `lib/tauri.ts` for type-safe invoke wrapper
-- Always check `isTauri()` before calling Tauri APIs
-- Provide fallback/demo data for web preview
+- Use `"use client"` only for components that need state, effects, browser APIs, Tauri APIs, or event handlers.
+- Prefer functional components and hooks.
+- Use `cn()` from `lib/utils` for conditional class merging.
+- For time/date widgets, handle hydration with mounted/client state.
+- Keep widget code focused and avoid broad refactors during visual or copy changes.
 
-### Rust Backend
-- Use sysinfo crate for CPU/RAM monitoring
-- Use nvml-wrapper for NVIDIA GPU (with error handling fallback)
-- Return serializable structs with serde
+## Tailwind CSS v4
 
-## File Locations
+- There is no `tailwind.config.ts`; theme configuration lives in `app/globals.css`.
+- Prefer semantic classes and CSS variables over one-off colors.
+- Use stable dimensions, grid tracks, and responsive constraints for dashboard cards.
+- Prefer gap over margins for flex/grid spacing.
+- Add reusable custom classes in `app/globals.css` only when they reduce duplication.
+
+## Tauri Integration
+
+- Rust commands live in `src-tauri/src/main.rs`.
+- Frontend wrappers live in `lib/tauri.ts`.
+- Register new commands in `.invoke_handler(tauri::generate_handler![...])`.
+- Always keep web-preview fallbacks working.
+- Avoid blocking the UI while native commands load.
+
+## Rust Backend
+
+- Use serializable structs with `serde`.
+- Keep sensor and hardware fallbacks defensive.
+- CPU/RAM uses `sysinfo`.
+- NVIDIA GPU uses `nvml-wrapper` when available.
+- WMI/LibreHardwareMonitor paths must handle missing permissions and missing services gracefully.
+
+## Key Paths
+
+- Landing page: `app/page.tsx`
+- Dashboard: `app/dashboard/page.tsx`
 - Dashboard widgets: `components/dashboard/`
-- Tauri types/helpers: `lib/tauri.ts`
-- Global styles: `app/globals.css`
+- Landing components: `components/landing/`
+- Settings/preferences: `lib/settings.tsx`
+- Tauri helpers: `lib/tauri.ts`
+- Global styles/theme: `app/globals.css`
 - Rust backend: `src-tauri/src/main.rs`
+- Tauri config: `src-tauri/tauri.conf.json`
+- Version constants: `lib/site.ts`
+- Changelog: `CHANGELOG.md`, `CHANGELOG.es.md`
+- WinGet tooling: `scripts/generate-winget-manifest.mjs`, `docs/WINGET.md`
 
-## Design Guidelines
-- Glassmorphism: backdrop-blur + translucent bg + thin white border
-- Colors: Deep dark blues/purples, white text, neon accents
-- Animations: Subtle hover effects, smooth transitions (300ms)
-- Border radius: 24px for cards, 16px for buttons
-- Mobile-first: 420px width, vertical scroll layout
+## Commands
 
-## Common Patterns
+```bash
+npm run dev
+npm run tauri:dev
+npm run format:check
+npm run lint
+npm run typecheck
+npm run build
+npm run test:e2e
+npm run winget:manifest
+```
 
-### Adding a new widget
-1. Create component in `components/dashboard/`
-2. Use `.glass-card` class for container
-3. Add to `app/page.tsx` in the flex column
+For Rust-only changes, also run:
 
-### Adding Tauri command
-1. Add command function in `src-tauri/src/main.rs`
-2. Register in `.invoke_handler(tauri::generate_handler![...])`
-3. Add TypeScript types in `lib/tauri.ts`
-4. Use `invokeTauri<T>()` wrapper in component
+```bash
+cargo check
+```
 
-### Styling new elements
-1. Check existing design tokens in `globals.css`
-2. Use semantic classes when possible
-3. Add new custom classes in globals.css if reusable
+from `src-tauri/`.
+
+## Adding a Dashboard Widget
+
+1. Create or update the widget in `components/dashboard/`.
+2. Use semantic tokens and existing dashboard card patterns.
+3. Add it to the dashboard layout in `app/dashboard/page.tsx`.
+4. Ensure it behaves correctly when resized small and large.
+5. Ensure it works in both light and dark mode.
+6. Provide fallback/demo data for web preview when native APIs are not available.
+
+## Landing and Copy
+
+- Landing copy lives in `lib/landing-content.ts`.
+- Keep Spanish and English content in sync.
+- Do not add animations, components, or layout changes when the task is copy-only.
+- If changing license wording, update README, landing, JSON-LD, package metadata, and WinGet metadata together.
+
+## Release Checklist
+
+When shipping a new app release, update:
+
+- `package.json`
+- `package-lock.json`
+- `lib/site.ts`
+- `src-tauri/tauri.conf.json`
+- `src-tauri/Cargo.toml`
+- `CHANGELOG.md`
+- `CHANGELOG.es.md`
+
+Then run the relevant checks and build before tagging.
+
+## WinGet Checklist
+
+After a GitHub Release installer exists:
+
+```bash
+npm run winget:manifest -- --installer ./path/to/Sideglass_x64-setup.exe
+winget validate ./winget/manifests/m/MoisesValero/Sideglass/<version>
+```
+
+Copy the generated version folder into the `microsoft/winget-pkgs` fork and open or update the PR.
