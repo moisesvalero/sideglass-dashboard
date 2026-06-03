@@ -80,6 +80,12 @@ Regenerate marketing screenshots:
 npm run screenshots
 ```
 
+Check private GitHub Release download counts:
+
+```bash
+npm run stats:downloads
+```
+
 Generate WinGet manifests for a release:
 
 ```bash

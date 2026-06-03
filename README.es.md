@@ -80,6 +80,12 @@ Regenerar capturas:
 npm run screenshots
 ```
 
+Consultar en privado las descargas de GitHub Releases:
+
+```bash
+npm run stats:downloads
+```
+
 Generar manifiestos de WinGet para una release:
 
 ```bash
