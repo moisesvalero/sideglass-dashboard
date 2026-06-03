@@ -6,6 +6,13 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es/1.1.0/) y el p
 
 **Versión en inglés:** [CHANGELOG.md](./CHANGELOG.md) — mantén ambos archivos sincronizados al publicar una release.
 
+## [0.2.25] - 2026-06-03
+
+### Corregido
+
+- **Clima mas resistente**: el widget vuelve a cargar correctamente cuando la ciudad guardada incluye region y pais, como `Alcoy, Comunidad Valenciana, Espana`
+- **Fallback de ubicacion automatica**: si Windows o WebView bloquean la geolocalizacion, Sideglass usa la ciudad manual guardada en vez de mostrar `No se pudo cargar el clima`
+
 ## [0.2.24] - 2026-06-02
 
 ### Cambiado

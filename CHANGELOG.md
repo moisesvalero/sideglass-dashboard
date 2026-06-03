@@ -6,6 +6,13 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 **Spanish version:** [CHANGELOG.es.md](./CHANGELOG.es.md) — keep both files in sync when you add a release.
 
+## [0.2.25] - 2026-06-03
+
+### Fixed
+
+- **More resilient weather**: the widget now loads correctly when the saved city includes region and country, such as `Alcoy, Valencian Community, Spain`
+- **Auto-location fallback**: if Windows or WebView block geolocation, Sideglass uses the saved manual city instead of showing `Could not load weather`
+
 ## [0.2.24] - 2026-06-02
 
 ### Changed

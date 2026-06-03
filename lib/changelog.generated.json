@@ -1,6 +1,19 @@
 {
   "es": [
     {
+      "version": "0.2.25",
+      "date": "2026-06-03",
+      "groups": [
+        {
+          "category": "Corregido",
+          "items": [
+            "**Clima mas resistente**: el widget vuelve a cargar correctamente cuando la ciudad guardada incluye region y pais, como `Alcoy, Comunidad Valenciana, Espana`",
+            "**Fallback de ubicacion automatica**: si Windows o WebView bloquean la geolocalizacion, Sideglass usa la ciudad manual guardada en vez de mostrar `No se pudo cargar el clima`"
+          ]
+        }
+      ]
+    },
+    {
       "version": "0.2.24",
       "date": "2026-06-02",
       "groups": [
@@ -465,6 +478,19 @@
     }
   ],
   "en": [
+    {
+      "version": "0.2.25",
+      "date": "2026-06-03",
+      "groups": [
+        {
+          "category": "Fixed",
+          "items": [
+            "**More resilient weather**: the widget now loads correctly when the saved city includes region and country, such as `Alcoy, Valencian Community, Spain`",
+            "**Auto-location fallback**: if Windows or WebView block geolocation, Sideglass uses the saved manual city instead of showing `Could not load weather`"
+          ]
+        }
+      ]
+    },
     {
       "version": "0.2.24",
       "date": "2026-06-02",

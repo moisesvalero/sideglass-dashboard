@@ -52,6 +52,54 @@ export interface CitySuggestion {
   longitude: number
 }
 
+function createFetchSignal(timeoutMs: number, signal?: AbortSignal) {
+  const controller = new AbortController()
+  const timeout = globalThis.setTimeout(() => controller.abort(), timeoutMs)
+
+  if (signal) {
+    if (signal.aborted) controller.abort()
+    signal.addEventListener("abort", () => controller.abort(), { once: true })
+  }
+
+  return { signal: controller.signal, clear: () => globalThis.clearTimeout(timeout) }
+}
+
+async function fetchJson<T>(url: string, options?: { signal?: AbortSignal; timeoutMs?: number }) {
+  const timeout = createFetchSignal(options?.timeoutMs ?? 8000, options?.signal)
+  try {
+    const res = await fetch(url, { signal: timeout.signal })
+    if (!res.ok) return null
+    return (await res.json()) as T
+  } finally {
+    timeout.clear()
+  }
+}
+
+function normalizeToken(value: string) {
+  return value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim()
+}
+
+function cityTokens(city: string) {
+  return city
+    .split(",")
+    .map((part) => normalizeToken(part))
+    .filter(Boolean)
+}
+
+type GeocodingResult = {
+  id: number
+  name: string
+  admin1?: string
+  country?: string
+  country_code?: string
+  latitude: number
+  longitude: number
+}
+
 /** Live city search for the weather location autocomplete. */
 export async function searchCities(
   query: string,
@@ -61,57 +109,55 @@ export async function searchCities(
   const q = query.trim()
   if (q.length < 2) return []
   try {
-    const res = await fetch(
+    const data = await fetchJson<{ results?: GeocodingResult[] }>(
       `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(q)}&count=8&language=${lang}&format=json`,
-      { signal: signal ?? AbortSignal.timeout(8000) }
+      { signal }
     )
-    if (!res.ok) return []
-    const data = await res.json()
-    const results = Array.isArray(data.results) ? data.results : []
-    return results.map(
-      (r: {
-        id: number
-        name: string
-        admin1?: string
-        country?: string
-        latitude: number
-        longitude: number
-      }): CitySuggestion => {
-        const parts = [r.name, r.admin1, r.country].filter(Boolean)
-        return {
-          id: r.id,
-          name: r.name,
-          label: parts.join(", "),
-          latitude: r.latitude,
-          longitude: r.longitude,
-        }
+    const results = Array.isArray(data?.results) ? data.results : []
+    return results.map((r): CitySuggestion => {
+      const parts = [r.name, r.admin1, r.country].filter(Boolean)
+      return {
+        id: r.id,
+        name: r.name,
+        label: parts.join(", "),
+        latitude: r.latitude,
+        longitude: r.longitude,
       }
-    )
+    })
   } catch {
     return []
   }
 }
 
 async function geocode(city: string): Promise<{ lat: number; lon: number; name: string } | null> {
-  const res = await fetch(
-    `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1&language=es`,
-    { signal: AbortSignal.timeout(8000) }
+  const trimmed = city.trim()
+  const primaryName = trimmed.split(",")[0]?.trim() || trimmed
+  if (primaryName.length < 2) return null
+
+  const data = await fetchJson<{ results?: GeocodingResult[] }>(
+    `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(primaryName)}&count=10&language=es&format=json`
   )
-  if (!res.ok) return null
-  const data = await res.json()
-  const r = data.results?.[0]
+  const results = Array.isArray(data?.results) ? data.results : []
+  const desiredTokens = cityTokens(trimmed).slice(1)
+  const r =
+    [...results].sort((a, b) => {
+      const score = (item: GeocodingResult) => {
+        const label = normalizeToken(
+          [item.name, item.admin1, item.country].filter(Boolean).join(", ")
+        )
+        return desiredTokens.reduce((sum, token) => sum + (label.includes(token) ? 1 : 0), 0)
+      }
+      return score(b) - score(a)
+    })[0] ?? null
   if (!r) return null
   return { lat: r.latitude, lon: r.longitude, name: r.name }
 }
 
 async function reverseGeocode(lat: number, lon: number): Promise<string | null> {
-  const res = await fetch(
-    `https://geocoding-api.open-meteo.com/v1/reverse?latitude=${lat}&longitude=${lon}&language=es`,
-    { signal: AbortSignal.timeout(8000) }
+  const data = await fetchJson<{ results?: { name?: string }[] }>(
+    `https://geocoding-api.open-meteo.com/v1/reverse?latitude=${lat}&longitude=${lon}&language=es`
   )
-  if (!res.ok) return null
-  const data = await res.json()
-  return data.results?.[0]?.name ?? null
+  return data?.results?.[0]?.name ?? null
 }
 
 async function getBrowserPosition(): Promise<GeolocationPosition> {
@@ -135,19 +181,27 @@ export async function fetchWeather(options: {
 }): Promise<WeatherResult> {
   let lat: number
   let lon: number
-  let cityName = options.city
+  let cityName = options.city.trim() || "Madrid"
 
   if (options.useAutoLocation) {
-    const pos = await getBrowserPosition()
-    if (pos.coords.accuracy && pos.coords.accuracy > 100_000) {
-      throw new Error("Geolocation accuracy too low")
+    try {
+      const pos = await getBrowserPosition()
+      if (pos.coords.accuracy && pos.coords.accuracy > 100_000) {
+        throw new Error("Geolocation accuracy too low")
+      }
+      lat = pos.coords.latitude
+      lon = pos.coords.longitude
+      const rev = await reverseGeocode(lat, lon)
+      if (rev) cityName = rev
+    } catch (error) {
+      const geo = await geocode(cityName)
+      if (!geo) throw error
+      lat = geo.lat
+      lon = geo.lon
+      cityName = geo.name
     }
-    lat = pos.coords.latitude
-    lon = pos.coords.longitude
-    const rev = await reverseGeocode(lat, lon)
-    if (rev) cityName = rev
   } else {
-    const geo = await geocode(options.city)
+    const geo = await geocode(cityName)
     if (!geo) throw new Error("Geocoding failed")
     lat = geo.lat
     lon = geo.lon
@@ -155,14 +209,19 @@ export async function fetchWeather(options: {
   }
 
   const tempUnit = options.tempUnit === "fahrenheit" ? "fahrenheit" : "celsius"
-  const res = await fetch(
-    `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code&temperature_unit=${tempUnit}`,
-    { signal: AbortSignal.timeout(8000) }
+  const data = await fetchJson<{
+    current?: {
+      temperature_2m: number
+      relative_humidity_2m: number
+      apparent_temperature: number
+      weather_code: number
+    }
+  }>(
+    `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code&temperature_unit=${tempUnit}`
   )
-  if (!res.ok) throw new Error("Forecast failed")
+  const c = data?.current
+  if (!c) throw new Error("Forecast failed")
 
-  const data = await res.json()
-  const c = data.current
   const code = c.weather_code as number
 
   return {
