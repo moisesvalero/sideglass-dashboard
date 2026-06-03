@@ -36,7 +36,7 @@ export function LandingFooter({ lang }: { lang: LandingLang }) {
             rel="noopener noreferrer"
             className="text-[var(--landing-text-muted)] hover:text-[var(--landing-text)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--landing-accent)]"
           >
-            MIT · Open source
+            Source available
           </a>
         </p>
       </div>

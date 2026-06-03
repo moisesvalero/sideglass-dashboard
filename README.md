@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <strong>Open-source desktop app for Windows</strong> (Tauri + Next.js) — customizable secondary monitor dashboard: weather, calendar, hardware, notes, embedded YouTube, and AI dock.
+  <strong>Source-available desktop app for Windows</strong> (Tauri + Next.js) — customizable secondary monitor dashboard: weather, calendar, hardware, notes, embedded YouTube, and AI dock.
 </p>
 
 <p align="center">
@@ -115,13 +115,13 @@ git push origin v0.2.4
 
 GitHub Actions secrets: [docs/UPDATER.md](docs/UPDATER.md).
 
-## Open source
+## Source available
 
-MIT [LICENSE](LICENSE) — use, modify, and share with the copyright notice.
+Sideglass is source-available under the PolyForm Noncommercial License 1.0.0. Commercial use, resale, redistribution, white-labeling, paid hosting, or competing commercial forks require written permission from Moises Valero.
 
 - [Open an issue](https://github.com/moisesvalero/sideglass-dashboard/issues)
 - Pull requests welcome
 
 ## License
 
-[MIT](LICENSE) — Copyright (c) 2026 Moises Valero
+[PolyForm Noncommercial License 1.0.0](LICENSE) — Copyright (c) 2026 Moises Valero

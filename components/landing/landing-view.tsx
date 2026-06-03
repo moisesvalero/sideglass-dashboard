@@ -14,6 +14,7 @@ import {
   WINDOWS_INSTALLER_NAME,
   WINDOWS_INSTALLER_URL,
   APP_VERSION,
+  LICENSE_URL,
 } from "@/lib/site"
 
 const galleryShots = (copy: (typeof landingContent)[LandingLang]) => [
@@ -48,7 +49,7 @@ export function LandingView({ lang }: { lang: LandingLang }) {
     description: copy.metaDescription,
     url: SITE_URL,
     downloadUrl: WINDOWS_INSTALLER_URL,
-    license: "https://opensource.org/licenses/MIT",
+    license: LICENSE_URL,
     inLanguage: copy.htmlLang,
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
     author: { "@type": "Person", name: "Moises Valero", url: AUTHOR_SITE },

@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <strong>App de escritorio open source para Windows</strong> (Tauri + Next.js) — panel personalizable para monitor secundario: clima, agenda, hardware, notas, YouTube embebido y dock de IAs.
+  <strong>App de escritorio source available para Windows</strong> (Tauri + Next.js) — panel personalizable para monitor secundario: clima, agenda, hardware, notas, YouTube embebido y dock de IAs.
 </p>
 
 <p align="center">
@@ -115,13 +115,13 @@ git push origin v0.2.4
 
 Secrets en GitHub: [docs/UPDATER.md](docs/UPDATER.md).
 
-## Open source
+## Source available
 
-Licencia [MIT](LICENSE): puedes usarlo, modificarlo y compartirlo con el aviso de copyright.
+Sideglass tiene el código disponible bajo la licencia PolyForm Noncommercial 1.0.0. El uso comercial, reventa, redistribución, marca blanca, hosting de pago o forks comerciales competidores requieren permiso escrito de Moises Valero.
 
 - [Abre un issue](https://github.com/moisesvalero/sideglass-dashboard/issues)
 - Pull requests bienvenidos
 
 ## Licencia
 
-[MIT](LICENSE) — Copyright (c) 2026 Moises Valero
+[PolyForm Noncommercial License 1.0.0](LICENSE) — Copyright (c) 2026 Moises Valero

@@ -156,11 +156,11 @@ PublisherSupportUrl: ${quote(`${REPO_URL}/issues`)}
 Author: ${quote(PUBLISHER)}
 PackageName: ${quote(PACKAGE_NAME)}
 PackageUrl: ${quote(LANDING_URL)}
-License: "MIT"
+License: "PolyForm Noncommercial License 1.0.0"
 LicenseUrl: ${quote(`${REPO_URL}/blob/main/LICENSE`)}
 Copyright: "Copyright (c) 2026 Moises Valero"
 ShortDescription: "A customizable dashboard for a secondary Windows monitor."
-Description: "Sideglass is an open-source desktop dashboard for Windows. It keeps weather, calendar, hardware status, notes, YouTube, and AI shortcuts visible on a secondary monitor."
+Description: "Sideglass is a source-available desktop dashboard for Windows. It keeps weather, calendar, hardware status, notes, YouTube, and AI shortcuts visible on a secondary monitor."
 Moniker: "sideglass"
 Tags:
 - "dashboard"
@@ -186,7 +186,7 @@ PackageLocale: "es-ES"
 Publisher: ${quote(PUBLISHER)}
 PackageName: ${quote(PACKAGE_NAME)}
 ShortDescription: "Dashboard personalizable para un monitor secundario en Windows."
-Description: "Sideglass es una app de escritorio open source para Windows. Mantiene clima, calendario, estado del hardware, notas, YouTube y accesos a IA visibles en un monitor secundario."
+Description: "Sideglass es una app de escritorio source available para Windows. Mantiene clima, calendario, estado del hardware, notas, YouTube y accesos a IA visibles en un monitor secundario."
 Tags:
 - "dashboard"
 - "escritorio"

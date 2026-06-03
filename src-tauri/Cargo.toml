@@ -2,8 +2,9 @@
 name = "desk-dashboard"
 version = "0.2.24"
 description = "Premium macOS-style dashboard for Windows"
-authors = ["you"]
+authors = ["Moises Valero"]
 edition = "2021"
+license-file = "../LICENSE"
 
 [build-dependencies]
 tauri-build = { version = "2", features = [] }
