@@ -1,4 +1,6 @@
 import type { ChangelogEntry } from "@/lib/changelog"
+import { getLandingChangelogHighlights } from "@/lib/landing-changelog-highlights"
+import type { LandingLang } from "@/lib/landing-content"
 
 const MAX_ITEMS = 5
 
@@ -17,8 +19,14 @@ export function formatChangelogText(text: string) {
   })
 }
 
-export function pickLatestHighlights(entry: ChangelogEntry | undefined): string[] {
+export function pickLatestHighlights(
+  entry: ChangelogEntry | undefined,
+  lang: LandingLang
+): string[] {
   if (!entry) return []
+  const landingCopy = getLandingChangelogHighlights(entry.version, lang)
+  if (landingCopy) return landingCopy
+
   const items: string[] = []
   for (const group of entry.groups) {
     for (const item of group.items) {

@@ -167,6 +167,7 @@ export function LandingView({ lang }: { lang: LandingLang }) {
 
       <LandingChangelog
         latest={latestChangelog}
+        lang={lang}
         copy={{
           changelogTitle: copy.changelogTitle,
           changelogSubtitle: copy.changelogSubtitle,

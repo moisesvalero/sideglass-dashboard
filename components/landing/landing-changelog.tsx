@@ -1,4 +1,5 @@
 import type { ChangelogEntry } from "@/lib/changelog"
+import type { LandingLang } from "@/lib/landing-content"
 import { GITHUB_RELEASES } from "@/lib/site"
 import { formatChangelogText, pickLatestHighlights } from "@/components/landing/changelog-format"
 
@@ -12,11 +13,13 @@ type Copy = {
 export function LandingChangelog({
   latest,
   copy,
+  lang,
 }: {
   latest: ChangelogEntry | undefined
   copy: Copy
+  lang: LandingLang
 }) {
-  const highlights = pickLatestHighlights(latest)
+  const highlights = pickLatestHighlights(latest, lang)
 
   return (
     <section

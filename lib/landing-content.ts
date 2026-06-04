@@ -153,7 +153,8 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
       },
     ],
     changelogTitle: "Última versión",
-    changelogSubtitle: "Lo más reciente. El historial completo está en GitHub.",
+    changelogSubtitle:
+      "Mejoras recientes explicadas sin jerga. El historial completo esta en GitHub.",
     changelogLink: "Ver todas las versiones en GitHub",
     changelogEmpty:
       "No hay entradas de changelog en este despliegue. Edita CHANGELOG.es.md y vuelve a desplegar la web.",
@@ -283,7 +284,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
       },
     ],
     changelogTitle: "Latest version",
-    changelogSubtitle: "Recent highlights. Full history is on GitHub.",
+    changelogSubtitle: "Recent improvements, explained without jargon. Full history is on GitHub.",
     changelogLink: "View all releases on GitHub",
     changelogEmpty:
       "No changelog entries in this deployment. Edit CHANGELOG.md and redeploy the site.",
