@@ -4,10 +4,10 @@ import { landingContent } from "@/lib/landing-content"
 import { APP_NAME, SITE_URL } from "@/lib/site"
 
 const ogImage = {
-  url: "/screenshots/landscape-dark.png",
-  width: 1120,
-  height: 780,
-  alt: "Sideglass on a landscape monitor",
+  url: "/social-preview.png",
+  width: 1280,
+  height: 640,
+  alt: "Sideglass social preview",
 }
 
 const copy = landingContent.es
