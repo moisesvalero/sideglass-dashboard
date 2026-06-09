@@ -1,6 +1,18 @@
 {
   "es": [
     {
+      "version": "0.2.28",
+      "date": "2026-06-09",
+      "groups": [
+        {
+          "category": "Corregido",
+          "items": [
+            "**Actualizador reparado**: la version interna de Tauri vuelve a estar sincronizada con la release, para que Sideglass detecte correctamente la actualizacion desde la app"
+          ]
+        }
+      ]
+    },
+    {
       "version": "0.2.27",
       "date": "2026-06-09",
       "groups": [
@@ -503,6 +515,18 @@
     }
   ],
   "en": [
+    {
+      "version": "0.2.28",
+      "date": "2026-06-09",
+      "groups": [
+        {
+          "category": "Fixed",
+          "items": [
+            "**Updater fixed**: the internal Tauri version is synchronized with the release again, so Sideglass can correctly detect the update from inside the app"
+          ]
+        }
+      ]
+    },
     {
       "version": "0.2.27",
       "date": "2026-06-09",

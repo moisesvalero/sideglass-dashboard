@@ -1,6 +1,10 @@
 import type { LandingLang } from "@/lib/landing-content"
 
 const landingHighlights: Record<string, Record<LandingLang, string[]>> = {
+  "0.2.28": {
+    es: ["La app vuelve a detectar correctamente las actualizaciones desde Sideglass."],
+    en: ["The app can correctly detect updates from inside Sideglass again."],
+  },
   "0.2.27": {
     es: [
       "Arrastrar enlaces de YouTube desde Chrome o Edge ahora funciona tambien en la app de escritorio.",

@@ -6,6 +6,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 **Spanish version:** [CHANGELOG.es.md](./CHANGELOG.es.md) — keep both files in sync when you add a release.
 
+## [0.2.28] - 2026-06-09
+
+### Fixed
+
+- **Updater fixed**: the internal Tauri version is synchronized with the release again, so Sideglass can correctly detect the update from inside the app
+
 ## [0.2.27] - 2026-06-09
 
 ### Fixed

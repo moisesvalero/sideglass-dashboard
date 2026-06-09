@@ -6,6 +6,12 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es/1.1.0/) y el p
 
 **Versión en inglés:** [CHANGELOG.md](./CHANGELOG.md) — mantén ambos archivos sincronizados al publicar una release.
 
+## [0.2.28] - 2026-06-09
+
+### Corregido
+
+- **Actualizador reparado**: la version interna de Tauri vuelve a estar sincronizada con la release, para que Sideglass detecte correctamente la actualizacion desde la app
+
 ## [0.2.27] - 2026-06-09
 
 ### Corregido
