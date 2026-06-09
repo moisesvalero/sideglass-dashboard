@@ -1,6 +1,12 @@
 import type { LandingLang } from "@/lib/landing-content"
 
 const landingHighlights: Record<string, Record<LandingLang, string[]>> = {
+  "0.2.27": {
+    es: [
+      "Arrastrar enlaces de YouTube desde Chrome o Edge ahora funciona tambien en la app de escritorio.",
+    ],
+    en: ["Dragging YouTube links from Chrome or Edge now works in the desktop app too."],
+  },
   "0.2.26": {
     es: [
       "Arrastra un enlace de YouTube al widget y el video se reproduce dentro de Sideglass.",

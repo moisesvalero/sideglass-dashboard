@@ -6,6 +6,12 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es/1.1.0/) y el p
 
 **Versión en inglés:** [CHANGELOG.md](./CHANGELOG.md) — mantén ambos archivos sincronizados al publicar una release.
 
+## [0.2.27] - 2026-06-09
+
+### Corregido
+
+- **Arrastrar enlaces de YouTube en la app real**: Tauri ya deja pasar el drag and drop HTML5 al widget, para que los enlaces soltados desde Chrome o Edge lleguen al reproductor
+
 ## [0.2.26] - 2026-06-09
 
 ### Añadido

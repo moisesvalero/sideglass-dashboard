@@ -6,6 +6,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 **Spanish version:** [CHANGELOG.es.md](./CHANGELOG.es.md) — keep both files in sync when you add a release.
 
+## [0.2.27] - 2026-06-09
+
+### Fixed
+
+- **YouTube link drops in the real desktop app**: Tauri now lets HTML5 drag and drop reach the widget, so links dropped from Chrome or Edge are passed to the player
+
 ## [0.2.26] - 2026-06-09
 
 ### Added

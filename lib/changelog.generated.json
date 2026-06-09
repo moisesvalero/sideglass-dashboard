@@ -1,6 +1,18 @@
 {
   "es": [
     {
+      "version": "0.2.27",
+      "date": "2026-06-09",
+      "groups": [
+        {
+          "category": "Corregido",
+          "items": [
+            "**Arrastrar enlaces de YouTube en la app real**: Tauri ya deja pasar el drag and drop HTML5 al widget, para que los enlaces soltados desde Chrome o Edge lleguen al reproductor"
+          ]
+        }
+      ]
+    },
+    {
       "version": "0.2.26",
       "date": "2026-06-09",
       "groups": [
@@ -491,6 +503,18 @@
     }
   ],
   "en": [
+    {
+      "version": "0.2.27",
+      "date": "2026-06-09",
+      "groups": [
+        {
+          "category": "Fixed",
+          "items": [
+            "**YouTube link drops in the real desktop app**: Tauri now lets HTML5 drag and drop reach the widget, so links dropped from Chrome or Edge are passed to the player"
+          ]
+        }
+      ]
+    },
     {
       "version": "0.2.26",
       "date": "2026-06-09",
