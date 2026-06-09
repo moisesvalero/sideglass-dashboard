@@ -1,6 +1,19 @@
 {
   "es": [
     {
+      "version": "0.2.26",
+      "date": "2026-06-09",
+      "groups": [
+        {
+          "category": "Añadido",
+          "items": [
+            "**YouTube por arrastrar y soltar**: ahora puedes soltar un enlace de YouTube encima del widget y Sideglass lo reproduce directamente dentro del panel",
+            "**Pegar enlace sigue funcionando**: si escribes o pegas una URL de YouTube en el buscador, se carga el video sin convertirlo en una busqueda"
+          ]
+        }
+      ]
+    },
+    {
       "version": "0.2.25",
       "date": "2026-06-03",
       "groups": [
@@ -478,6 +491,19 @@
     }
   ],
   "en": [
+    {
+      "version": "0.2.26",
+      "date": "2026-06-09",
+      "groups": [
+        {
+          "category": "Added",
+          "items": [
+            "**Drag-and-drop YouTube links**: drop a YouTube URL onto the widget and Sideglass plays it directly inside the panel",
+            "**Pasted links still work**: typing or pasting a YouTube URL into search now loads the video instead of treating it as a search query"
+          ]
+        }
+      ]
+    },
     {
       "version": "0.2.25",
       "date": "2026-06-03",

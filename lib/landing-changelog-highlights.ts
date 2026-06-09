@@ -1,6 +1,16 @@
 import type { LandingLang } from "@/lib/landing-content"
 
 const landingHighlights: Record<string, Record<LandingLang, string[]>> = {
+  "0.2.26": {
+    es: [
+      "Arrastra un enlace de YouTube al widget y el video se reproduce dentro de Sideglass.",
+      "Tambien puedes pegar una URL de YouTube en el buscador y abrirla al momento.",
+    ],
+    en: [
+      "Drop a YouTube link onto the widget and the video plays inside Sideglass.",
+      "You can also paste a YouTube URL into search and open it instantly.",
+    ],
+  },
   "0.2.25": {
     es: [
       "El clima encuentra mejor tu ciudad, incluso si esta guardada con provincia y pais.",

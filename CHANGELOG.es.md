@@ -6,6 +6,13 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es/1.1.0/) y el p
 
 **Versión en inglés:** [CHANGELOG.md](./CHANGELOG.md) — mantén ambos archivos sincronizados al publicar una release.
 
+## [0.2.26] - 2026-06-09
+
+### Añadido
+
+- **YouTube por arrastrar y soltar**: ahora puedes soltar un enlace de YouTube encima del widget y Sideglass lo reproduce directamente dentro del panel
+- **Pegar enlace sigue funcionando**: si escribes o pegas una URL de YouTube en el buscador, se carga el video sin convertirlo en una busqueda
+
 ## [0.2.25] - 2026-06-03
 
 ### Corregido

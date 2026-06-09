@@ -1,21 +1,41 @@
 "use client"
 
-import { useState } from "react"
-import { Youtube, X, Search, Loader2 } from "lucide-react"
+import { useState, type DragEvent } from "react"
+import { Youtube, X, Search, Loader2, Link2 } from "lucide-react"
 import { useI18n } from "@/lib/i18n"
 import { isTauri, openExternalUrl, youtubeSearch, type YoutubeResult } from "@/lib/tauri"
 
-function extractVideoId(url: string): string | null {
+function extractVideoId(value: string): string | null {
   const patterns = [
     /(?:v=|\/)([\w-]{11})(?:[?&]|$)/,
     /youtu\.be\/([\w-]{11})/,
     /embed\/([\w-]{11})/,
+    /shorts\/([\w-]{11})/,
+    /live\/([\w-]{11})/,
   ]
   for (const p of patterns) {
-    const match = url.match(p)
+    const match = value.match(p)
     if (match) return match[1]
   }
   return null
+}
+
+function getDroppedText(dataTransfer: DataTransfer): string {
+  const uriList = dataTransfer.getData("text/uri-list")
+  if (uriList) return uriList
+
+  const plain = dataTransfer.getData("text/plain")
+  if (plain) return plain
+
+  const html = dataTransfer.getData("text/html")
+  const href = html.match(/href=["']([^"']+)["']/i)?.[1]
+  return href ?? html
+}
+
+function hasLinkPayload(dataTransfer: DataTransfer): boolean {
+  return Array.from(dataTransfer.types).some((type) =>
+    ["text/uri-list", "text/plain", "text/html"].includes(type)
+  )
 }
 
 export function MusicWidget() {
@@ -24,21 +44,41 @@ export function MusicWidget() {
   const [videoId, setVideoId] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const { t } = useI18n()
+  const [dragActive, setDragActive] = useState(false)
+  const { t, lang } = useI18n()
   const searchEnabled = isTauri()
+  const dropHint =
+    lang === "es"
+      ? "Busca un video o arrastra aqui un enlace de YouTube"
+      : "Search a video or drop a YouTube link here"
+  const dropReady =
+    lang === "es"
+      ? "Suelta el enlace de YouTube para reproducirlo"
+      : "Drop the YouTube link to play it"
+  const dropInvalid =
+    lang === "es"
+      ? "No he encontrado un video de YouTube en ese enlace"
+      : "I could not find a YouTube video in that link"
+
+  const playVideo = (id: string) => {
+    setVideoId(id)
+    setResults([])
+    setError(null)
+    setQuery("")
+  }
 
   const handleSearch = async () => {
     const q = query.trim()
     if (!q) return
 
+    const id = extractVideoId(q)
+    if (id) {
+      playVideo(id)
+      return
+    }
+
     if (!searchEnabled) {
-      const id = extractVideoId(q)
-      if (id) {
-        setVideoId(id)
-        setError(null)
-      } else {
-        setError(t("music.invalidLink"))
-      }
+      setError(t("music.invalidLink"))
       return
     }
 
@@ -60,10 +100,57 @@ export function MusicWidget() {
     setResults([])
     setQuery("")
     setError(null)
+    setDragActive(false)
+  }
+
+  const handleDragEnter = (event: DragEvent<HTMLDivElement>) => {
+    if (!hasLinkPayload(event.dataTransfer)) return
+    event.preventDefault()
+    setDragActive(true)
+  }
+
+  const handleDragOver = (event: DragEvent<HTMLDivElement>) => {
+    if (!hasLinkPayload(event.dataTransfer)) return
+    event.preventDefault()
+    event.dataTransfer.dropEffect = "copy"
+    setDragActive(true)
+  }
+
+  const handleDragLeave = (event: DragEvent<HTMLDivElement>) => {
+    if (event.currentTarget.contains(event.relatedTarget as Node | null)) return
+    setDragActive(false)
+  }
+
+  const handleDrop = (event: DragEvent<HTMLDivElement>) => {
+    if (!hasLinkPayload(event.dataTransfer)) return
+    event.preventDefault()
+    setDragActive(false)
+
+    const id = extractVideoId(getDroppedText(event.dataTransfer))
+    if (id) {
+      playVideo(id)
+    } else {
+      setError(dropInvalid)
+    }
   }
 
   return (
-    <div className="glass-tile music-widget widget-span-2 overflow-hidden p-0">
+    <div
+      className={`glass-tile music-widget widget-span-2 relative overflow-hidden p-0 ${dragActive ? "music-widget-drop-active" : ""}`}
+      onDragEnter={handleDragEnter}
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
+    >
+      {dragActive && (
+        <div className="pointer-events-none absolute inset-3 z-20 flex items-center justify-center rounded-2xl border border-red-400/50 bg-background/80 px-4 text-center text-sm font-medium text-foreground shadow-lg backdrop-blur-md">
+          <span className="flex items-center gap-2">
+            <Link2 className="h-4 w-4 text-red-500" />
+            {dropReady}
+          </span>
+        </div>
+      )}
+
       <div className="music-widget-header flex items-center justify-between gap-2 px-5 pb-3 pr-14 pt-5">
         <button
           type="button"
@@ -154,7 +241,7 @@ export function MusicWidget() {
         </ul>
       ) : (
         <div className="dashboard-control music-empty mx-5 mb-5 flex items-center justify-center px-4 text-center text-xs text-muted-foreground">
-          {searchEnabled ? t("music.searchHint") : t("music.empty")}
+          {searchEnabled ? dropHint : t("music.empty")}
         </div>
       )}
     </div>

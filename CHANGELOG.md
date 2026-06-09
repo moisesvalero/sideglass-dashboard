@@ -6,6 +6,13 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 **Spanish version:** [CHANGELOG.es.md](./CHANGELOG.es.md) — keep both files in sync when you add a release.
 
+## [0.2.26] - 2026-06-09
+
+### Added
+
+- **Drag-and-drop YouTube links**: drop a YouTube URL onto the widget and Sideglass plays it directly inside the panel
+- **Pasted links still work**: typing or pasting a YouTube URL into search now loads the video instead of treating it as a search query
+
 ## [0.2.25] - 2026-06-03
 
 ### Fixed
