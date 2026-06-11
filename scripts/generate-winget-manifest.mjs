@@ -94,10 +94,10 @@ if (!installerSha256) {
       "[winget] Missing installer hash.",
       "",
       "Pass a local installer so the script can calculate SHA256:",
-      "  npm run winget:manifest -- --installer ./path/to/Sideglass_x64-setup.exe",
+      "  pnpm run winget:manifest -- --installer ./path/to/Sideglass_x64-setup.exe",
       "",
       "Or pass the hash directly:",
-      "  npm run winget:manifest -- --sha256 <SHA256>",
+      "  pnpm run winget:manifest -- --sha256 <SHA256>",
     ].join("\n")
   )
   process.exit(1)

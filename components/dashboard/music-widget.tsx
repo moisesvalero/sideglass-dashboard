@@ -222,7 +222,6 @@ export function MusicWidget() {
                 onClick={() => setVideoId(video.id)}
                 className="flex w-full items-center gap-3 rounded-xl border border-transparent p-1.5 text-left transition-colors hover:border-border/60 hover:bg-foreground/5 focus-visible:border-ring focus-visible:outline-none"
               >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={video.thumbnail}
                   alt=""

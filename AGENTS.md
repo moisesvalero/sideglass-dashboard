@@ -17,12 +17,12 @@ Premium macOS-style dashboard for Windows (secondary monitor). Next.js static ex
 ## Commands
 
 ```bash
-npm run dev          # Web preview
-npm run tauri:dev    # Desktop app
-npm run tauri:build  # Windows installer
-npm run lint && npm run typecheck && npm run build
-npm run test:e2e          # Playwright (layout + dashboard smoke)
-npm run test:e2e:install  # Chromium for Playwright (first time)
+pnpm run dev          # Web preview
+pnpm run tauri:dev    # Desktop app
+pnpm run tauri:build  # Windows installer
+pnpm run lint && pnpm run check && pnpm run build
+pnpm run test:e2e          # Playwright (layout + dashboard smoke)
+pnpm run test:e2e:install  # Chromium for Playwright (first time)
 ```
 
 ## Integrations

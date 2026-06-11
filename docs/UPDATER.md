@@ -30,7 +30,7 @@ El workflow genera el `.exe`, `latest.json` y firmas para el updater.
 ## Probar en local
 
 ```bash
-npm run tauri:build
+pnpm run tauri:build
 ```
 
 La app comprueba actualizaciones unos segundos despues de abrir (si hay Release publicado en GitHub).

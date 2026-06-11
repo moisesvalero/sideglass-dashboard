@@ -64,32 +64,32 @@
 ## Development
 
 ```bash
-npm install
-npm run dev          # Web preview http://localhost:3000
-npm run tauri:dev    # Desktop app
-npm run tauri:build  # Windows installer
+pnpm install
+pnpm run dev          # Web preview http://localhost:3000
+pnpm run tauri:dev    # Desktop app
+pnpm run tauri:build  # Windows installer
 ```
 
 ```bash
-npm run lint && npm run typecheck && npm run build
+pnpm run lint && pnpm run check && pnpm run build
 ```
 
 Regenerate marketing screenshots:
 
 ```bash
-npm run screenshots
+pnpm run screenshots
 ```
 
 Check private GitHub Release download counts:
 
 ```bash
-npm run stats:downloads
+pnpm run stats:downloads
 ```
 
 Generate WinGet manifests for a release:
 
 ```bash
-npm run winget:manifest -- --installer ./path/to/Sideglass_x64-setup.exe
+pnpm run winget:manifest -- --installer ./path/to/Sideglass_x64-setup.exe
 ```
 
 See [docs/WINGET.md](docs/WINGET.md).

@@ -163,7 +163,7 @@ test.describe("dashboard layout width", () => {
     }
 
     await seedDashboard(page, "dark", isResetLayoutTest ? resetLayoutSettings : {})
-    await page.goto("/dashboard", { waitUntil: "networkidle" })
+    await page.goto("/dashboard", { waitUntil: "domcontentloaded" })
     await expect(page.locator(".dashboard-grid")).toBeVisible()
   })
 
@@ -257,7 +257,7 @@ test.describe("first-run responsive defaults", () => {
       localStorage.clear()
       localStorage.setItem("dashboard-lang", "es")
     })
-    await page.goto("/dashboard", { waitUntil: "networkidle" })
+    await page.goto("/dashboard", { waitUntil: "domcontentloaded" })
     await expect(page.locator(".dashboard-grid")).toBeVisible()
   })
 
@@ -283,7 +283,7 @@ test.describe("first-run responsive defaults", () => {
         return null
       }) as typeof window.open
     })
-    await page.reload({ waitUntil: "networkidle" })
+    await page.reload({ waitUntil: "domcontentloaded" })
     await page.waitForTimeout(1000)
 
     await page.locator(".time-weather-panel").click()

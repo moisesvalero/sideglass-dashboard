@@ -4,9 +4,9 @@
   "version": "0.2.28",
   "identifier": "com.deskdashboard.app",
   "build": {
-    "beforeDevCommand": "npm run dev",
+    "beforeDevCommand": "pnpm run dev",
     "devUrl": "http://localhost:3000/dashboard",
-    "beforeBuildCommand": "npm run build",
+    "beforeBuildCommand": "pnpm run build",
     "frontendDist": "../out"
   },
   "app": {

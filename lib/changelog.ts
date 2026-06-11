@@ -65,8 +65,8 @@ function readFromMarkdown(lang: LandingLang): ChangelogEntry[] {
 }
 
 /**
- * Changelog for the landing: baked JSON from `npm run sync:changelog` (runs before build).
- * Edit CHANGELOG.md / CHANGELOG.es.md, then build or run `npm run sync:changelog`.
+ * Changelog for the landing: baked JSON from `pnpm run sync:changelog` (runs before build).
+ * Edit CHANGELOG.md / CHANGELOG.es.md, then build or run `pnpm run sync:changelog`.
  */
 export function getChangelog(lang: LandingLang = "en"): ChangelogEntry[] {
   const baked = generated[lang]

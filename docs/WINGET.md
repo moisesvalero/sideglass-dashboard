@@ -9,13 +9,13 @@ WinGet manifests must point to a versioned installer URL and include the exact S
 After a release installer exists, generate the manifests from the repository root:
 
 ```powershell
-npm run winget:manifest -- --installer .\src-tauri\target\x86_64-pc-windows-msvc\release\bundle\nsis\Sideglass_0.2.24_x64-setup.exe
+pnpm run winget:manifest -- --installer .\src-tauri\target\x86_64-pc-windows-msvc\release\bundle\nsis\Sideglass_0.2.24_x64-setup.exe
 ```
 
 If you already know the hash, pass it directly:
 
 ```powershell
-npm run winget:manifest -- --version 0.2.24 --sha256 <SHA256>
+pnpm run winget:manifest -- --version 0.2.24 --sha256 <SHA256>
 ```
 
 By default, the script reads `package.json` for the version and writes:
@@ -33,7 +33,7 @@ https://github.com/moisesvalero/sideglass-dashboard/releases/download/v<version>
 Override it only if the release asset name changes:
 
 ```powershell
-npm run winget:manifest -- --installer .\Sideglass_x64-setup.exe --installer-url https://example.com/Sideglass_x64-setup.exe
+pnpm run winget:manifest -- --installer .\Sideglass_x64-setup.exe --installer-url https://example.com/Sideglass_x64-setup.exe
 ```
 
 ## Validate locally
