@@ -14,6 +14,7 @@ export type LandingCopy = {
   heroSubtitle: string
   ctaDownload: string
   ctaGithub: string
+  ctaWinget: string
   heroNote: string
   heroVideoPlayLabel: string
   navFaq: string
@@ -49,6 +50,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
       "Sideglass reúne clima, agenda, hardware, notas y accesos rápidos en un dashboard limpio para tu monitor secundario, sin apartarte de lo que estás haciendo.",
     ctaDownload: "Descargar para Windows",
     ctaGithub: "Ver en GitHub",
+    ctaWinget: "También desde WinGet",
     heroNote: "Gratis para uso personal",
     heroVideoPlayLabel: "Reproducir video de Sideglass",
     navFaq: "Ayuda",
@@ -180,6 +182,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
       "Sideglass keeps weather, agenda, hardware, notes, YouTube and AI shortcuts in a clean dashboard for your second monitor, without pulling you away from your main screen.",
     ctaDownload: "Download for Windows",
     ctaGithub: "View on GitHub",
+    ctaWinget: "Also via WinGet",
     heroNote: "Free for personal use",
     heroVideoPlayLabel: "Play Sideglass video",
     navFaq: "Help",

@@ -1265,6 +1265,29 @@
   outline-offset: 3px;
 }
 
+.landing-winget-hint {
+  display: inline-flex;
+  max-width: 100%;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding-top: 0.15rem;
+  color: var(--landing-text-muted);
+  font-size: var(--landing-text-xs);
+}
+
+.landing-winget-hint code {
+  border: 1px solid var(--landing-border);
+  border-radius: 0.375rem;
+  background: color-mix(in oklch, var(--landing-surface) 72%, transparent);
+  padding: 0.18rem 0.45rem;
+  color: var(--landing-text);
+  font-size: 0.72rem;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
 @keyframes landing-rise {
   from {
     opacity: 0;
