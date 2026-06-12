@@ -15,7 +15,7 @@
 <p align="center">
   <a href="https://github.com/moisesvalero/sideglass-dashboard/releases/latest/download/Sideglass_x64-setup.exe">Descargar .exe</a>
   ·
-  <a href="https://personal-dashboard-gules-three.vercel.app">Landing</a>
+  <a href="https://sideglass.moisesvalero.es">Landing</a>
   ·
   <a href="https://github.com/moisesvalero/sideglass-dashboard">GitHub</a>
   ·

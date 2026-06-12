@@ -6,7 +6,7 @@ const PACKAGE_IDENTIFIER = "MoisesValero.Sideglass"
 const PACKAGE_NAME = "Sideglass"
 const PUBLISHER = "Moises Valero"
 const REPO_URL = "https://github.com/moisesvalero/sideglass-dashboard"
-const LANDING_URL = "https://personal-dashboard-gules-three.vercel.app"
+const LANDING_URL = "https://sideglass.moisesvalero.es"
 const INSTALLER_ASSET_NAME = "Sideglass_x64-setup.exe"
 const MANIFEST_VERSION = "1.12.0"
 
