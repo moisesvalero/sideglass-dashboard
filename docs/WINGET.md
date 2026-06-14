@@ -60,7 +60,7 @@ winget validate .\winget\manifests\m\MoisesValero\Sideglass\0.2.24
 After Microsoft accepts the PR, users can install Sideglass with:
 
 ```powershell
-winget install MoisesValero.Sideglass
+winget install Sideglass
 ```
 
 Future releases repeat the same flow with the new version and installer hash.

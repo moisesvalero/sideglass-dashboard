@@ -117,7 +117,7 @@ export function LandingView({ lang }: { lang: LandingLang }) {
           </a>
           <p className="landing-winget-hint">
             {copy.ctaWinget}
-            <code>winget install --id MoisesValero.Sideglass --exact</code>
+            <code>winget install Sideglass</code>
           </p>
         </div>
         <p className="landing-caption landing-reveal landing-reveal-d4 mt-[var(--landing-space-md)]">
