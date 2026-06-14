@@ -62,7 +62,10 @@ export function LandingView({ lang }: { lang: LandingLang }) {
     mainEntity: copy.faq.map((item) => ({
       "@type": "Question",
       name: item.q,
-      acceptedAnswer: { "@type": "Answer", text: item.a },
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: [item.a, ...(item.steps ?? []), item.code, item.note].filter(Boolean).join(" "),
+      },
     })),
   }
 
@@ -198,6 +201,11 @@ export function LandingView({ lang }: { lang: LandingLang }) {
                     <li key={step}>{step}</li>
                   ))}
                 </ol>
+              )}
+              {item.code && (
+                <p className="landing-winget-hint mt-3 justify-start">
+                  <code>{item.code}</code>
+                </p>
               )}
               {item.note && (
                 <p className="landing-body mt-3 rounded-lg border border-amber-500/25 bg-amber-500/10 px-3 py-2 text-amber-100">

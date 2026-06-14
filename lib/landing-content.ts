@@ -2,7 +2,7 @@ export type LandingLang = "es" | "en"
 
 type Feature = { label: string; desc: string }
 type FeatureGroup = { title: string; items: Feature[] }
-type Faq = { q: string; a: string; steps?: string[]; note?: string }
+type Faq = { q: string; a: string; steps?: string[]; code?: string; note?: string }
 
 export type LandingCopy = {
   htmlLang: string
@@ -123,7 +123,12 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
       },
       {
         q: "¿Cómo instalo Sideglass en Windows?",
-        a: "Descarga el instalador desde el botón de arriba, ejecútalo y sigue los pasos del asistente. La primera vez puedes elegir la carpeta de instalación.",
+        a: "Tienes dos formas de instalarlo:",
+        steps: [
+          "Instalador: descarga el instalador desde el botón de arriba, ejecútalo y sigue los pasos del asistente. La primera vez puedes elegir la carpeta de instalación.",
+          "WinGet: abre PowerShell o Terminal en Windows y ejecuta este comando:",
+        ],
+        code: "winget install Sideglass",
       },
       {
         q: "¿Cómo consigo la dirección secreta iCal de mi Google Calendar?",
@@ -255,7 +260,12 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
       },
       {
         q: "How do I install Sideglass on Windows?",
-        a: "Download the installer from the button above, run it and follow the setup steps. On first install you can choose where to install it.",
+        a: "You can install it in two ways:",
+        steps: [
+          "Installer: download from the button above, run it and follow the setup wizard. On first install you can choose the install folder.",
+          "WinGet: open PowerShell or Windows Terminal and run:",
+        ],
+        code: "winget install Sideglass",
       },
       {
         q: "How do I get the secret iCal address of my Google Calendar?",
