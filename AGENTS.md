@@ -38,3 +38,12 @@ pnpm run test:e2e:install  # Chromium for Playwright (first time)
 - Use semantic tokens (`text-foreground`, `bg-muted`) — never hardcode `text-white` in widgets
 - Call `isTauri()` before Tauri APIs
 - Hydration: time widgets need `mounted` state
+
+<!-- lean-ctx -->
+## lean-ctx
+
+Prefer lean-ctx MCP tools over native equivalents for token savings:
+`ctx_read` > Read/cat, `ctx_search` > Grep/rg, `ctx_shell` > bash, `ctx_tree` > ls/find.
+Native Edit/Write/Glob stay as-is; use `ctx_edit` only when Edit needs an unavailable Read.
+Full rules: LEAN-CTX.md (open on demand — do not auto-load).
+<!-- /lean-ctx -->
