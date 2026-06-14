@@ -6,6 +6,17 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 **Spanish version:** [CHANGELOG.es.md](./CHANGELOG.es.md) — keep both files in sync when you add a release.
 
+## [0.2.29] - 2026-06-14
+
+### Added
+
+- **AI Hub**: open ChatGPT, Gemini, Claude, Perplexity and Microsoft Copilot from the dashboard dock in a dedicated window with per-tab embedded webviews and isolated session data on Windows
+
+### Fixed
+
+- **AI Hub multi-webview**: child webviews no longer break window lookup or IPC after the first tab loads
+- **Web preview dock**: AI shortcuts open the service URL in the browser when not running in Tauri
+
 ## [0.2.28] - 2026-06-09
 
 ### Fixed

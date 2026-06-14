@@ -93,6 +93,11 @@ struct AppState {
     /// Cached result of the last successful `check()` so install does not re-fetch.
     #[cfg(not(any(target_os = "android", target_os = "ios")))]
     pending_update: Mutex<Option<tauri_plugin_updater::Update>>,
+    ai_webviews: Mutex<std::collections::HashMap<String, String>>,
+    active_ai_tab: Mutex<Option<String>>,
+    ai_hub_resize_hook: Mutex<bool>,
+    /// Pestaña solicitada antes de que React monte el listener change-tab
+    pending_ai_tab: Mutex<Option<String>>,
 }
 
 fn window_placement_path(app: &AppHandle) -> Result<PathBuf, String> {
@@ -1567,7 +1572,327 @@ async fn send_notification(
         .map_err(|e| e.to_string())
 }
 
+/// Script inyectado en cada child webview de IA para que Google/Cloudflare
+/// no detecten WebView2 a través de navigator.userAgentData y navigator.webdriver.
+const CHROME_SPOOF_SCRIPT: &str = r#"(function(){
+  try{
+    var brands=[{brand:'Chromium',version:'136'},{brand:'Google Chrome',version:'136'},{brand:'Not.A/Brand',version:'24'}];
+    var full=[{brand:'Chromium',version:'136.0.7103.114'},{brand:'Google Chrome',version:'136.0.7103.114'},{brand:'Not.A/Brand',version:'24.0.0.0'}];
+    Object.defineProperty(navigator,'userAgentData',{get:function(){return{
+      brands:brands,mobile:false,platform:'Windows',
+      getHighEntropyValues:function(){return Promise.resolve({brands:brands,mobile:false,platform:'Windows',platformVersion:'15.0.0',architecture:'x86',bitness:'64',model:'',uaFullVersion:'136.0.7103.114',fullVersionList:full});}
+    };}});
+  }catch(e){}
+  try{Object.defineProperty(navigator,'webdriver',{get:function(){return false;}});}catch(e){}
+  try{if(!window.chrome){window.chrome={runtime:{},csi:function(){},loadTimes:function(){}};}}catch(e){}
+})();"#;
+
+const AI_HUB_SIDEBAR_LOGICAL: f64 = 260.0;
+const AI_HUB_TITLEBAR_LOGICAL: f64 = 44.0;
+
+fn ai_hub_content_bounds(
+    window: &tauri::Window,
+) -> Result<(tauri::LogicalPosition<f64>, tauri::LogicalSize<f64>), String> {
+    let size = window.inner_size().map_err(|e| e.to_string())?;
+    let scale = window.scale_factor().unwrap_or(1.0);
+    let width_logical = size.width as f64 / scale;
+    let height_logical = size.height as f64 / scale;
+    Ok((
+        tauri::LogicalPosition::new(AI_HUB_SIDEBAR_LOGICAL, AI_HUB_TITLEBAR_LOGICAL),
+        tauri::LogicalSize::new(
+            (width_logical - AI_HUB_SIDEBAR_LOGICAL).max(0.0),
+            (height_logical - AI_HUB_TITLEBAR_LOGICAL).max(0.0),
+        ),
+    ))
+}
+
+fn ai_hub_content_bounds_from_physical(
+    size: &tauri::PhysicalSize<u32>,
+    scale: f64,
+) -> tauri::LogicalSize<f64> {
+    let width_logical = size.width as f64 / scale;
+    let height_logical = size.height as f64 / scale;
+    tauri::LogicalSize::new(
+        (width_logical - AI_HUB_SIDEBAR_LOGICAL).max(0.0),
+        (height_logical - AI_HUB_TITLEBAR_LOGICAL).max(0.0),
+    )
+}
+
+fn attach_ai_hub_resize_listener(app: &tauri::AppHandle, window: &tauri::Window) {
+    let state = app.state::<AppState>();
+    let mut hooked = state.ai_hub_resize_hook.lock().unwrap();
+    if *hooked {
+        return;
+    }
+    *hooked = true;
+    drop(hooked);
+
+    let app_handle = app.clone();
+    window.on_window_event(move |event| {
+        if let tauri::WindowEvent::Resized(size) = event {
+            let state = app_handle.state::<AppState>();
+            let webviews = state.ai_webviews.lock().unwrap().clone();
+            let active_tab = state.active_ai_tab.lock().unwrap().clone();
+
+            if let Some(tab_id) = active_tab {
+                if let Some(label) = webviews.get(&tab_id) {
+                    if let Some(webview) = app_handle.get_webview(label) {
+                        if let Some(w) = app_handle.get_window("ai-hub") {
+                            let scale = w.scale_factor().unwrap_or(1.0);
+                            let content_size = ai_hub_content_bounds_from_physical(size, scale);
+                            let _ = webview.set_size(tauri::Size::Logical(content_size));
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+fn resolve_ai_hub_window(caller: &tauri::Webview) -> Result<tauri::Window, String> {
+    let window = caller.window();
+    if window.label() != "ai-hub" {
+        return Err(format!(
+            "unexpected window '{}' (caller={})",
+            window.label(),
+            caller.label()
+        ));
+    }
+    Ok(window)
+}
+
+fn show_or_create_ai_webview(
+    app: &tauri::AppHandle,
+    state: &tauri::State<'_, AppState>,
+    hub_window: &tauri::Window,
+    tab_id: String,
+    url: String,
+) -> Result<(), String> {
+    use tauri::Manager;
+
+    let (position, content_size) = ai_hub_content_bounds(hub_window)?;
+    let parsed_url = reqwest::Url::parse(&url).map_err(|e| e.to_string())?;
+
+    // Fase 1: decidir acción con locks breves (nunca durante add_child/navigate)
+    let (hide_labels, existing_label, create_label) = {
+        let mut webviews = state.ai_webviews.lock().unwrap();
+        let mut active_tab = state.active_ai_tab.lock().unwrap();
+
+        let hide_labels: Vec<String> = webviews
+            .iter()
+            .filter(|(tid, _)| *tid != &tab_id)
+            .map(|(_, label)| label.clone())
+            .collect();
+
+        let existing_label = if let Some(label) = webviews.get(&tab_id).cloned() {
+            if app.get_webview(&label).is_some() {
+                *active_tab = Some(tab_id.clone());
+                Some(label)
+            } else {
+                webviews.remove(&tab_id);
+                None
+            }
+        } else {
+            None
+        };
+
+        let create_label = if existing_label.is_none() {
+            let new_label = format!("ai-content-{}", tab_id);
+            webviews.insert(tab_id.clone(), new_label.clone());
+            *active_tab = Some(tab_id.clone());
+            Some(new_label)
+        } else {
+            None
+        };
+
+        (hide_labels, existing_label, create_label)
+    };
+
+    for label in hide_labels {
+        if let Some(webview) = app.get_webview(&label) {
+            let _ = webview.set_size(tauri::Size::Logical(tauri::LogicalSize::new(0.0, 0.0)));
+        }
+    }
+
+    if let Some(label) = existing_label {
+        if let Some(webview) = app.get_webview(&label) {
+            webview
+                .set_size(tauri::Size::Logical(content_size))
+                .map_err(|e| e.to_string())?;
+
+            let skip_nav = if let Ok(current_url) = webview.url() {
+                current_url.as_str().trim_end_matches('/')
+                    == parsed_url.as_str().trim_end_matches('/')
+            } else {
+                false
+            };
+            if !skip_nav {
+                webview.navigate(parsed_url).map_err(|e| e.to_string())?;
+            }
+        }
+        return Ok(());
+    }
+
+    let new_label = create_label.ok_or_else(|| "failed to allocate ai webview label".to_string())?;
+
+    let mut webview_builder = tauri::WebviewBuilder::new(
+        &new_label,
+        tauri::WebviewUrl::External(parsed_url),
+    )
+    .user_agent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.7103.114 Safari/537.36")
+    .initialization_script(CHROME_SPOOF_SCRIPT)
+    .devtools(cfg!(debug_assertions));
+
+    #[cfg(target_os = "windows")]
+    {
+        if let Ok(app_data) = app.path().app_data_dir() {
+            let sub_dir = format!("ai-hub-data-{}", tab_id);
+            webview_builder = webview_builder
+                .additional_browser_args("--disable-features=UserAgentClientHint")
+                .data_directory(app_data.join(sub_dir));
+        }
+    }
+
+    hub_window
+        .add_child(webview_builder, position, content_size)
+        .map_err(|e| e.to_string())?;
+
+    Ok(())
+}
+
+#[tauri::command]
+async fn open_ai_hub(
+    app: tauri::AppHandle,
+    initial_tab: String,
+) -> Result<(), String> {
+    use tauri::Emitter;
+    use tauri::Manager;
+
+    {
+        let state = app.state::<AppState>();
+        *state.pending_ai_tab.lock().unwrap() = Some(initial_tab.clone());
+    }
+
+    if let Some(window) = app.get_window("ai-hub") {
+        attach_ai_hub_resize_listener(&app, &window);
+        window.show().map_err(|e| e.to_string())?;
+        window.set_focus().map_err(|e| e.to_string())?;
+        window
+            .emit("change-tab", initial_tab.clone())
+            .map_err(|e| e.to_string())?;
+        return Ok(());
+    }
+
+    let url = format!("/ai-hub?tab={}", initial_tab);
+
+    // Position the window centered on the same monitor as the main window
+    let mut target_pos = None;
+    if let Some(main_window) = app.get_window("main") {
+        if let Ok(Some(monitor)) = main_window.current_monitor() {
+            let scale_factor = monitor.scale_factor();
+            let mon_pos_x = monitor.position().x as f64 / scale_factor;
+            let mon_pos_y = monitor.position().y as f64 / scale_factor;
+            let mon_size_w = monitor.size().width as f64 / scale_factor;
+            let mon_size_h = monitor.size().height as f64 / scale_factor;
+
+            let x = mon_pos_x + ((mon_size_w - 1000.0) / 2.0);
+            let y = mon_pos_y + ((mon_size_h - 700.0) / 2.0);
+            target_pos = Some((x, y));
+        }
+    }
+
+    let mut builder = tauri::webview::WebviewWindowBuilder::new(
+        &app,
+        "ai-hub",
+        tauri::WebviewUrl::App(url.into())
+    )
+    .title("AI Hub")
+    .inner_size(1000.0, 700.0)
+    .min_inner_size(600.0, 500.0)
+    .decorations(false)
+    .transparent(true)
+    .resizable(true);
+
+    if let Some((x, y)) = target_pos {
+        builder = builder.position(x, y);
+    } else {
+        builder = builder.center();
+    }
+
+    let window_res = builder.build();
+
+    let window = match window_res {
+        Ok(_wv_win) => app
+            .get_window("ai-hub")
+            .ok_or_else(|| "ai-hub window not found after build".to_string())?,
+        Err(e) => {
+            let err_str = e.to_string();
+            if err_str.contains("already exists") {
+                let app_wait = app.clone();
+                let found_window = tauri::async_runtime::spawn_blocking(move || {
+                    for attempt in 0..10 {
+                        if let Some(w) = app_wait.get_window("ai-hub") {
+                            return Some(w);
+                        }
+                        if attempt < 9 {
+                            std::thread::sleep(std::time::Duration::from_millis(50));
+                        }
+                    }
+                    None
+                })
+                .await
+                .map_err(|e| e.to_string())?;
+                if let Some(w) = found_window {
+                    attach_ai_hub_resize_listener(&app, &w);
+                    w.show().map_err(|e| e.to_string())?;
+                    w.set_focus().map_err(|e| e.to_string())?;
+                    w.emit("change-tab", initial_tab.clone())
+                        .map_err(|e| e.to_string())?;
+                    return Ok(());
+                }
+            }
+            return Err(err_str);
+        }
+    };
+
+    // Apply Windows Native Vibrancy (Mica or Fallback to Acrylic/Blur)
+    #[cfg(target_os = "windows")]
+    {
+        if let Err(_) = window_vibrancy::apply_mica(&window, None) {
+            let _ = window_vibrancy::apply_acrylic(&window, Some((20, 20, 20, 150)));
+        }
+    }
+
+    attach_ai_hub_resize_listener(&app, &window);
+
+    window.show().map_err(|e| e.to_string())?;
+    window.set_focus().map_err(|e| e.to_string())?;
+    Ok(())
+}
+
+#[tauri::command]
+async fn create_or_update_ai_webview(
+    caller: tauri::Webview,
+    app: tauri::AppHandle,
+    state: tauri::State<'_, AppState>,
+    tab_id: String,
+    url: String,
+) -> Result<(), String> {
+    let hub_window = resolve_ai_hub_window(&caller)?;
+    show_or_create_ai_webview(&app, &state, &hub_window, tab_id, url)
+}
+
+#[tauri::command]
+fn take_ai_hub_pending_tab(state: tauri::State<'_, AppState>) -> Option<String> {
+    state.pending_ai_tab.lock().unwrap().take()
+}
+
 fn main() {
+    #[cfg(target_os = "linux")]
+    {
+        std::env::set_var("WEBKIT_DISABLE_DMABUF_RENDERER", "1");
+    }
+
     // Hidden elevated helper mode: read CPU temperature in-process via PawnIO
     // and publish it, then exit. Must run before any Tauri/window setup.
     #[cfg(windows)]
@@ -1596,6 +1921,10 @@ fn main() {
         immersive_backup: Mutex::new(None),
         #[cfg(not(any(target_os = "android", target_os = "ios")))]
         pending_update: Mutex::new(None),
+        ai_webviews: Mutex::new(std::collections::HashMap::new()),
+        active_ai_tab: Mutex::new(None),
+        ai_hub_resize_hook: Mutex::new(false),
+        pending_ai_tab: Mutex::new(None),
     };
 
     #[cfg(not(target_os = "windows"))]
@@ -1605,6 +1934,10 @@ fn main() {
         immersive_backup: Mutex::new(None),
         #[cfg(not(any(target_os = "android", target_os = "ios")))]
         pending_update: Mutex::new(None),
+        ai_webviews: Mutex::new(std::collections::HashMap::new()),
+        active_ai_tab: Mutex::new(None),
+        ai_hub_resize_hook: Mutex::new(false),
+        pending_ai_tab: Mutex::new(None),
     };
 
     tauri::Builder::default()
@@ -1643,12 +1976,22 @@ fn main() {
             start_sensor_service,
             toggle_immersive_fullscreen,
             is_immersive_fullscreen,
+            open_ai_hub,
+            create_or_update_ai_webview,
+            take_ai_hub_pending_tab,
         ])
         .setup(|app| {
             // LHM/PawnIO are started only when the user taps «Activar °C» so
             // opening Sideglass does not trigger PawnIO/LHM installers or UAC.
 
             if let Some(window) = app.get_webview_window("main") {
+                #[cfg(target_os = "windows")]
+                {
+                    if let Err(_) = window_vibrancy::apply_mica(&window, None) {
+                        let _ = window_vibrancy::apply_acrylic(&window, Some((20, 20, 20, 150)));
+                    }
+                }
+
                 schedule_startup_window_restore(app.handle(), &window);
 
                 let app_handle = app.handle().clone();
@@ -1723,8 +2066,10 @@ fn main() {
         })
         .on_window_event(|window, event| {
             if let tauri::WindowEvent::CloseRequested { api, .. } = event {
-                api.prevent_close();
-                let _ = window.hide();
+                if window.label() == "main" || window.label() == "ai-hub" {
+                    api.prevent_close();
+                    let _ = window.hide();
+                }
             }
         })
         .run(tauri::generate_context!())

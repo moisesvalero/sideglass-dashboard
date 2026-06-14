@@ -1,37 +1,10 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import {
-  AiBrandIcon,
-  AI_BRAND_ICONS,
-  resolveAiIconSrc,
-  type AiIconSrc,
-} from "@/components/icons/ai-brand-icon"
+import { AiBrandIcon, resolveAiIconSrc } from "@/components/icons/ai-brand-icon"
+import { AI_APPS } from "@/lib/ai-apps"
 import { useSettings } from "@/lib/settings"
-import { openExternalUrl } from "@/lib/tauri"
-
-const aiApps: {
-  id: string
-  name: string
-  icon: AiIconSrc
-  url: string
-}[] = [
-  { id: "chatgpt", name: "ChatGPT", icon: AI_BRAND_ICONS.chatgpt, url: "https://chatgpt.com" },
-  { id: "gemini", name: "Gemini", icon: AI_BRAND_ICONS.gemini, url: "https://gemini.google.com" },
-  { id: "claude", name: "Claude", icon: AI_BRAND_ICONS.claude, url: "https://claude.ai" },
-  {
-    id: "perplexity",
-    name: "Perplexity",
-    icon: AI_BRAND_ICONS.perplexity,
-    url: "https://www.perplexity.ai",
-  },
-  {
-    id: "copilot",
-    name: "Microsoft Copilot",
-    icon: AI_BRAND_ICONS.copilot,
-    url: "https://copilot.microsoft.com",
-  },
-]
+import { isTauri, openAiHub, openExternalUrl } from "@/lib/tauri"
 
 function useIsDarkUi() {
   const { settings } = useSettings()
@@ -66,14 +39,20 @@ export function AIDock() {
       aria-label="AI apps"
     >
       <div className="dock-glass rounded-2xl px-3 py-2.5 flex items-end justify-center gap-1.5 pointer-events-auto w-fit max-w-md">
-        {aiApps.map((app) => {
+        {AI_APPS.map((app) => {
           const isHovered = hoveredApp === app.id
           const iconSrc = resolveAiIconSrc(app.icon, isDark)
           return (
             <button
               key={app.id}
               type="button"
-              onClick={() => void openExternalUrl(app.url)}
+              onClick={() => {
+                if (isTauri()) {
+                  void openAiHub(app.id)
+                } else {
+                  void openExternalUrl(app.url)
+                }
+              }}
               onMouseEnter={() => setHoveredApp(app.id)}
               onMouseLeave={() => setHoveredApp(null)}
               className={`

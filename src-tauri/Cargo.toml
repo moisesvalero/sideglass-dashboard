@@ -1,6 +1,6 @@
 [package]
 name = "desk-dashboard"
-version = "0.2.28"
+version = "0.2.29"
 description = "Premium macOS-style dashboard for Windows"
 authors = ["Moises Valero"]
 edition = "2021"
@@ -10,13 +10,14 @@ license-file = "../LICENSE"
 tauri-build = { version = "2", features = [] }
 
 [dependencies]
-tauri = { version = "2", features = ["tray-icon"] }
+tauri = { version = "2", features = ["tray-icon", "unstable", "devtools"] }
 tauri-plugin-shell = "2"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 sysinfo = "0.31"
 nvml-wrapper = "0.10"
 reqwest = { version = "0.12", default-features = false, features = ["rustls-tls"] }
+window-vibrancy = "0.7.1"
 
 [target.'cfg(windows)'.dependencies]
 wmi = "0.14"

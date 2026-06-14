@@ -205,3 +205,27 @@ export async function youtubeSearch(query: string): Promise<YoutubeResult[]> {
   if (!isTauri()) return []
   return invokeCommand<YoutubeResult[]>("youtube_search", { query })
 }
+
+export async function openAiHub(initialTab: string): Promise<void> {
+  if (!isTauri()) return
+  await invokeCommand("open_ai_hub", { initialTab })
+}
+
+export async function createOrUpdateAiWebview(tabId: string, url: string): Promise<void> {
+  if (!isTauri()) return
+  await invokeCommand("create_or_update_ai_webview", { tabId, url })
+}
+
+export async function takeAiHubPendingTab(): Promise<string | null> {
+  if (!isTauri()) return null
+  return invokeCommand<string | null>("take_ai_hub_pending_tab")
+}
+
+export async function listenToEvent<T>(
+  event: string,
+  handler: (payload: T) => void
+): Promise<UnlistenFn> {
+  const ev = await getTauriEvent()
+  if (!ev) return () => {}
+  return ev.listen<T>(event, (e) => handler(e.payload))
+}

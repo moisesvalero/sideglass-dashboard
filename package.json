@@ -1,11 +1,13 @@
 {
   "name": "sideglass-dashboard",
-  "version": "0.2.28",
+  "version": "0.2.29",
   "license": "SEE LICENSE IN LICENSE",
   "private": true,
   "packageManager": "pnpm@11.5.2",
   "scripts": {
     "dev": "next dev",
+    "dev:clean": "bash scripts/start-web.sh",
+    "sideglass:web": "bash scripts/start-web.sh",
     "sync:changelog": "node scripts/sync-changelog.mjs",
     "stats:downloads": "node scripts/release-download-stats.mjs",
     "winget:manifest": "node scripts/generate-winget-manifest.mjs",
@@ -23,6 +25,7 @@
     "prepare": "husky",
     "tauri": "tauri",
     "tauri:dev": "tauri dev",
+    "tauri:dev:attach": "tauri dev --config src-tauri/tauri.dev-attach.json",
     "tauri:build": "tauri build",
     "screenshots": "pnpm run build && node scripts/capture-screenshots.mjs",
     "video": "pnpm run build && node scripts/capture-demo-video.mjs",
