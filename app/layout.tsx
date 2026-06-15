@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import { Architects_Daughter } from "next/font/google"
+import { Analytics } from "@vercel/analytics/next"
 import { SettingsProvider } from "@/lib/settings"
 import { I18nProvider } from "@/lib/i18n"
 import { APP_NAME, SITE_URL } from "@/lib/site"
@@ -43,6 +44,7 @@ export default function RootLayout({
         <I18nProvider>
           <SettingsProvider>{children}</SettingsProvider>
         </I18nProvider>
+        <Analytics />
       </body>
     </html>
   )
