@@ -5,8 +5,8 @@ import { APP_NAME, SITE_URL } from "@/lib/site"
 
 const ogImage = {
   url: "/social-preview.png",
-  width: 1280,
-  height: 640,
+  width: 1200,
+  height: 630,
   alt: "Sideglass social preview",
 }
 
