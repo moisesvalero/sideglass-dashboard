@@ -1,6 +1,13 @@
+import { Heart } from "lucide-react"
 import type { LandingLang } from "@/lib/landing-content"
 import { landingContent } from "@/lib/landing-content"
-import { AUTHOR_NAME, AUTHOR_SITE, GITHUB_ISSUES_NEW, LICENSE_URL } from "@/lib/site"
+import {
+  AUTHOR_NAME,
+  AUTHOR_SITE,
+  GITHUB_ISSUES_NEW,
+  LICENSE_URL,
+  PAYPAL_DONATE_URL,
+} from "@/lib/site"
 
 export function LandingFooter({ lang }: { lang: LandingLang }) {
   const copy = landingContent[lang]
@@ -27,6 +34,21 @@ export function LandingFooter({ lang }: { lang: LandingLang }) {
             className="text-[var(--landing-accent)] underline-offset-2 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--landing-accent)]"
           >
             {copy.footerReportIssue}
+          </a>
+        </p>
+        <p>
+          <a
+            href={PAYPAL_DONATE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-1.5 text-[var(--landing-text-muted)] transition-colors hover:text-[var(--landing-text)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--landing-accent)]"
+          >
+            <Heart
+              className="h-3.5 w-3.5 fill-rose-400/80 text-rose-400/80"
+              strokeWidth={1.75}
+              aria-hidden
+            />
+            {copy.footerSupport}
           </a>
         </p>
         <p>

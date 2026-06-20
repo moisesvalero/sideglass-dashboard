@@ -23,6 +23,10 @@
 </p>
 
 <p align="center">
+  <a href="https://www.producthunt.com/products/sideglass?embed=true&amp;utm_source=badge-featured&amp;utm_medium=badge&amp;utm_campaign=badge-sideglass" target="_blank" rel="noopener noreferrer"><img alt="Sideglass - Stop using browser tabs for your daily workflow | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1171679&amp;theme=light&amp;t=1781977293116"></a>
+</p>
+
+<p align="center">
   If this project helps you, a <a href="https://github.com/moisesvalero/sideglass-dashboard">GitHub star</a> or issue/PR makes a real difference.
 </p>
 

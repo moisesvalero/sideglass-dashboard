@@ -1,4 +1,5 @@
 import Image from "next/image"
+import { Github, Star } from "lucide-react"
 import { getChangelog, getLatestVersion } from "@/lib/changelog"
 import { LandingChangelog } from "@/components/landing/landing-changelog"
 import { LandingFeatures } from "@/components/landing/landing-features"
@@ -10,7 +11,7 @@ import {
   APP_NAME,
   SITE_URL,
   AUTHOR_SITE,
-  GITHUB_RELEASES,
+  GITHUB_REPO,
   WINDOWS_INSTALLER_NAME,
   WINDOWS_INSTALLER_URL,
   APP_VERSION,
@@ -111,12 +112,14 @@ export function LandingView({ lang }: { lang: LandingLang }) {
             {copy.ctaDownload}
           </a>
           <a
-            href={GITHUB_RELEASES}
+            href={GITHUB_REPO}
             target="_blank"
             rel="noopener noreferrer"
-            className="landing-cta-secondary inline-flex items-center justify-center underline-offset-2 hover:underline"
+            className="landing-cta-secondary inline-flex items-center justify-center gap-2 rounded-lg"
           >
-            {copy.ctaGithub}
+            <Github className="h-4 w-4 shrink-0" strokeWidth={1.75} aria-hidden />
+            <Star className="h-3.5 w-3.5 shrink-0 text-amber-400/90" strokeWidth={2} aria-hidden />
+            {copy.ctaGithubStar}
           </a>
           <p className="landing-winget-hint">
             {copy.ctaWinget}

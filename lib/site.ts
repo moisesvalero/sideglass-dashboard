@@ -8,6 +8,10 @@ export const APP_TAGLINE = "Panel para tu monitor secundario"
 export const GITHUB_REPO = "https://github.com/moisesvalero/sideglass-dashboard"
 export const GITHUB_ISSUES_NEW = `${GITHUB_REPO}/issues/new`
 
+/** PayPal donate link (business email). */
+export const PAYPAL_DONATE_URL =
+  "https://www.paypal.com/donate/?business=Moi6%40outlook.com&no_recurring=0&currency_code=EUR"
+
 /** Stable NSIS asset name uploaded on every release (see .github/workflows/release.yml). */
 export const WINDOWS_INSTALLER_NAME = "Sideglass_x64-setup.exe"
 export const WINDOWS_INSTALLER_URL = `${GITHUB_REPO}/releases/latest/download/${WINDOWS_INSTALLER_NAME}`

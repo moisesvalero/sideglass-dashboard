@@ -13,7 +13,7 @@ export type LandingCopy = {
   heroTitle: string[]
   heroSubtitle: string
   ctaDownload: string
-  ctaGithub: string
+  ctaGithubStar: string
   ctaWinget: string
   heroNote: string
   heroVideoPlayLabel: string
@@ -34,6 +34,7 @@ export type LandingCopy = {
   changelogEmpty: string
   footerDeveloped: string
   footerReportIssue: string
+  footerSupport: string
   keywords: string[]
 }
 
@@ -49,7 +50,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
     heroSubtitle:
       "Sideglass reúne clima, agenda, hardware, notas y accesos rápidos en un dashboard limpio para tu monitor secundario, sin apartarte de lo que estás haciendo.",
     ctaDownload: "Descargar para Windows",
-    ctaGithub: "Ver en GitHub",
+    ctaGithubStar: "Dale una estrella en GitHub",
     ctaWinget: "También desde WinGet",
     heroNote: "Gratis para uso personal",
     heroVideoPlayLabel: "Reproducir video de Sideglass",
@@ -152,7 +153,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
       },
       {
         q: "¿Cómo veo YouTube?",
-        a: "En el widget de YouTube escribe lo que quieras buscar y pulsa Buscar: se muestran los resultados dentro del panel. Haz clic en un video y se reproduce embebido, sin salir de Sideglass.",
+        a: "En el widget de YouTube escribe lo que quieras buscar y pulsa Buscar: se muestran los resultados dentro del panel. Haz clic en un video y se reproduce embebido, sin salir de Sideglass. También puedes arrastrar una URL de YouTube desde el navegador y soltarla en el widget para ver el video al instante.",
       },
       {
         q: "¿Puedo ver el código?",
@@ -167,6 +168,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
       "No hay entradas de changelog en este despliegue. Edita CHANGELOG.es.md y vuelve a desplegar la web.",
     footerDeveloped: "Desarrollado por",
     footerReportIssue: "¿Algo no funciona? Abre un issue en GitHub",
+    footerSupport: "Apoya el proyecto",
     keywords: [
       "dashboard monitor secundario",
       "panel escritorio windows",
@@ -186,7 +188,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
     heroSubtitle:
       "Sideglass keeps weather, agenda, hardware, notes, YouTube and AI shortcuts in a clean dashboard for your second monitor, without pulling you away from your main screen.",
     ctaDownload: "Download for Windows",
-    ctaGithub: "View on GitHub",
+    ctaGithubStar: "Star on GitHub",
     ctaWinget: "Also via WinGet",
     heroNote: "Free for personal use",
     heroVideoPlayLabel: "Play Sideglass video",
@@ -289,7 +291,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
       },
       {
         q: "How do I watch YouTube?",
-        a: "In the YouTube widget, type what you want to find and press Search: results show inside the panel. Click a video and it plays embedded, without leaving Sideglass.",
+        a: "In the YouTube widget, type what you want to find and press Search: results show inside the panel. Click a video and it plays embedded, without leaving Sideglass. You can also drag a YouTube URL from your browser and drop it on the widget to play the video right away.",
       },
       {
         q: "Can I view the source code?",
@@ -303,6 +305,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
       "No changelog entries in this deployment. Edit CHANGELOG.md and redeploy the site.",
     footerDeveloped: "Developed by",
     footerReportIssue: "Something broken? Open a GitHub issue",
+    footerSupport: "Support the project",
     keywords: [
       "second monitor dashboard",
       "windows desktop panel",
