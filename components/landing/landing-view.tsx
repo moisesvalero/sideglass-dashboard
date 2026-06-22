@@ -7,16 +7,8 @@ import { LandingFooter } from "@/components/landing/landing-footer"
 import { LandingHeader } from "@/components/landing/landing-header"
 import { LandingHeroMedia } from "@/components/landing/landing-hero-media"
 import { landingContent, type LandingLang } from "@/lib/landing-content"
-import {
-  APP_NAME,
-  SITE_URL,
-  AUTHOR_SITE,
-  GITHUB_REPO,
-  WINDOWS_INSTALLER_NAME,
-  WINDOWS_INSTALLER_URL,
-  APP_VERSION,
-  LICENSE_URL,
-} from "@/lib/site"
+import { buildLandingJsonLd } from "@/lib/seo"
+import { GITHUB_REPO, WINDOWS_INSTALLER_NAME, WINDOWS_INSTALLER_URL, APP_VERSION } from "@/lib/site"
 
 const galleryShots = (copy: (typeof landingContent)[LandingLang]) => [
   {
@@ -39,46 +31,13 @@ export function LandingView({ lang }: { lang: LandingLang }) {
   const latestChangelog = changelog[0]
   const version = getLatestVersion(APP_VERSION, lang)
   const shots = galleryShots(copy)
-
-  const softwareJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    name: APP_NAME,
-    operatingSystem: "Windows",
-    applicationCategory: "UtilitiesApplication",
-    softwareVersion: version,
-    description: copy.metaDescription,
-    url: SITE_URL,
-    downloadUrl: WINDOWS_INSTALLER_URL,
-    license: LICENSE_URL,
-    inLanguage: copy.htmlLang,
-    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-    author: { "@type": "Person", name: "Moises Valero", url: AUTHOR_SITE },
-  }
-
-  const faqJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    inLanguage: copy.htmlLang,
-    mainEntity: copy.faq.map((item) => ({
-      "@type": "Question",
-      name: item.q,
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: [item.a, ...(item.steps ?? []), item.code, item.note].filter(Boolean).join(" "),
-      },
-    })),
-  }
+  const jsonLd = buildLandingJsonLd(lang, version, latestChangelog?.date)
 
   return (
     <div lang={copy.htmlLang} className="landing-page min-h-screen antialiased">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
       <div className="landing-ambient" aria-hidden>
@@ -137,6 +96,21 @@ export function LandingView({ lang }: { lang: LandingLang }) {
           />
         </div>
       </header>
+
+      <section
+        aria-labelledby="landing-summary-title"
+        className="landing-section relative z-10 mx-auto max-w-3xl px-4 sm:px-6"
+      >
+        <h2 id="landing-summary-title" className="landing-section-title">
+          {copy.summaryTitle}
+        </h2>
+        <p className="landing-section-lead">{copy.summaryLead}</p>
+        <ul className="landing-body mt-[var(--landing-space-lg)] list-disc space-y-2 pl-5 marker:text-[var(--landing-text-subtle)]">
+          {copy.summaryFacts.map((fact) => (
+            <li key={fact}>{fact}</li>
+          ))}
+        </ul>
+      </section>
 
       <section className="landing-section relative z-10 mx-auto max-w-5xl px-4 sm:px-6">
         <h2 className="landing-section-title">{copy.screenshotsTitle}</h2>

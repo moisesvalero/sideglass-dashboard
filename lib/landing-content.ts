@@ -32,6 +32,9 @@ export type LandingCopy = {
   changelogSubtitle: string
   changelogLink: string
   changelogEmpty: string
+  summaryTitle: string
+  summaryLead: string
+  summaryFacts: string[]
   footerDeveloped: string
   footerReportIssue: string
   footerSupport: string
@@ -41,10 +44,11 @@ export type LandingCopy = {
 export const landingContent: Record<LandingLang, LandingCopy> = {
   es: {
     htmlLang: "es",
-    metaTitle: "Panel para monitor secundario en Windows",
+    metaTitle: "Dashboard para monitor secundario en Windows",
     metaDescription:
-      "Sideglass: aplicación de escritorio gratuita y source available, con estética macOS, para tu monitor secundario: clima, calendario, hardware con temperaturas reales, YouTube y acceso rápido a tus IAs. Sin API keys obligatorias.",
-    ogDescription: "Sideglass: panel source available para monitor secundario en Windows.",
+      "Sideglass es un dashboard gratuito para monitor secundario en Windows: clima, Google Calendar, CPU/GPU con temperaturas, YouTube, notas y dock de IAs. Descarga el instalador o usa WinGet.",
+    ogDescription:
+      "Dashboard gratuito y source available para monitor secundario en Windows: clima, calendario, hardware, YouTube e IAs en un solo panel.",
     eyebrow: "Escritorio · Windows · Source available",
     heroTitle: ["Todo lo importante,", "siempre a la vista"],
     heroSubtitle:
@@ -166,23 +170,39 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
     changelogLink: "Ver todas las versiones en GitHub",
     changelogEmpty:
       "No hay entradas de changelog en este despliegue. Edita CHANGELOG.es.md y vuelve a desplegar la web.",
+    summaryTitle: "En resumen",
+    summaryLead:
+      "Sideglass es una aplicación de escritorio gratuita para Windows que convierte tu monitor secundario en un panel siempre visible con clima, agenda, hardware, YouTube, notas y accesos a ChatGPT, Gemini, Claude, Perplexity y Copilot.",
+    summaryFacts: [
+      "Gratis para uso personal; código source available en GitHub (PolyForm Noncommercial 1.0.0).",
+      "Instalación con instalador .exe o con winget install Sideglass.",
+      "Funciona en monitor vertical u horizontal; widgets redimensionables y reordenables.",
+      "Clima con Open-Meteo sin API key; calendario vía URL iCal secreta de Google Calendar.",
+      "Temperaturas reales de CPU y GPU con sensores integrados (LibreHardwareMonitor vía WMI).",
+      "Privacidad local: notas, layout y URL iCal se guardan solo en tu PC.",
+    ],
     footerDeveloped: "Desarrollado por",
     footerReportIssue: "¿Algo no funciona? Abre un issue en GitHub",
     footerSupport: "Apoya el proyecto",
     keywords: [
-      "dashboard monitor secundario",
-      "panel escritorio windows",
-      "monitor hardware temperaturas",
-      "tauri nextjs app",
+      "dashboard monitor secundario windows",
+      "aplicacion monitor secundario",
+      "panel escritorio windows gratis",
       "widget clima calendario windows",
+      "monitor hardware cpu gpu temperatura",
+      "alternativa rainmeter windows 11",
+      "desk setup monitor vertical",
+      "dashboard tauri nextjs",
+      "sideglass",
     ],
   },
   en: {
     htmlLang: "en",
-    metaTitle: "Second-monitor panel for Windows",
+    metaTitle: "Second-monitor dashboard for Windows",
     metaDescription:
-      "Sideglass: free, source-available macOS-style desktop app for your secondary monitor: weather, calendar, hardware with real temperatures, YouTube and AI dock. No required API keys.",
-    ogDescription: "Sideglass: source-available second-monitor panel for Windows.",
+      "Sideglass is a free Windows dashboard for your second monitor: weather, Google Calendar, CPU/GPU temps, YouTube, notes and an AI dock. Download the installer or use WinGet.",
+    ogDescription:
+      "Free, source-available second-monitor dashboard for Windows: weather, calendar, hardware, YouTube and AI shortcuts in one panel.",
     eyebrow: "Desktop · Windows · Source available",
     heroTitle: ["Everything that matters,", "always in view"],
     heroSubtitle:
@@ -303,15 +323,30 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
     changelogLink: "View all releases on GitHub",
     changelogEmpty:
       "No changelog entries in this deployment. Edit CHANGELOG.md and redeploy the site.",
+    summaryTitle: "At a glance",
+    summaryLead:
+      "Sideglass is a free Windows desktop app that turns your second monitor into an always-on panel with weather, calendar, hardware stats, YouTube, notes and shortcuts to ChatGPT, Gemini, Claude, Perplexity and Copilot.",
+    summaryFacts: [
+      "Free for personal use; source available on GitHub (PolyForm Noncommercial 1.0.0).",
+      "Install via .exe installer or winget install Sideglass.",
+      "Works on portrait or landscape monitors; widgets are resizable and reorderable.",
+      "Weather via Open-Meteo with no API key; calendar via Google Calendar secret iCal URL.",
+      "Real CPU and GPU temperatures with bundled sensors (LibreHardwareMonitor via WMI).",
+      "Local privacy: notes, layout and iCal URL stay on your PC only.",
+    ],
     footerDeveloped: "Developed by",
     footerReportIssue: "Something broken? Open a GitHub issue",
     footerSupport: "Support the project",
     keywords: [
-      "second monitor dashboard",
-      "windows desktop panel",
-      "hardware monitor temperatures",
-      "tauri nextjs app",
+      "second monitor dashboard windows",
+      "secondary monitor always on display",
+      "windows desktop widget panel",
+      "hardware monitor cpu gpu temperature",
+      "rainmeter alternative windows 11",
+      "vertical monitor desk setup",
       "weather calendar widget windows",
+      "tauri nextjs desktop app",
+      "sideglass",
     ],
   },
 }
