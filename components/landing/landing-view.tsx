@@ -97,21 +97,6 @@ export function LandingView({ lang }: { lang: LandingLang }) {
         </div>
       </header>
 
-      <section
-        aria-labelledby="landing-summary-title"
-        className="landing-section relative z-10 mx-auto max-w-3xl px-4 sm:px-6"
-      >
-        <h2 id="landing-summary-title" className="landing-section-title">
-          {copy.summaryTitle}
-        </h2>
-        <p className="landing-section-lead">{copy.summaryLead}</p>
-        <ul className="landing-body mt-[var(--landing-space-lg)] list-disc space-y-2 pl-5 marker:text-[var(--landing-text-subtle)]">
-          {copy.summaryFacts.map((fact) => (
-            <li key={fact}>{fact}</li>
-          ))}
-        </ul>
-      </section>
-
       <section className="landing-section relative z-10 mx-auto max-w-5xl px-4 sm:px-6">
         <h2 className="landing-section-title">{copy.screenshotsTitle}</h2>
         <p className="landing-section-lead">{copy.screenshotsSubtitle}</p>

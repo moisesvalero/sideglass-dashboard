@@ -32,9 +32,6 @@ export type LandingCopy = {
   changelogSubtitle: string
   changelogLink: string
   changelogEmpty: string
-  summaryTitle: string
-  summaryLead: string
-  summaryFacts: string[]
   footerDeveloped: string
   footerReportIssue: string
   footerSupport: string
@@ -170,17 +167,6 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
     changelogLink: "Ver todas las versiones en GitHub",
     changelogEmpty:
       "No hay entradas de changelog en este despliegue. Edita CHANGELOG.es.md y vuelve a desplegar la web.",
-    summaryTitle: "En resumen",
-    summaryLead:
-      "Sideglass es una aplicación de escritorio gratuita para Windows que convierte tu monitor secundario en un panel siempre visible con clima, agenda, hardware, YouTube, notas y accesos a ChatGPT, Gemini, Claude, Perplexity y Copilot.",
-    summaryFacts: [
-      "Gratis para uso personal; código source available en GitHub (PolyForm Noncommercial 1.0.0).",
-      "Instalación con instalador .exe o con winget install Sideglass.",
-      "Funciona en monitor vertical u horizontal; widgets redimensionables y reordenables.",
-      "Clima con Open-Meteo sin API key; calendario vía URL iCal secreta de Google Calendar.",
-      "Temperaturas reales de CPU y GPU con sensores integrados (LibreHardwareMonitor vía WMI).",
-      "Privacidad local: notas, layout y URL iCal se guardan solo en tu PC.",
-    ],
     footerDeveloped: "Desarrollado por",
     footerReportIssue: "¿Algo no funciona? Abre un issue en GitHub",
     footerSupport: "Apoya el proyecto",
@@ -323,17 +309,6 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
     changelogLink: "View all releases on GitHub",
     changelogEmpty:
       "No changelog entries in this deployment. Edit CHANGELOG.md and redeploy the site.",
-    summaryTitle: "At a glance",
-    summaryLead:
-      "Sideglass is a free Windows desktop app that turns your second monitor into an always-on panel with weather, calendar, hardware stats, YouTube, notes and shortcuts to ChatGPT, Gemini, Claude, Perplexity and Copilot.",
-    summaryFacts: [
-      "Free for personal use; source available on GitHub (PolyForm Noncommercial 1.0.0).",
-      "Install via .exe installer or winget install Sideglass.",
-      "Works on portrait or landscape monitors; widgets are resizable and reorderable.",
-      "Weather via Open-Meteo with no API key; calendar via Google Calendar secret iCal URL.",
-      "Real CPU and GPU temperatures with bundled sensors (LibreHardwareMonitor via WMI).",
-      "Local privacy: notes, layout and iCal URL stay on your PC only.",
-    ],
     footerDeveloped: "Developed by",
     footerReportIssue: "Something broken? Open a GitHub issue",
     footerSupport: "Support the project",

@@ -176,7 +176,9 @@ export function buildLandingJsonLd(lang: LandingLang, version: string, releaseDa
           `${SITE_URL}/screenshots/portrait-light.png`,
           `${SITE_URL}/screenshots/landscape-dark.png`,
         ],
-        featureList: copy.summaryFacts,
+        featureList: copy.featureGroups.flatMap((group) =>
+          group.items.map((item) => `${item.label}: ${item.desc}`)
+        ),
         offers: {
           "@type": "Offer",
           price: "0",
@@ -191,7 +193,7 @@ export function buildLandingJsonLd(lang: LandingLang, version: string, releaseDa
         "@type": "HowTo",
         "@id": `${pageUrl}#install`,
         name: copy.installTitle,
-        description: copy.summaryLead,
+        description: copy.metaDescription,
         inLanguage: copy.htmlLang,
         step: copy.install.map((text, index) => ({
           "@type": "HowToStep",
