@@ -1,6 +1,21 @@
-export const SITE_URL = (
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://sideglass.moisesvalero.es"
-).replace(/\/$/, "")
+const CANONICAL_SITE_URL = "https://sideglass.moisesvalero.es"
+
+function resolveSiteUrl(): string {
+  // Producción en Vercel: dominio canónico fijo (evita sitemap/canonical con *.vercel.app).
+  if (process.env.VERCEL_ENV === "production") {
+    return CANONICAL_SITE_URL
+  }
+
+  const fromEnv = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "")
+  if (fromEnv) return fromEnv
+
+  const vercelHost = process.env.VERCEL_URL
+  if (vercelHost) return `https://${vercelHost}`
+
+  return CANONICAL_SITE_URL
+}
+
+export const SITE_URL = resolveSiteUrl()
 
 export const APP_NAME = "Sideglass"
 export const APP_TAGLINE = "Panel para tu monitor secundario"
