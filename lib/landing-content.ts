@@ -32,6 +32,7 @@ export type LandingCopy = {
   changelogSubtitle: string
   changelogLink: string
   changelogEmpty: string
+  footerCookies: string
   footerDeveloped: string
   footerReportIssue: string
   footerSupport: string
@@ -167,6 +168,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
     changelogLink: "Ver todas las versiones en GitHub",
     changelogEmpty:
       "No hay entradas de changelog en este despliegue. Edita CHANGELOG.es.md y vuelve a desplegar la web.",
+    footerCookies: "Política de cookies",
     footerDeveloped: "Desarrollado por",
     footerReportIssue: "¿Algo no funciona? Abre un issue en GitHub",
     footerSupport: "Apoya el proyecto",
@@ -309,6 +311,7 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
     changelogLink: "View all releases on GitHub",
     changelogEmpty:
       "No changelog entries in this deployment. Edit CHANGELOG.md and redeploy the site.",
+    footerCookies: "Cookie policy",
     footerDeveloped: "Developed by",
     footerReportIssue: "Something broken? Open a GitHub issue",
     footerSupport: "Support the project",

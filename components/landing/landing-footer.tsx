@@ -1,3 +1,4 @@
+import Link from "next/link"
 import { Heart } from "lucide-react"
 import type { LandingLang } from "@/lib/landing-content"
 import { landingContent } from "@/lib/landing-content"
@@ -33,6 +34,14 @@ export function LandingFooter({ lang }: { lang: LandingLang }) {
             />
             {copy.footerSupport}
           </a>
+        </p>
+        <p>
+          <Link
+            href="/cookies"
+            className="text-[var(--landing-text-muted)] hover:text-[var(--landing-text)] underline-offset-2 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--landing-accent)]"
+          >
+            {copy.footerCookies}
+          </Link>
         </p>
         <p>
           {copy.footerDeveloped}{" "}

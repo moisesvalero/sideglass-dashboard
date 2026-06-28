@@ -35,11 +35,6 @@ export function LandingView({ lang }: { lang: LandingLang }) {
 
   return (
     <div lang={copy.htmlLang} className="landing-page min-h-screen antialiased">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
-
       <div className="landing-ambient" aria-hidden>
         <div className="landing-ambient-cyan" />
         <div className="landing-ambient-violet" />
@@ -110,6 +105,7 @@ export function LandingView({ lang }: { lang: LandingLang }) {
                   width={480}
                   height={980}
                   className="h-auto w-full"
+                  loading="lazy"
                 />
               </div>
               <figcaption className="landing-caption mt-3 text-center">{shot.label}</figcaption>
@@ -180,6 +176,11 @@ export function LandingView({ lang }: { lang: LandingLang }) {
       </section>
 
       <LandingFooter lang={lang} />
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
     </div>
   )
 }

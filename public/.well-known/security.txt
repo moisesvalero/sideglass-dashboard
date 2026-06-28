@@ -1,0 +1,6 @@
+Contact: https://moisesvalero.es/contact
+Contact: mailto:hola@moisesvalero.es
+Expires: 2027-06-28T00:00:00Z
+Preferred-Languages: es, en
+Canonical: https://sideglass.moisesvalero.es/.well-known/security.txt
+Policy: https://github.com/moisesvalero/sideglass-dashboard/security/policy
