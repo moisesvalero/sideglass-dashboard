@@ -1,0 +1,39 @@
+name: Weekly security audit
+on:
+  schedule:
+    - cron: "0 9 * * 1"
+  workflow_dispatch:
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@4
+      - uses: pnpm/action-setup@k
+      - uses: actions/setup-node@4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm audit --audit-level=high
+        continue-on-error: true
+        id: audit
+      - name: Create issue if vulnerabilities found
+        if: steps.audit.outcome == 'failure'
+        uses: actions/github-script@w
+        with:
+          script: |
+            const { data: issues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: ['security']
+            });
+            if (issues.length === 0) {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: '🔒 High severity vulnerabilities found',
+                body: '`pnpm audit` detectó vulnerabilidades high. Revisa y actualiza dependencias.',
+                labels: ['security']
+              });
+            }
