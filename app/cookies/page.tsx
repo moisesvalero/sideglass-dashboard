@@ -90,7 +90,7 @@ export default function CookiesPage() {
             <p>
               Si tienes dudas sobre esta política, puedes escribir a{" "}
               <a
-                href="https://moisesvalero.es/contact"
+                href="https://moisesvalero.es/#contacto"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-[var(--landing-accent)] hover:underline"
