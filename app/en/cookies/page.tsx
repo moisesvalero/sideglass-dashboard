@@ -85,7 +85,7 @@ export default function CookiesPage() {
             <p>
               If you have questions about this policy, reach out at{" "}
               <a
-                href="https://moisesvalero.es/#contacto"
+                href="mailto:info@moisesvalero.es"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-[var(--landing-accent)] hover:underline"
