@@ -1,8 +1,10 @@
 name: Weekly security audit
+
 on:
   schedule:
-    - cron: "0 9 * * 1"
-  workflow_dispatch:
+    - cron: "0 9 * * 1" # Lunes 09:00 Europe/Madrid
+  workflow_dispatch: # manual
+
 jobs:
   audit:
     runs-on: ubuntu-latest
@@ -32,8 +34,8 @@ jobs:
               await github.rest.issues.create({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                title: 'ðŸ”’ High severity vulnerabilities found',
-                body: '`pnpm audit` detectÃ³ vulnerabilidades high. Revisa y actualiza dependencias.',
+                title: '🔒 High severity vulnerabilities found',
+                body: '`pnpm audit` detectó vulnerabilidades high. Revisa y actualiza dependencias.',
                 labels: ['security']
               });
             }
