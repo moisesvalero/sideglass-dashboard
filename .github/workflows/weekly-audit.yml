@@ -7,9 +7,9 @@ jobs:
   audit:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@4
-      - uses: pnpm/action-setup@k
-      - uses: actions/setup-node@4
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: pnpm
@@ -19,7 +19,7 @@ jobs:
         id: audit
       - name: Create issue if vulnerabilities found
         if: steps.audit.outcome == 'failure'
-        uses: actions/github-script@w
+        uses: actions/github-script@v7
         with:
           script: |
             const { data: issues } = await github.rest.issues.listForRepo({
@@ -32,8 +32,8 @@ jobs:
               await github.rest.issues.create({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                title: '🔒 High severity vulnerabilities found',
-                body: '`pnpm audit` detectó vulnerabilidades high. Revisa y actualiza dependencias.',
+                title: 'ðŸ”’ High severity vulnerabilities found',
+                body: '`pnpm audit` detectÃ³ vulnerabilidades high. Revisa y actualiza dependencias.',
                 labels: ['security']
               });
             }
