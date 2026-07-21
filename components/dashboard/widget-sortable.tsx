@@ -4,7 +4,7 @@ import type { CSSProperties, PointerEvent, ReactNode } from "react"
 import { useSortable } from "@dnd-kit/sortable"
 import { CSS } from "@dnd-kit/utilities"
 import { GripVertical, Maximize2 } from "lucide-react"
-import type { WidgetId, WidgetLayout } from "@/lib/settings"
+import { WIDGET_CONSTRAINTS, type WidgetId, type WidgetLayout } from "@/lib/settings"
 import { useI18n } from "@/lib/i18n"
 
 type SortableWidgetProps = {
@@ -54,14 +54,26 @@ export function SortableWidget({
     const columnSize =
       (grid.clientWidth - gap * Math.max(0, columnCount - 1)) / Math.max(1, columnCount)
 
+    const constraints = WIDGET_CONSTRAINTS[id] ?? {
+      minCols: 1,
+      minRows: 5,
+      maxCols: 4,
+      maxRows: 24,
+    }
+
     const update = (move: globalThis.PointerEvent) => {
+      const maxCols = Math.min(columnCount, constraints.maxCols ?? columnCount)
+      const minCols = Math.min(maxCols, constraints.minCols)
+      const maxRows = constraints.maxRows ?? 24
+      const minRows = constraints.minRows
+
       const cols = Math.min(
-        columnCount,
-        Math.max(1, Math.round(start.cols + (move.clientX - startX) / (columnSize + gap)))
+        maxCols,
+        Math.max(minCols, Math.round(start.cols + (move.clientX - startX) / (columnSize + gap)))
       )
       const rows = Math.min(
-        24,
-        Math.max(5, Math.round(start.rows + (move.clientY - startY) / (rowSize + gap)))
+        maxRows,
+        Math.max(minRows, Math.round(start.rows + (move.clientY - startY) / (rowSize + gap)))
       )
       onLayoutChange(id, { cols, rows })
     }

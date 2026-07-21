@@ -388,7 +388,8 @@
   min-height: 0;
   flex-direction: column;
   justify-content: center;
-  gap: clamp(0.75rem, 4cqh, 2.25rem);
+  gap: clamp(0.5rem, 3cqh, 1.75rem);
+  overflow: hidden;
 }
 
 .time-weather-clock {
@@ -397,20 +398,23 @@
 }
 
 .time-weather-time {
-  font-size: clamp(3rem, min(15cqw, 44cqh), 13rem);
+  font-size: clamp(2.5rem, min(14cqw, 40cqh), 11rem);
   font-weight: 200;
   line-height: 0.92;
   letter-spacing: -0.035cap;
   color: var(--foreground);
   font-variant-numeric: tabular-nums;
-}
-
-.time-weather-date {
-  margin-top: clamp(0.35rem, 2cqh, 0.85rem);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: clamp(0.85rem, min(4.2cqw, 4.8cqh), 1.45rem);
+}
+
+.time-weather-date {
+  margin-top: clamp(0.25rem, 1.5cqh, 0.75rem);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: clamp(0.8rem, min(3.8cqw, 4.2cqh), 1.35rem);
   text-transform: capitalize;
   color: var(--muted-foreground);
 }
@@ -418,31 +422,35 @@
 .time-weather-panel {
   display: flex;
   min-width: 0;
-  flex-shrink: 0;
+  max-width: 100%;
+  flex-shrink: 1;
   flex-wrap: wrap;
   align-items: center;
-  gap: clamp(0.55rem, min(3cqw, 4cqh), 2.4rem);
-  padding: clamp(0.8rem, 4cqh, 2.2rem) clamp(0.95rem, 3.8cqw, 2.8rem);
+  gap: clamp(0.45rem, min(2.5cqw, 3.5cqh), 2rem);
+  padding: clamp(0.65rem, 3.2cqh, 1.8rem) clamp(0.75rem, 3cqw, 2.2rem);
+  overflow: hidden;
 }
 
 .time-weather-icon {
-  height: clamp(2rem, min(13cqw, 19cqh), 10rem);
-  width: clamp(2rem, min(13cqw, 19cqh), 10rem);
+  height: clamp(1.8rem, min(11cqw, 16cqh), 8.5rem);
+  width: clamp(1.8rem, min(11cqw, 16cqh), 8.5rem);
+  flex-shrink: 0;
 }
 
 .time-weather-temp {
-  font-size: clamp(1.7rem, min(13cqw, 24cqh), 10.5rem);
+  font-size: clamp(1.5rem, min(11cqw, 20cqh), 9rem);
   font-weight: 300;
   line-height: 1;
   letter-spacing: -0.045cap;
   color: var(--foreground);
   font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
 }
 
 .time-weather-condition,
 .time-weather-city {
   display: block;
-  max-width: min(24rem, 54cqw);
+  max-width: min(20rem, 48cqw);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -450,35 +458,36 @@
 }
 
 .time-weather-condition {
-  font-size: clamp(0.76rem, min(3.8cqw, 4.8cqh), 1.8rem);
+  font-size: clamp(0.72rem, min(3.5cqw, 4.2cqh), 1.6rem);
   line-height: 1.15;
   text-transform: capitalize;
 }
 
 .time-weather-city {
-  margin-top: clamp(0.12rem, 0.8cqh, 0.45rem);
-  font-size: clamp(0.7rem, min(3.2cqw, 4cqh), 1.35rem);
+  margin-top: clamp(0.1rem, 0.6cqh, 0.35rem);
+  font-size: clamp(0.68rem, min(3cqw, 3.6cqh), 1.25rem);
   color: color-mix(in oklch, var(--muted-foreground) 76%, transparent);
 }
 
-@container (min-width: 560px) and (min-height: 170px) {
+@container (min-width: 620px) and (min-height: 170px) {
   .time-weather-layout {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    gap: clamp(0.75rem, 2cqw, 2rem);
   }
 
   .time-weather-clock {
-    flex: 1 1 48%;
+    flex: 1 1 45%;
   }
 
   .time-weather-time {
-    font-size: clamp(3.25rem, min(11cqw, 48cqh), 11.5rem);
+    font-size: clamp(2.75rem, min(9.5cqw, 42cqh), 9.5rem);
   }
 
   .time-weather-panel {
-    flex: 0 1 min(48cqw, 34rem);
-    max-width: min(48cqw, 34rem);
+    flex: 0 1 min(50cqw, 32rem);
+    max-width: min(50cqw, 32rem);
     justify-content: center;
   }
 }
@@ -917,6 +926,19 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: clamp(0.35rem, 0.7vmin, 0.75rem);
+}
+
+@container (max-height: 220px) {
+  .hardware-control-grid .dashboard-surface {
+    padding: 0.55rem 0.65rem;
+  }
+  .hardware-control-grid .metric-value {
+    font-size: 1.15rem;
+    margin-top: 0.1rem;
+  }
+  .hardware-control-grid .capsule-bar {
+    margin-top: 0.25rem;
+  }
 }
 
 /* Monitor secundario vertical / tablets: 2 columnas */

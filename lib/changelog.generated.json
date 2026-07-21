@@ -1,6 +1,18 @@
 {
   "es": [
     {
+      "version": "0.2.35",
+      "date": "2026-07-21",
+      "groups": [
+        {
+          "category": "Corregido",
+          "items": [
+            "**Drag & Drop 2D y Límites de Redimensionamiento**: actualizada la estrategia de rejilla de `@dnd-kit` a `rectSortingStrategy` y `rectIntersection` en 2D, añadidos límites mínimos de tamaño por widget (`WIDGET_CONSTRAINTS`) para evitar encoger por debajo del tamaño visible real y solucionado el solapamiento de hora y tiempo en resoluciones de tablet"
+          ]
+        }
+      ]
+    },
+    {
       "version": "0.2.34",
       "date": "2026-07-21",
       "groups": [
@@ -601,6 +613,18 @@
     }
   ],
   "en": [
+    {
+      "version": "0.2.35",
+      "date": "2026-07-21",
+      "groups": [
+        {
+          "category": "Fixed",
+          "items": [
+            "**2D Grid Drag-and-Drop & Widget Resize Constraints**: upgraded `@dnd-kit` grid strategy to 2D `rectSortingStrategy` and `rectIntersection`, added per-widget min/max size constraints (`WIDGET_CONSTRAINTS`), preventing physical resize below minimum content boundaries and fixing clock/weather overlap on tablet viewports"
+          ]
+        }
+      ]
+    },
     {
       "version": "0.2.34",
       "date": "2026-07-21",

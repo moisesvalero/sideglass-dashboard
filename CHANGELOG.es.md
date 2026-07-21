@@ -6,6 +6,12 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es/1.1.0/) y el p
 
 **Versión en inglés:** [CHANGELOG.md](./CHANGELOG.md) — mantén ambos archivos sincronizados al publicar una release.
 
+## [0.2.35] - 2026-07-21
+
+### Corregido
+
+- **Drag & Drop 2D y Límites de Redimensionamiento**: actualizada la estrategia de rejilla de `@dnd-kit` a `rectSortingStrategy` y `rectIntersection` en 2D, añadidos límites mínimos de tamaño por widget (`WIDGET_CONSTRAINTS`) para evitar encoger por debajo del tamaño visible real y solucionado el solapamiento de hora y tiempo en resoluciones de tablet
+
 ## [0.2.34] - 2026-07-21
 
 ### Corregido

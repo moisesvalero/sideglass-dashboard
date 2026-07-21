@@ -3,7 +3,7 @@
 import { useState, useMemo } from "react"
 import {
   DndContext,
-  closestCenter,
+  rectIntersection,
   KeyboardSensor,
   PointerSensor,
   useSensor,
@@ -14,7 +14,7 @@ import {
   arrayMove,
   SortableContext,
   sortableKeyboardCoordinates,
-  verticalListSortingStrategy,
+  rectSortingStrategy,
 } from "@dnd-kit/sortable"
 import { TimeWeatherWidget } from "@/components/dashboard/time-weather-widget"
 import { CalendarWidget } from "@/components/dashboard/calendar-widget"
@@ -166,10 +166,10 @@ function DashboardContent() {
           <DndContext
             id="dashboard-widgets"
             sensors={sensors}
-            collisionDetection={closestCenter}
+            collisionDetection={rectIntersection}
             onDragEnd={handleDragEnd}
           >
-            <SortableContext items={visibleOrder} strategy={verticalListSortingStrategy}>
+            <SortableContext items={visibleOrder} strategy={rectSortingStrategy}>
               <div className="dashboard-grid">
                 {visibleOrder.map((id) => {
                   const Component = widgetMap[id]

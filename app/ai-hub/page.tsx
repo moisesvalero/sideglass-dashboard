@@ -10,7 +10,6 @@ import {
   listenToEvent,
   getCurrentTauriWindow,
   takeAiHubPendingTab,
-  isTauri,
 } from "@/lib/tauri"
 import { APP_VERSION } from "@/lib/site"
 import { Minus, Square, X } from "lucide-react"

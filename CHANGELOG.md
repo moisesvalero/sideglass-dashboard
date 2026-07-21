@@ -6,6 +6,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 **Spanish version:** [CHANGELOG.es.md](./CHANGELOG.es.md) — keep both files in sync when you add a release.
 
+## [0.2.35] - 2026-07-21
+
+### Fixed
+
+- **2D Grid Drag-and-Drop & Widget Resize Constraints**: upgraded `@dnd-kit` grid strategy to 2D `rectSortingStrategy` and `rectIntersection`, added per-widget min/max size constraints (`WIDGET_CONSTRAINTS`), preventing physical resize below minimum content boundaries and fixing clock/weather overlap on tablet viewports
+
 ## [0.2.34] - 2026-07-21
 
 ### Fixed

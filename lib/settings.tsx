@@ -6,6 +6,21 @@ export const WIDGET_IDS = ["time", "hardware", "calendar", "motivation", "notes"
 
 export type WidgetId = (typeof WIDGET_IDS)[number]
 export type WidgetLayout = { cols: number; rows: number }
+export type WidgetConstraints = {
+  minCols: number
+  minRows: number
+  maxCols?: number
+  maxRows?: number
+}
+
+export const WIDGET_CONSTRAINTS: Record<WidgetId, WidgetConstraints> = {
+  time: { minCols: 1, minRows: 6, maxCols: 4, maxRows: 16 },
+  hardware: { minCols: 2, minRows: 7, maxCols: 4, maxRows: 16 },
+  calendar: { minCols: 1, minRows: 6, maxCols: 4, maxRows: 18 },
+  motivation: { minCols: 1, minRows: 5, maxCols: 4, maxRows: 12 },
+  notes: { minCols: 1, minRows: 5, maxCols: 4, maxRows: 16 },
+  music: { minCols: 1, minRows: 6, maxCols: 4, maxRows: 16 },
+}
 
 export const DEFAULT_WIDGET_ORDER: WidgetId[] = [
   "time",
@@ -165,6 +180,7 @@ function migrateStored(raw: Record<string, unknown>): Settings {
   }
   for (const id of WIDGET_IDS) {
     const value = (rawLayouts as Record<string, unknown>)[id]
+    const constraints = WIDGET_CONSTRAINTS[id]
     if (
       typeof value === "object" &&
       value &&
@@ -172,8 +188,14 @@ function migrateStored(raw: Record<string, unknown>): Settings {
       typeof (value as WidgetLayout).rows === "number"
     ) {
       next.widgetLayouts[id] = {
-        cols: Math.min(4, Math.max(1, Math.round((value as WidgetLayout).cols))),
-        rows: Math.min(24, Math.max(4, Math.round((value as WidgetLayout).rows))),
+        cols: Math.min(
+          constraints.maxCols ?? 4,
+          Math.max(constraints.minCols, Math.round((value as WidgetLayout).cols))
+        ),
+        rows: Math.min(
+          constraints.maxRows ?? 24,
+          Math.max(constraints.minRows, Math.round((value as WidgetLayout).rows))
+        ),
       }
     } else {
       next.widgetLayouts[id] = defaultLayouts[id]
