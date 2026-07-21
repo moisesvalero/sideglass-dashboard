@@ -47,7 +47,6 @@ const widgetMap: Record<WidgetId, React.ComponentType> = {
   hardware: HardwareMonitor,
   notes: NotesWidget,
   music: MusicWidget,
-  ai: AIDock,
 }
 
 function isWidgetVisible(id: WidgetId, settings: ReturnType<typeof useSettings>["settings"]) {
@@ -57,7 +56,6 @@ function isWidgetVisible(id: WidgetId, settings: ReturnType<typeof useSettings>[
   if (id === "hardware") return settings.showHardware
   if (id === "notes") return settings.showNotes
   if (id === "music") return settings.showMusic
-  if (id === "ai") return settings.showAi ?? true
   return true
 }
 
@@ -187,6 +185,8 @@ function DashboardContent() {
             </SortableContext>
           </DndContext>
         </div>
+
+        <AIDock />
 
         <SettingsDrawer open={settingsOpen} onClose={() => setSettingsOpen(false)} />
       </main>

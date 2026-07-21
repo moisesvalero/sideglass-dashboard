@@ -6,6 +6,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 **Spanish version:** [CHANGELOG.es.md](./CHANGELOG.es.md) — keep both files in sync when you add a release.
 
+## [0.2.33] - 2026-07-21
+
+### Restored
+
+- **Floating AI Dock Bar**: restored the original macOS-style floating bottom AI dock bar with scale hover animations, fixed position, and Grok AI included with official Icons8 light/dark SVG vector icons
+
 ## [0.2.32] - 2026-07-21
 
 ### Fixed

@@ -6,6 +6,12 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es/1.1.0/) y el p
 
 **Versión en inglés:** [CHANGELOG.md](./CHANGELOG.md) — mantén ambos archivos sincronizados al publicar una release.
 
+## [0.2.33] - 2026-07-21
+
+### Restaurado
+
+- **Barra Dock Flotante de IAs**: restaurada la barra fija flotante inferior estilo macOS original con animaciones al pasar el ratón y la incorporación de Grok AI con los iconos vectoriales SVG oficiales de Icons8 para modo claro y oscuro
+
 ## [0.2.32] - 2026-07-21
 
 ### Corregido

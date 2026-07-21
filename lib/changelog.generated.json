@@ -1,6 +1,18 @@
 {
   "es": [
     {
+      "version": "0.2.33",
+      "date": "2026-07-21",
+      "groups": [
+        {
+          "category": "Restaurado",
+          "items": [
+            "**Barra Dock Flotante de IAs**: restaurada la barra fija flotante inferior estilo macOS original con animaciones al pasar el ratón y la incorporación de Grok AI con los iconos vectoriales SVG oficiales de Icons8 para modo claro y oscuro"
+          ]
+        }
+      ]
+    },
+    {
       "version": "0.2.32",
       "date": "2026-07-21",
       "groups": [
@@ -577,6 +589,18 @@
     }
   ],
   "en": [
+    {
+      "version": "0.2.33",
+      "date": "2026-07-21",
+      "groups": [
+        {
+          "category": "Restored",
+          "items": [
+            "**Floating AI Dock Bar**: restored the original macOS-style floating bottom AI dock bar with scale hover animations, fixed position, and Grok AI included with official Icons8 light/dark SVG vector icons"
+          ]
+        }
+      ]
+    },
     {
       "version": "0.2.32",
       "date": "2026-07-21",

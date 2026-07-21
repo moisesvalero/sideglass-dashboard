@@ -7,7 +7,7 @@ export const DEMO_SETTINGS = {
   timeFormat: "24" as const,
   theme: "dark" as const,
   calendarIcalUrl: "",
-  widgetOrder: ["time", "motivation", "notes", "calendar", "hardware", "music", "ai"],
+  widgetOrder: ["time", "motivation", "notes", "calendar", "hardware", "music"],
   widgetLayouts: {
     time: { cols: 4, rows: 10 },
     hardware: { cols: 4, rows: 8 },
@@ -15,7 +15,6 @@ export const DEMO_SETTINGS = {
     motivation: { cols: 2, rows: 6 },
     notes: { cols: 2, rows: 6 },
     music: { cols: 4, rows: 9 },
-    ai: { cols: 4, rows: 4 },
   },
   showCalendar: true,
   showMotivation: true,

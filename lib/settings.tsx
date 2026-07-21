@@ -2,15 +2,7 @@
 
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react"
 
-export const WIDGET_IDS = [
-  "time",
-  "hardware",
-  "calendar",
-  "motivation",
-  "notes",
-  "music",
-  "ai",
-] as const
+export const WIDGET_IDS = ["time", "hardware", "calendar", "motivation", "notes", "music"] as const
 
 export type WidgetId = (typeof WIDGET_IDS)[number]
 export type WidgetLayout = { cols: number; rows: number }
@@ -22,7 +14,6 @@ export const DEFAULT_WIDGET_ORDER: WidgetId[] = [
   "calendar",
   "hardware",
   "music",
-  "ai",
 ]
 
 const LEGACY_DEFAULT_WIDGET_LAYOUTS: Record<WidgetId, WidgetLayout> = {
@@ -32,7 +23,6 @@ const LEGACY_DEFAULT_WIDGET_LAYOUTS: Record<WidgetId, WidgetLayout> = {
   motivation: { cols: 2, rows: 6 },
   notes: { cols: 2, rows: 6 },
   music: { cols: 4, rows: 9 },
-  ai: { cols: 4, rows: 4 },
 }
 
 export const DEFAULT_WIDGET_LAYOUTS: Record<WidgetId, WidgetLayout> = {
@@ -42,7 +32,6 @@ export const DEFAULT_WIDGET_LAYOUTS: Record<WidgetId, WidgetLayout> = {
   motivation: { cols: 2, rows: 6 },
   notes: { cols: 2, rows: 6 },
   music: { cols: 4, rows: 9 },
-  ai: { cols: 4, rows: 4 },
 }
 
 export const LANDSCAPE_WIDGET_LAYOUTS: Record<WidgetId, WidgetLayout> = {
@@ -52,7 +41,6 @@ export const LANDSCAPE_WIDGET_LAYOUTS: Record<WidgetId, WidgetLayout> = {
   calendar: { cols: 2, rows: 13 },
   hardware: { cols: 2, rows: 9 },
   music: { cols: 2, rows: 9 },
-  ai: { cols: 2, rows: 4 },
 }
 
 function cloneLayouts(layouts: Record<WidgetId, WidgetLayout>) {

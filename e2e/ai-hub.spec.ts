@@ -19,24 +19,9 @@ test.describe("ai hub smoke", () => {
     await expect(chatgpt).not.toHaveClass(/bg-accent/)
   })
 
-  test("ai dock widget renders on dashboard even when legacy localStorage lacks 'ai' in widgetOrder", async ({
-    page,
-  }) => {
-    await page.addInitScript(() => {
-      // Simulate legacy v0.2.29 localStorage without 'ai' in widgetOrder
-      localStorage.setItem(
-        "dashboard-settings",
-        JSON.stringify({
-          widgetOrder: ["time", "motivation", "notes", "calendar", "hardware", "music"],
-          widgetLayouts: {
-            time: { cols: 4, rows: 10 },
-            hardware: { cols: 4, rows: 8 },
-          },
-        })
-      )
-    })
+  test("ai dock footer renders on dashboard with Grok button", async ({ page }) => {
     await page.goto("/dashboard", { waitUntil: "domcontentloaded" })
-    await expect(page.locator('[data-widget-id="ai"]')).toBeVisible()
-    await expect(page.getByText("Grok")).toBeVisible()
+    await expect(page.locator(".dashboard-dock-row")).toBeVisible()
+    await expect(page.getByRole("button", { name: "Grok" })).toBeVisible()
   })
 })
