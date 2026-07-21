@@ -6,6 +6,17 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 **Spanish version:** [CHANGELOG.es.md](./CHANGELOG.es.md) — keep both files in sync when you add a release.
 
+## [0.2.30] - 2026-07-21
+
+### Added
+
+- **Grok AI Support**: added Grok AI to the AI dock with its icon (https://grok.com)
+- **Resizable AI Dock**: converted the AI Dock into a standard dashboard widget so it can be moved, resized, and toggled freely like other widgets
+
+### Improved
+
+- **Responsive Dashboard Layout**: fluid CSS grid adaptation across mobile, tablet, and widescreen monitors with automatic column scaling and min-col protection
+
 ## [0.2.29] - 2026-06-14
 
 ### Added

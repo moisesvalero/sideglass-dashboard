@@ -6,6 +6,17 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es/1.1.0/) y el p
 
 **Versión en inglés:** [CHANGELOG.md](./CHANGELOG.md) — mantén ambos archivos sincronizados al publicar una release.
 
+## [0.2.30] - 2026-07-21
+
+### Añadido
+
+- **Soporte para Grok AI**: añadida la IA Grok con su icono oficial al dock de IAs (https://grok.com)
+- **Dock de IAs redimensionable**: la barra de IAs ahora es un widget estándar del dashboard, permitiendo moverla, redimensionarla y cambiar su visibilidad como el resto de widgets
+
+### Mejorado
+
+- **Diseño Responsive del Dashboard**: grid fluido adaptativo para pantallas móviles, tablets y monitores panorámicos con escalado automático de columnas y protección de tamaño mínimo
+
 ## [0.2.29] - 2026-06-14
 
 ### Añadido

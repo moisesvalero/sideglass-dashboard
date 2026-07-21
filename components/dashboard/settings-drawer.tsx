@@ -303,6 +303,7 @@ export function SettingsDrawer({ open, onClose }: Props) {
                     { key: "showHardware", label: t("settings.hardware") },
                     { key: "showNotes", label: t("settings.notes") },
                     { key: "showMusic", label: t("settings.music") },
+                    { key: "showAi", label: t("settings.ai") },
                   ] as const
                 ).map(({ key, label }) => (
                   <button

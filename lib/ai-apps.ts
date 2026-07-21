@@ -23,6 +23,7 @@ export const AI_APPS: AiApp[] = [
     icon: AI_BRAND_ICONS.copilot,
     url: "https://copilot.microsoft.com",
   },
+  { id: "grok", name: "Grok", icon: AI_BRAND_ICONS.grok, url: "https://grok.com" },
 ]
 
 const AI_APP_IDS = new Set(AI_APPS.map((app) => app.id))

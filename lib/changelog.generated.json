@@ -1,6 +1,25 @@
 {
   "es": [
     {
+      "version": "0.2.30",
+      "date": "2026-07-21",
+      "groups": [
+        {
+          "category": "Añadido",
+          "items": [
+            "**Soporte para Grok AI**: añadida la IA Grok con su icono oficial al dock de IAs (https://grok.com)",
+            "**Dock de IAs redimensionable**: la barra de IAs ahora es un widget estándar del dashboard, permitiendo moverla, redimensionarla y cambiar su visibilidad como el resto de widgets"
+          ]
+        },
+        {
+          "category": "Mejorado",
+          "items": [
+            "**Diseño Responsive del Dashboard**: grid fluido adaptativo para pantallas móviles, tablets y monitores panorámicos con escalado automático de columnas y protección de tamaño mínimo"
+          ]
+        }
+      ]
+    },
+    {
       "version": "0.2.29",
       "date": "2026-06-14",
       "groups": [
@@ -534,6 +553,25 @@
     }
   ],
   "en": [
+    {
+      "version": "0.2.30",
+      "date": "2026-07-21",
+      "groups": [
+        {
+          "category": "Added",
+          "items": [
+            "**Grok AI Support**: added Grok AI to the AI dock with its icon (https://grok.com)",
+            "**Resizable AI Dock**: converted the AI Dock into a standard dashboard widget so it can be moved, resized, and toggled freely like other widgets"
+          ]
+        },
+        {
+          "category": "Improved",
+          "items": [
+            "**Responsive Dashboard Layout**: fluid CSS grid adaptation across mobile, tablet, and widescreen monitors with automatic column scaling and min-col protection"
+          ]
+        }
+      ]
+    },
     {
       "version": "0.2.29",
       "date": "2026-06-14",
