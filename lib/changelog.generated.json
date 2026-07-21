@@ -1,6 +1,18 @@
 {
   "es": [
     {
+      "version": "0.2.32",
+      "date": "2026-07-21",
+      "groups": [
+        {
+          "category": "Corregido",
+          "items": [
+            "**Icono de Grok AI**: reemplazado por la marca vectorial SVG oficial de Icons8 con variantes adaptativas para modo claro y oscuro"
+          ]
+        }
+      ]
+    },
+    {
       "version": "0.2.31",
       "date": "2026-07-21",
       "groups": [
@@ -565,6 +577,18 @@
     }
   ],
   "en": [
+    {
+      "version": "0.2.32",
+      "date": "2026-07-21",
+      "groups": [
+        {
+          "category": "Fixed",
+          "items": [
+            "**Grok AI Icon**: replaced with the official Icons8 SVG vector mark with dedicated light and dark theme adaptive variants"
+          ]
+        }
+      ]
+    },
     {
       "version": "0.2.31",
       "date": "2026-07-21",

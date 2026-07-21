@@ -6,6 +6,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 **Spanish version:** [CHANGELOG.es.md](./CHANGELOG.es.md) — keep both files in sync when you add a release.
 
+## [0.2.32] - 2026-07-21
+
+### Fixed
+
+- **Grok AI Icon**: replaced with the official Icons8 SVG vector mark with dedicated light and dark theme adaptive variants
+
 ## [0.2.31] - 2026-07-21
 
 ### Fixed

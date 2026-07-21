@@ -20,7 +20,10 @@ export const AI_BRAND_ICONS = {
   perplexity: "/icons/ai/perplexity.svg",
   /** Microsoft Copilot (not GitHub Copilot) */
   copilot: "/icons/ai/copilot.svg",
-  grok: "/icons/ai/grok.svg",
+  grok: {
+    light: "/icons/ai/grok-light.svg",
+    dark: "/icons/ai/grok-dark.svg",
+  },
 } as const satisfies Record<string, AiIconSrc>
 
 export function resolveAiIconSrc(icon: AiIconSrc, isDark: boolean): string {

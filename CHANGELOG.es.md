@@ -6,6 +6,12 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es/1.1.0/) y el p
 
 **Versión en inglés:** [CHANGELOG.md](./CHANGELOG.md) — mantén ambos archivos sincronizados al publicar una release.
 
+## [0.2.32] - 2026-07-21
+
+### Corregido
+
+- **Icono de Grok AI**: reemplazado por la marca vectorial SVG oficial de Icons8 con variantes adaptativas para modo claro y oscuro
+
 ## [0.2.31] - 2026-07-21
 
 ### Corregido
