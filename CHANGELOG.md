@@ -6,6 +6,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 **Spanish version:** [CHANGELOG.es.md](./CHANGELOG.es.md) — keep both files in sync when you add a release.
 
+## [0.2.31] - 2026-07-21
+
+### Fixed
+
+- **AI Widget Migration**: fixed legacy localStorage settings migration so the new AI dock widget automatically appends to existing user layouts upon app upgrade
+
 ## [0.2.30] - 2026-07-21
 
 ### Added

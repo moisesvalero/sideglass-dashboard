@@ -6,6 +6,12 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es/1.1.0/) y el p
 
 **Versión en inglés:** [CHANGELOG.md](./CHANGELOG.md) — mantén ambos archivos sincronizados al publicar una release.
 
+## [0.2.31] - 2026-07-21
+
+### Corregido
+
+- **Migración del Widget de IA**: corregida la migración de la configuración guardada en localStorage para que el nuevo widget del dock de IA se añada automáticamente al layout de los usuarios existentes al actualizar
+
 ## [0.2.30] - 2026-07-21
 
 ### Añadido

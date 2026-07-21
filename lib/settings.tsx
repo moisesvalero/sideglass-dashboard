@@ -150,15 +150,28 @@ function migrateStored(raw: Record<string, unknown>): Settings {
     next.calendarIcalUrl = next.calendarScriptUrl
   }
   if (!Array.isArray(next.widgetOrder) || next.widgetOrder.length === 0) {
-    next.widgetOrder = [...WIDGET_IDS]
+    next.widgetOrder = [...DEFAULT_WIDGET_ORDER]
+  } else {
+    // Ensure all WIDGET_IDS are present in widgetOrder when upgrading from earlier versions
+    const currentOrder = [...next.widgetOrder]
+    for (const id of WIDGET_IDS) {
+      if (!currentOrder.includes(id)) {
+        currentOrder.push(id)
+      }
+    }
+    next.widgetOrder = currentOrder
   }
+  if (next.showAi === undefined) {
+    next.showAi = true
+  }
+  const defaultLayouts = getDefaultWidgetLayouts()
   const rawLayouts =
     typeof raw.widgetLayouts === "object" && raw.widgetLayouts
       ? raw.widgetLayouts
       : typeof raw.widgetSizes === "object" && raw.widgetSizes
         ? raw.widgetSizes
         : {}
-  next.widgetLayouts = getDefaultWidgetLayouts()
+  next.widgetLayouts = defaultLayouts
   if (layoutMatches(rawLayouts as Record<string, unknown>, LEGACY_DEFAULT_WIDGET_LAYOUTS)) {
     return next
   }
@@ -172,8 +185,10 @@ function migrateStored(raw: Record<string, unknown>): Settings {
     ) {
       next.widgetLayouts[id] = {
         cols: Math.min(4, Math.max(1, Math.round((value as WidgetLayout).cols))),
-        rows: Math.min(24, Math.max(5, Math.round((value as WidgetLayout).rows))),
+        rows: Math.min(24, Math.max(4, Math.round((value as WidgetLayout).rows))),
       }
+    } else {
+      next.widgetLayouts[id] = defaultLayouts[id]
     }
   }
   return next

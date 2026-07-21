@@ -1,6 +1,6 @@
 {
   "name": "sideglass-dashboard",
-  "version": "0.2.30",
+  "version": "0.2.31",
   "license": "SEE LICENSE IN LICENSE",
   "private": true,
   "packageManager": "pnpm@11.5.2",

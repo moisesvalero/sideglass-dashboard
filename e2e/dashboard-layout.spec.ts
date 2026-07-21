@@ -126,7 +126,7 @@ async function layoutGeometry(page: import("@playwright/test").Page) {
 
 const resetLayoutSettings = {
   calendarIcalUrl: "/demo-calendar.ics",
-  widgetOrder: ["time", "motivation", "notes", "calendar", "music", "hardware"],
+  widgetOrder: ["time", "motivation", "notes", "calendar", "music", "hardware", "ai"],
   widgetLayouts: {
     time: { cols: 4, rows: 12 },
     motivation: { cols: 2, rows: 6 },
@@ -134,6 +134,7 @@ const resetLayoutSettings = {
     calendar: { cols: 4, rows: 10 },
     music: { cols: 3, rows: 9 },
     hardware: { cols: 4, rows: 9 },
+    ai: { cols: 4, rows: 4 },
   },
 }
 
@@ -207,7 +208,7 @@ test.describe("dashboard layout width", () => {
     await page.waitForTimeout(1000)
     await page.getByTestId("customize-layout").dispatchEvent("click")
     await expect(page.locator(".dashboard-edit-toolbar")).toBeVisible()
-    await expect(page.locator(".dashboard-resize-handle")).toHaveCount(6)
+    await expect(page.locator(".dashboard-resize-handle")).toHaveCount(7)
   })
 
   test("reset layout keeps calendar and youtube content inside cards", async ({ page }) => {

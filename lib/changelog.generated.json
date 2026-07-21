@@ -1,6 +1,18 @@
 {
   "es": [
     {
+      "version": "0.2.31",
+      "date": "2026-07-21",
+      "groups": [
+        {
+          "category": "Corregido",
+          "items": [
+            "**Migración del Widget de IA**: corregida la migración de la configuración guardada en localStorage para que el nuevo widget del dock de IA se añada automáticamente al layout de los usuarios existentes al actualizar"
+          ]
+        }
+      ]
+    },
+    {
       "version": "0.2.30",
       "date": "2026-07-21",
       "groups": [
@@ -553,6 +565,18 @@
     }
   ],
   "en": [
+    {
+      "version": "0.2.31",
+      "date": "2026-07-21",
+      "groups": [
+        {
+          "category": "Fixed",
+          "items": [
+            "**AI Widget Migration**: fixed legacy localStorage settings migration so the new AI dock widget automatically appends to existing user layouts upon app upgrade"
+          ]
+        }
+      ]
+    },
     {
       "version": "0.2.30",
       "date": "2026-07-21",
