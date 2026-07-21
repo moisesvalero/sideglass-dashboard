@@ -79,6 +79,24 @@ function writeManifestFile(filePath, content) {
   console.log(`[winget] wrote ${filePath}`)
 }
 
+async function getInstallerSha256(installerPath, providedSha256, installerUrl) {
+  if (providedSha256) return providedSha256
+  if (installerPath && existsSync(installerPath)) return sha256(installerPath)
+
+  console.log(`[winget] Local installer not found, fetching from GitHub release: ${installerUrl}...`)
+  try {
+    const res = await fetch(installerUrl)
+    if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText}`)
+    const arrayBuffer = await res.arrayBuffer()
+    const hash = createHash("sha256")
+    hash.update(Buffer.from(arrayBuffer))
+    return hash.digest("hex").toUpperCase()
+  } catch (err) {
+    console.error(`[winget] Failed to fetch release asset: ${err.message}`)
+    return null
+  }
+}
+
 const args = parseArgs(process.argv.slice(2))
 const version = args.version ?? readPackageVersion()
 const tag = args.tag ?? `v${version}`
@@ -86,7 +104,8 @@ const outputRoot = args.output ?? "winget"
 const installerPath = args.installer ?? findDefaultInstaller(version)
 const installerUrl =
   args["installer-url"] ?? `${REPO_URL}/releases/download/${tag}/${INSTALLER_ASSET_NAME}`
-const installerSha256 = args.sha256 ?? (installerPath ? sha256(installerPath) : null)
+
+const installerSha256 = await getInstallerSha256(installerPath, args.sha256, installerUrl)
 
 if (!installerSha256) {
   console.error(
