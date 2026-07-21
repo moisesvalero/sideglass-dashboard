@@ -31,6 +31,7 @@ import { SortableWidget } from "@/components/dashboard/widget-sortable"
 import {
   DEFAULT_WIDGET_LAYOUTS,
   DEFAULT_WIDGET_ORDER,
+  WIDGET_IDS,
   getDefaultWidgetLayouts,
   useSettings,
   type WidgetId,
@@ -79,7 +80,10 @@ function DashboardContent() {
   )
 
   const visibleOrder = useMemo(
-    () => settings.widgetOrder.filter((id) => isWidgetVisible(id, settings)),
+    () =>
+      settings.widgetOrder.filter(
+        (id) => WIDGET_IDS.includes(id as WidgetId) && isWidgetVisible(id, settings)
+      ),
     [settings]
   )
 
@@ -169,6 +173,7 @@ function DashboardContent() {
               <div className="dashboard-grid">
                 {visibleOrder.map((id) => {
                   const Component = widgetMap[id]
+                  if (!Component) return null
                   return (
                     <SortableWidget
                       key={id}

@@ -1,6 +1,18 @@
 {
   "es": [
     {
+      "version": "0.2.34",
+      "date": "2026-07-21",
+      "groups": [
+        {
+          "category": "Corregido",
+          "items": [
+            "**Migración de Ajustes y Protección contra Cuelgues**: corregida la excepción crítica de renderizado en React causada cuando la configuración almacenada en localStorage incluía IDs de widgets eliminados del grid (como `ai`), filtrando IDs obsoletos durante la migración y protegiendo el renderizado del grid"
+          ]
+        }
+      ]
+    },
+    {
       "version": "0.2.33",
       "date": "2026-07-21",
       "groups": [
@@ -589,6 +601,18 @@
     }
   ],
   "en": [
+    {
+      "version": "0.2.34",
+      "date": "2026-07-21",
+      "groups": [
+        {
+          "category": "Fixed",
+          "items": [
+            "**Settings Migration & Crash Safeguard**: fixed a critical React render exception caused by legacy localStorage settings containing removed widget IDs (such as `ai`), filtering stale IDs during settings migration and safeguarding grid widget rendering"
+          ]
+        }
+      ]
+    },
     {
       "version": "0.2.33",
       "date": "2026-07-21",

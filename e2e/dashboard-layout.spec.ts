@@ -309,6 +309,27 @@ test.describe("first-run responsive defaults", () => {
 
     await expect(input).toHaveValue("Alcoy, Comunitat Valenciana, España")
   })
+
+  test("legacy localStorage containing removed widget IDs does not crash dashboard", async ({
+    page,
+  }) => {
+    await page.addInitScript(() => {
+      localStorage.setItem(
+        "dashboard-settings",
+        JSON.stringify({
+          widgetOrder: ["time", "motivation", "notes", "calendar", "hardware", "music", "ai"],
+          widgetLayouts: {
+            time: { cols: 4, rows: 10 },
+            hardware: { cols: 4, rows: 8 },
+            ai: { cols: 4, rows: 4 },
+          },
+        })
+      )
+    })
+    await page.goto("/dashboard", { waitUntil: "domcontentloaded" })
+    await expect(page.locator(".dashboard-grid")).toBeVisible()
+    await expect(page.getByText("This page couldn't load")).not.toBeVisible()
+  })
 })
 
 test("daily quote dataset stays short, known and bilingual", () => {

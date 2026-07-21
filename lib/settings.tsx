@@ -140,8 +140,8 @@ function migrateStored(raw: Record<string, unknown>): Settings {
   if (!Array.isArray(next.widgetOrder) || next.widgetOrder.length === 0) {
     next.widgetOrder = [...DEFAULT_WIDGET_ORDER]
   } else {
-    // Ensure all WIDGET_IDS are present in widgetOrder when upgrading from earlier versions
-    const currentOrder = [...next.widgetOrder]
+    // Ensure only valid WIDGET_IDS are present in widgetOrder when upgrading from earlier versions
+    const currentOrder = next.widgetOrder.filter((id) => WIDGET_IDS.includes(id as WidgetId))
     for (const id of WIDGET_IDS) {
       if (!currentOrder.includes(id)) {
         currentOrder.push(id)

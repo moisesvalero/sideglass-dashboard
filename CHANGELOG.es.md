@@ -6,6 +6,12 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es/1.1.0/) y el p
 
 **Versión en inglés:** [CHANGELOG.md](./CHANGELOG.md) — mantén ambos archivos sincronizados al publicar una release.
 
+## [0.2.34] - 2026-07-21
+
+### Corregido
+
+- **Migración de Ajustes y Protección contra Cuelgues**: corregida la excepción crítica de renderizado en React causada cuando la configuración almacenada en localStorage incluía IDs de widgets eliminados del grid (como `ai`), filtrando IDs obsoletos durante la migración y protegiendo el renderizado del grid
+
 ## [0.2.33] - 2026-07-21
 
 ### Restaurado

@@ -6,6 +6,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 **Spanish version:** [CHANGELOG.es.md](./CHANGELOG.es.md) — keep both files in sync when you add a release.
 
+## [0.2.34] - 2026-07-21
+
+### Fixed
+
+- **Settings Migration & Crash Safeguard**: fixed a critical React render exception caused by legacy localStorage settings containing removed widget IDs (such as `ai`), filtering stale IDs during settings migration and safeguarding grid widget rendering
+
 ## [0.2.33] - 2026-07-21
 
 ### Restored
