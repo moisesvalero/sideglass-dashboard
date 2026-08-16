@@ -14,6 +14,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         languages: {
           es: SITE_URL,
           en: `${SITE_URL}/en`,
+          zh: `${SITE_URL}/zh`,
         },
       },
     },
@@ -26,6 +27,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
         languages: {
           es: SITE_URL,
           en: `${SITE_URL}/en`,
+          zh: `${SITE_URL}/zh`,
+        },
+      },
+    },
+    {
+      url: `${SITE_URL}/zh`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.9,
+      alternates: {
+        languages: {
+          es: SITE_URL,
+          en: `${SITE_URL}/en`,
+          zh: `${SITE_URL}/zh`,
         },
       },
     },

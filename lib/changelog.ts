@@ -69,7 +69,9 @@ function readFromMarkdown(lang: LandingLang): ChangelogEntry[] {
  * Edit CHANGELOG.md / CHANGELOG.es.md, then build or run `pnpm run sync:changelog`.
  */
 export function getChangelog(lang: LandingLang = "en"): ChangelogEntry[] {
-  const baked = generated[lang]
+  // Only es/en are baked into the generated JSON; other languages fall back
+  // to the English markdown changelog.
+  const baked = (generated as Partial<Record<LandingLang, ChangelogEntry[]>>)[lang]
   if (Array.isArray(baked) && baked.length > 0) {
     return baked as ChangelogEntry[]
   }

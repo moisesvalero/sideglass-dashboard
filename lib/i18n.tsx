@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react"
 
-type Lang = "es" | "en"
+type Lang = "es" | "en" | "zh"
 
 const translations: Record<Lang, Record<string, string>> = {
   es: {
@@ -242,6 +242,120 @@ const translations: Record<Lang, Record<string, string>> = {
     "titlebar.maximize": "Maximize",
     "titlebar.close": "Close",
   },
+  zh: {
+    "dashboard.title": "Sideglass",
+    "dashboard.exitFullscreenHint": "全屏 · 按 F11 或 Esc 退出",
+    "dashboard.customizeHint": "拖动小组件，从边角调整大小",
+    "dashboard.reorderWidget": "重新排序小组件",
+    "dashboard.resizeWidget": "调整小组件大小",
+    "dashboard.resetLayout": "重置布局",
+    "time.loading": "加载中...",
+    "weather.loading": "加载中...",
+    "weather.noData": "暂无数据",
+    "weather.setKey": "无法加载天气",
+    "calendar.title": "今日日程",
+    "calendar.schedule": "日程",
+    "calendar.noEvents": "暂无即将到来的事件",
+    "calendar.events": "个事件",
+    "calendar.events_plural": "个事件",
+    "calendar.setup": "在设置中粘贴您的 Google 日历 iCal 网址",
+    "calendar.icalHint": "Google 日历 > 设置 > iCal 格式的私密地址",
+    "calendar.nextUp": "即将开始",
+    "motivation.title": "每日一言",
+    "hardware.title": "系统状态",
+    "hardware.live": "实时",
+    "hardware.demo": "演示",
+    "hardware.statusTile": "传感器",
+    "hardware.statusTileHint": "后台轮询",
+    "hardware.tauriHint": "使用 Tauri 运行以获取真实数据",
+    "hardware.sensorsLoading": "正在连接温度传感器…",
+    "hardware.lhmHint":
+      "实时 CPU/GPU 使用率。要查看 CPU 温度，点击「启用 °C」并接受 Windows 提示（PawnIO + 传感器）。",
+    "notes.title": "笔记",
+    "notes.empty": "暂无笔记。点击 + 添加。",
+    "notes.placeholder": "写点什么...",
+    "music.title": "YouTube",
+    "music.embedHint": "搜索 YouTube 视频并在此面板中播放。",
+    "music.search": "搜索",
+    "music.searchPlaceholder": "在 YouTube 上搜索...",
+    "music.searchHint": "无需离开面板即可搜索和播放视频",
+    "music.noResults": "没有结果。请尝试其他搜索。",
+    "music.searchError": "无法搜索 YouTube，请重试。",
+    "music.invalidLink": "无效的 YouTube 链接",
+    "music.paste": "粘贴视频链接",
+    "music.play": "播放",
+    "music.empty": "视频将显示在这里",
+    "music.close": "关闭",
+    "settings.title": "设置",
+    "settings.weatherLocation": "天气位置",
+    "settings.autoLocation": "自动检测位置",
+    "settings.manualLocation": "输入城市（例如：北京）",
+    "settings.manualLocationHint": "关闭自动检测以手动输入城市。",
+    "settings.temperature": "温度单位",
+    "settings.timeFormat": "时间格式",
+    "settings.language": "语言",
+    "settings.visibility": "小组件可见性",
+    "settings.calendar": "日历",
+    "settings.motivation": "每日一言",
+    "settings.hardware": "硬件监控",
+    "settings.notes": "笔记",
+    "settings.music": "YouTube",
+    "settings.ai": "AI 快捷方式",
+    "ai.title": "AI 面板",
+    "settings.autostart": "随 Windows 启动",
+    "settings.hotkey": "全局快捷键（显示/隐藏）",
+    "settings.notifications": "日历通知",
+    "settings.reorder": "拖动小组件以重新排序",
+    "settings.updates": "更新",
+    "settings.checkUpdates": "检查更新",
+    "settings.checkingUpdates": "检查中…",
+    "settings.upToDate": "您已是最新版本",
+    "settings.updateInstalled": "更新已安装。请重启 Sideglass。",
+    "settings.updateError": "无法检查更新",
+    "update.foundTitle": "发现新版本",
+    "update.foundDesc": "Sideglass 有新版本可供安装。",
+    "update.version": "版本",
+    "update.notesTitle": "更新内容",
+    "update.install": "立即安装",
+    "update.later": "稍后",
+    "update.downloadingTitle": "正在下载更新…",
+    "update.downloadingDesc": "安装期间请不要关闭应用。",
+    "update.downloadedMb": "已下载 {mb} MB",
+    "update.installerHint": "如果 Windows 要求确认，请接受安装程序。完成后应用可能会自动关闭。",
+    "update.installedTitle": "更新就绪",
+    "update.installedDesc": "重启 Sideglass 以应用新版本。",
+    "update.restart": "立即重启",
+    "update.errorTitle": "更新失败",
+    "update.errorDesc": "无法安装更新，请稍后重试。",
+    "update.close": "关闭",
+    "hardware.enableSensors": "启用温度显示",
+    "hardware.enableCpuTemp": "启用 °C",
+    "hardware.enablingSensors": "正在启用…",
+    "hardware.cpuTempHint":
+      "点击「启用 °C」并接受 Windows 管理员提示（UAC）。Sideglass 将安装传感器驱动，无需打开其他应用即可显示温度。",
+    "hardware.sensorsHint": "温度显示需要管理员权限。点击启用（接受 Windows 提示）。",
+    "hardware.sensorsFailed": "无法启用传感器。请接受 Windows 提示后重试。",
+    "hardware.pawnioFailed":
+      "PawnIO（传感器驱动）未安装成功。请重启电脑，再次点击「启用 °C」，或以管理员身份从 pawnio.eu 安装 PawnIO 2.2。",
+    "hardware.pawnioUacCancelled": "安装已取消。请接受 Windows 管理员提示（UAC）以启用传感器。",
+    "hardware.sensorTimeout":
+      "传感器未及时响应。如果出现 Windows 提示请接受，然后再次点击「启用 °C」。",
+    "hardware.sensorInitFailed": "PawnIO 已安装，但无法读取温度。请重启电脑后重试。",
+    "hardware.pawnioSetupMissing":
+      "应用中缺少 PawnIO 安装程序。请从官网或 GitHub 重新安装 Sideglass。",
+    "settings.help": "帮助",
+    "settings.helpFaq": "帮助中心和常见问题",
+    "settings.about": "关于",
+    "settings.aboutTagline": "副屏仪表盘",
+    "settings.viewSource": "GitHub 上的源代码",
+    "settings.version": "版本",
+    "titlebar.help": "帮助",
+    "titlebar.customize": "自定义布局",
+    "titlebar.settings": "设置",
+    "titlebar.minimize": "最小化",
+    "titlebar.maximize": "最大化",
+    "titlebar.close": "关闭",
+  },
 }
 
 type I18nContextType = {
@@ -260,11 +374,11 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   const [lang, setLangState] = useState<Lang>("es")
   useEffect(() => {
     const stored = localStorage.getItem("dashboard-lang") as Lang | null
-    if (stored === "es" || stored === "en") {
+    if (stored === "es" || stored === "en" || stored === "zh") {
       setLangState(stored)
     } else {
       const browserLang = navigator.language.toLowerCase()
-      setLangState(browserLang.startsWith("es") ? "es" : "en")
+      setLangState(browserLang.startsWith("es") ? "es" : browserLang.startsWith("zh") ? "zh" : "en")
     }
   }, [])
 

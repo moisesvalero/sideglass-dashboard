@@ -1,7 +1,7 @@
 # Sideglass
 
 <p align="center">
-  <a href="./README.md">English</a> · <a href="./README.es.md">Español</a>
+  <a href="./README.md">English</a> · <a href="./README.es.md">Español</a> · <a href="./README.zh.md">中文</a>
 </p>
 
 <p align="center">
@@ -131,6 +131,10 @@ Sideglass is source-available under the PolyForm Noncommercial License 1.0.0. Co
 
 - [Open an issue](https://github.com/moisesvalero/sideglass-dashboard/issues)
 - Pull requests welcome
+
+## Contributors
+
+- [DeepSeek](https://deepseek.com) — Chinese localization and translation
 
 ## License
 

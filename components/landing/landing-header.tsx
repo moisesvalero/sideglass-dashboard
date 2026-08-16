@@ -15,7 +15,7 @@ export function LandingHeader({ lang, faqLabel }: { lang: LandingLang; faqLabel:
     <header className="sticky top-0 z-50 border-b border-[var(--landing-border)] bg-[color-mix(in_oklch,var(--landing-bg)_92%,transparent)] backdrop-blur-md">
       <div className="mx-auto flex h-14 max-w-5xl items-center justify-between gap-4 px-4 sm:px-6">
         <Link
-          href={lang === "es" ? "/" : "/en"}
+          href={lang === "es" ? "/" : `/${lang}`}
           className="flex min-h-11 shrink-0 items-center gap-2 text-sm font-semibold tracking-tight text-[var(--landing-text)] hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--landing-accent)]"
         >
           <BrandMark size={26} />
@@ -27,7 +27,7 @@ export function LandingHeader({ lang, faqLabel }: { lang: LandingLang; faqLabel:
             href="#download"
             className="landing-body hidden min-h-11 items-center rounded-lg px-3 py-2 font-medium text-[var(--landing-accent-soft)] transition-colors hover:bg-[oklch(0.72_0.1_215/0.12)] sm:inline-flex focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--landing-accent)]"
           >
-            {lang === "es" ? "Descargar" : "Download"}
+            {lang === "es" ? "Descargar" : lang === "zh" ? "下载" : "Download"}
           </a>
           <a
             href="#faq"
@@ -61,6 +61,17 @@ export function LandingHeader({ lang, faqLabel }: { lang: LandingLang; faqLabel:
               aria-current={lang === "en" ? "page" : undefined}
             >
               EN
+            </Link>
+            <Link
+              href="/zh"
+              className={`inline-flex min-h-9 min-w-9 items-center justify-center rounded-md px-2.5 py-1 text-xs font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--landing-accent)] ${
+                lang === "zh"
+                  ? "bg-white/15 text-[var(--landing-text)]"
+                  : "text-[var(--landing-text-muted)] hover:text-[var(--landing-text)]"
+              }`}
+              aria-current={lang === "zh" ? "page" : undefined}
+            >
+              中
             </Link>
           </nav>
 

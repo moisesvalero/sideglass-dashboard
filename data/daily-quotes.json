@@ -3,1010 +3,1515 @@
     "id": "aristotle-001",
     "author": "Aristotle",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Quality is not an act, but a habit.",
-      "es": "La calidad no es un acto, es un hábito."
+      "es": "La calidad no es un acto, es un hábito.",
+      "zh": "品质不是一种行为，而是一种习惯。"
     }
   },
   {
     "id": "aristotle-002",
     "author": "Aristotle",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Knowing yourself is the beginning of wisdom.",
-      "es": "Conocerse a uno mismo es el principio de la sabiduría."
+      "es": "Conocerse a uno mismo es el principio de la sabiduría.",
+      "zh": "认识自己，是智慧的开端。"
     }
   },
   {
     "id": "aristotle-003",
     "author": "Aristotle",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Hope is a waking dream.",
-      "es": "La esperanza es un sueño despierto."
+      "es": "La esperanza es un sueño despierto.",
+      "zh": "希望是清醒时的梦境。"
     }
   },
   {
     "id": "marcus-aurelius-004",
     "author": "Marcus Aurelius",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "The obstacle is the way.",
-      "es": "El obstáculo es el camino."
+      "es": "El obstáculo es el camino.",
+      "zh": "障碍即是道路。"
     }
   },
   {
     "id": "marcus-aurelius-005",
     "author": "Marcus Aurelius",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Waste no more time arguing what a good person should be. Be one.",
-      "es": "No pierdas tiempo discutiendo cómo ser bueno. Sé bueno."
+      "es": "No pierdas tiempo discutiendo cómo ser bueno. Sé bueno.",
+      "zh": "别再争论好人应该是什么样子，去做一个好人。"
     }
   },
   {
     "id": "marcus-aurelius-006",
     "author": "Marcus Aurelius",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "What we do now echoes in eternity.",
-      "es": "Lo que hacemos ahora resuena en la eternidad."
+      "es": "Lo que hacemos ahora resuena en la eternidad.",
+      "zh": "我们现在所做的一切，将在永恒中回响。"
     }
   },
   {
     "id": "seneca-007",
     "author": "Seneca",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "While we wait for life, life passes.",
-      "es": "Mientras esperamos la vida, la vida pasa."
+      "es": "Mientras esperamos la vida, la vida pasa.",
+      "zh": "在我们等待生活时，生活已然流逝。"
     }
   },
   {
     "id": "seneca-008",
     "author": "Seneca",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "No wind favors the sailor who has no port.",
-      "es": "Ningún viento favorece a quien no tiene puerto."
+      "es": "Ningún viento favorece a quien no tiene puerto.",
+      "zh": "没有港口的水手，等不到顺风。"
     }
   },
   {
     "id": "seneca-009",
     "author": "Seneca",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Difficulties strengthen the mind.",
-      "es": "Las dificultades fortalecen la mente."
+      "es": "Las dificultades fortalecen la mente.",
+      "zh": "困难磨砺心智。"
     }
   },
   {
     "id": "epictetus-010",
     "author": "Epictetus",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "First say what you would be; then do what you must.",
-      "es": "Primero di quién quieres ser; luego haz lo necesario."
+      "es": "Primero di quién quieres ser; luego haz lo necesario.",
+      "zh": "先想清楚你想成为什么样的人，然后去做你必须做的事。"
     }
   },
   {
     "id": "epictetus-011",
     "author": "Epictetus",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "It is not things that disturb us, but our judgments.",
-      "es": "No nos perturban las cosas, sino nuestros juicios."
+      "es": "No nos perturban las cosas, sino nuestros juicios.",
+      "zh": "扰乱我们的不是事物本身，而是我们对事物的判断。"
     }
   },
   {
     "id": "epictetus-012",
     "author": "Epictetus",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "No person is free who is not master of himself.",
-      "es": "Nadie es libre si no es dueño de sí mismo."
+      "es": "Nadie es libre si no es dueño de sí mismo.",
+      "zh": "不能主宰自己的人，谈不上自由。"
     }
   },
   {
     "id": "confucius-013",
     "author": "Confucius",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Wherever you go, go with all your heart.",
-      "es": "Vayas donde vayas, ve con todo tu corazón."
+      "es": "Vayas donde vayas, ve con todo tu corazón.",
+      "zh": "无论走到哪里，都全心全意。"
     }
   },
   {
     "id": "confucius-014",
     "author": "Confucius",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "It does not matter how slowly you go, as long as you do not stop.",
-      "es": "No importa ir despacio, importa no detenerse."
+      "es": "No importa ir despacio, importa no detenerse.",
+      "zh": "走得慢没关系，只要不停止前进。"
     }
   },
   {
     "id": "confucius-015",
     "author": "Confucius",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Study the past if you would define the future.",
-      "es": "Estudia el pasado si quieres definir el futuro."
+      "es": "Estudia el pasado si quieres definir el futuro.",
+      "zh": "研究过去，才能定义未来。"
     }
   },
   {
     "id": "lao-tzu-016",
     "author": "Lao Tzu",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "A journey of a thousand miles begins with one step.",
-      "es": "Un viaje de mil millas empieza con un paso."
+      "es": "Un viaje de mil millas empieza con un paso.",
+      "zh": "千里之行，始于足下。"
     }
   },
   {
     "id": "lao-tzu-017",
     "author": "Lao Tzu",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "He who conquers himself is mighty.",
-      "es": "Quien se conquista a sí mismo es poderoso."
+      "es": "Quien se conquista a sí mismo es poderoso.",
+      "zh": "胜人者有力，自胜者强。"
     }
   },
   {
     "id": "lao-tzu-018",
     "author": "Lao Tzu",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Great acts are made up of small deeds.",
-      "es": "Los grandes actos se componen de pequeñas acciones."
+      "es": "Los grandes actos se componen de pequeñas acciones.",
+      "zh": "伟大的行动由一个个微小的举动构成。"
     }
   },
   {
     "id": "socrates-019",
     "author": "Socrates",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "The unexamined life is not worth living.",
-      "es": "Una vida sin examen no merece ser vivida."
+      "es": "Una vida sin examen no merece ser vivida.",
+      "zh": "未经审视的人生不值得过。"
     }
   },
   {
     "id": "socrates-020",
     "author": "Socrates",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "I know that I know nothing.",
-      "es": "Solo sé que no sé nada."
+      "es": "Solo sé que no sé nada.",
+      "zh": "我唯一知道的，就是我一无所知。"
     }
   },
   {
     "id": "socrates-021",
     "author": "Socrates",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Be as you wish to seem.",
-      "es": "Sé como deseas parecer."
+      "es": "Sé como deseas parecer.",
+      "zh": "想成为什么样的人，就以什么样的姿态示人。"
     }
   },
   {
     "id": "plato-022",
     "author": "Plato",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "The beginning is the most important part of the work.",
-      "es": "El comienzo es la parte más importante del trabajo."
+      "es": "El comienzo es la parte más importante del trabajo.",
+      "zh": "万事开头最重要。"
     }
   },
   {
     "id": "plato-023",
     "author": "Plato",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Courage is knowing what not to fear.",
-      "es": "El valor es saber qué no temer."
+      "es": "El valor es saber qué no temer.",
+      "zh": "勇气就是知道什么不值得害怕。"
     }
   },
   {
     "id": "plato-024",
     "author": "Plato",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Ideas are the source of all things.",
-      "es": "Las ideas son el origen de todas las cosas."
+      "es": "Las ideas son el origen de todas las cosas.",
+      "zh": "思想是一切事物的源泉。"
     }
   },
   {
     "id": "cicero-025",
     "author": "Cicero",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Memory is the treasury of all things.",
-      "es": "La memoria es el tesoro de todas las cosas."
+      "es": "La memoria es el tesoro de todas las cosas.",
+      "zh": "记忆是一切事物的宝库。"
     }
   },
   {
     "id": "cicero-026",
     "author": "Cicero",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "If you have a garden and a library, you have everything.",
-      "es": "Si tienes jardín y biblioteca, lo tienes todo."
+      "es": "Si tienes jardín y biblioteca, lo tienes todo.",
+      "zh": "拥有花园和图书馆，你就拥有了一切。"
     }
   },
   {
     "id": "cicero-027",
     "author": "Cicero",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Gratitude is the greatest virtue.",
-      "es": "La gratitud es la mayor virtud."
+      "es": "La gratitud es la mayor virtud.",
+      "zh": "感恩是最伟大的美德。"
     }
   },
   {
     "id": "horace-028",
     "author": "Horace",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Begin, and the work will be half done.",
-      "es": "Empieza, y la obra estará medio hecha."
+      "es": "Empieza, y la obra estará medio hecha.",
+      "zh": "良好的开端是成功的一半。"
     }
   },
   {
     "id": "horace-029",
     "author": "Horace",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Rule your mind, or it will rule you.",
-      "es": "Domina tu mente, o ella te dominará."
+      "es": "Domina tu mente, o ella te dominará.",
+      "zh": "驾驭你的思想，否则它就会驾驭你。"
     }
   },
   {
     "id": "virgil-030",
     "author": "Virgil",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Fortune favors the bold.",
-      "es": "La fortuna favorece a los audaces."
+      "es": "La fortuna favorece a los audaces.",
+      "zh": "幸运眷顾勇者。"
     }
   },
   {
     "id": "virgil-031",
     "author": "Virgil",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "They can because they think they can.",
-      "es": "Pueden porque creen que pueden."
+      "es": "Pueden porque creen que pueden.",
+      "zh": "他们行，是因为他们相信自己行。"
     }
   },
   {
     "id": "ovid-032",
     "author": "Ovid",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Dripping water hollows out stone.",
-      "es": "La gota constante horada la piedra."
+      "es": "La gota constante horada la piedra.",
+      "zh": "滴水穿石。"
     }
   },
   {
     "id": "ovid-033",
     "author": "Ovid",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Take rest; a field that has rested gives a good harvest.",
-      "es": "Descansa; el campo reposado da buena cosecha."
+      "es": "Descansa; el campo reposado da buena cosecha.",
+      "zh": "休息吧；休耕的田地会带来好收成。"
     }
   },
   {
     "id": "leonardo-da-vinci-034",
     "author": "Leonardo da Vinci",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Simplicity is the ultimate sophistication.",
-      "es": "La simplicidad es la máxima sofisticación."
+      "es": "La simplicidad es la máxima sofisticación.",
+      "zh": "简洁是终极的精致。"
     }
   },
   {
     "id": "leonardo-da-vinci-035",
     "author": "Leonardo da Vinci",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Learning never exhausts the mind.",
-      "es": "Aprender nunca agota la mente."
+      "es": "Aprender nunca agota la mente.",
+      "zh": "学习永不让头脑疲惫。"
     }
   },
   {
     "id": "leonardo-da-vinci-036",
     "author": "Leonardo da Vinci",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Art lives from constraints and dies from freedom.",
-      "es": "El arte vive de límites y muere de libertad."
+      "es": "El arte vive de límites y muere de libertad.",
+      "zh": "艺术生于限制，死于自由。"
     }
   },
   {
     "id": "michelangelo-037",
     "author": "Michelangelo",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Genius is eternal patience.",
-      "es": "El genio es paciencia eterna."
+      "es": "El genio es paciencia eterna.",
+      "zh": "天才是永恒的耐心。"
     }
   },
   {
     "id": "michelangelo-038",
     "author": "Michelangelo",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "If people knew how hard I worked, it would not seem wonderful.",
-      "es": "Si supieran cuánto trabajé, no parecería tan admirable."
+      "es": "Si supieran cuánto trabajé, no parecería tan admirable.",
+      "zh": "如果人们知道我多么努力，就不会觉得这很了不起了。"
     }
   },
   {
     "id": "william-shakespeare-039",
     "author": "William Shakespeare",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "To thine own self be true.",
-      "es": "Sé fiel a ti mismo."
+      "es": "Sé fiel a ti mismo.",
+      "zh": "忠于你自己。"
     }
   },
   {
     "id": "william-shakespeare-040",
     "author": "William Shakespeare",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Brevity is the soul of wit.",
-      "es": "La brevedad es el alma del ingenio."
+      "es": "La brevedad es el alma del ingenio.",
+      "zh": "简洁是智慧的灵魂。"
     }
   },
   {
     "id": "william-shakespeare-041",
     "author": "William Shakespeare",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Action is eloquence.",
-      "es": "La acción es elocuencia."
+      "es": "La acción es elocuencia.",
+      "zh": "行动即是雄辩。"
     }
   },
   {
     "id": "miguel-de-cervantes-042",
     "author": "Miguel de Cervantes",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Diligence is the mother of good fortune.",
-      "es": "La diligencia es madre de la buena ventura."
+      "es": "La diligencia es madre de la buena ventura.",
+      "zh": "勤勉是好运之母。"
     }
   },
   {
     "id": "miguel-de-cervantes-043",
     "author": "Miguel de Cervantes",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "He who reads much and walks much, sees much and knows much.",
-      "es": "Quien lee mucho y anda mucho, ve mucho y sabe mucho."
+      "es": "Quien lee mucho y anda mucho, ve mucho y sabe mucho.",
+      "zh": "多读多行，多见多知。"
     }
   },
   {
     "id": "miguel-de-cervantes-044",
     "author": "Miguel de Cervantes",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Truth may bend, but it never breaks.",
-      "es": "La verdad adelgaza, pero no quiebra."
+      "es": "La verdad adelgaza, pero no quiebra.",
+      "zh": "真理可以弯曲，但不会折断。"
     }
   },
   {
     "id": "baltasar-gracian-045",
     "author": "Baltasar Graci?n",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "The good, if brief, is twice good.",
-      "es": "Lo bueno, si breve, dos veces bueno."
+      "es": "Lo bueno, si breve, dos veces bueno.",
+      "zh": "好的东西，如果短暂，好上加好。"
     }
   },
   {
     "id": "baltasar-gracian-046",
     "author": "Baltasar Graci?n",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Respect yourself if you would have others respect you.",
-      "es": "Respétate si quieres que otros te respeten."
+      "es": "Respétate si quieres que otros te respeten.",
+      "zh": "想获得别人的尊重，先尊重自己。"
     }
   },
   {
     "id": "baltasar-gracian-047",
     "author": "Baltasar Graci?n",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "The wise do at once what fools do at last.",
-      "es": "El sabio hace pronto lo que el necio hace tarde."
+      "es": "El sabio hace pronto lo que el necio hace tarde.",
+      "zh": "智者当下就做，愚者最后才做。"
     }
   },
   {
     "id": "benjamin-franklin-048",
     "author": "Benjamin Franklin",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Lost time is never found again.",
-      "es": "El tiempo perdido nunca se recupera."
+      "es": "El tiempo perdido nunca se recupera.",
+      "zh": "时间一去不复返。"
     }
   },
   {
     "id": "benjamin-franklin-049",
     "author": "Benjamin Franklin",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Well done is better than well said.",
-      "es": "Bien hecho es mejor que bien dicho."
+      "es": "Bien hecho es mejor que bien dicho.",
+      "zh": "做得好胜过说得好。"
     }
   },
   {
     "id": "benjamin-franklin-050",
     "author": "Benjamin Franklin",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Energy and persistence conquer all things.",
-      "es": "Energía y constancia conquistan todas las cosas."
+      "es": "Energía y constancia conquistan todas las cosas.",
+      "zh": "精力与坚持可以征服一切。"
     }
   },
   {
     "id": "abraham-lincoln-051",
     "author": "Abraham Lincoln",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Whatever you are, be a good one.",
-      "es": "Seas lo que seas, sé bueno en ello."
+      "es": "Seas lo que seas, sé bueno en ello.",
+      "zh": "无论你成为什么，都要成为其中的佼佼者。"
     }
   },
   {
     "id": "abraham-lincoln-052",
     "author": "Abraham Lincoln",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "The best way to predict your future is to create it.",
-      "es": "La mejor forma de prever tu futuro es crearlo."
+      "es": "La mejor forma de prever tu futuro es crearlo.",
+      "zh": "预测未来的最好方式，就是创造未来。"
     }
   },
   {
     "id": "abraham-lincoln-053",
     "author": "Abraham Lincoln",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Give me six hours to chop a tree, and I will sharpen the axe first.",
-      "es": "Dame seis horas para talar, y afilaré primero el hacha."
+      "es": "Dame seis horas para talar, y afilaré primero el hacha.",
+      "zh": "给我六小时砍树，我会先把斧头磨利。"
     }
   },
   {
     "id": "ralph-waldo-emerson-054",
     "author": "Ralph Waldo Emerson",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Do the thing, and you will have the power.",
-      "es": "Haz la cosa, y tendrás la fuerza."
+      "es": "Haz la cosa, y tendrás la fuerza.",
+      "zh": "去做，你就会拥有力量。"
     }
   },
   {
     "id": "ralph-waldo-emerson-055",
     "author": "Ralph Waldo Emerson",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Nothing great was ever achieved without enthusiasm.",
-      "es": "Nada grande se logró sin entusiasmo."
+      "es": "Nada grande se logró sin entusiasmo.",
+      "zh": "没有热情，成就不了任何伟大的事业。"
     }
   },
   {
     "id": "ralph-waldo-emerson-056",
     "author": "Ralph Waldo Emerson",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "The only person you are destined to become is yourself.",
-      "es": "La única persona que estás destinado a ser eres tú."
+      "es": "La única persona que estás destinado a ser eres tú.",
+      "zh": "你注定要成为的，只有你自己。"
     }
   },
   {
     "id": "henry-david-thoreau-057",
     "author": "Henry David Thoreau",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Go confidently in the direction of your dreams.",
-      "es": "Avanza con confianza hacia tus sueños."
+      "es": "Avanza con confianza hacia tus sueños.",
+      "zh": "朝着梦想的方向，自信前行。"
     }
   },
   {
     "id": "henry-david-thoreau-058",
     "author": "Henry David Thoreau",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Success usually comes to those too busy to look for it.",
-      "es": "El éxito suele llegar a quien está ocupado trabajando."
+      "es": "El éxito suele llegar a quien está ocupado trabajando.",
+      "zh": "成功往往眷顾那些忙得无暇寻找它的人。"
     }
   },
   {
     "id": "henry-david-thoreau-059",
     "author": "Henry David Thoreau",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "What you get by achieving your goals is not as important as what you become.",
-      "es": "Lo importante no es lo que logras, sino en quién te conviertes."
+      "es": "Lo importante no es lo que logras, sino en quién te conviertes.",
+      "zh": "实现目标所得到的，不如你成为什么样的人重要。"
     }
   },
   {
     "id": "mark-twain-060",
     "author": "Mark Twain",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "The secret of getting ahead is getting started.",
-      "es": "El secreto para avanzar es empezar."
+      "es": "El secreto para avanzar es empezar.",
+      "zh": "领先的秘诀是开始行动。"
     }
   },
   {
     "id": "mark-twain-061",
     "author": "Mark Twain",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Courage is resistance to fear, not absence of fear.",
-      "es": "El valor resiste al miedo; no lo elimina."
+      "es": "El valor resiste al miedo; no lo elimina.",
+      "zh": "勇气是面对恐惧，而不是没有恐惧。"
     }
   },
   {
     "id": "mark-twain-062",
     "author": "Mark Twain",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Kindness is a language the deaf can hear and the blind can see.",
-      "es": "La bondad es un idioma que todos pueden percibir."
+      "es": "La bondad es un idioma que todos pueden percibir.",
+      "zh": "善良是聋者能听见、盲者能看见的语言。"
     }
   },
   {
     "id": "friedrich-nietzsche-063",
     "author": "Friedrich Nietzsche",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "He who has a why can bear almost any how.",
-      "es": "Quien tiene un porqué soporta casi cualquier cómo."
+      "es": "Quien tiene un porqué soporta casi cualquier cómo.",
+      "zh": "知道自己为什么而活的人，能忍受任何生活。"
     }
   },
   {
     "id": "friedrich-nietzsche-064",
     "author": "Friedrich Nietzsche",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Become who you are.",
-      "es": "Llega a ser quien eres."
+      "es": "Llega a ser quien eres.",
+      "zh": "成为你自己。"
     }
   },
   {
     "id": "friedrich-nietzsche-065",
     "author": "Friedrich Nietzsche",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "No price is too high for the privilege of owning yourself.",
-      "es": "Ningún precio es alto por pertenecerte a ti mismo."
+      "es": "Ningún precio es alto por pertenecerte a ti mismo.",
+      "zh": "为了拥有自己的权利，付出什么代价都不算高。"
     }
   },
   {
     "id": "johann-wolfgang-von-goethe-066",
     "author": "Johann Wolfgang von Goethe",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Whatever you can do, begin it.",
-      "es": "Todo lo que puedas hacer, empiézalo."
+      "es": "Todo lo que puedas hacer, empiézalo.",
+      "zh": "无论你能做什么，开始去做吧。"
     }
   },
   {
     "id": "johann-wolfgang-von-goethe-067",
     "author": "Johann Wolfgang von Goethe",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Correction does much, but encouragement does more.",
-      "es": "Corregir ayuda, animar ayuda más."
+      "es": "Corregir ayuda, animar ayuda más.",
+      "zh": "指正作用很大，但鼓励作用更大。"
     }
   },
   {
     "id": "johann-wolfgang-von-goethe-068",
     "author": "Johann Wolfgang von Goethe",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Knowing is not enough; we must apply.",
-      "es": "Saber no basta; hay que aplicar."
+      "es": "Saber no basta; hay que aplicar.",
+      "zh": "知道还不够，必须去应用。"
     }
   },
   {
     "id": "voltaire-069",
     "author": "Voltaire",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Judge a person by questions, not answers.",
-      "es": "Juzga a una persona por sus preguntas, no por sus respuestas."
+      "es": "Juzga a una persona por sus preguntas, no por sus respuestas.",
+      "zh": "看人要看他的问题，而不是他的答案。"
     }
   },
   {
     "id": "voltaire-070",
     "author": "Voltaire",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Perfect is the enemy of good.",
-      "es": "Lo perfecto es enemigo de lo bueno."
+      "es": "Lo perfecto es enemigo de lo bueno.",
+      "zh": "完美是优秀的敌人。"
     }
   },
   {
     "id": "voltaire-071",
     "author": "Voltaire",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Appreciation is a wonderful thing.",
-      "es": "Apreciar es algo maravilloso."
+      "es": "Apreciar es algo maravilloso.",
+      "zh": "欣赏是一种美好的品质。"
     }
   },
   {
     "id": "victor-hugo-072",
     "author": "Victor Hugo",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Nothing is stronger than an idea whose time has come.",
-      "es": "Nada es más fuerte que una idea a la que le llegó su hora."
+      "es": "Nada es más fuerte que una idea a la que le llegó su hora.",
+      "zh": "没有什么比时机成熟的思想更强大。"
     }
   },
   {
     "id": "victor-hugo-073",
     "author": "Victor Hugo",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Even the darkest night will end.",
-      "es": "Hasta la noche más oscura termina."
+      "es": "Hasta la noche más oscura termina.",
+      "zh": "再黑的夜也会迎来黎明。"
     }
   },
   {
     "id": "victor-hugo-074",
     "author": "Victor Hugo",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "To love beauty is to see light.",
-      "es": "Amar la belleza es ver la luz."
+      "es": "Amar la belleza es ver la luz.",
+      "zh": "热爱美，就是看见光。"
     }
   },
   {
     "id": "leo-tolstoy-075",
     "author": "Leo Tolstoy",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "If you want to be happy, be.",
-      "es": "Si quieres ser feliz, sé feliz."
+      "es": "Si quieres ser feliz, sé feliz.",
+      "zh": "如果你想幸福，那就去幸福。"
     }
   },
   {
     "id": "leo-tolstoy-076",
     "author": "Leo Tolstoy",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "The two most powerful warriors are patience and time.",
-      "es": "Los dos guerreros más fuertes son la paciencia y el tiempo."
+      "es": "Los dos guerreros más fuertes son la paciencia y el tiempo.",
+      "zh": "最强大的两位战士是耐心和时间。"
     }
   },
   {
     "id": "leo-tolstoy-077",
     "author": "Leo Tolstoy",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Everyone thinks of changing the world, but not himself.",
-      "es": "Todos piensan cambiar el mundo, no cambiarse a sí mismos."
+      "es": "Todos piensan cambiar el mundo, no cambiarse a sí mismos.",
+      "zh": "人人都想改变世界，却没有人想改变自己。"
     }
   },
   {
     "id": "fyodor-dostoevsky-078",
     "author": "Fyodor Dostoevsky",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Beauty will save the world.",
-      "es": "La belleza salvará el mundo."
+      "es": "La belleza salvará el mundo.",
+      "zh": "美将拯救世界。"
     }
   },
   {
     "id": "fyodor-dostoevsky-079",
     "author": "Fyodor Dostoevsky",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "To live without hope is to cease to live.",
-      "es": "Vivir sin esperanza es dejar de vivir."
+      "es": "Vivir sin esperanza es dejar de vivir.",
+      "zh": "没有希望地活着，就是停止了生活。"
     }
   },
   {
     "id": "fyodor-dostoevsky-080",
     "author": "Fyodor Dostoevsky",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Taking a new step is what people fear most.",
-      "es": "Dar un paso nuevo es lo que más se teme."
+      "es": "Dar un paso nuevo es lo que más se teme.",
+      "zh": "迈出新的一步，是大多数人最害怕的事。"
     }
   },
   {
     "id": "oscar-wilde-081",
     "author": "Oscar Wilde",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Be yourself; everyone else is taken.",
-      "es": "Sé tú mismo; los demás ya están ocupados."
+      "es": "Sé tú mismo; los demás ya están ocupados.",
+      "zh": "做你自己，因为别人都有人做了。"
     }
   },
   {
     "id": "oscar-wilde-082",
     "author": "Oscar Wilde",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Experience is the name we give our mistakes.",
-      "es": "Experiencia es el nombre que damos a los errores."
+      "es": "Experiencia es el nombre que damos a los errores.",
+      "zh": "经验是我们给自己的错误起的名字。"
     }
   },
   {
     "id": "oscar-wilde-083",
     "author": "Oscar Wilde",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "To define is to limit.",
-      "es": "Definir es limitar."
+      "es": "Definir es limitar.",
+      "zh": "定义即是局限。"
     }
   },
   {
     "id": "jane-austen-084",
     "author": "Jane Austen",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "There is no charm equal to tenderness of heart.",
-      "es": "No hay encanto igual a la ternura del corazón."
+      "es": "No hay encanto igual a la ternura del corazón.",
+      "zh": "没有什么魅力比得上内心的温柔。"
     }
   },
   {
     "id": "jane-austen-085",
     "author": "Jane Austen",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Run mad as often as you choose, but do not faint.",
-      "es": "Enloquece si quieres, pero no te rindas."
+      "es": "Enloquece si quieres, pero no te rindas.",
+      "zh": "你可以尽情疯狂，但不要倒下。"
     }
   },
   {
     "id": "jane-austen-086",
     "author": "Jane Austen",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Self-knowledge is the first step to maturity.",
-      "es": "Conocerse es el primer paso hacia la madurez."
+      "es": "Conocerse es el primer paso hacia la madurez.",
+      "zh": "认识自己是走向成熟的第一步。"
     }
   },
   {
     "id": "charles-dickens-087",
     "author": "Charles Dickens",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "No one is useless who lightens another burden.",
-      "es": "Nadie es inútil si aligera la carga de otra persona."
+      "es": "Nadie es inútil si aligera la carga de otra persona.",
+      "zh": "能为他人减轻负担的人，无一无用。"
     }
   },
   {
     "id": "charles-dickens-088",
     "author": "Charles Dickens",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Have a heart that never hardens.",
-      "es": "Ten un corazón que nunca se endurezca."
+      "es": "Ten un corazón que nunca se endurezca.",
+      "zh": "拥有一颗永不冷漠的心。"
     }
   },
   {
     "id": "charles-dickens-089",
     "author": "Charles Dickens",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "There is wisdom of the head and wisdom of the heart.",
-      "es": "Hay sabiduría de la cabeza y del corazón."
+      "es": "Hay sabiduría de la cabeza y del corazón.",
+      "zh": "头脑有头脑的智慧，心灵有心灵的智慧。"
     }
   },
   {
     "id": "george-eliot-090",
     "author": "George Eliot",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "It is never too late to be what you might have been.",
-      "es": "Nunca es tarde para ser quien podrías haber sido."
+      "es": "Nunca es tarde para ser quien podrías haber sido.",
+      "zh": "成为你本可以成为的人，永远都不晚。"
     }
   },
   {
     "id": "george-eliot-091",
     "author": "George Eliot",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Wear a smile and have friends.",
-      "es": "Lleva una sonrisa y tendrás amigos."
+      "es": "Lleva una sonrisa y tendrás amigos.",
+      "zh": "面带微笑，朋友自来。"
     }
   },
   {
     "id": "george-eliot-092",
     "author": "George Eliot",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Great things are not done by impulse.",
-      "es": "Las grandes cosas no se hacen por impulso."
+      "es": "Las grandes cosas no se hacen por impulso.",
+      "zh": "伟大的事不是凭一时冲动完成的。"
     }
   },
   {
     "id": "sun-tzu-093",
     "author": "Sun Tzu",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "In the midst of chaos, there is opportunity.",
-      "es": "En medio del caos hay oportunidad."
+      "es": "En medio del caos hay oportunidad.",
+      "zh": "混乱之中，蕴藏机遇。"
     }
   },
   {
     "id": "sun-tzu-094",
     "author": "Sun Tzu",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Build your opponent a golden bridge to retreat across.",
-      "es": "Construye un puente digno para que el rival pueda retirarse."
+      "es": "Construye un puente digno para que el rival pueda retirarse.",
+      "zh": "给你的对手搭一座撤退的金桥。"
     }
   },
   {
     "id": "sun-tzu-095",
     "author": "Sun Tzu",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Know yourself and you will win all battles.",
-      "es": "Conócete y ganarás todas las batallas."
+      "es": "Conócete y ganarás todas las batallas.",
+      "zh": "认识自己，方能百战百胜。"
     }
   },
   {
     "id": "buddha-096",
     "author": "Buddha",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "What you think, you become.",
-      "es": "En lo que piensas, te conviertes."
+      "es": "En lo que piensas, te conviertes.",
+      "zh": "你思即你所成。"
     }
   },
   {
     "id": "buddha-097",
     "author": "Buddha",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Peace comes from within.",
-      "es": "La paz viene de dentro."
+      "es": "La paz viene de dentro.",
+      "zh": "平静来自内心。"
     }
   },
   {
     "id": "buddha-098",
     "author": "Buddha",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "No one saves us but ourselves.",
-      "es": "Nadie nos salva salvo nosotros mismos."
+      "es": "Nadie nos salva salvo nosotros mismos.",
+      "zh": "能救我们的，只有我们自己。"
     }
   },
   {
     "id": "aesop-099",
     "author": "Aesop",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "Slow but steady wins the race.",
-      "es": "Lento pero constante gana la carrera."
+      "es": "Lento pero constante gana la carrera.",
+      "zh": "慢而稳，赛必胜。"
     }
   },
   {
     "id": "aesop-100",
     "author": "Aesop",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "No act of kindness is ever wasted.",
-      "es": "Ningún acto de bondad se desperdicia."
+      "es": "Ningún acto de bondad se desperdicia.",
+      "zh": "每一次善举都不会白费。"
     }
   },
   {
     "id": "aesop-101",
     "author": "Aesop",
     "source": "Curated classic quote set",
-    "tags": ["classic", "short", "daily"],
+    "tags": [
+      "classic",
+      "short",
+      "daily"
+    ],
     "text": {
       "en": "United we stand, divided we fall.",
-      "es": "Unidos resistimos, divididos caemos."
+      "es": "Unidos resistimos, divididos caemos.",
+      "zh": "团结则存，分裂则亡。"
     }
   }
 ]

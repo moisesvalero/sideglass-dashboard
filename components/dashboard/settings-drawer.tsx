@@ -118,7 +118,7 @@ export function SettingsDrawer({ open, onClose }: Props) {
                 {t("settings.language")}
               </label>
               <div className="flex gap-2">
-                {(["es", "en"] as const).map((l) => (
+                {(["es", "en", "zh"] as const).map((l) => (
                   <button
                     key={l}
                     type="button"
@@ -129,7 +129,7 @@ export function SettingsDrawer({ open, onClose }: Props) {
                         : "dashboard-control text-muted-foreground hover:bg-muted/70"
                     }`}
                   >
-                    {l === "es" ? "Español" : "English"}
+                    {l === "es" ? "Español" : l === "zh" ? "中文" : "English"}
                   </button>
                 ))}
               </div>

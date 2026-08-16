@@ -37,7 +37,7 @@ export function LandingFooter({ lang }: { lang: LandingLang }) {
         </p>
         <p>
           <Link
-            href="/cookies"
+            href={lang === "es" ? "/cookies" : `/${lang}/cookies`}
             className="text-[var(--landing-text-muted)] hover:text-[var(--landing-text)] underline-offset-2 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--landing-accent)]"
           >
             {copy.footerCookies}

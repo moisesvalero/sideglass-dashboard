@@ -23,7 +23,9 @@ const OG_IMAGE = {
 }
 
 export function landingPageUrl(lang: LandingLang): string {
-  return lang === "en" ? `${SITE_URL}/en` : SITE_URL
+  if (lang === "en") return `${SITE_URL}/en`
+  if (lang === "zh") return `${SITE_URL}/zh`
+  return SITE_URL
 }
 
 /** Texto plano de FAQ para JSON-LD y llms-full.txt */
@@ -59,6 +61,7 @@ export function buildLandingMetadata(lang: LandingLang): Metadata {
       languages: {
         es: SITE_URL,
         en: `${SITE_URL}/en`,
+        zh: `${SITE_URL}/zh`,
         "x-default": SITE_URL,
       },
     },
@@ -77,8 +80,13 @@ export function buildLandingMetadata(lang: LandingLang): Metadata {
       title,
       description: copy.ogDescription,
       type: "website",
-      locale: lang === "en" ? "en_US" : "es_ES",
-      alternateLocale: lang === "en" ? ["es_ES"] : ["en_US"],
+      locale: lang === "en" ? "en_US" : lang === "zh" ? "zh_CN" : "es_ES",
+      alternateLocale:
+        lang === "en"
+          ? ["es_ES", "zh_CN"]
+          : lang === "zh"
+            ? ["es_ES", "en_US"]
+            : ["en_US", "zh_CN"],
       url: pageUrl,
       siteName: APP_NAME,
       images: [OG_IMAGE],
@@ -138,7 +146,7 @@ export function buildLandingJsonLd(lang: LandingLang, version: string, releaseDa
         alternateName: APP_TAGLINE,
         url: SITE_URL,
         description: copy.metaDescription,
-        inLanguage: ["es", "en"],
+        inLanguage: ["es", "en", "zh"],
         publisher: { "@id": `${SITE_URL}#organization` },
       },
       {

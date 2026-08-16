@@ -12,10 +12,10 @@ interface QuoteData {
 
 type DailyQuote = {
   author: string
-  text: Record<"es" | "en", string>
+  text: Record<"es" | "en" | "zh", string>
 }
 
-function pickDailyQuote(key: string, lang: "es" | "en"): QuoteData {
+function pickDailyQuote(key: string, lang: "es" | "en" | "zh"): QuoteData {
   let hash = 0
   for (let i = 0; i < key.length; i++) {
     hash = (hash * 31 + key.charCodeAt(i)) >>> 0

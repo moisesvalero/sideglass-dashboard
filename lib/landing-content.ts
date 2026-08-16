@@ -1,4 +1,4 @@
-export type LandingLang = "es" | "en"
+export type LandingLang = "es" | "en" | "zh"
 
 type Feature = { label: string; desc: string }
 type FeatureGroup = { title: string; items: Feature[] }
@@ -324,6 +324,148 @@ export const landingContent: Record<LandingLang, LandingCopy> = {
       "vertical monitor desk setup",
       "weather calendar widget windows",
       "tauri nextjs desktop app",
+      "sideglass",
+    ],
+  },
+  zh: {
+    htmlLang: "zh",
+    metaTitle: "Windows 副屏仪表盘",
+    metaDescription:
+      "Sideglass 是一款免费的 Windows 副屏仪表盘：天气、Google 日历、CPU/GPU 温度、YouTube、笔记和 AI 面板。下载安装包或使用 WinGet。",
+    ogDescription:
+      "免费、开放源码的 Windows 副屏仪表盘：天气、日历、硬件、YouTube 和 AI 快捷方式，全部集中在一个面板。",
+    eyebrow: "桌面 · Windows · 开放源码",
+    heroTitle: ["所有重要信息，", "尽收眼底"],
+    heroSubtitle:
+      "Sideglass 将天气、日程、硬件、笔记、YouTube 和 AI 快捷方式整合成一个简洁的副屏仪表盘，让你无需离开主屏即可一览所有信息。",
+    ctaDownload: "下载 Windows 版",
+    ctaGithubStar: "在 GitHub 上点个星",
+    ctaWinget: "也可以通过 WinGet 安装",
+    heroNote: "个人使用免费",
+    heroVideoPlayLabel: "播放 Sideglass 视频",
+    navFaq: "帮助",
+    screenshotsTitle: "真实截图",
+    screenshotsSubtitle:
+      "专为竖屏或横屏副屏设计的自适应界面，支持浅色和深色模式，采用 macOS 风格的材质效果。",
+    screenshotLabels: {
+      portraitDark: "竖屏 · 深色",
+      portraitLight: "竖屏 · 浅色",
+      landscapeDark: "横屏 · 自定义布局",
+    },
+    screenshotAlts: {
+      portraitDark: "Sideglass 在竖屏显示器上，深色模式",
+      portraitLight: "Sideglass 在竖屏显示器上，浅色模式",
+      landscapeDark: "Sideglass 在横屏显示器上，带可调整大小的小组件",
+    },
+    featuresTitle: "功能一览",
+    featureGroups: [
+      {
+        title: "每日信息",
+        items: [
+          {
+            label: "原生硬件监控",
+            desc: "实时显示 CPU、内存、GPU 和磁盘使用率，启用传感器后可显示真实温度。",
+          },
+          {
+            label: "Google 日历",
+            desc: "使用你的私密 iCal 网址连接，无需脚本，无需复杂配置。",
+          },
+          {
+            label: "无需 API 密钥的天气",
+            desc: "Open-Meteo，支持自动定位。",
+          },
+        ],
+      },
+      {
+        title: "完整面板",
+        items: [
+          {
+            label: "可自定义布局",
+            desc: "开启编辑模式，拖动小组件，并从卡片边角自由调整大小。",
+          },
+          {
+            label: "内置 YouTube",
+            desc: "在仪表盘内直接搜索和播放视频，无需粘贴链接。",
+          },
+          {
+            label: "AI 面板",
+            desc: "ChatGPT、Gemini、Claude、Perplexity、Copilot 和 Grok，使用官方图标。",
+          },
+          {
+            label: "本地笔记",
+            desc: "保存在电脑上的快速便签，无需联网即可记录简短内容。",
+          },
+        ],
+      },
+    ],
+    installTitle: "4 步完成安装",
+    install: [
+      "点击上方「下载 Windows 版」：将下载最新版本的安装程序（.exe）。",
+      "运行安装文件并按照向导操作。如果 Windows 显示安全提示，请确认继续；新桌面应用出现该提示属正常现象。",
+      "可选：在设置中粘贴你的 Google 日历 iCal 网址，即可查看今日日程。",
+      "在设置中可以开启随 Windows 启动，以及用于显示/隐藏面板的全局快捷键。",
+    ],
+    faqTitle: "常见问题",
+    faq: [
+      {
+        q: "什么是 Sideglass？",
+        a: "一款桌面应用（Tauri + Next.js），可以固定在副屏上（竖屏或横屏），集中展示你每天最常用的信息。",
+      },
+      {
+        q: "如何在 Windows 上安装 Sideglass？",
+        a: "有两种安装方式：",
+        steps: [
+          "安装程序：点击上方按钮下载安装包，运行并按照向导操作。首次安装时可以选择安装目录。",
+          "WinGet：打开 PowerShell 或 Windows Terminal，运行以下命令：",
+        ],
+        code: "winget install Sideglass",
+      },
+      {
+        q: "如何获取 Google 日历的 iCal 私密地址？",
+        a: "要同步日历，你需要在设置中粘贴 iCal 格式的私密地址。该密钥属于私密信息：它只保存在你的电脑上，Sideglass 不会将其发送到我们运行的任何服务器；我们无法查看它，也无法读取你的事件。请在电脑上按以下步骤操作（手机应用中不可用）：",
+        steps: [
+          "打开 Google 日历：在浏览器中访问 calendar.google.com。",
+          "打开你的日历设置：在左侧边栏中，滚动到「我的日历的设置」，点击要同步的日历名称。",
+          "进入集成设置：在左侧展开的菜单中，点击「集成日历」。",
+          "复制私密地址：找到「iCal 格式的私密地址」输入框，点击链接右侧的复制图标（两个叠放的页面）。",
+          "将该网址粘贴到 Sideglass 设置的「Google 日历 (iCal)」字段中。",
+        ],
+        note: "隐私说明：iCal 网址仅保存在你电脑上 Sideglass 的本地设置中。项目没有云端数据库，也不会记录你的链接。请勿将链接分享给他人：任何人拿到链接都可以无需密码查看你的日历。如果泄露，请在 Google 日历中使用「重置」生成新的网址。",
+      },
+      {
+        q: "如何查看真实的 CPU 和 GPU 温度？",
+        a: "Sideglass 自带传感器服务，会在后台运行并通过 WMI 读取温度。要显示 CPU 温度，Windows 会在启动时请求管理员权限（该服务需要此权限才能读取该传感器）；接受后，几秒钟内就会显示温度数值。",
+      },
+      {
+        q: "可以调整小组件的大小吗？",
+        a: "可以。点击标题栏中的自定义按钮，拖动小组件重新排列，并使用每张卡片底部的边角自由调整大小。时钟、天气、日程和 YouTube 会自适应可用空间。Sideglass 会将布局保存在你的电脑上。",
+      },
+      {
+        q: "如何观看 YouTube？",
+        a: "在 YouTube 小组件中输入想搜索的内容并点击搜索：结果会显示在面板内。点击视频即可内嵌播放，无需离开 Sideglass。你也可以从浏览器拖拽 YouTube 网址到小组件上，立即播放视频。",
+      },
+      {
+        q: "可以查看源代码吗？",
+        a: "可以。源代码以 PolyForm Noncommercial 1.0.0 许可在 GitHub 上开放，可用于非商业用途、学习以及对官方项目的贡献。商业使用需要书面许可。",
+      },
+    ],
+    changelogTitle: "最新版本",
+    changelogSubtitle: "最近的改进，用通俗的语言说明。完整历史请查看 GitHub。",
+    changelogLink: "在 GitHub 上查看所有版本",
+    changelogEmpty: "此部署中没有更新日志条目。请编辑 CHANGELOG.md 并重新部署网站。",
+    footerCookies: "Cookie 政策",
+    footerDeveloped: "开发者",
+    footerReportIssue: "遇到问题？在 GitHub 上提交 issue",
+    footerSupport: "支持本项目",
+    keywords: [
+      "windows 副屏仪表盘",
+      "副屏常显桌面面板",
+      "windows 桌面小组件",
+      "cpu gpu 温度监控",
+      "rainmeter 替代 windows 11",
+      "竖屏显示器桌面布局",
+      "天气日历小组件 windows",
+      "tauri nextjs 桌面应用",
       "sideglass",
     ],
   },
