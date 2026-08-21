@@ -89,7 +89,7 @@
     "zod": "^3.25.76"
   },
   "devDependencies": {
-    "@playwright/test": "^1.60.0",
+    "@playwright/test": "^1.62.1",
     "@tailwindcss/postcss": "^4.3.3",
     "@tauri-apps/cli": "^2.11.2",
     "@types/node": "^22.19.20",
