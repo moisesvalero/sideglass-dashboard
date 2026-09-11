@@ -3,7 +3,7 @@
   "version": "0.2.35",
   "license": "SEE LICENSE IN LICENSE",
   "private": true,
-  "packageManager": "pnpm@11.5.2",
+  "packageManager": "pnpm@11.22.0",
   "scripts": {
     "dev": "next dev",
     "dev:clean": "bash scripts/start-web.sh",
